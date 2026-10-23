@@ -6,3 +6,6 @@ android
 ios
 .expo
 .yarn
+.env
+.env.*
+!.env.example

@@ -1,0 +1,13 @@
+// Prisma schema: https://pris.ly/d/prisma-schema
+// After changing models run `yarn workspace api db:migrate` to create and apply a migration.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}

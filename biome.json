@@ -19,7 +19,8 @@
       "!**/coverage",
       "!**/storybook-static",
       "!**/package-lock.json",
-      "!**/uniwind-types.d.ts"
+      "!**/uniwind-types.d.ts",
+      "!**/src/generated"
     ]
   },
   "formatter": {
@@ -29,6 +30,9 @@
     "lineWidth": 100
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "quoteStyle": "single"
     }
@@ -69,6 +73,9 @@
         "rules": {
           "suspicious": {
             "noExplicitAny": "off"
+          },
+          "style": {
+            "useImportType": "off"
           },
           "nursery": {
             "noFloatingPromises": "warn"
