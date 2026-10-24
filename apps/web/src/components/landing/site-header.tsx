@@ -37,10 +37,10 @@ export function SiteHeader() {
         ))}
       </nav>
       <div className="flex items-center gap-5">
-        <a href="#signin" className="link text-base leading-5">
+        <a href="/signin" className="link text-base leading-5">
           Sign in
         </a>
-        <a href="#waitlist" className={buttonClass('brand', 'sm')}>
+        <a href="/waitlist" className={buttonClass('brand', 'sm')}>
           Sign up
         </a>
       </div>

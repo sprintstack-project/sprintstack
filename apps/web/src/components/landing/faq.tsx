@@ -5,7 +5,7 @@ import { useId, useState } from 'react';
 
 const questions = [
   {
-    q: 'When does [Product name] launch?',
+    q: 'When does SprintStack launch?',
     a: 'We are planning a public beta for [launch date]. Waitlist members get access first and help shape the roadmap.',
   },
   {
@@ -27,20 +27,20 @@ export function Faq() {
   const [open, setOpen] = useState(0);
   const id = useId();
   return (
-    <section id="faq" className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-8 pb-24">
+    <section id="faq" className="mx-auto w-full max-w-7xl px-6 flex flex-col gap-8 pb-24">
       <h2 className="headline text-[clamp(2.5rem,3.75vw,4rem)] leading-[0.95]">Questions.</h2>
       <div className="flex flex-col gap-3">
         {questions.map(({ q, a }, i) => {
           const expanded = open === i;
           const Icon = expanded ? Minus : Plus;
           return (
-            <div key={q} className="rounded-[1.5rem] bg-surface-muted">
+            <div key={q} className="rounded-3xl bg-surface-muted">
               <button
                 type="button"
                 aria-expanded={expanded}
                 aria-controls={`${id}-${i}`}
                 onClick={() => setOpen(expanded ? -1 : i)}
-                className="font-display font-extrabold font-stretch-condensed flex min-h-[4.5rem] w-full cursor-pointer items-center justify-between gap-4 rounded-[1.5rem] px-7 py-5 text-left text-[1.3125rem] leading-[1.2] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                className="font-display font-extrabold font-stretch-condensed flex min-h-18 w-full cursor-pointer items-center justify-between gap-4 rounded-[1.5rem] px-7 py-5 text-left text-[1.3125rem] leading-[1.2] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
               >
                 {q}
                 <Icon aria-hidden strokeWidth={2} className="size-6 shrink-0 text-brand-ink" />
@@ -48,7 +48,7 @@ export function Faq() {
               <p
                 id={`${id}-${i}`}
                 hidden={!expanded}
-                className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-[1.625rem] text-ink-muted px-7 pb-6"
+                className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-6.5 text-ink-muted px-7 pb-6"
               >
                 {a}
               </p>

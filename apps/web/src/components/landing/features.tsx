@@ -30,7 +30,7 @@ const values = [
 export function ValuePoints() {
   return (
     <section className="border-y border-line">
-      <div className="mx-auto w-full max-w-[80rem] px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,17.5rem),1fr))] gap-10 py-14">
+      <div className="mx-auto w-full max-w-7xl px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,17.5rem),1fr))] gap-10 py-14">
         {values.map((value, i) => (
           <div key={value.title} className="flex flex-col gap-2.5">
             <span className="font-display font-extrabold font-stretch-condensed text-[4rem] leading-none text-brand-ink">
@@ -39,7 +39,7 @@ export function ValuePoints() {
             <h2 className="font-display font-extrabold font-stretch-condensed text-[1.625rem] leading-[1.15]">
               {value.title}
             </h2>
-            <p className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-[1.625rem] text-ink-muted">
+            <p className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-6.5 text-ink-muted">
               {value.body}
             </p>
           </div>

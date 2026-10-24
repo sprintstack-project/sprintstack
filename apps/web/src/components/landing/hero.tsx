@@ -104,7 +104,7 @@ function BoardScreenshot() {
             <span key={dot} aria-hidden className="size-2.5 rounded-full bg-line" />
           ))}
           <span className="font-semibold font-stretch-semi-condensed ml-3 rounded-full bg-surface-muted px-3 py-0.5 text-[0.8125rem] leading-5 text-ink-muted">
-            app.[product].com/board
+            [product].sprintstack.dev/board
           </span>
         </div>
         <div className="flex flex-col gap-4 p-5">
@@ -154,9 +154,9 @@ export function Hero() {
           <span className="text-brand-ink">Ship it.</span>
         </h1>
         <p className="font-semibold font-stretch-semi-condensed max-w-130 text-xl leading-7.5 text-ink-muted">
-          [Product name] brings your backlog, sprints and releases into one fast, friendly
-          workspace, on the web and in your pocket. Built for product teams who would rather ship
-          than update tickets.
+          <strong>SprintStack</strong> brings your backlog, sprints and releases into one fast,
+          friendly workspace, on the web and in your pocket. Built for product teams who would
+          rather ship than update tickets.
         </p>
       </div>
       <BoardScreenshot />
