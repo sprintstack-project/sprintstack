@@ -3,7 +3,7 @@ import { EMPTY_DOC, sameDoc } from '@lib/rich-text';
 import { Placeholder } from '@tiptap/extensions';
 import { type Editor, EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
 import type { RichTextDoc, RichTextEditorProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bold, Code, Italic, List, ListOrdered, Quote, Strikethrough } from 'lucide-react';

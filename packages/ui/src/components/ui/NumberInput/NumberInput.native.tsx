@@ -1,12 +1,13 @@
 import { fieldShell } from '@lib/field-shell.native';
 import { scaled } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
+import { Text } from '@ui/Text';
 import type { NumberInputProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Minus, Plus } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 
 const REPEAT_MS = 90;
 

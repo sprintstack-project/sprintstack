@@ -14,14 +14,15 @@ import { fieldShell } from '@lib/field-shell.native';
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Button } from '@ui/Button/Button';
-import { useField } from '@ui/Field/Field';
+import { Button } from '@ui/Button';
+import { useField } from '@ui/Field';
 import { Caret } from '@ui/Select/Caret';
+import { Text } from '@ui/Text';
 import type { DatePickerProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export function DatePicker({
   value,
@@ -160,10 +161,13 @@ export function DatePicker({
                 </Text>
               ))}
             </View>
-            {monthWeeks(month, weekStartsOn).map((week) => (
-              <View key={week.find(Boolean)?.toISOString()} className="flex-row">
+            {monthWeeks(month, weekStartsOn).map((week, w) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: always 6 rows, and trailing ones can be all padding
+              <View key={w} className="flex-row">
                 {week.map((day, i) => (
                   <View key={day ? day.getDate() : `empty-${i}`} className="flex-1 items-center">
+                    {/* Empty cells hold a day's size so padding rows keep their height. */}
+                    {!day && <View className="size-11" />}
                     {day && (
                       <Day
                         day={day}

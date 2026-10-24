@@ -1,13 +1,14 @@
 import { scaled } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Badge } from '@ui/Badge/Badge';
-import { Button } from '@ui/Button/Button';
-import { Priority } from '@ui/Priority/Priority';
+import { Badge } from '@ui/Badge';
+import { Button } from '@ui/Button';
+import { Priority } from '@ui/Priority';
+import { Text } from '@ui/Text';
 import type { CardProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bookmark, Clock, Target } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 const tiles = {
   brand: { box: 'bg-brand', text: 'text-on-brand' },

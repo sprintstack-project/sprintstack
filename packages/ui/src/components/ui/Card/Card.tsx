@@ -1,6 +1,6 @@
-import { Badge } from '@ui/Badge/Badge';
-import { Button } from '@ui/Button/Button';
-import { Priority } from '@ui/Priority/Priority';
+import { Badge } from '@ui/Badge';
+import { Button } from '@ui/Button';
+import { Priority } from '@ui/Priority';
 import type { CardProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bookmark, Clock, Target } from 'lucide-react';

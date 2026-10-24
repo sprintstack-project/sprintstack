@@ -1,9 +1,10 @@
 import { scaled, touchSlop } from '@lib/scale';
 import { twMerge } from '@lib/tw-merge';
 import { useTokenColor } from '@lib/use-token-color.native';
+import { Text } from '@ui/Text';
 import type { ButtonProps } from '@ui/types';
 import { clsx } from 'clsx';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
 type Variant = NonNullable<ButtonProps['variant']>;
 

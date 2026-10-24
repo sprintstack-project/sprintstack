@@ -3,15 +3,16 @@ import { scaled, touchSlop } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { isImageUrl } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Button } from '@ui/Button/Button';
-import { useField } from '@ui/Field/Field';
+import { Button } from '@ui/Button';
+import { useField } from '@ui/Field';
 import { OptionContent, optionText } from '@ui/Select/OptionContent';
 import { SearchBox } from '@ui/Select/SearchBox';
+import { Text } from '@ui/Text';
 import type { MultiSelectProps, Option } from '@ui/types';
 import { clsx } from 'clsx';
 import { Check, ChevronDown, Plus, X } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { FlatList } from 'react-native-actions-sheet';
 
 const chipTones = {

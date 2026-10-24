@@ -9,10 +9,10 @@ import {
   toISODate,
 } from '@lib/date';
 import { usePortalContainer } from '@lib/portal-container';
-import { Button } from '@ui/Button/Button';
-import { useField } from '@ui/Field/Field';
+import { Button } from '@ui/Button';
+import { useField } from '@ui/Field';
 import { Caret } from '@ui/Select/Caret';
-import { popup } from '@ui/Select/menu';
+import { popupFrame } from '@ui/Select/menu';
 import type { DatePickerProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -108,7 +108,11 @@ export function DatePicker({
         <Popover.Positioner sideOffset={8} align="start" className="z-50 outline-none">
           <Popover.Popup
             aria-label="Choose a date"
-            className={clsx(popup, 'w-[22.5rem] max-w-[calc(100vw-2rem)] rounded-xl p-5')}
+            // popupFrame, not popup: the menu height cap would cut off a 6-week month.
+            className={clsx(
+              popupFrame,
+              'max-h-(--available-height) w-[22.5rem] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-xl p-5',
+            )}
           >
             <div className="mb-3 flex items-center justify-between">
               <button
@@ -180,7 +184,9 @@ export function DatePicker({
                 ]}
                 today={today}
                 hideNavigation
-                showOutsideDays={false}
+                // Always 6 weeks so the popup keeps one height; outside days render invisible.
+                showOutsideDays
+                fixedWeeks
                 autoFocus
                 classNames={{
                   months: 'w-full',

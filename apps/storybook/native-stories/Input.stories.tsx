@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { fn } from 'storybook/test';
 
 const meta = {
-  title: 'UI/Field & Input',
+  title: 'UI/Input',
   component: Input,
   args: { placeholder: 'E.g. checkout bug', onChange: fn() },
 } satisfies Meta<typeof Input>;

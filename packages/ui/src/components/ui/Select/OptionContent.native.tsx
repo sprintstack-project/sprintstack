@@ -1,10 +1,11 @@
 import { scaled } from '@lib/scale';
 import { isImageUrl, STATUS_LABEL } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Badge } from '@ui/Badge/Badge';
+import { Badge } from '@ui/Badge';
+import { Text } from '@ui/Text';
 import type { Option } from '@ui/types';
 import { clsx } from 'clsx';
-import { Image, Text, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 // Written out in full: Tailwind only generates classes it can find verbatim.
 const textClass = {

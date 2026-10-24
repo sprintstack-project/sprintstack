@@ -1,7 +1,8 @@
 import { STATUS_CLASSES, STATUS_LABEL } from '@lib/status';
+import { Text } from '@ui/Text';
 import type { BadgeProps } from '@ui/types';
 import { clsx } from 'clsx';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 export function Badge({ tone, children }: BadgeProps) {
   return (

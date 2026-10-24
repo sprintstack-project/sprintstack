@@ -33,7 +33,10 @@ export const MONTHS_SHORT = Array.from({ length: 12 }, (_, m) =>
 export const isOutOfRange = (date: Date, min?: Date, max?: Date) =>
   Boolean((min && date < min) || (max && date > max));
 
-/** Weeks of the month as rows of 7, padded with nulls outside the month (those cells stay hidden). */
+/**
+ * Weeks of the month as rows of 7, padded with nulls outside the month (those cells stay hidden).
+ * Always 6 rows, so the calendar keeps one height whatever the month.
+ */
 export function monthWeeks(month: Date, weekStartsOn: 0 | 1 | 6): (Date | null)[][] {
   const first = new Date(month.getFullYear(), month.getMonth(), 1);
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
@@ -45,8 +48,8 @@ export function monthWeeks(month: Date, weekStartsOn: 0 | 1 | 6): (Date | null)[
       (_, d) => new Date(month.getFullYear(), month.getMonth(), d + 1),
     ),
   ];
-  while (cells.length % 7) cells.push(null);
-  return Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+  while (cells.length < 42) cells.push(null);
+  return Array.from({ length: 6 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
 }
 
 /** Two-letter weekday headers starting on `weekStartsOn`. */

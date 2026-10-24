@@ -11,7 +11,7 @@ import { fieldShell } from '@lib/field-shell.native';
 import { EMPTY_DOC, sameDoc } from '@lib/rich-text';
 import { scaled, UI_SCALE } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
 import type { RichTextDoc, RichTextEditorProps } from '@ui/types';
 import { clsx } from 'clsx';
 import {

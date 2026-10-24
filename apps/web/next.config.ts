@@ -1,8 +1,8 @@
-import path from "node:path";
-import type { NextConfig } from "next";
+import path from 'node:path';
+import type { NextConfig } from 'next';
 
 // Monorepo root: dependencies are hoisted to <root>/node_modules
-const workspaceRoot = path.join(__dirname, "../..");
+const workspaceRoot = path.join(__dirname, '../..');
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -13,9 +13,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: workspaceRoot,
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
+      '*.css': {
+        loaders: ['@tailwindcss/turbopack'],
+        as: '*.css',
       },
     },
   },

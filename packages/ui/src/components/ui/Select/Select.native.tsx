@@ -2,15 +2,16 @@ import { fieldShell } from '@lib/field-shell.native';
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
 import { Caret } from '@ui/Select/Caret';
 import { OptionContent, optionText } from '@ui/Select/OptionContent';
 import { SearchBox } from '@ui/Select/SearchBox';
+import { Text } from '@ui/Text';
 import type { SelectProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Check } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { FlatList } from 'react-native-actions-sheet';
 
 export function Select<V = string>({

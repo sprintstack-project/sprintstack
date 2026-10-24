@@ -1,7 +1,8 @@
 import { scaled } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
+import { Text } from '@ui/Text';
 import type { ReactNode, RefObject } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import ActionSheet, { type ActionSheetRef } from 'react-native-actions-sheet';
 
 export type SheetRef = ActionSheetRef;

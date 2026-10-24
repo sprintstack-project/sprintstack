@@ -2,12 +2,13 @@ import { scaled, touchSlop } from '@lib/scale';
 import { isImageUrl, isStatusTone } from '@lib/status';
 import { twMerge } from '@lib/tw-merge';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Badge } from '@ui/Badge/Badge';
+import { Badge } from '@ui/Badge';
+import { Text } from '@ui/Text';
 import type { ChipProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { X } from 'lucide-react-native';
 import { useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 
 const tones = {
   neutral: { box: 'bg-surface-muted', text: 'text-ink', icon: 'ink' },

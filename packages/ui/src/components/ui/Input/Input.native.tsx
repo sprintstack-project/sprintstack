@@ -1,6 +1,6 @@
 import { fieldShell, tintSlot } from '@lib/field-shell.native';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
 import type { InputProps } from '@ui/types';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';

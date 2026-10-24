@@ -22,7 +22,19 @@ import { Search } from 'lucide-react';
   pill
   slots={{ left: <Search />, right: <Button variant="brand" size="sm">Search</Button> }}
 />
-\`\`\``,
+\`\`\`
+
+Wrap it (and every other control) in \`Field\` for the bold label, helper text and red error. Base UI controls link to the label automatically, and the error replaces the helper text:
+
+\`\`\`tsx
+import { Field, Input } from '@sprintstack/ui';
+
+<Field label="Reporter email" required description="We'll let them know" error={errors.email}>
+  <Input type="email" value={email} onChange={setEmail} onBlur={validate} />
+</Field>
+\`\`\`
+
+In forms, \`@sprintstack/forms\` renders the Field for you: \`<f.TextField label="Summary" />\`.`,
       },
     },
   },
@@ -168,6 +180,10 @@ export const Keyboard: Story = {
     await expect(canvas.getByRole('button', { name: 'Search' })).toHaveFocus();
     await userEvent.tab();
     await expect(canvas.getByRole('textbox', { name: 'Project key' })).not.toHaveFocus();
+
+    // Clicking a label moves focus to its control.
+    await userEvent.click(canvas.getByText('Search issues'));
+    await expect(search).toHaveFocus();
   },
 };
 
@@ -176,6 +192,14 @@ export const Labels: Story = {
   parameters: { singleTheme: true },
   render: () => (
     <div className="grid max-w-md gap-5">
+      <Field
+        label="Summary"
+        required
+        htmlFor="summary"
+        description="Shown on boards and in notifications"
+      >
+        <Input id="summary" placeholder="Enter a summary" />
+      </Field>
       <Field label="Reporter email" error="Enter a valid email address">
         <Input type="email" defaultValue="not-an-email" slots={{ left: <Mail /> }} />
       </Field>
@@ -186,6 +210,12 @@ export const Labels: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+
+    // The asterisk is decorative, so the name is just the label; the description is announced.
+    const summary = canvas.getByRole('textbox', { name: 'Summary' });
+    await expect(summary).toHaveAttribute('id', 'summary');
+    await expect(summary).toHaveAccessibleDescription('Shown on boards and in notifications');
+    await expect(summary).not.toHaveAttribute('aria-invalid');
 
     // Slot content never leaks into the field's name.
     const email = canvas.getByRole('textbox', { name: 'Reporter email' });

@@ -1,22 +1,6 @@
 {
-  "compilerOptions": {
-    "target": "es2023",
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "paths": {
-      "@ui/*": ["./src/components/ui/*"],
-      "@lib/*": ["./src/lib/*"]
-    }
-  },
-  "include": ["src", "design-system/components/index.d.ts"],
-  "exclude": ["src/**/*.native.tsx", "src/**/*.native.ts"]
+  // Solution config so editors pick the right project per file: web files get DOM types,
+  // *.native.tsx get React Native + Uniwind types (className on RN components).
+  "files": [],
+  "references": [{ "path": "./tsconfig.web.json" }, { "path": "./tsconfig.native.json" }]
 }

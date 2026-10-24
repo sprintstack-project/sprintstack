@@ -1405,6 +1405,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo-google-fonts/archivo@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "@expo-google-fonts/archivo@npm:0.4.2"
+  checksum: 10c0/d0404542b44b4a3b1111b0dd1c49b74b46bf5ffe46583e4f65f465924873f05c18078bd2f3ebc17f728e1330ff04c7922f414a8efca8776e5d47f2a2b2093e21
+  languageName: node
+  linkType: hard
+
 "@expo-google-fonts/material-symbols@npm:^0.4.1":
   version: 0.4.51
   resolution: "@expo-google-fonts/material-symbols@npm:0.4.51"
@@ -11587,6 +11594,7 @@ __metadata:
   resolution: "mobile@workspace:apps/mobile"
   dependencies:
     "@10play/tentap-editor": "npm:^1.1.0"
+    "@expo-google-fonts/archivo": "npm:^0.4.2"
     "@expo/ui": "npm:~58.0.22"
     "@sprintstack/forms": "workspace:^"
     "@sprintstack/shared": "workspace:^"
@@ -14316,6 +14324,7 @@ __metadata:
   dependencies:
     "@10play/tentap-editor": "npm:^1.1.0"
     "@chromatic-com/storybook": "npm:latest"
+    "@expo-google-fonts/archivo": "npm:^0.4.2"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
     "@react-native-community/datetimepicker": "npm:9.2.1"
     "@react-native-community/slider": "npm:5.2.1"

@@ -1,9 +1,10 @@
 import { scaled } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
+import { Text } from '@ui/Text';
 import type { FieldProps } from '@ui/types';
 import { CircleAlert } from 'lucide-react-native';
 import { createContext, useContext, useId } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 interface FieldContextValue {
   labelId: string;

@@ -1,10 +1,11 @@
 import { fieldShell } from '@lib/field-shell.native';
 import { scaled } from '@lib/scale';
-import { useField } from '@ui/Field/Field';
+import { useField } from '@ui/Field';
+import { Text } from '@ui/Text';
 import type { TextAreaProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 // Roughly one text line per row, matching web's rows attribute.
 
