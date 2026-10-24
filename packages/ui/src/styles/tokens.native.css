@@ -1,0 +1,75 @@
+/*
+ * Strata Bold: React Native token values for Uniwind (from design-system/tokens.json).
+ * Uniwind requires every theme to define the same variables.
+ */
+@layer theme {
+  :root {
+    @variant light {
+      --color-canvas: #ffffff;
+      --color-surface: #ffffff;
+      --color-surface-muted: #f1f0f0;
+      --color-surface-hover: #f1f0f0;
+      --color-surface-pressed: #e6e3e3;
+      --color-line: #cfcccc;
+      --color-line-strong: #8f8888;
+      --color-ink: #000000;
+      --color-ink-muted: #605959;
+      --color-ink-placeholder: #6f6868;
+      --color-ink-disabled: #b2aeae;
+      --color-on-ink: #ffffff;
+      --color-brand: #d82e45;
+      --color-brand-hover: #bf2238;
+      --color-on-brand: #ffffff;
+      --color-brand-ink: #c4233a;
+      --color-brand-subtle: #fbe6ec;
+      --color-focus-ring: #000000;
+      --color-warning: #b0822b;
+      --color-warning-subtle: #fcf1d0;
+      --color-warning-ink: #7a5a12;
+      --color-success: #417562;
+      --color-success-subtle: #e4f6ef;
+      --color-success-ink: #2a5043;
+      --color-info: #6a4cd1;
+      --color-info-subtle: #d9d4f4;
+      --color-info-ink: #4a2fae;
+      --color-neutral-subtle: #f1f0f0;
+      --color-scrim: rgba(0, 0, 0, 0.5);
+      --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.12);
+      --shadow-toast: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    @variant dark {
+      --color-canvas: #0b0a0a;
+      --color-surface: #151313;
+      --color-surface-muted: #1f1c1c;
+      --color-surface-hover: #262222;
+      --color-surface-pressed: #302b2b;
+      --color-line: #353030;
+      --color-line-strong: #7f7777;
+      --color-ink: #ffffff;
+      --color-ink-muted: #b4acac;
+      --color-ink-placeholder: #a39b9b;
+      --color-ink-disabled: #5a5353;
+      --color-on-ink: #000000;
+      --color-brand: #d82e45;
+      --color-brand-hover: #bf2238;
+      --color-on-brand: #ffffff;
+      --color-brand-ink: #ff7a8a;
+      --color-brand-subtle: #3a1419;
+      --color-focus-ring: #ffffff;
+      --color-warning: #e0b25a;
+      --color-warning-subtle: #33270e;
+      --color-warning-ink: #f0c878;
+      --color-success: #6fbf9c;
+      --color-success-subtle: #12291f;
+      --color-success-ink: #8fd6b5;
+      --color-info: #a996f0;
+      --color-info-subtle: #241d40;
+      --color-info-ink: #c3b6f5;
+      --color-neutral-subtle: #262222;
+      --color-scrim: rgba(0, 0, 0, 0.7);
+      --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.6);
+      --shadow-toast: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

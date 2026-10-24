@@ -1,0 +1,16 @@
+<!-- @dsCard group="Forms" height=560 subtitle="Round days, today ringed, selected in red; tap the title for months" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>DatePicker — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
+ h(S.Field,{label:'Due date',htmlFor:'d1'},h(S.DatePicker,{id:'d1',today:'2026-10-23T12:00:00',defaultValue:'2026-10-30T12:00:00',defaultOpen:true})),
+ h('div',{className:'st-col'},
+  h(S.Field,{label:'Start date',htmlFor:'d2'},h(S.DatePicker,{id:'d2',today:'2026-10-23T12:00:00'})),
+  h(S.Field,{label:'Due date',htmlFor:'d3',description:'Past due dates say so in red'},h(S.DatePicker,{id:'d3',today:'2026-10-23T12:00:00',defaultValue:'2026-10-19T12:00:00',dueStyle:true})))));
+</script>
+</body>
+</html>

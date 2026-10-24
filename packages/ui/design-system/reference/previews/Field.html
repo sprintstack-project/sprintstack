@@ -1,0 +1,14 @@
+<!-- @dsCard group="Forms" height=150 subtitle="Bold label, helper text, required and error states" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Field — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
+ h(S.Field,{label:'Summary',required:true,htmlFor:'f1',description:'Shown on boards and in notifications'},h(S.Input,{id:'f1',placeholder:'Enter a summary'})),
+ h(S.Field,{label:'Reporter email',htmlFor:'f2',error:'Enter a valid email address'},h(S.Input,{id:'f2',defaultValue:'not-an-email',invalid:true}))));
+</script>
+</body>
+</html>

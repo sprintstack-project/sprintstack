@@ -1,0 +1,14 @@
+<!-- @dsCard group="Forms" height=380 subtitle="Ink pills in the field, checkbox menu" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>MultiSelect — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
+ h(S.Field,{label:'Labels',htmlFor:'m1'},h(S.MultiSelect,{id:'m1',defaultOpen:true,defaultValue:['payments'],options:[{value:'payments',label:'Payments'},{value:'ios',label:'iOS'},{value:'web',label:'Web'},{value:'debt',label:'Tech debt'}]})),
+ h(S.Field,{label:'Assignees',htmlFor:'m2'},h(S.MultiSelect,{id:'m2',defaultValue:['mo','jl'],placeholder:'Add people',options:[{value:'mo',label:'Mira Okafor',avatar:'MO'},{value:'jl',label:'Jonas Lehmann',avatar:'JL'},{value:'ar',label:'Aiko Raines',avatar:'AR'}]}))));
+</script>
+</body>
+</html>

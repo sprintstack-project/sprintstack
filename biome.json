@@ -20,7 +20,8 @@
       "!**/storybook-static",
       "!**/package-lock.json",
       "!**/uniwind-types.d.ts",
-      "!**/src/generated"
+      "!**/src/generated",
+      "!packages/ui/design-system"
     ]
   },
   "formatter": {
@@ -90,8 +91,20 @@
           "style": {
             "useComponentExportOnlyModules": {
               "level": "warn",
-              "options": { "allowConstantExport": true }
+              "options": {
+                "allowConstantExport": true
+              }
             }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/ui/src/styles/tokens.native.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noDuplicateCustomProperties": "off"
           }
         }
       }
