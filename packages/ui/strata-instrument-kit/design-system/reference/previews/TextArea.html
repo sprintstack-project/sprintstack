@@ -1,0 +1,14 @@
+<!-- @dsCard group="Forms" height=210 subtitle="Writing surface with a status bar: format, count, submit hint" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>TextArea — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
+ h(S.Field,{label:'Description',htmlFor:'t1'},h(S.TextArea,{id:'t1',rows:4,placeholder:'Steps to reproduce, expected, actual…'})),
+ h(S.Field,{label:'Comment',htmlFor:'t2'},h(S.TextArea,{id:'t2',maxLength:280,submitHint:'send',defaultValue:'Reproduced on iOS 18 with a card that expired last month. The 402 from the gateway is swallowed in CardSheet.'}))));
+</script>
+</body>
+</html>

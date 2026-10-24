@@ -1,0 +1,22 @@
+<!-- @dsCard group="Layout" height=360 subtitle="Issue cards on a dot-grid board, selected with corner marks; a panel" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Card — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+function col(name, n, wip, kids) { return h('div', { className: 'st-column' }, h('div', { className: 'st-column-head' }, h('span', { className: 'st-label-caps' }, name), h('span', { className: 'st-wip', 'data-over': wip ? '' : undefined }, n)), kids); }
+var board = h('div', { className: 'st-board st-dots' },
+  col('In progress', '3 / 3 WIP', true, [
+    h(S.Card, { key: 1, variant: 'issue', issueKey: 'PAY-1482', title: 'Checkout fails when a saved card has expired', status: 'danger', priority: 'highest', points: 3, assignee: 'MO', due: '2D OVER', dueState: 'over' }),
+    h(S.Card, { key: 2, variant: 'issue', issueKey: 'PAY-1477', title: 'Add Apple Pay to the mobile checkout', status: 'info', priority: 'high', points: 5, assignee: 'JL', labels: ['ios'], due: 'T-2D', dueState: 'soon', selected: true })]),
+  col('In review', '1', false, [
+    h(S.Card, { key: 3, variant: 'issue', issueKey: 'OPS-311', title: 'Rotate the Stripe webhook secret', status: 'review', priority: 'low', points: 1, assignee: 'AR' }),
+    h(S.Card, { key: 4, title: 'Sprint 24', actions: h(S.Button, { variant: 'ghost', size: 'sm', iconOnly: true, icon: 'dots' }, 'More'),
+      footer: [h(S.Chip, { key: 1, tone: 'success', dot: true }, '18 done'), h('span', { key: 2, style: { flex: 1 } }), h('span', { key: 3, className: 'st-meta' }, 'T-6D')] },
+      h('span', { className: 'st-meta', style: { color: 'var(--ink)' } }, '30 / 48 pts'))]));
+ReactDOM.createRoot(document.getElementById('root')).render(board);
+</script>
+</body>
+</html>

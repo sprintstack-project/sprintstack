@@ -1,0 +1,16 @@
+<!-- @dsCard group="Forms" height=200 subtitle="Search with shortcut, mono prefix, invalid, disabled" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Input — preview</title></head>
+<body>
+<div id="root" class="st-root st-pad"></div>
+<script>
+var S = window.Strata, h = React.createElement;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
+ h(S.Field,{label:'Search',htmlFor:'a'},h(S.Input,{id:'a',leadingIcon:'search',placeholder:'Search issues',shortcut:'/'})),
+ h(S.Field,{label:'Branch',htmlFor:'b'},h(S.Input,{id:'b',prefix:'git:',mono:true,defaultValue:'pay-1482-saved-cards'})),
+ h(S.Field,{label:'Title',htmlFor:'c',error:'Title is required'},h(S.Input,{id:'c',placeholder:'What needs to be done?',invalid:true})),
+ h(S.Field,{label:'Project key',htmlFor:'d',description:'Set when the project was created.'},h(S.Input,{id:'d',defaultValue:'PAY',mono:true,disabled:true}))));
+</script>
+</body>
+</html>
