@@ -18,7 +18,7 @@ export function Logo({ className, onInk }: { className: string; onInk?: boolean 
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto w-full max-w-[80rem] px-6 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-5">
+    <header className="mx-auto w-full max-w-7xl px-6 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-5">
       <a href="#top" aria-label="SprintStack home" className="text-ink no-underline">
         <Logo className="text-[1.875rem]" />
       </a>
@@ -40,8 +40,8 @@ export function SiteHeader() {
         <a href="#signin" className="link text-base leading-5">
           Sign in
         </a>
-        <a href="#waitlist" className={buttonClass('primary', 'sm')}>
-          Get early access
+        <a href="#waitlist" className={buttonClass('brand', 'sm')}>
+          Sign up
         </a>
       </div>
     </header>

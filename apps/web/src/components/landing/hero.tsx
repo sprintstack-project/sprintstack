@@ -1,5 +1,4 @@
 import { Badge, type StatusTone } from '@sprintstack/ui';
-import { WaitlistForm } from './waitlist-form';
 
 interface Issue {
   id: string;
@@ -143,7 +142,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="mx-auto w-full max-w-[80rem] px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,28.75rem),1fr))] items-center gap-14 pt-12 pb-24"
+      className="mx-auto w-full max-w-7xl px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,28.75rem),1fr))] items-center gap-14 pt-12 pb-24"
     >
       <div className="flex flex-col gap-6">
         <span className="eyebrow">Issue tracking for teams that ship</span>
@@ -154,12 +153,11 @@ export function Hero() {
           <br />
           <span className="text-brand-ink">Ship it.</span>
         </h1>
-        <p className="font-semibold font-stretch-semi-condensed max-w-[32.5rem] text-xl leading-[1.875rem] text-ink-muted">
+        <p className="font-semibold font-stretch-semi-condensed max-w-130 text-xl leading-7.5 text-ink-muted">
           [Product name] brings your backlog, sprints and releases into one fast, friendly
           workspace, on the web and in your pocket. Built for product teams who would rather ship
           than update tickets.
         </p>
-        <WaitlistForm />
       </div>
       <BoardScreenshot />
     </section>

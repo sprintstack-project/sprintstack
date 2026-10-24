@@ -1,5 +1,4 @@
 import { Logo } from './site-header';
-import { CtaForm } from './waitlist-form';
 
 export function FinalCta() {
   return (
@@ -13,7 +12,6 @@ export function FinalCta() {
             <span className="text-brand-on-ink">Shipped.</span>
           </h2>
         </div>
-        <CtaForm />
       </div>
     </section>
   );
