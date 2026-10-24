@@ -1,44 +1,34 @@
 import { Input as BaseInput } from '@base-ui/react/input';
 import { twMerge } from '@lib/tw-merge';
+import { Button } from '@ui/button';
 import type { InputProps } from '@ui/types';
 import { clsx } from 'clsx';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 // Slots inherit the muted icon colour; buttons placed in them set their own.
 const slot = 'flex shrink-0 items-center text-ink-muted';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function Input({
+export function InputPassword({
   id,
-  value,
-  defaultValue,
   onChange,
   placeholder,
-  type = 'text',
-  slots,
-  pill,
   invalid,
   disabled,
   onBlur,
 }: InputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div
       data-invalid={invalid || undefined}
       data-disabled={disabled || undefined}
-      className={twMerge(
-        clsx(
-          'field flex w-full items-center gap-3 px-5',
-          // Search bar: full pill, with the trailing button tucked against the edge.
-          pill && 'rounded-full!',
-          pill && slots?.right && 'pr-1.5',
-        ),
-      )}
+      className={twMerge(clsx('field flex w-full items-center gap-3 px-5'))}
     >
-      {slots?.left && <span className={slot}>{slots.left}</span>}
       <BaseInput
         id={id}
-        type={type}
-        value={value}
-        defaultValue={defaultValue}
+        type={showPassword ? 'text' : 'password'}
         onValueChange={(next) => onChange?.(next)}
         placeholder={placeholder}
         onBlur={onBlur}
@@ -50,7 +40,11 @@ export function Input({
           'placeholder:text-ink-placeholder disabled:cursor-not-allowed disabled:placeholder:text-ink-disabled',
         )}
       />
-      {slots?.right && <span className={slot}>{slots.right}</span>}
+      <Button
+        iconOnly
+        icon={showPassword ? EyeOff : Eye}
+        onClick={() => setShowPassword(!showPassword)}
+      ></Button>
     </div>
   );
 }

@@ -40,7 +40,6 @@ export function Input({
         onChangeText={onChange}
         placeholder={placeholder}
         editable={!disabled}
-        secureTextEntry={type === 'password'}
         inputMode={type === 'password' ? 'text' : type}
         autoCapitalize={type === 'text' ? 'sentences' : 'none'}
         autoCorrect={type === 'text'}

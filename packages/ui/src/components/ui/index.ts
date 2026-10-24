@@ -7,6 +7,7 @@ export { Chip } from '@ui/chip';
 export { DatePicker } from '@ui/date-picker';
 export { Field } from '@ui/field';
 export { Input } from '@ui/input';
+export { InputPassword } from '@ui/input-password';
 export { MultiSelect } from '@ui/multi-select';
 export { NumberInput } from '@ui/number-input';
 export { Priority } from '@ui/priority';

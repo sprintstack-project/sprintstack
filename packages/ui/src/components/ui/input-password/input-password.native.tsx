@@ -1,20 +1,17 @@
 import { fieldShell, tintSlot } from '@lib/field-shell.native';
 import { useTokenColor } from '@lib/use-token-color.native';
+import { Button } from '@ui/button';
 import { useField } from '@ui/field';
 import type { InputProps } from '@ui/types';
+import { Eye, EyeOff } from 'lucide-react-native';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function Input({
+export function InputPassword({
   id,
-  value,
-  defaultValue,
   onChange,
   placeholder,
-  type = 'text',
-  slots,
-  pill,
   invalid,
   disabled,
   onBlur,
@@ -22,28 +19,24 @@ export function Input({
   const field = useField();
   const [focused, setFocused] = useState(false);
   const slotColor = useTokenColor(disabled ? 'ink-disabled' : 'ink-muted');
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <View
       className={fieldShell(
         { focused, invalid: invalid || field?.invalid, disabled },
         'flex-row items-center gap-3 px-5',
-        pill && 'rounded-full',
-        pill && slots?.right && 'pr-1.5',
       )}
     >
-      {slots?.left && <View className="shrink-0">{tintSlot(slots.left, slotColor)}</View>}
       <TextInput
         nativeID={id}
-        value={value}
-        defaultValue={defaultValue}
         onChangeText={onChange}
         placeholder={placeholder}
         editable={!disabled}
-        secureTextEntry={type === 'password'}
-        inputMode={type === 'password' ? 'text' : type}
-        autoCapitalize={type === 'text' ? 'sentences' : 'none'}
-        autoCorrect={type === 'text'}
+        secureTextEntry={!showPassword}
+        inputMode="text"
+        autoCapitalize="none"
+        autoCorrect={true}
         accessibilityLabel={field?.label}
         aria-labelledby={field?.labelId}
         accessibilityHint={field?.hint}
@@ -61,7 +54,16 @@ export function Input({
         cursorColorClassName="accent-ink"
         selectionColorClassName="accent-brand"
       />
-      {slots?.right && <View className="shrink-0">{tintSlot(slots.right, slotColor)}</View>}
+      <View className="shrink-0">
+        {tintSlot(
+          <Button
+            iconOnly
+            icon={showPassword ? EyeOff : Eye}
+            onClick={() => setShowPassword(!showPassword)}
+          ></Button>,
+          slotColor,
+        )}
+      </View>
     </View>
   );
 }

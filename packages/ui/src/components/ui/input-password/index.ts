@@ -1,1 +1,1 @@
-export * from '@ui/input/input';
+export * from '@ui/input-password/input-password';
