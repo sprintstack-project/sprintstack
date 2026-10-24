@@ -10,6 +10,8 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@sprintstack/forms": "workspace:^",
+    "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",
     "next": "16.4.3",
     "react": "19.3.0",

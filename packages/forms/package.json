@@ -1,0 +1,25 @@
+{
+  "name": "@sprintstack/forms",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "dependencies": {
+    "@sprintstack/ui": "workspace:^",
+    "@tanstack/react-form": "^1.33.5"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "react": "19.3.0",
+    "typescript": "~6.0.3"
+  }
+}

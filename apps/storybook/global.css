@@ -1,0 +1,8 @@
+/* Native Storybook's CSS entry (Uniwind). The web Storybook uses .storybook/preview.css. */
+@import "tailwindcss";
+@import "uniwind";
+@import "@sprintstack/ui/styles/native.css";
+@source "../../packages/ui/src/**/*.native.{ts,tsx}";
+@source "../../packages/ui/src/lib/*.ts";
+@source "./native-stories";
+@source "./.rnstorybook";

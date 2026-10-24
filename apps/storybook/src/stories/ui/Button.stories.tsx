@@ -1,5 +1,6 @@
 import { Button } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { ArrowRight, Bookmark, Plus, Trash2 } from 'lucide-react';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -40,13 +41,13 @@ export const States: Story = {
         <Button variant="primary" size="lg">
           Large
         </Button>
-        <Button variant="brand" iconOnly icon="arrow-right">
+        <Button variant="brand" iconOnly icon={ArrowRight}>
           Next
         </Button>
-        <Button variant="primary" iconOnly icon="plus">
+        <Button variant="primary" iconOnly icon={Plus}>
           Add
         </Button>
-        <Button variant="ghost" iconOnly icon="bookmark">
+        <Button variant="ghost" iconOnly icon={Bookmark}>
           Watch
         </Button>
       </div>
@@ -57,16 +58,16 @@ export const States: Story = {
 export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
-      <Button variant="primary" icon="plus">
+      <Button variant="primary" icon={Plus}>
         Create issue
       </Button>
-      <Button variant="brand" iconEnd="arrow-right">
+      <Button variant="brand" iconEnd={ArrowRight}>
         Start sprint
       </Button>
-      <Button variant="danger" icon="trash-2">
+      <Button variant="danger" icon={Trash2}>
         Delete
       </Button>
-      <Button variant="link" iconEnd="arrow-right">
+      <Button variant="link" iconEnd={ArrowRight}>
         See all
       </Button>
     </div>
@@ -116,10 +117,10 @@ export const Labels: Story = {
   parameters: { singleTheme: true },
   render: () => (
     <div className="flex gap-3">
-      <Button variant="brand" iconOnly icon="arrow-right">
+      <Button variant="brand" iconOnly icon={ArrowRight}>
         Next
       </Button>
-      <Button variant="primary" icon="plus">
+      <Button variant="primary" icon={Plus}>
         Create issue
       </Button>
     </div>

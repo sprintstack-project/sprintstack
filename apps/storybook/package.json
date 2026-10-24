@@ -4,19 +4,48 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "biome check",
-    "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "format": "biome format --write"
+    "test": "vitest run --project=storybook",
+    "typecheck": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json && tsc -p tsconfig.json",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "storybook:native": "expo start --port 8083",
+    "storybook:native:ios": "expo start --ios --port 8083",
+    "storybook:native:stories": "sb-rn-get-stories --config-path .rnstorybook"
   },
   "dependencies": {
-    "@base-ui/react": "^1.9.0",
+    "@10play/tentap-editor": "^1.1.0",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "9.2.1",
+    "@react-native-community/slider": "5.2.1",
+    "@sprintstack/forms": "workspace:^",
+    "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",
+    "@storybook/addon-ondevice-actions": "^10.7.0",
+    "@storybook/addon-ondevice-controls": "^10.7.0",
+    "@storybook/react-native": "^10.7.0",
+    "@storybook/react-native-ui-lite": "^10.7.0",
+    "expo": "~58.0.17",
+    "expo-constants": "~58.0.13",
+    "expo-font": "~58.0.9",
+    "expo-linking": "~58.0.14",
+    "expo-router": "~58.0.25",
+    "expo-status-bar": "~58.0.4",
+    "lucide-react": "^1.61.0",
+    "lucide-react-native": "^1.61.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-actions-sheet": "^11.0.0",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-reanimated": "4.7.1",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-screens": "~4.30.0",
+    "react-native-svg": "15.16.0",
+    "react-native-webview": "14.0.1",
+    "react-native-worklets": "0.13.0",
+    "uniwind": "^1.13.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "latest",
@@ -37,5 +66,6 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vitest": "latest"
-  }
+  },
+  "main": "expo-router/entry"
 }

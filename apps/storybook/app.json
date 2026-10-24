@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Sprintstack Storybook",
+    "slug": "sprintstack-storybook",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "sprintstack-storybook",
+    "userInterfaceStyle": "automatic",
+    "plugins": ["expo-router", "@react-native-community/datetimepicker"]
+  }
+}

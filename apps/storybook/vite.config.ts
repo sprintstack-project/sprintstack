@@ -15,6 +15,36 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // packages/ui's internal aliases (see its tsconfig.json); Vite compiles that source directly.
+  // Pre-bundle what @sprintstack/ui imports. Otherwise Vite discovers them mid-test-run and
+  // reloads the browser, failing that run.
+  optimizeDeps: {
+    include: [
+      '@base-ui/react/button',
+      '@base-ui/react/combobox',
+      '@base-ui/react/field',
+      '@base-ui/react/input',
+      '@base-ui/react/number-field',
+      '@base-ui/react/popover',
+      '@base-ui/react/select',
+      '@base-ui/react/toggle',
+      '@tanstack/react-form',
+      '@tiptap/extensions',
+      '@tiptap/react',
+      '@tiptap/starter-kit',
+      'clsx',
+      'lucide-react',
+      'react-day-picker',
+      'tailwind-merge',
+      'zod',
+    ],
+  },
+  resolve: {
+    alias: {
+      '@ui': path.resolve(dirname, '../../packages/ui/src/components/ui'),
+      '@lib': path.resolve(dirname, '../../packages/ui/src/lib'),
+    },
+  },
   test: {
     projects: [
       {

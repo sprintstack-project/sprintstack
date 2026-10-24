@@ -20,7 +20,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* packages/ui's internal aliases, so tsc can follow its source */
+    "paths": {
+      "@ui/*": ["../../packages/ui/src/components/ui/*"],
+      "@lib/*": ["../../packages/ui/src/lib/*"]
+    }
   },
   "include": ["src"]
 }

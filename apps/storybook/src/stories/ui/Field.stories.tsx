@@ -1,17 +1,6 @@
-import { Input as BaseInput } from '@base-ui/react/input';
-import { Field } from '@sprintstack/ui';
+import { Field, Input } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
-
-// Stand-in control until the Input component lands; swap for <Input> then.
-function DemoInput(props: { id?: string; placeholder?: string; defaultValue?: string }) {
-  return (
-    <BaseInput
-      {...props}
-      className="field w-full px-4 text-body text-ink outline-none placeholder:text-ink-placeholder"
-    />
-  );
-}
 
 const meta = {
   title: 'UI/Field',
@@ -19,7 +8,7 @@ const meta = {
   args: {
     label: 'Summary',
     description: 'Shown on boards and in notifications',
-    children: <DemoInput placeholder="E.g. checkout bug" />,
+    children: <Input placeholder="E.g. checkout bug" />,
   },
 } satisfies Meta<typeof Field>;
 
@@ -33,10 +22,10 @@ export const States: Story = {
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Summary" required description="Shown on boards and in notifications">
-        <DemoInput placeholder="Enter a summary" />
+        <Input placeholder="Enter a summary" />
       </Field>
       <Field label="Reporter email" error="Enter a valid email address">
-        <DemoInput defaultValue="not-an-email" />
+        <Input defaultValue="not-an-email" />
       </Field>
     </div>
   ),
@@ -52,10 +41,10 @@ export const Labels: Story = {
         htmlFor="summary"
         description="Shown on boards and in notifications"
       >
-        <DemoInput id="summary" placeholder="Enter a summary" />
+        <Input id="summary" placeholder="Enter a summary" />
       </Field>
       <Field label="Reporter email" error="Enter a valid email address">
-        <DemoInput defaultValue="not-an-email" />
+        <Input defaultValue="not-an-email" />
       </Field>
     </div>
   ),
@@ -81,10 +70,10 @@ export const Keyboard: Story = {
   render: () => (
     <div className="grid max-w-md gap-5">
       <Field label="Summary">
-        <DemoInput />
+        <Input />
       </Field>
       <Field label="Reporter email">
-        <DemoInput />
+        <Input />
       </Field>
     </div>
   ),

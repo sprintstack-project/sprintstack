@@ -1,7 +1,14 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "moduleSuffixes": [".ios", ".android", ".native", ""],
+    "paths": {
+      "@ui/*": ["../../packages/ui/src/components/ui/*"],
+      "@lib/*": ["../../packages/ui/src/lib/*"]
+    }
+  },
+  "include": ["app", ".rnstorybook", "native-stories", "uniwind-types.d.ts"]
 }

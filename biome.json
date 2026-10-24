@@ -21,7 +21,8 @@
       "!**/package-lock.json",
       "!**/uniwind-types.d.ts",
       "!**/src/generated",
-      "!packages/ui/design-system"
+      "!packages/ui/design-system",
+      "!**/.rnstorybook/storybook.requires.ts"
     ]
   },
   "formatter": {
