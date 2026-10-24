@@ -1,1 +1,1 @@
-export * from '@ui/Input/Input';
+export * from '@ui/input/input';

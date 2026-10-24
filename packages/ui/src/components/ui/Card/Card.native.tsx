@@ -1,9 +1,9 @@
 import { scaled } from '@lib/scale';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Badge } from '@ui/Badge';
-import { Button } from '@ui/Button';
-import { Priority } from '@ui/Priority';
-import { Text } from '@ui/Text';
+import { Badge } from '@ui/badge';
+import { Button } from '@ui/button';
+import { Priority } from '@ui/priority';
+import { Text } from '@ui/text';
 import type { CardProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bookmark, Clock, Target } from 'lucide-react-native';

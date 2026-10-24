@@ -4,14 +4,14 @@ import { Combobox } from '@base-ui/react/combobox';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { usePortalContainer } from '@lib/portal-container';
 import { STATUS_LABEL } from '@lib/status';
-import { Caret } from '@ui/Select/Caret';
-import { hairline, popup, popupFrame, row } from '@ui/Select/menu';
-import { OptionContent, optionText } from '@ui/Select/OptionContent';
+import { Caret } from '@ui/select/caret';
+import { hairline, popup, popupFrame, row } from '@ui/select/menu';
+import { OptionContent, optionText } from '@ui/select/option-content';
 import {
   type OptionVirtualizer,
   scrollHighlightedIntoView,
   VirtualOptionList,
-} from '@ui/Select/VirtualOptionList';
+} from '@ui/select/virtual-option-list';
 import type { Option, SelectProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Check, Search } from 'lucide-react';

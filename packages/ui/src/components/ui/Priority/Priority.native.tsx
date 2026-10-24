@@ -1,7 +1,7 @@
 import { scaled } from '@lib/scale';
 import { PRIORITY_DIRECTION, PRIORITY_LABEL } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Text } from '@ui/Text';
+import { Text } from '@ui/text';
 import type { PriorityProps } from '@ui/types';
 import { ArrowDown, ArrowUp, Equal } from 'lucide-react-native';
 import { View } from 'react-native';

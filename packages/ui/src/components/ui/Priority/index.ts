@@ -1,1 +1,1 @@
-export * from '@ui/Priority/Priority';
+export * from '@ui/priority/priority';

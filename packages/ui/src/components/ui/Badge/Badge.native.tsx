@@ -1,5 +1,5 @@
 import { STATUS_CLASSES, STATUS_LABEL } from '@lib/status';
-import { Text } from '@ui/Text';
+import { Text } from '@ui/text';
 import type { BadgeProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { View } from 'react-native';

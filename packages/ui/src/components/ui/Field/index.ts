@@ -1,1 +1,1 @@
-export * from '@ui/Field/Field';
+export * from '@ui/field/field';

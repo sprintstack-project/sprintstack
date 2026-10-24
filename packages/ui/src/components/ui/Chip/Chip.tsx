@@ -1,7 +1,7 @@
 import { Toggle } from '@base-ui/react/toggle';
 import { isImageUrl, isStatusTone } from '@lib/status';
 import { twMerge } from '@lib/tw-merge';
-import { Badge } from '@ui/Badge';
+import { Badge } from '@ui/badge';
 import type { ChipProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { X } from 'lucide-react';

@@ -1,8 +1,8 @@
 'use client';
 
-import { Badge } from '@ui/Badge';
-import { Button } from '@ui/Button';
-import { Priority } from '@ui/Priority';
+import { Badge } from '@ui/badge';
+import { Button } from '@ui/button';
+import { Priority } from '@ui/priority';
 import type { CardProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bookmark, Clock, Target } from 'lucide-react';

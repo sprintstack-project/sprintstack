@@ -1,1 +1,1 @@
-export * from '@ui/Badge/Badge';
+export * from '@ui/badge/badge';

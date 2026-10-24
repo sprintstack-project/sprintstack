@@ -1,7 +1,7 @@
 import { scaled, touchSlop } from '@lib/scale';
 import { twMerge } from '@lib/tw-merge';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Text } from '@ui/Text';
+import { Text } from '@ui/text';
 import type { ButtonProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Pressable } from 'react-native';
