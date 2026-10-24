@@ -29,6 +29,7 @@ export default defineConfig({
       '@base-ui/react/select',
       '@base-ui/react/toggle',
       '@tanstack/react-form',
+      '@tanstack/react-virtual',
       '@tiptap/extensions',
       '@tiptap/react',
       '@tiptap/starter-kit',

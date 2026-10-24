@@ -161,3 +161,46 @@ export const Labels: Story = {
     await userEvent.keyboard('{Escape}');
   },
 };
+
+const manyComponents = Array.from({ length: 1000 }, (_, i) => ({
+  value: `c${i}`,
+  label: `Component ${i + 1}`,
+}));
+
+/** Rows are virtualized: 1,000 options render only what's visible. */
+export const LongList: Story = {
+  parameters: { singleTheme: true },
+  args: { onValueChange: fn() },
+  render: (args) => (
+    <div className="pb-[28rem]">
+      <Field label="Components">
+        <MultiSelect
+          options={manyComponents}
+          placeholder="Add components"
+          onValueChange={args.onValueChange}
+        />
+      </Field>
+    </div>
+  ),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox', { name: 'Components' });
+    await userEvent.click(input);
+    const listbox = await screen.findByRole('listbox');
+    await waitFor(() => expect(within(listbox).getAllByRole('option').length).toBeGreaterThan(3));
+    await expect(within(listbox).getAllByRole('option').length).toBeLessThan(40);
+
+    for (let i = 0; i < 25; i++) await userEvent.keyboard('{ArrowDown}');
+    await waitFor(() =>
+      expect(screen.getByRole('option', { name: 'Component 25' })).toHaveAttribute(
+        'data-highlighted',
+      ),
+    );
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(args.onValueChange).toHaveBeenLastCalledWith(['c24']));
+
+    await userEvent.keyboard('Component 1000');
+    await userEvent.click(await screen.findByRole('option', { name: 'Component 1000' }));
+    await waitFor(() => expect(args.onValueChange).toHaveBeenLastCalledWith(['c24', 'c999']));
+  },
+};

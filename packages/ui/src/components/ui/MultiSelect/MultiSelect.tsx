@@ -1,8 +1,13 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { usePortalContainer } from '@lib/portal-container';
 import { isImageUrl, STATUS_LABEL } from '@lib/status';
+import { popupFrame, row } from '@ui/Select/menu';
 import { OptionContent, optionText } from '@ui/Select/OptionContent';
-import { popup } from '@ui/Select/Select';
+import {
+  type OptionVirtualizer,
+  scrollHighlightedIntoView,
+  VirtualOptionList,
+} from '@ui/Select/VirtualOptionList';
 import type { MultiSelectProps, Option } from '@ui/types';
 import { clsx } from 'clsx';
 import { Check, ChevronDown, Plus, X } from 'lucide-react';
@@ -19,13 +24,6 @@ const chipTones = {
 /** Marks the "Create …" row offered by `creatable`. */
 const CREATE = Symbol('create');
 type Item<V> = Option<V> & { [CREATE]?: true };
-
-const row = clsx(
-  'group relative flex min-h-14 cursor-pointer items-center gap-4 rounded-md px-4 text-[1.0625rem] leading-6 text-ink outline-none select-none',
-  'before:absolute before:inset-x-0 before:top-0 before:h-px [&+&]:before:bg-line',
-  'data-highlighted:bg-surface-hover data-highlighted:before:opacity-0 [[data-highlighted]+&]:before:opacity-0',
-  'data-disabled:cursor-not-allowed data-disabled:text-ink-disabled',
-);
 
 export function MultiSelect<V = string>({
   id,
@@ -45,6 +43,7 @@ export function MultiSelect<V = string>({
 }: MultiSelectProps<V>) {
   const container = usePortalContainer();
   const field = useRef<HTMLDivElement>(null);
+  const virtualizer = useRef<OptionVirtualizer | null>(null);
   const [ownValue, setOwnValue] = useState<V[]>(defaultValue ?? []);
   const values = value ?? ownValue;
   const [query, setQuery] = useState('');
@@ -96,6 +95,9 @@ export function MultiSelect<V = string>({
       id={id}
       multiple
       items={items}
+      // Rows are virtualized (TanStack Virtual); Base UI tracks them by index.
+      virtualized
+      onItemHighlighted={scrollHighlightedIntoView(virtualizer)}
       // Async results arrive pre-filtered; local options are filtered by label.
       {...(loadOptions && { filteredItems: items })}
       itemToStringLabel={text}
@@ -129,7 +131,7 @@ export function MultiSelect<V = string>({
       <Combobox.Portal container={container}>
         {/* Anchor to the whole field, not just the text input. */}
         <Combobox.Positioner anchor={field} sideOffset={8} className="z-50 outline-none">
-          <Combobox.Popup className={clsx(popup, 'w-(--anchor-width)')}>
+          <Combobox.Popup className={clsx(popupFrame, 'w-(--anchor-width) overflow-hidden')}>
             {loading && (
               <div role="status" className="p-4 font-semibold text-ink-muted">
                 Searching…
@@ -140,15 +142,16 @@ export function MultiSelect<V = string>({
                 No matches
               </Combobox.Empty>
             )}
-            <Combobox.List>
-              {(option: Item<V>) => (
+            <VirtualOptionList<Item<V>> virtualizerRef={virtualizer}>
+              {(option, virtualRow) => (
                 <Combobox.Item
                   key={option[CREATE] ? 'create' : String(option.value)}
                   value={option}
                   disabled={
                     option.disabled || (full && !values.includes(option.value) && !option[CREATE])
                   }
-                  className={row}
+                  {...virtualRow}
+                  className={clsx(row, virtualRow.index > 0 && 'before:bg-line')}
                 >
                   {option[CREATE] ? (
                     <>
@@ -167,7 +170,7 @@ export function MultiSelect<V = string>({
                   )}
                 </Combobox.Item>
               )}
-            </Combobox.List>
+            </VirtualOptionList>
             {full && (
               <p className="px-4 pt-2 pb-1 text-meta font-semibold text-ink-muted font-stretch-semi-condensed">
                 You can pick up to {max}.

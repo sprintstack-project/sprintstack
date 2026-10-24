@@ -78,6 +78,11 @@ export interface SelectProps<V = string>
   extends Omit<ContractSelectProps<V>, 'options'>,
     Blurrable {
   options: Option<V>[];
+  /**
+   * Adds a search box to the menu and virtualizes the rows, for long lists (people, projects,
+   * components). Plain selects are for short, fixed lists and aren't virtualized.
+   */
+  searchable?: boolean;
 }
 
 export interface MultiSelectProps<V = string>

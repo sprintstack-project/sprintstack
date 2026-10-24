@@ -12,7 +12,7 @@ import { usePortalContainer } from '@lib/portal-container';
 import { Button } from '@ui/Button/Button';
 import { useField } from '@ui/Field/Field';
 import { Caret } from '@ui/Select/Caret';
-import { popup } from '@ui/Select/Select';
+import { popup } from '@ui/Select/menu';
 import type { DatePickerProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';

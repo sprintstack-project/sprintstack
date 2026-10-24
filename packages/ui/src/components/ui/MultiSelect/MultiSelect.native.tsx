@@ -6,12 +6,13 @@ import { useTokenColor } from '@lib/use-token-color.native';
 import { Button } from '@ui/Button/Button';
 import { useField } from '@ui/Field/Field';
 import { OptionContent, optionText } from '@ui/Select/OptionContent';
+import { SearchBox } from '@ui/Select/SearchBox';
 import type { MultiSelectProps, Option } from '@ui/types';
 import { clsx } from 'clsx';
-import { Check, ChevronDown, Plus, Search, X } from 'lucide-react-native';
+import { Check, ChevronDown, Plus, X } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, TextInput, View } from 'react-native';
-import { ScrollView } from 'react-native-actions-sheet';
+import { Image, Pressable, Text, View } from 'react-native';
+import { FlatList } from 'react-native-actions-sheet';
 
 const chipTones = {
   ink: { box: 'bg-ink', text: 'text-on-ink', icon: 'on-ink' },
@@ -157,17 +158,29 @@ export function MultiSelect<V = string>({
         }}
       >
         <SearchBox value={query} onChange={setQuery} />
-        <ScrollView style={{ maxHeight: 360 }} keyboardShouldPersistTaps="handled">
-          {loading && <Text className="p-4 font-semibold text-ink-muted">Searching…</Text>}
-          {!loading && source.length === 0 && !canCreate && (
-            <Text className="p-4 font-semibold text-ink-muted">No matches</Text>
-          )}
-          {source.map((option, index) => {
+        {/* Virtualized: only the rows on screen are rendered, however long the list. */}
+        <FlatList
+          data={source}
+          keyExtractor={(option) => String(option.value)}
+          style={{ maxHeight: scaled(480) }}
+          keyboardShouldPersistTaps="handled"
+          initialNumToRender={15}
+          windowSize={7}
+          ListHeaderComponent={
+            loading ? (
+              <Text className="p-4 font-semibold text-ink-muted">Searching…</Text>
+            ) : undefined
+          }
+          ListEmptyComponent={
+            !loading && !canCreate ? (
+              <Text className="p-4 font-semibold text-ink-muted">No matches</Text>
+            ) : undefined
+          }
+          renderItem={({ item: option, index }) => {
             const checked = values.includes(option.value);
             const blocked = option.disabled || (full && !checked);
             return (
               <Pressable
-                key={String(option.value)}
                 accessibilityRole="checkbox"
                 accessibilityLabel={optionText(option)}
                 accessibilityState={{ checked, disabled: blocked }}
@@ -184,19 +197,21 @@ export function MultiSelect<V = string>({
                 </View>
               </Pressable>
             );
-          })}
-          {canCreate && (
-            <CreateRow
-              label={query.trim()}
-              onPress={() => {
-                const option = { value: query.trim() as V, label: query.trim() };
-                known.current.set(option.value, option);
-                commit([...values, option.value]);
-                setQuery('');
-              }}
-            />
-          )}
-        </ScrollView>
+          }}
+          ListFooterComponent={
+            canCreate ? (
+              <CreateRow
+                label={query.trim()}
+                onPress={() => {
+                  const option = { value: query.trim() as V, label: query.trim() };
+                  known.current.set(option.value, option);
+                  commit([...values, option.value]);
+                  setQuery('');
+                }}
+              />
+            ) : undefined
+          }
+        />
         {full && (
           <Text className="px-4 text-meta font-semibold text-ink-muted">
             You can pick up to {max}.
@@ -278,25 +293,6 @@ function CheckBox({ checked, disabled }: { checked: boolean; disabled?: boolean 
       )}
     >
       {checked && <Check aria-hidden size={scaled(16)} strokeWidth={3} color={onInk} />}
-    </View>
-  );
-}
-
-function SearchBox({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const muted = useTokenColor('ink-muted');
-  return (
-    <View className="mb-1 h-12 flex-row items-center gap-3 rounded-full bg-surface-muted px-4">
-      <Search aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        placeholder="Search"
-        accessibilityLabel="Search options"
-        autoCorrect={false}
-        className="h-12 flex-1 text-[1.0625rem] text-ink"
-        placeholderTextColorClassName="accent-ink-placeholder"
-        cursorColorClassName="accent-ink"
-      />
     </View>
   );
 }

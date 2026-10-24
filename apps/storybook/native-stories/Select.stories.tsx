@@ -87,3 +87,25 @@ export const Multi: Story = {
     </>
   ),
 };
+
+// 1,000 people: long lists use `searchable`; the sheet's rows are virtualized (FlatList).
+const directory = Array.from({ length: 1000 }, (_, i) => {
+  const first = ['Mira', 'Jonas', 'Aiko', 'Sam', 'Ana', 'Kim', 'Lea', 'Omar'][i % 8];
+  const last = ['Okafor', 'Lehmann', 'Raines', 'Park', 'Lopez', 'Jansen', 'Novak', 'Haddad'][
+    Math.floor(i / 8) % 8
+  ];
+  return { value: `p${i}`, label: `${first} ${last} ${i + 1}`, avatar: `${first[0]}${last[0]}` };
+});
+
+export const Searchable: Story = {
+  render: () => (
+    <>
+      <Field label="Assignee" description="1,000 people; search in the sheet">
+        <Select searchable placeholder="Unassigned" options={directory} />
+      </Field>
+      <Field label="Components" description="1,000 options, virtualized">
+        <MultiSelect options={directory} placeholder="Add people" />
+      </Field>
+    </>
+  ),
+};

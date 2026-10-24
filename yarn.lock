@@ -4477,6 +4477,7 @@ __metadata:
   dependencies:
     "@10play/tentap-editor": "npm:^1.1.0"
     "@base-ui/react": "npm:^1.9.0"
+    "@tanstack/react-virtual": "npm:^3.14.22"
     "@tiptap/core": "npm:^3.32.0"
     "@tiptap/extensions": "npm:^3.32.0"
     "@tiptap/pm": "npm:^3.32.0"
@@ -5254,10 +5255,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-virtual@npm:^3.14.22":
+  version: 3.14.22
+  resolution: "@tanstack/react-virtual@npm:3.14.22"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.19.7"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/80d39ddada14c823e30d5dc2b1871a1f353c45f02ac7176fdcb07276e3a3ebe41d65b57d1d34f00a97d7ee4116b8a6f02be3294c04a04a7d52855b5c7289f1ef
+  languageName: node
+  linkType: hard
+
 "@tanstack/store@npm:0.11.2, @tanstack/store@npm:^0.11.0":
   version: 0.11.2
   resolution: "@tanstack/store@npm:0.11.2"
   checksum: 10c0/5422149c853c16e642a0ddfb51c2b4a867a11516069d3b9647659212e9762b86d609144de6ac6ec099b0360c3b198d1243f613148d69c1028dee56382f0430cd
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.19.7":
+  version: 3.19.7
+  resolution: "@tanstack/virtual-core@npm:3.19.7"
+  checksum: 10c0/d204994a1d5a63da9174ef62a51cf69506ea442c87118fbe007fddbd620b2d8db30b82211296d725763f06b1ac83f6b9c4e4321195d286af1aed37fae49c64a6
   languageName: node
   linkType: hard
 

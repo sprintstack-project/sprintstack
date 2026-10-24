@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@tanstack/react-virtual": "^3.14.22",
     "@tiptap/core": "^3.32.0",
     "@tiptap/extensions": "^3.32.0",
     "@tiptap/pm": "^3.32.0",

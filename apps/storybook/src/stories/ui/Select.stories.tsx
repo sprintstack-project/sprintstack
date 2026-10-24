@@ -146,3 +146,68 @@ export const Labels: Story = {
     await userEvent.keyboard('{Escape}');
   },
 };
+
+// 1,000 people: long lists use `searchable`, which also virtualizes the rows.
+const directory = Array.from({ length: 1000 }, (_, i) => {
+  const first = ['Mira', 'Jonas', 'Aiko', 'Sam', 'Ana', 'Kim', 'Lea', 'Omar'][i % 8];
+  const last = ['Okafor', 'Lehmann', 'Raines', 'Park', 'Lopez', 'Jansen', 'Novak', 'Haddad'][
+    Math.floor(i / 8) % 8
+  ];
+  return { value: `p${i}`, label: `${first} ${last} ${i + 1}`, avatar: `${first[0]}${last[0]}` };
+});
+
+export const Searchable: Story = {
+  render: () => (
+    <div className="grid max-w-3xl gap-5 pb-[28rem] md:grid-cols-2">
+      <Field label="Assignee" description="1,000 people; type to search">
+        <Select searchable placeholder="Unassigned" options={directory} />
+      </Field>
+      <Field label="Assignee">
+        <Select searchable defaultValue="p41" options={directory} />
+      </Field>
+    </div>
+  ),
+};
+
+export const SearchableKeyboard: Story = {
+  parameters: { singleTheme: true },
+  args: { onValueChange: fn() },
+  render: (args) => (
+    <div className="pb-[28rem]">
+      <Field label="Assignee">
+        <Select
+          searchable
+          placeholder="Unassigned"
+          options={directory}
+          onValueChange={args.onValueChange}
+        />
+      </Field>
+    </div>
+  ),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('combobox', { name: 'Assignee' });
+    await userEvent.click(trigger);
+
+    // Only a window of the 1,000 rows is rendered.
+    const listbox = await screen.findByRole('listbox');
+    await waitFor(() => expect(within(listbox).getAllByRole('option').length).toBeGreaterThan(3));
+    await expect(within(listbox).getAllByRole('option').length).toBeLessThan(40);
+
+    // Arrow keys walk past the rendered window; the list scrolls with the highlight.
+    const search = screen.getByPlaceholderText('Search');
+    // Focus moves to the search box once the menu has opened.
+    await waitFor(() => expect(search).toHaveFocus());
+    for (let i = 0; i < 30; i++) await userEvent.keyboard('{ArrowDown}');
+    await waitFor(() =>
+      expect(screen.getByRole('option', { name: / 30$/ })).toHaveAttribute('data-highlighted'),
+    );
+
+    // Search reaches any row; Enter picks it and the trigger shows it.
+    await userEvent.keyboard('999');
+    await waitFor(() => expect(within(listbox).getAllByRole('option')).toHaveLength(1));
+    await userEvent.keyboard('{ArrowDown}{Enter}');
+    await waitFor(() => expect(args.onValueChange).toHaveBeenLastCalledWith('p998'));
+    await expect(trigger).toHaveTextContent(/ 999$/);
+  },
+};
