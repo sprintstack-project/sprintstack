@@ -38,6 +38,8 @@ function ThemePanel({ theme, children }: { theme: string; children: ReactNode })
 }
 
 const preview: Preview = {
+  // A docs page per component: usage snippet, props table and every story with its code.
+  tags: ['autodocs'],
   decorators: [withThemes],
   globalTypes: {
     theme: {
@@ -57,6 +59,10 @@ const preview: Preview = {
   initialGlobals: { theme: 'both' },
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      // The Code panel beside each story shows the code for what you're looking at.
+      codePanel: true,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

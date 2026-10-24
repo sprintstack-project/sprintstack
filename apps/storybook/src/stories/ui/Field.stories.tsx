@@ -5,6 +5,23 @@ import { expect, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/Field',
   component: Field,
+  parameters: {
+    docs: {
+      description: {
+        component: `Gives a control its bold label, helper text and red error. Wrap every control in one: Base UI controls link to the label automatically, and the error replaces the helper text.
+
+\`\`\`tsx
+import { Field, Input } from '@sprintstack/ui';
+
+<Field label="Reporter email" required description="We'll let them know" error={errors.email}>
+  <Input type="email" value={email} onChange={setEmail} onBlur={validate} />
+</Field>
+\`\`\`
+
+In forms, \`@sprintstack/forms\` renders the Field for you: \`<f.TextField label="Summary" />\`.`,
+      },
+    },
+  },
   args: {
     label: 'Summary',
     description: 'Shown on boards and in notifications',
@@ -32,6 +49,7 @@ export const States: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="grid max-w-md gap-5">
@@ -66,6 +84,7 @@ export const Labels: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="grid max-w-md gap-5">

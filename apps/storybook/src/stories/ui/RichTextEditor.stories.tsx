@@ -48,6 +48,23 @@ export const sampleDoc: RichTextDoc = {
 const meta = {
   title: 'UI/RichTextEditor',
   component: RichTextEditor,
+  parameters: {
+    docs: {
+      description: {
+        component: `Issue descriptions and comments. Stores Tiptap JSON on web (Tiptap) and native (10tap-editor). It keeps its own state while you type; a new \`value\` from outside (like \`form.reset\` after data loads) replaces the content, with no \`key\` needed.
+
+\`\`\`tsx
+import { Field, RichTextEditor, richTextToPlainText } from '@sprintstack/ui';
+
+<Field label="Description">
+  <RichTextEditor value={doc} onChange={setDoc} placeholder="Steps to reproduce" />
+</Field>
+
+const preview = richTextToPlainText(doc); // for search and notifications
+\`\`\``,
+      },
+    },
+  },
   args: { placeholder: 'Steps to reproduce, expected and actual result', onChange: fn() },
 } satisfies Meta<typeof RichTextEditor>;
 
@@ -91,6 +108,7 @@ function Loader() {
 }
 
 export const ExternalValue: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => <Loader />,
   play: async ({ canvasElement }) => {
@@ -105,6 +123,7 @@ export const ExternalValue: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onChange: fn(), onBlur: fn() },
   render: (args) => (

@@ -7,6 +7,25 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/Input',
   component: Input,
+  parameters: {
+    docs: {
+      description: {
+        component: `A 56px text field. \`slots\` put icons, units or actions on either side; \`pill\` makes the search-bar style.
+
+\`\`\`tsx
+import { Button, Input } from '@sprintstack/ui';
+import { Search } from 'lucide-react';
+
+<Input value={query} onChange={setQuery} placeholder="E.g. checkout bug" />
+
+<Input
+  pill
+  slots={{ left: <Search />, right: <Button variant="brand" size="sm">Search</Button> }}
+/>
+\`\`\``,
+      },
+    },
+  },
   args: { placeholder: 'E.g. checkout bug', onChange: fn() },
 } satisfies Meta<typeof Input>;
 
@@ -112,6 +131,7 @@ export const Slots: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <div className="grid max-w-md gap-5">
@@ -152,6 +172,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="grid max-w-md gap-5">

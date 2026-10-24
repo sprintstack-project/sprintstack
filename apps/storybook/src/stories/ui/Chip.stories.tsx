@@ -6,6 +6,22 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/Chip',
   component: Chip,
+  parameters: {
+    docs: {
+      description: {
+        component: `Filter pills (\`toggle\`), value pills (optionally removable), status badges and priority marks. Status is always a word, never colour alone.
+
+\`\`\`tsx
+import { Badge, Chip, Priority } from '@sprintstack/ui';
+
+<Chip toggle pressed={mine} onPressedChange={setMine}>Assigned to me</Chip>
+<Chip tone="ink" onRemove={() => removeLabel('ios')}>iOS</Chip>
+<Badge tone="review" />          {/* IN REVIEW */}
+<Priority level="high" />
+\`\`\``,
+      },
+    },
+  },
   args: { children: 'Payments' },
 } satisfies Meta<typeof Chip>;
 
@@ -81,6 +97,7 @@ function RemovableChips({ onRemove }: { onRemove: (label: string) => void }) {
 }
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onPressedChange: fn() },
   render: (args) => (
@@ -120,6 +137,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="flex gap-2">

@@ -28,6 +28,33 @@ const people = [
 const meta = {
   title: 'UI/Select',
   component: Select,
+  parameters: {
+    docs: {
+      description: {
+        component: `A field-shaped trigger that opens a menu. Options can carry an \`icon\`, \`avatar\`, \`status\` (shown as a badge), \`description\`, \`disabled\`, \`danger\`, or an \`action\` that runs instead of selecting.
+
+\`\`\`tsx
+import { Select } from '@sprintstack/ui';
+import { Clock, Trash2 } from 'lucide-react';
+
+<Select
+  value={sort}
+  onValueChange={setSort}
+  options={[
+    { value: 'recent', label: 'Most recent', icon: Clock },
+    { value: 'clear', label: 'Clear this view', icon: Trash2, danger: true, action: clearView },
+  ]}
+/>
+\`\`\`
+
+Long lists (people, projects): add \`searchable\` for a search box and virtualized rows.
+
+\`\`\`tsx
+<Select searchable value={assignee} onValueChange={setAssignee} options={people} placeholder="Unassigned" />
+\`\`\``,
+      },
+    },
+  },
   args: { options: sortOptions(), placeholder: 'Choose an order', onValueChange: fn() },
 } satisfies Meta<typeof Select>;
 
@@ -38,7 +65,8 @@ export const Playground: Story = {};
 
 /** Same states as design-system/reference/previews/Select.html (menu open on the first). */
 export const States: Story = {
-  parameters: { singleTheme: false },
+  // Opens a menu on load: give it its own frame on the docs page so the popup has room.
+  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-80 md:grid-cols-2">
       <Field label="Sort by">
@@ -75,6 +103,7 @@ export const More: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onValueChange: fn(), onClear: fn() } as never,
   render: (args) => {
@@ -126,6 +155,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <Field label="Status" description="Moves the issue on the board">
@@ -170,6 +200,7 @@ export const Searchable: Story = {
 };
 
 export const SearchableKeyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onValueChange: fn() },
   render: (args) => (

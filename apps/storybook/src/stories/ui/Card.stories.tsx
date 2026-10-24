@@ -5,6 +5,24 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/Card',
   component: Card,
+  parameters: {
+    docs: {
+      description: {
+        component: `A white sheet with a hairline edge (\`panel\`, the default), a board card (\`issue\`), or a solid poster \`tile\`. Keep one poster tile per screen.
+
+\`\`\`tsx
+import { Card } from '@sprintstack/ui';
+
+<Card variant="issue" issueKey="PAY-1482" title="Checkout fails on saved cards"
+  project="Payments · iOS" priority="highest" points={3} assignee="MO" onPress={open} />
+
+<Card variant="tile" tone="ink">
+  <p className="headline text-poster">Ship it.<br /><em>Sprint 24.</em></p>
+</Card>
+\`\`\``,
+      },
+    },
+  },
   args: { title: 'Sprint summary', children: '12 issues, 3 blocked. Ends Friday.' },
 } satisfies Meta<typeof Card>;
 
@@ -85,6 +103,7 @@ export const States: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onPress: fn() },
   render: (args) => (
@@ -128,6 +147,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="max-w-md">

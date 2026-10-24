@@ -33,6 +33,22 @@ const components = [
 const meta = {
   title: 'UI/MultiSelect',
   component: MultiSelect,
+  parameters: {
+    docs: {
+      description: {
+        component: `Collects choices as pills and opens a checkbox menu you can filter by typing. Rows are virtualized, so long lists stay fast. Supports \`creatable\`, \`max\`, async \`loadOptions\` and grey or outline pills.
+
+\`\`\`tsx
+import { MultiSelect } from '@sprintstack/ui';
+
+<MultiSelect value={labels} onValueChange={setLabels} options={labelOptions} creatable max={5} />
+
+// Search on the server as people type:
+<MultiSelect value={ids} onValueChange={setIds} options={[]} loadOptions={(q) => api.searchComponents(q)} />
+\`\`\``,
+      },
+    },
+  },
   args: { options: labels, placeholder: 'Add labels', onValueChange: fn() },
 } satisfies Meta<typeof MultiSelect>;
 
@@ -43,6 +59,8 @@ export const Playground: Story = {};
 
 /** Same states as design-system/reference/previews/MultiSelect.html (menu open on the first). */
 export const States: Story = {
+  // Opens a menu on load: give it its own frame on the docs page so the popup has room.
+  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-72 md:grid-cols-2">
       <Field label="Labels">
@@ -92,6 +110,7 @@ export const More: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <div className="pb-72">
@@ -137,6 +156,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="pb-72">
@@ -169,6 +189,7 @@ const manyComponents = Array.from({ length: 1000 }, (_, i) => ({
 
 /** Rows are virtualized: 1,000 options render only what's visible. */
 export const LongList: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onValueChange: fn() },
   render: (args) => (

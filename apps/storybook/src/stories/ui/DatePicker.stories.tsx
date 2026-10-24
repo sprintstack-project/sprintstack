@@ -17,6 +17,21 @@ const label = (offsetDays: number) => {
 const meta = {
   title: 'UI/DatePicker',
   component: DatePicker,
+  parameters: {
+    docs: {
+      description: {
+        component: `A field that opens a calendar: today ringed in ink, the selection filled red, and a month grid behind the title. Values are ISO dates (\`YYYY-MM-DD\`) and show as \`30 Oct 2026\`.
+
+\`\`\`tsx
+import { DatePicker } from '@sprintstack/ui';
+
+<DatePicker value={due} onValueChange={setDue} min={sprintStart} dueStyle />
+\`\`\`
+
+\`dueStyle\` adds "· Overdue" in red to past dates.`,
+      },
+    },
+  },
   args: { onValueChange: fn() },
 } satisfies Meta<typeof DatePicker>;
 
@@ -27,6 +42,8 @@ export const Playground: Story = {};
 
 /** Same states as design-system/reference/previews/DatePicker.html (calendar open on the first). */
 export const States: Story = {
+  // Opens a menu on load: give it its own frame on the docs page so the popup has room.
+  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-[440px] md:grid-cols-2">
       <Field label="Due date">
@@ -45,6 +62,8 @@ export const States: Story = {
 };
 
 export const More: Story = {
+  // Opens a menu on load: give it its own frame on the docs page so the popup has room.
+  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-80 md:grid-cols-2">
       <Field label="Release month" description="Opens on the month grid">
@@ -63,6 +82,7 @@ export const More: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <div className="pb-[440px]">
@@ -108,6 +128,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="pb-[440px]">

@@ -129,6 +129,30 @@ function IssueForm({ onSubmit, load }: IssueFormProps) {
 const meta = {
   title: 'Forms/IssueForm',
   component: IssueForm,
+  parameters: {
+    docs: {
+      description: {
+        component: `Forms use \`@sprintstack/forms\` (TanStack Form) with a schema from \`@sprintstack/shared\` (Zod), shared with the API. Fields show errors after you leave them or press submit, and clear as soon as they're fixed.
+
+\`\`\`tsx
+import { useAppForm } from '@sprintstack/forms';
+import { issueSchema } from '@sprintstack/shared';
+
+const form = useAppForm({
+  defaultValues,
+  validators: { onChange: issueSchema },
+  onSubmit: ({ value }) => api.createIssue(issueSchema.parse(value)),
+});
+
+<form.AppField name="summary">{(f) => <f.TextField label="Summary" required />}</form.AppField>
+<form.AppField name="description">{(f) => <f.RichTextField label="Description" required />}</form.AppField>
+<form.AppForm><form.SubmitButton>Create issue</form.SubmitButton></form.AppForm>
+\`\`\`
+
+Editing: load the record, then \`form.reset(record)\`; every field, including the rich text, fills in.`,
+      },
+    },
+  },
   args: { onSubmit: fn() },
 } satisfies Meta<typeof IssueForm>;
 

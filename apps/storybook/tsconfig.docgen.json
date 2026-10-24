@@ -1,0 +1,12 @@
+{
+  // Only for the props tables (react-docgen-typescript in .storybook/main.ts): adds the component
+  // sources in packages/ui, which tsconfig.app.json doesn't list. Not used for type-checking.
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": { "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.docgen.tsbuildinfo" },
+  "include": [
+    "src",
+    "../../packages/ui/src",
+    "../../packages/ui/design-system/components/index.d.ts"
+  ],
+  "exclude": ["../../packages/ui/src/**/*.native.tsx", "../../packages/ui/src/**/*.native.ts"]
+}

@@ -18,5 +18,20 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-docs'),
   ],
   framework: getAbsolutePath('@storybook/react-vite'),
+  // Props tables: our props types live in other files (packages/ui/.../types.ts and the
+  // design-system contract), which only react-docgen-typescript follows.
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: './tsconfig.docgen.json',
+      // Component sources live outside this app; document them as well as the stories.
+      include: ['src/**/*.tsx', '../../packages/ui/src/**/*.tsx'],
+      exclude: ['**/*.stories.tsx', '**/*.native.tsx'],
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      // Our props only, not every DOM/React attribute.
+      propFilter: (prop) => !prop.parent?.fileName.includes('node_modules'),
+    },
+  },
 };
 export default config;

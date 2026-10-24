@@ -5,6 +5,21 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/TextArea',
   component: TextArea,
+  parameters: {
+    docs: {
+      description: {
+        component: `The multi-line field. Grows with its content up to 320px. With \`maxLength\` it shows a counter; past the limit the counter turns red and the field is invalid, but the text is never cut off.
+
+\`\`\`tsx
+import { Field, TextArea } from '@sprintstack/ui';
+
+<Field label="Release note" description="Visible to customers">
+  <TextArea value={note} onChange={setNote} maxLength={140} rows={4} />
+</Field>
+\`\`\``,
+      },
+    },
+  },
   args: { placeholder: 'Steps to reproduce, expected and actual result', onChange: fn() },
 } satisfies Meta<typeof TextArea>;
 
@@ -41,6 +56,7 @@ export const States: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <div className="grid max-w-md gap-5">
@@ -66,6 +82,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <Field label="Release note" description="Visible to customers">

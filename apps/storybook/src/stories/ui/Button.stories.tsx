@@ -6,6 +6,22 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/Button',
   component: Button,
+  parameters: {
+    docs: {
+      description: {
+        component: `Fat pills with heavy condensed labels. \`primary\` (ink) for the main action, \`brand\` (red) for the one action you want people to take (at most one per view), \`secondary\` and \`danger\` outlines, \`ghost\` for icon buttons in bars, \`link\` for inline text actions.
+
+\`\`\`tsx
+import { Button } from '@sprintstack/ui';
+import { Plus, Bookmark } from 'lucide-react'; // lucide-react-native on mobile
+
+<Button variant="primary" icon={Plus} onClick={create}>Create issue</Button>
+<Button variant="brand">Start sprint</Button>
+<Button variant="ghost" iconOnly icon={Bookmark}>Watch</Button> {/* children = accessible name */}
+\`\`\``,
+      },
+    },
+  },
   args: { children: 'Create issue', onClick: fn() },
   argTypes: {
     variant: {
@@ -75,6 +91,7 @@ export const WithIcons: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   args: { onClick: fn() },
   render: (args) => (
@@ -114,6 +131,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <div className="flex gap-3">

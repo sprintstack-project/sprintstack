@@ -5,6 +5,21 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 const meta = {
   title: 'UI/NumberInput',
   component: NumberInput,
+  parameters: {
+    docs: {
+      description: {
+        component: `A stepper: minus, the value, plus. Steppers stop at \`min\`/\`max\`; typed values outside the range stay as typed and are flagged, so put the range in the Field's error.
+
+\`\`\`tsx
+import { Field, NumberInput } from '@sprintstack/ui';
+
+<Field label="Story points" error={points > 21 ? 'Story points go up to 21' : undefined}>
+  <NumberInput value={points} onValueChange={setPoints} min={0} max={21} />
+</Field>
+\`\`\``,
+      },
+    },
+  },
   args: { defaultValue: 3, min: 0, max: 21, onValueChange: fn() },
 } satisfies Meta<typeof NumberInput>;
 
@@ -34,6 +49,7 @@ export const States: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <Field label="Story points">
@@ -63,6 +79,7 @@ export const Keyboard: Story = {
 };
 
 export const Labels: Story = {
+  tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: () => (
     <Field label="Capacity" error="Must be 100% or less">
