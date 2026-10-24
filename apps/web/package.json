@@ -3,16 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3001",
     "lint": "biome check",
     "format": "biome format --write"
   },
   "dependencies": {
+    "@better-auth/passkey": "^1.7.12",
     "@sprintstack/forms": "workspace:^",
     "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",
+    "better-auth": "^1.7.12",
     "lucide-react": "^1.61.0",
     "next": "16.4.3",
     "react": "19.3.0",
