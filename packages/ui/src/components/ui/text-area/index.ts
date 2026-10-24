@@ -1,1 +1,1 @@
-export * from '@ui/text-area/text-area';
+export { default as TextArea } from '@ui/text-area/text-area';

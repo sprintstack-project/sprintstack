@@ -4,7 +4,7 @@ import { Search } from 'lucide-react-native';
 import { TextInput, View } from 'react-native';
 
 /** The search pill at the top of a select sheet (searchable Select, MultiSelect). */
-export function SearchBox({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+const SearchBox = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const muted = useTokenColor('ink-muted');
   return (
     <View className="mb-1 h-12 flex-row items-center gap-3 rounded-full bg-surface-muted px-4">
@@ -22,4 +22,6 @@ export function SearchBox({ value, onChange }: { value: string; onChange: (v: st
       />
     </View>
   );
-}
+};
+
+export default SearchBox;

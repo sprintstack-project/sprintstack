@@ -18,7 +18,7 @@ const sizes = { sm: 'h-[2.125rem] pr-3 pl-3.5 text-[0.9375rem]', md: 'h-10 px-4 
 
 const focus = 'focus-visible:outline-2 focus-visible:outline-focus-ring';
 
-export function Chip({
+const Chip = ({
   children,
   tone = 'neutral',
   size,
@@ -30,7 +30,7 @@ export function Chip({
   defaultPressed,
   onPressedChange,
   count,
-}: ChipProps) {
+}: ChipProps) => {
   if (toggle) {
     // Filter pill: outline, filled ink when on.
     return (
@@ -98,4 +98,6 @@ export function Chip({
       )}
     </span>
   );
-}
+};
+
+export default Chip;

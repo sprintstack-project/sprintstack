@@ -1,1 +1,1 @@
-export * from '@ui/input-password/input-password';
+export { default as InputPassword } from '@ui/input-password/input-password';

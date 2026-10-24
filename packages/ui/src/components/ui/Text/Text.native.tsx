@@ -17,7 +17,7 @@ function familyFor(fontWeight: unknown) {
  * fontWeight, so this reads the weight from the classes and style and picks that weight's family.
  * Use it in place of react-native's Text everywhere.
  */
-export function Text({ className, style, ...rest }: TextProps) {
+const Text = ({ className, style, ...rest }: TextProps) => {
   const resolved = useResolveClassNames(className ?? '');
   const { fontWeight } = StyleSheet.flatten([resolved, style]) ?? {};
   return (
@@ -28,4 +28,6 @@ export function Text({ className, style, ...rest }: TextProps) {
       style={[style, { fontFamily: familyFor(fontWeight), fontWeight: 'normal' }]}
     />
   );
-}
+};
+
+export default Text;

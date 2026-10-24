@@ -1,1 +1,1 @@
-export * from '@ui/chip/chip';
+export { default as Chip } from '@ui/chip/chip';

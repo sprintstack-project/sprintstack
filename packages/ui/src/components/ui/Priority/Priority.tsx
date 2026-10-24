@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, Equal } from 'lucide-react';
 const icons = { up: ArrowUp, flat: Equal, down: ArrowDown };
 
 /** An arrow plus the priority's name; the name carries the meaning, the red arrow only helps scanning. */
-export function Priority({ level }: PriorityProps) {
+const Priority = ({ level }: PriorityProps) => {
   const direction = PRIORITY_DIRECTION[level];
   const Icon = icons[direction];
   return (
@@ -22,4 +22,6 @@ export function Priority({ level }: PriorityProps) {
       {PRIORITY_LABEL[level]}
     </span>
   );
-}
+};
+
+export default Priority;

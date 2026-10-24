@@ -4,11 +4,10 @@ import { Combobox } from '@base-ui/react/combobox';
 import { usePortalContainer } from '@lib/portal-container';
 import { isImageUrl, STATUS_LABEL } from '@lib/status';
 import { popupFrame, row } from '@ui/select/menu';
-import { OptionContent, optionText } from '@ui/select/option-content';
-import {
+import OptionContent, { optionText } from '@ui/select/option-content';
+import VirtualOptionList, {
   type OptionVirtualizer,
   scrollHighlightedIntoView,
-  VirtualOptionList,
 } from '@ui/select/virtual-option-list';
 import type { MultiSelectProps, Option } from '@ui/types';
 import { clsx } from 'clsx';
@@ -27,7 +26,7 @@ const chipTones = {
 const CREATE = Symbol('create');
 type Item<V> = Option<V> & { [CREATE]?: true };
 
-export function MultiSelect<V = string>({
+const MultiSelect = <V = string>({
   id,
   options,
   value,
@@ -42,7 +41,7 @@ export function MultiSelect<V = string>({
   invalid,
   disabled,
   onBlur,
-}: MultiSelectProps<V>) {
+}: MultiSelectProps<V>) => {
   const container = usePortalContainer();
   const field = useRef<HTMLDivElement>(null);
   const virtualizer = useRef<OptionVirtualizer | null>(null);
@@ -183,7 +182,7 @@ export function MultiSelect<V = string>({
       </Combobox.Portal>
     </Combobox.Root>
   );
-}
+};
 
 interface PillFieldProps<V> {
   box: RefObject<HTMLDivElement | null>;
@@ -195,14 +194,14 @@ interface PillFieldProps<V> {
 }
 
 /** The field: pills plus the filter input. Past two rows, pills collapse to "+N more" until focused. */
-function PillField<V>({
+const PillField = <V,>({
   box,
   selected,
   chipTone,
   invalid,
   disabled,
   placeholder,
-}: PillFieldProps<V>) {
+}: PillFieldProps<V>) => {
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(Number.POSITIVE_INFINITY);
   const [width, setWidth] = useState(0);
@@ -303,4 +302,6 @@ function PillField<V>({
       </Combobox.Trigger>
     </Combobox.Chips>
   );
-}
+};
+
+export default MultiSelect;

@@ -16,7 +16,7 @@ import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { useTokenColor } from '@lib/use-token-color.native';
 import { Button } from '@ui/button';
 import { useField } from '@ui/field';
-import { Caret } from '@ui/select/caret';
+import Caret from '@ui/select/caret';
 import { Text } from '@ui/text';
 import type { DatePickerProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -24,7 +24,8 @@ import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-export function DatePicker({
+const DatePicker = ({
+  id,
   value,
   defaultValue,
   onValueChange,
@@ -38,7 +39,7 @@ export function DatePicker({
   invalid,
   disabled,
   onBlur,
-}: DatePickerProps) {
+}: DatePickerProps) => {
   const field = useField();
   const sheet = useRef<SheetRef>(null);
   const [open, setOpen] = useState(false);
@@ -80,6 +81,7 @@ export function DatePicker({
   return (
     <>
       <Pressable
+        nativeID={id}
         accessibilityRole="button"
         accessibilityLabel={
           field ? `${field.label}, ${selected ? formatDate(selected) : placeholder}` : undefined
@@ -232,10 +234,10 @@ export function DatePicker({
       </Sheet>
     </>
   );
-}
+};
 
 /** A round 44px day: today is ringed in ink, the selection filled red, so the two can't be confused. */
-function Day({
+const Day = ({
   day,
   today,
   selected,
@@ -247,7 +249,7 @@ function Day({
   selected: boolean;
   disabled: boolean;
   onPress: () => void;
-}) {
+}) => {
   return (
     <Pressable
       accessibilityRole="button"
@@ -271,4 +273,6 @@ function Day({
       </Text>
     </Pressable>
   );
-}
+};
+
+export default DatePicker;

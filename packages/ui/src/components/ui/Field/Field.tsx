@@ -22,7 +22,7 @@ export function useField() {
   return useContext(FieldContext);
 }
 
-export function Field({ label, htmlFor, description, error, required, children }: FieldProps) {
+const Field = ({ label, htmlFor, description, error, required, children }: FieldProps) => {
   const invalid = Boolean(error);
   const labelId = useId();
   const hintId = useId();
@@ -35,7 +35,7 @@ export function Field({ label, htmlFor, description, error, required, children }
           id={labelId}
           // An explicit undefined would override the id Base UI wires up.
           {...(htmlFor && { htmlFor })}
-          className="text-[1.0625rem] leading-[1.375rem] font-bold font-stretch-semi-condensed text-ink"
+          className="text-[1.0625rem] leading-5.5 font-bold font-stretch-semi-condensed text-ink"
         >
           {label}
           {required && (
@@ -53,7 +53,7 @@ export function Field({ label, htmlFor, description, error, required, children }
           match
           className={`flex items-center gap-1 font-bold text-brand-ink ${meta}`}
         >
-          <CircleAlert aria-hidden strokeWidth={2} className="size-[1.125rem] shrink-0" />
+          <CircleAlert aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
           {error}
         </BaseField.Error>
       ) : (
@@ -65,4 +65,6 @@ export function Field({ label, htmlFor, description, error, required, children }
       )}
     </BaseField.Root>
   );
-}
+};
+
+export default Field;

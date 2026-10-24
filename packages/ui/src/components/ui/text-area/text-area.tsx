@@ -5,7 +5,7 @@ import type { TextAreaProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 
-export function TextArea({
+const TextArea = ({
   id,
   value,
   defaultValue,
@@ -16,7 +16,7 @@ export function TextArea({
   invalid,
   disabled,
   onBlur,
-}: TextAreaProps) {
+}: TextAreaProps) => {
   // Track the text ourselves when uncontrolled, so the counter stays live.
   const [draft, setDraft] = useState(defaultValue ?? '');
   const length = (value ?? draft).length;
@@ -59,4 +59,6 @@ export function TextArea({
       )}
     </div>
   );
-}
+};
+
+export default TextArea;

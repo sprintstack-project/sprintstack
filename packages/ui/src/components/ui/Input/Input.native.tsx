@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function Input({
+const Input = ({
   id,
   value,
   defaultValue,
@@ -18,7 +18,7 @@ export function Input({
   invalid,
   disabled,
   onBlur,
-}: InputProps) {
+}: InputProps) => {
   const field = useField();
   const [focused, setFocused] = useState(false);
   const slotColor = useTokenColor(disabled ? 'ink-disabled' : 'ink-muted');
@@ -63,4 +63,6 @@ export function Input({
       {slots?.right && <View className="shrink-0">{tintSlot(slots.right, slotColor)}</View>}
     </View>
   );
-}
+};
+
+export default Input;

@@ -17,7 +17,7 @@ const parse = (text: string) => {
 };
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function NumberInput({
+const NumberInput = ({
   id,
   value,
   defaultValue,
@@ -30,7 +30,7 @@ export function NumberInput({
   invalid,
   disabled,
   onBlur,
-}: NumberInputProps) {
+}: NumberInputProps) => {
   const field = useField();
   const [focused, setFocused] = useState(false);
   const [draft, setDraft] = useState(defaultValue ?? null);
@@ -149,4 +149,6 @@ export function NumberInput({
       {stepper(1, canIncrement)}
     </View>
   );
-}
+};
+
+export default NumberInput;

@@ -5,8 +5,8 @@ import { isImageUrl } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
 import { Button } from '@ui/button';
 import { useField } from '@ui/field';
-import { OptionContent, optionText } from '@ui/select/option-content';
-import { SearchBox } from '@ui/select/search-box';
+import OptionContent, { optionText } from '@ui/select/option-content';
+import SearchBox from '@ui/select/search-box';
 import { Text } from '@ui/text';
 import type { MultiSelectProps, Option } from '@ui/types';
 import { clsx } from 'clsx';
@@ -21,7 +21,7 @@ const chipTones = {
   outline: { box: 'border-[1.5px] border-line-strong', text: 'text-ink', icon: 'ink' },
 };
 
-export function MultiSelect<V = string>({
+const MultiSelect = <V = string>({
   options,
   value,
   defaultValue,
@@ -35,7 +35,7 @@ export function MultiSelect<V = string>({
   invalid,
   disabled,
   onBlur,
-}: MultiSelectProps<V>) {
+}: MultiSelectProps<V>) => {
   const field = useField();
   const sheet = useRef<SheetRef>(null);
   const [open, setOpen] = useState(false);
@@ -226,9 +226,9 @@ export function MultiSelect<V = string>({
       </Sheet>
     </>
   );
-}
+};
 
-function Pill<V>({
+const Pill = <V,>({
   option,
   tone,
   disabled,
@@ -238,7 +238,7 @@ function Pill<V>({
   tone: keyof typeof chipTones;
   disabled?: boolean;
   onRemove: () => void;
-}) {
+}) => {
   const style = chipTones[tone];
   const color = useTokenColor(style.icon);
   const label = optionText(option);
@@ -281,9 +281,9 @@ function Pill<V>({
       )}
     </View>
   );
-}
+};
 
-function CheckBox({ checked, disabled }: { checked: boolean; disabled?: boolean }) {
+const CheckBox = ({ checked, disabled }: { checked: boolean; disabled?: boolean }) => {
   const onInk = useTokenColor('on-ink');
   return (
     <View
@@ -296,9 +296,9 @@ function CheckBox({ checked, disabled }: { checked: boolean; disabled?: boolean 
       {checked && <Check aria-hidden size={scaled(16)} strokeWidth={3} color={onInk} />}
     </View>
   );
-}
+};
 
-function CreateRow({ label, onPress }: { label: string; onPress: () => void }) {
+const CreateRow = ({ label, onPress }: { label: string; onPress: () => void }) => {
   const ink = useTokenColor('ink');
   return (
     <Pressable
@@ -312,9 +312,11 @@ function CreateRow({ label, onPress }: { label: string; onPress: () => void }) {
       </Text>
     </Pressable>
   );
-}
+};
 
-function Chevron({ disabled }: { disabled?: boolean }) {
+const Chevron = ({ disabled }: { disabled?: boolean }) => {
   const color = useTokenColor(disabled ? 'ink-disabled' : 'ink-muted');
   return <ChevronDown aria-hidden size={scaled(24)} strokeWidth={2} color={color} />;
-}
+};
+
+export default MultiSelect;

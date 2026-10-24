@@ -9,7 +9,7 @@ import { TextInput, View } from 'react-native';
 
 // Roughly one text line per row, matching web's rows attribute.
 
-export function TextArea({
+const TextArea = ({
   id,
   value,
   defaultValue,
@@ -20,7 +20,7 @@ export function TextArea({
   invalid,
   disabled,
   onBlur,
-}: TextAreaProps) {
+}: TextAreaProps) => {
   const field = useField();
   const [focused, setFocused] = useState(false);
   const [draft, setDraft] = useState(defaultValue ?? '');
@@ -79,4 +79,6 @@ export function TextArea({
       )}
     </View>
   );
-}
+};
+
+export default TextArea;

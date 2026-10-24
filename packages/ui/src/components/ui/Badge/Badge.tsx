@@ -2,7 +2,7 @@ import { STATUS_CLASSES, STATUS_LABEL } from '@lib/status';
 import type { BadgeProps } from '@ui/types';
 import { clsx } from 'clsx';
 
-export function Badge({ tone, children }: BadgeProps) {
+const Badge = ({ tone, children }: BadgeProps) => {
   return (
     <span
       className={clsx(
@@ -14,4 +14,6 @@ export function Badge({ tone, children }: BadgeProps) {
       {children ?? STATUS_LABEL[tone]}
     </span>
   );
-}
+};
+
+export default Badge;

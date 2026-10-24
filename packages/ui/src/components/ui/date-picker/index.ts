@@ -1,1 +1,1 @@
-export * from '@ui/date-picker/date-picker';
+export { default as DatePicker } from '@ui/date-picker/date-picker';

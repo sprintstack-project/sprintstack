@@ -1,7 +1,6 @@
 # SprintStack Bold design system
 
-This project's UI follows the **SprintStack Bold** design system. The full spec is in `design-system/`.
-Read `design-system/README.md` before building or changing any UI.
+This project's UI follows the **SprintStack Bold** design system: Bold's layout and type in Instrument's colours. The tokens in `src/styles/` and the props contract in `src/components/ui/types.ts` are the source of truth.
 
 ## Stack
 - Web: React + **Base UI** (`@base-ui/react`, headless) styled with **Tailwind CSS v4**.
@@ -10,24 +9,19 @@ Read `design-system/README.md` before building or changing any UI.
 - Font: Archivo (Google Fonts, variable width). Condensed styles use `font-stretch: 75%`.
 
 ## Where things are
-- `design-system/README.md`: foundations (colour, type, spacing, states, content rules). The source of truth.
-- `design-system/tokens.json`: every token, with a usage note. Never hard-code a value that has a token.
-- `design-system/components/<Name>.md`: guidelines plus a Base UI + Tailwind recipe per component.
-- `design-system/components/index.d.ts`: the props contract. Components must implement these props on web and native.
-- `design-system/reference/`: a plain-React reference implementation (`bundle.js`, `bundle.css`) and live previews (open the `.html` files to compare). Reference only. Don't ship or import it.
-- `src/styles/`: the Tailwind v4 token system. Two themes only: `light` (Day) and `dark` (Night).
+- `src/styles/`: the Tailwind v4 token system. Never hard-code a value that has a token. Two themes only: `light` (Day) and `dark` (Night).
   - `theme.css`: shared `@theme` (colour and shadow names, radii, type scale). Every colour is `--color-<name>: var(--color-<name>)`; values come from the platform file.
   - `tokens.web.css`: web values under `@layer base`, keyed by `[data-theme="light" | "dark"]` with a `prefers-color-scheme` fallback; Archivo via `--font-archivo` (next/font) or the Google Fonts family.
   - `tokens.native.css`: Uniwind values in `@layer theme { :root { @variant light {…} @variant dark {…} } }`. Both variants must define the same variables.
   - `utilities.css`: web-only `field`, `headline`, `eyebrow`, `link`, `kbd-focus` utilities.
   - Entry points: web apps `@import "tailwindcss"` then `@sprintstack/ui/styles/web.css`; mobile `@import "tailwindcss"`, `"uniwind"`, then `@sprintstack/ui/styles/native.css`.
-  - When a token changes in `tokens.json`, update both `tokens.web.css` and `tokens.native.css`.
+  - When a token changes, update `tokens.web.css`, `tokens.native.css` and `src/theme/tokens.ts` together.
 - `src/theme/tokens.ts`: the same values for JS (e.g. icon `color` props on native).
 
 ## Rules
 - Import inside the package with aliases, never relative paths: `@ui/*` → `src/components/ui/*`, `@lib/*` → `src/lib/*`. Apps compile this source, so a new alias must be added to `packages/ui/tsconfig.web.json` and `tsconfig.native.json`, the `paths` of `apps/web`, `apps/mobile`, `apps/storybook/tsconfig.app.json` and `packages/forms/tsconfig.json`, and `resolve.alias` in `apps/storybook/vite.config.ts`.
-- Build components in `src/components/ui/<kebab-name>/` (web: `<kebab-name>.tsx`; native: `<kebab-name>.native.tsx`) with one shared `types.ts` re-exporting from `design-system/components/index.d.ts`.
-- `types.ts` overrides the contract where we deliberately differ: icons are components imported from `lucide-react` / `lucide-react-native` (`icon={Plus}`), never name strings; `Input` takes `slots={{ left, right }}` (any node: icon, unit, or a labelled action button) in place of `leadingIcon` / `trailing`.
+- Build components in `src/components/ui/<kebab-name>/` (web: `<kebab-name>.tsx`; native: `<kebab-name>.native.tsx`) with one shared `types.ts` holding the props contract (components must implement these props on web and native).
+- In `types.ts`, icons are components imported from `lucide-react` / `lucide-react-native` (`icon={Plus}`), never name strings; `Input` takes `slots={{ left, right }}` (any node: icon, unit, or a labelled action button).
 - Native components (`<Name>.native.tsx`) share helpers in `src/lib/`: `fieldShell()` (the 56px field outline; pass focus state yourself), `tintSlot()`, `useTokenColor()` (raw colours for Lucide's `color` prop: native has no colour inheritance), and `Sheet` (react-native-actions-sheet, used by Select, MultiSelect and DatePicker). Type-check native with `tsconfig.native.json` (`yarn workspace @sprintstack/ui typecheck` runs both). `tsconfig.json` is only a solution file referencing the two, so editors give `*.native.tsx` the Uniwind `className` types.
 - On native, import `Text` from `@ui/Text` (apps: `@sprintstack/ui`), never from `react-native`. RN can't apply a custom font's weights, so it reads the weight from the classes and sets the matching Archivo family (`src/lib/fonts.ts`); apps load those families with `useFonts` from `@expo-google-fonts/archivo`.
 - Native text never inherits colour: put the text colour class on the `<Text>`, not its parent. Write class names out in full (no `` `text-${tone}` ``): Tailwind and Uniwind only generate classes they can find verbatim. Shared class maps live in `src/lib/*.ts`, which both apps scan.

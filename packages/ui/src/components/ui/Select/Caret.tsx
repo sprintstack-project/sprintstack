@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
 /** The solid ▾ caret for selects (multi-selects and nav use a chevron). Rotates while open. */
-export function Caret({ className }: { className?: string }) {
+const Caret = ({ className }: { className?: string }) => {
   return (
     <svg
       aria-hidden
@@ -14,4 +14,6 @@ export function Caret({ className }: { className?: string }) {
       <path d="M0 0h10L5 6z" />
     </svg>
   );
-}
+};
+
+export default Caret;

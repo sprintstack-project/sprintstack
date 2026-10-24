@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 const icons = { up: ArrowUp, flat: Equal, down: ArrowDown };
 
-export function Priority({ level }: PriorityProps) {
+const Priority = ({ level }: PriorityProps) => {
   const direction = PRIORITY_DIRECTION[level];
   const Icon = icons[direction];
   const color = useTokenColor(direction === 'up' ? 'brand-ink' : 'ink');
@@ -20,4 +20,6 @@ export function Priority({ level }: PriorityProps) {
       </Text>
     </View>
   );
-}
+};
+
+export default Priority;

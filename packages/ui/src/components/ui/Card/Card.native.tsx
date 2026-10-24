@@ -16,7 +16,7 @@ const tiles = {
   muted: { box: 'bg-surface-muted', text: 'text-ink' },
 };
 
-export function Card(props: CardProps) {
+const Card = (props: CardProps) => {
   if (props.variant === 'tile') return <Tile {...props} />;
   if (props.variant === 'issue') return <IssueCard {...props} />;
 
@@ -53,10 +53,10 @@ export function Card(props: CardProps) {
       )}
     </View>
   );
-}
+};
 
 /** Tiles carry an eyebrow and a poster or headline; pass styled <Text> as children. */
-function Tile({ tone = 'brand', eyebrow, children }: CardProps) {
+const Tile = ({ tone = 'brand', eyebrow, children }: CardProps) => {
   return (
     <View
       className={clsx(
@@ -78,9 +78,9 @@ function Tile({ tone = 'brand', eyebrow, children }: CardProps) {
       {children}
     </View>
   );
-}
+};
 
-function IssueCard({
+const IssueCard = ({
   title,
   issueKey,
   status,
@@ -97,7 +97,7 @@ function IssueCard({
   selected,
   linkLabel = 'View issue',
   onPress,
-}: CardProps) {
+}: CardProps) => {
   const [isWatched, setWatched] = useState(Boolean(watched));
   const ink = useTokenColor('ink');
   const muted = useTokenColor('ink-muted');
@@ -213,4 +213,6 @@ function IssueCard({
       )}
     </Pressable>
   );
-}
+};
+
+export default Card;

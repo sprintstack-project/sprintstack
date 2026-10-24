@@ -4,7 +4,7 @@ import type { BadgeProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { View } from 'react-native';
 
-export function Badge({ tone, children }: BadgeProps) {
+const Badge = ({ tone, children }: BadgeProps) => {
   return (
     <View
       className={clsx(
@@ -23,4 +23,6 @@ export function Badge({ tone, children }: BadgeProps) {
       </Text>
     </View>
   );
-}
+};
+
+export default Badge;

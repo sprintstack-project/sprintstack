@@ -1,1 +1,1 @@
-export * from '@ui/text/text';
+export { default as Text } from '@ui/text/text';

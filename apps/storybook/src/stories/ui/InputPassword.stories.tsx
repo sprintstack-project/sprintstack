@@ -1,7 +1,5 @@
-import { Button, Field, InputPassword } from '@sprintstack/ui';
+import { Field, InputPassword } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Eye, EyeOff, Mail, Search, X } from 'lucide-react';
-import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -10,35 +8,19 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: `A 56px text field. \`slots\` put icons, units or actions on either side; \`pill\` makes the search-bar style.
+        component: `A 56px password field with a show/hide toggle. Wrap it in \`Field\` like every other control.
 
 \`\`\`tsx
-import { Button, Input } from '@sprintstack/ui';
-import { Search } from 'lucide-react';
+import { Field, InputPassword } from '@sprintstack/ui';
 
-<Input value={query} onChange={setQuery} placeholder="E.g. checkout bug" />
-
-<Input
-  pill
-  slots={{ left: <Search />, right: <Button variant="brand" size="sm">Search</Button> }}
-/>
-\`\`\`
-
-Wrap it (and every other control) in \`Field\` for the bold label, helper text and red error. Base UI controls link to the label automatically, and the error replaces the helper text:
-
-\`\`\`tsx
-import { Field, Input } from '@sprintstack/ui';
-
-<Field label="Reporter email" required description="We'll let them know" error={errors.email}>
-  <Input type="email" value={email} onChange={setEmail} onBlur={validate} />
+<Field label="Password" error={errors.password}>
+  <InputPassword value={password} onChange={setPassword} onBlur={validate} />
 </Field>
-\`\`\`
-
-In forms, \`@sprintstack/forms\` renders the Field for you: \`<f.TextField label="Summary" />\`.`,
+\`\`\``,
       },
     },
   },
-  args: { placeholder: 'E.g. checkout bug', onChange: fn() },
+  args: { placeholder: 'At least 12 characters', onChange: fn() },
 } satisfies Meta<typeof InputPassword>;
 
 export default meta;
@@ -46,152 +28,81 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-/** Same states as design-system/reference/previews/Input.html. */
 export const States: Story = {
   render: () => (
-    <div className="flex max-w-3xl flex-col gap-5">
-      <InputPassword
-        pill
-        placeholder="E.g. checkout bug"
-        slots={{
-          left: <Search />,
-          right: (
-            <Button variant="brand" size="sm">
-              Search
-            </Button>
-          ),
-        }}
-      />
-      <div className="grid gap-5 md:grid-cols-2">
-        <Field label="Title">
-          <InputPassword placeholder="What needs to be done?" />
-        </Field>
-        <Field label="Project key" description="Set when the project was created">
-          <Input defaultValue="PAY" disabled />
-        </Field>
-      </div>
-    </div>
-  ),
-};
-
-function PasswordInput() {
-  const [visible, setVisible] = useState(false);
-  return (
-    <InputPassword
-      type={visible ? 'text' : 'password'}
-      defaultValue="hunter22"
-      slots={{
-        right: (
-          <Button
-            variant="ghost"
-            size="sm"
-            iconOnly
-            icon={visible ? EyeOff : Eye}
-            onClick={() => setVisible(!visible)}
-          >
-            {visible ? 'Hide password' : 'Show password'}
-          </Button>
-        ),
-      }}
-    />
-  );
-}
-
-function ClearableInput() {
-  const [value, setValue] = useState('Checkout');
-  return (
-    <InputPassword
-      type="search"
-      value={value}
-      onChange={setValue}
-      slots={{
-        left: <Search />,
-        right: value ? (
-          <Button variant="ghost" size="sm" iconOnly icon={X} onClick={() => setValue('')}>
-            Clear search
-          </Button>
-        ) : null,
-      }}
-    />
-  );
-}
-
-/** Left and right slots take icons, text or actions. */
-export const Slots: Story = {
-  render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
-      <Field label="Reporter email">
-        <InputPassword type="email" placeholder="E.g. sam@example.com" slots={{ left: <Mail /> }} />
-      </Field>
       <Field label="Password">
-        <PasswordInput />
+        <InputPassword placeholder="At least 12 characters" />
       </Field>
-      <Field label="Search issues">
-        <ClearableInput />
+      <Field label="Current password" description="The one you use to sign in today">
+        <InputPassword defaultValue="hunter22" />
       </Field>
-      <Field label="Budget">
-        <InputPassword
-          defaultValue="1200"
-          slots={{ right: <span className="text-body">EUR</span> }}
-        />
+      <Field label="New password" error="Use at least 12 characters">
+        <InputPassword defaultValue="short" />
       </Field>
-      <Field label="Reporter email" error="Enter a valid email address">
-        <InputPassword type="email" defaultValue="not-an-email" slots={{ left: <Mail /> }} />
-      </Field>
-      <Field label="Reporter email" description="Synced from your profile">
-        <InputPassword
-          type="email"
-          defaultValue="sam@example.com"
-          disabled
-          slots={{ left: <Mail /> }}
-        />
+      <Field label="Password" description="Managed by your organisation's sign-on">
+        <InputPassword defaultValue="hunter22" disabled />
       </Field>
     </div>
   ),
 };
 
-export const Keyboard: Story = {
+/** The toggle reveals and hides the text, and is a labelled button. */
+export const Toggle: Story = {
   tags: ['!autodocs'],
   parameters: { singleTheme: true },
   render: (args) => (
     <div className="grid max-w-md gap-5">
-      <Field label="Search issues">
-        <InputPassword
-          onChange={args.onChange}
-          slots={{
-            left: <Search />,
-            right: (
-              <Button variant="brand" size="sm">
-                Search
-              </Button>
-            ),
-          }}
-        />
-      </Field>
-      <Field label="Project key">
-        <InputPassword defaultValue="PAY" disabled />
+      <Field label="Password">
+        <InputPassword onChange={args.onChange} />
       </Field>
     </div>
   ),
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    const search = canvas.getByRole('textbox', { name: 'Search issues' });
+    const input = canvas.getByLabelText('Password');
+
+    await userEvent.type(input, 'hunter22');
+    await expect(args.onChange).toHaveBeenLastCalledWith('hunter22');
+    await expect(input).toHaveAttribute('type', 'password');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Show password' }));
+    await expect(input).toHaveAttribute('type', 'text');
+    await expect(input).toHaveValue('hunter22');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Hide password' }));
+    await expect(input).toHaveAttribute('type', 'password');
+  },
+};
+
+export const Keyboard: Story = {
+  tags: ['!autodocs'],
+  parameters: { singleTheme: true },
+  render: () => (
+    <div className="grid max-w-md gap-5">
+      <Field label="Password">
+        <InputPassword />
+      </Field>
+      <Field label="Managed password">
+        <InputPassword defaultValue="hunter22" disabled />
+      </Field>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Password');
 
     await userEvent.tab();
-    await expect(search).toHaveFocus();
-    await userEvent.keyboard('Login');
-    await expect(search).toHaveValue('Login');
-    await expect(args.onChange).toHaveBeenLastCalledWith('Login');
+    await expect(input).toHaveFocus();
 
-    // Tab reaches the action in the right slot; the disabled field is skipped.
+    // Tab reaches the toggle; Enter flips it. The disabled field and its toggle are skipped.
     await userEvent.tab();
-    await expect(canvas.getByRole('button', { name: 'Search' })).toHaveFocus();
+    const [toggle] = canvas.getAllByRole('button', { name: 'Show password' });
+    await expect(toggle).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await expect(input).toHaveAttribute('type', 'text');
     await userEvent.tab();
-    await expect(canvas.getByRole('textbox', { name: 'Project key' })).not.toHaveFocus();
-
-    // Clicking a label moves focus to its control.
-    await userEvent.click(canvas.getByText('Search issues'));
-    await expect(search).toHaveFocus();
+    await expect(canvas.getByLabelText('Managed password')).not.toHaveFocus();
   },
 };
 
@@ -200,46 +111,17 @@ export const Labels: Story = {
   parameters: { singleTheme: true },
   render: () => (
     <div className="grid max-w-md gap-5">
-      <Field
-        label="Summary"
-        required
-        htmlFor="summary"
-        description="Shown on boards and in notifications"
-      >
-        <InputPassword id="summary" placeholder="Enter a summary" />
-      </Field>
-      <Field label="Reporter email" error="Enter a valid email address">
-        <InputPassword type="email" defaultValue="not-an-email" slots={{ left: <Mail /> }} />
-      </Field>
-      <Field label="Search issues">
-        <ClearableInput />
+      <Field label="New password" error="Use at least 12 characters">
+        <InputPassword defaultValue="short" />
       </Field>
     </div>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // The asterisk is decorative, so the name is just the label; the description is announced.
-    const summary = canvas.getByRole('textbox', { name: 'Summary' });
-    await expect(summary).toHaveAttribute('id', 'summary');
-    await expect(summary).toHaveAccessibleDescription('Shown on boards and in notifications');
-    await expect(summary).not.toHaveAttribute('aria-invalid');
-
-    // Slot content never leaks into the field's name.
-    const email = canvas.getByRole('textbox', { name: 'Reporter email' });
-    await expect(email).toHaveAttribute('aria-invalid', 'true');
-    await expect(email).toHaveAccessibleDescription('Enter a valid email address');
-    // The shell shows the error state from Field via :has().
-    await expect(getComputedStyle(email.parentElement as HTMLElement).borderColor).not.toBe(
-      getComputedStyle(
-        canvas.getByRole('searchbox', { name: 'Search issues' }).parentElement as HTMLElement,
-      ).borderColor,
-    );
-
-    // Slot actions are labelled buttons and work.
-    const search = canvas.getByRole('searchbox', { name: 'Search issues' });
-    await userEvent.click(canvas.getByRole('button', { name: 'Clear search' }));
-    await expect(search).toHaveValue('');
-    await expect(canvas.queryByRole('button', { name: 'Clear search' })).toBeNull();
+    // The toggle's label never leaks into the field's name; the error is announced.
+    const input = canvas.getByLabelText('New password');
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+    await expect(input).toHaveAccessibleDescription('Use at least 12 characters');
   },
 };

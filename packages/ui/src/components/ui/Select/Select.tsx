@@ -4,13 +4,12 @@ import { Combobox } from '@base-ui/react/combobox';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { usePortalContainer } from '@lib/portal-container';
 import { STATUS_LABEL } from '@lib/status';
-import { Caret } from '@ui/select/caret';
+import Caret from '@ui/select/caret';
 import { hairline, popup, popupFrame, row } from '@ui/select/menu';
-import { OptionContent, optionText } from '@ui/select/option-content';
-import {
+import OptionContent, { optionText } from '@ui/select/option-content';
+import VirtualOptionList, {
   type OptionVirtualizer,
   scrollHighlightedIntoView,
-  VirtualOptionList,
 } from '@ui/select/virtual-option-list';
 import type { Option, SelectProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -24,9 +23,9 @@ const trigger = clsx(
   'focus-visible:outline-none data-disabled:cursor-not-allowed',
 );
 
-export function Select<V = string>(props: SelectProps<V>) {
+const Select = <V = string>(props: SelectProps<V>) => {
   return props.searchable ? <SearchableSelect {...props} /> : <PlainSelect {...props} />;
-}
+};
 
 /** Always controlled internally, so action rows ("Clear this view") can run without becoming the value. */
 function useSelectValue<V>({ options, value, defaultValue, onValueChange }: SelectProps<V>) {
@@ -41,7 +40,7 @@ function useSelectValue<V>({ options, value, defaultValue, onValueChange }: Sele
   return { current, selected: options.find((o) => o.value === current), pick };
 }
 
-function PlainSelect<V>(props: SelectProps<V>) {
+const PlainSelect = <V,>(props: SelectProps<V>) => {
   const { id, options, placeholder, defaultOpen, invalid, disabled, onBlur } = props;
   const { current, selected, pick } = useSelectValue(props);
   const container = usePortalContainer();
@@ -100,10 +99,10 @@ function PlainSelect<V>(props: SelectProps<V>) {
       </BaseSelect.Portal>
     </BaseSelect.Root>
   );
-}
+};
 
 /** Same trigger, plus a search box in the menu and virtualized rows (TanStack Virtual). */
-function SearchableSelect<V>(props: SelectProps<V>) {
+const SearchableSelect = <V,>(props: SelectProps<V>) => {
   const { id, options, placeholder, defaultOpen, invalid, disabled, onBlur } = props;
   const { selected, pick } = useSelectValue(props);
   const container = usePortalContainer();
@@ -195,4 +194,6 @@ function SearchableSelect<V>(props: SelectProps<V>) {
       </Combobox.Portal>
     </Combobox.Root>
   );
-}
+};
+
+export default Select;

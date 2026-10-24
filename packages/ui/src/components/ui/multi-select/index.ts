@@ -1,1 +1,1 @@
-export * from '@ui/multi-select/multi-select';
+export { default as MultiSelect } from '@ui/multi-select/multi-select';

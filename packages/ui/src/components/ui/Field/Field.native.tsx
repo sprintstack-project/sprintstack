@@ -21,7 +21,7 @@ export function useField() {
   return useContext(FieldContext);
 }
 
-export function Field({ label, description, error, required, children }: FieldProps) {
+const Field = ({ label, description, error, required, children }: FieldProps) => {
   const labelId = useId();
   const errorColor = useTokenColor('brand-ink');
   const invalid = Boolean(error);
@@ -29,7 +29,7 @@ export function Field({ label, description, error, required, children }: FieldPr
   return (
     <FieldContext.Provider value={{ labelId, label, hint: error ?? description, invalid }}>
       <View className="min-w-0 gap-2">
-        <Text nativeID={labelId} className="text-[1.0625rem] leading-[1.375rem] font-bold text-ink">
+        <Text nativeID={labelId} className="text-[1.0625rem] leading-5.5 font-bold text-ink">
           {label}
           {required && (
             <Text aria-hidden className="text-brand-ink">
@@ -52,4 +52,6 @@ export function Field({ label, description, error, required, children }: FieldPr
       </View>
     </FieldContext.Provider>
   );
-}
+};
+
+export default Field;

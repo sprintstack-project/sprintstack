@@ -18,13 +18,7 @@ export const optionText = <V,>(option: Option<V>) =>
   option.label ?? (option.status ? STATUS_LABEL[option.status] : String(option.value));
 
 /** What an option shows, in the sheet and in the trigger: icon or avatar, then a badge or label. */
-export function OptionContent<V>({
-  option,
-  inTrigger,
-}: {
-  option: Option<V>;
-  inTrigger?: boolean;
-}) {
+const OptionContent = <V,>({ option, inTrigger }: { option: Option<V>; inTrigger?: boolean }) => {
   const Icon = option.icon;
   const tone = option.disabled ? 'ink-disabled' : option.danger ? 'brand-ink' : 'ink';
   const iconColor = useTokenColor(tone);
@@ -63,4 +57,6 @@ export function OptionContent<V>({
       )}
     </>
   );
-}
+};
+
+export default OptionContent;

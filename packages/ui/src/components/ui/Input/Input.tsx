@@ -7,7 +7,7 @@ import { clsx } from 'clsx';
 const slot = 'flex shrink-0 items-center text-ink-muted';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function Input({
+const Input = ({
   id,
   value,
   defaultValue,
@@ -19,7 +19,7 @@ export function Input({
   invalid,
   disabled,
   onBlur,
-}: InputProps) {
+}: InputProps) => {
   return (
     <div
       data-invalid={invalid || undefined}
@@ -53,4 +53,6 @@ export function Input({
       {slots?.right && <span className={slot}>{slots.right}</span>}
     </div>
   );
-}
+};
+
+export default Input;

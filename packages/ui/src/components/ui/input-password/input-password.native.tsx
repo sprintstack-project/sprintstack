@@ -8,14 +8,16 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function InputPassword({
+const InputPassword = ({
   id,
+  value,
+  defaultValue,
   onChange,
   placeholder,
   invalid,
   disabled,
   onBlur,
-}: InputProps) {
+}: InputProps) => {
   const field = useField();
   const [focused, setFocused] = useState(false);
   const slotColor = useTokenColor(disabled ? 'ink-disabled' : 'ink-muted');
@@ -30,13 +32,16 @@ export function InputPassword({
     >
       <TextInput
         nativeID={id}
+        value={value}
+        defaultValue={defaultValue}
         onChangeText={onChange}
         placeholder={placeholder}
         editable={!disabled}
         secureTextEntry={!showPassword}
         inputMode="text"
         autoCapitalize="none"
-        autoCorrect={true}
+        autoCorrect={false}
+        autoComplete="current-password"
         accessibilityLabel={field?.label}
         aria-labelledby={field?.labelId}
         accessibilityHint={field?.hint}
@@ -57,13 +62,20 @@ export function InputPassword({
       <View className="shrink-0">
         {tintSlot(
           <Button
+            variant="ghost"
+            size="sm"
             iconOnly
             icon={showPassword ? EyeOff : Eye}
+            disabled={disabled}
             onClick={() => setShowPassword(!showPassword)}
-          ></Button>,
+          >
+            {showPassword ? 'Hide password' : 'Show password'}
+          </Button>,
           slotColor,
         )}
       </View>
     </View>
   );
-}
+};
+
+export default InputPassword;

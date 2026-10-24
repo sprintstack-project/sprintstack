@@ -17,7 +17,7 @@ const outOfRange = (n: number | null | undefined, min?: number, max?: number) =>
   n != null && ((min !== undefined && n < min) || (max !== undefined && n > max));
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function NumberInput({
+const NumberInput = ({
   id,
   value,
   defaultValue,
@@ -30,7 +30,7 @@ export function NumberInput({
   invalid,
   disabled,
   onBlur,
-}: NumberInputProps) {
+}: NumberInputProps) => {
   const [draft, setDraft] = useState(defaultValue ?? null);
   // Out-of-range typed values stay as typed and are flagged; the Field error states the range.
   const over = outOfRange(value === undefined ? draft : value, min, max);
@@ -77,4 +77,6 @@ export function NumberInput({
       </NumberField.Group>
     </NumberField.Root>
   );
-}
+};
+
+export default NumberInput;

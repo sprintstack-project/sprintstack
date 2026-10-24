@@ -17,6 +17,6 @@
       "@lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src", "design-system/components/index.d.ts"],
+  "include": ["src"],
   "exclude": ["src/**/*.native.tsx", "src/**/*.native.ts"]
 }

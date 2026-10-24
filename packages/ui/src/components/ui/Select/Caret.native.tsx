@@ -3,7 +3,7 @@ import { useTokenColor } from '@lib/use-token-color.native';
 import Svg, { Path } from 'react-native-svg';
 
 /** The solid ▾ caret for selects. Rotates while the sheet is open. */
-export function Caret({ open, disabled }: { open?: boolean; disabled?: boolean }) {
+const Caret = ({ open, disabled }: { open?: boolean; disabled?: boolean }) => {
   const color = useTokenColor(disabled ? 'ink-disabled' : 'ink');
   return (
     <Svg
@@ -16,4 +16,6 @@ export function Caret({ open, disabled }: { open?: boolean; disabled?: boolean }
       <Path d="M0 0h10L5 6z" fill={color} />
     </Svg>
   );
-}
+};
+
+export default Caret;

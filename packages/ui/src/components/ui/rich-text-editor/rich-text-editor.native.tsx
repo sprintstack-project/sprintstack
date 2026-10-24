@@ -83,7 +83,7 @@ function contentCSS(c: Record<'ink' | 'muted' | 'placeholder' | 'line' | 'link' 
   `;
 }
 
-export function RichTextEditor({
+const RichTextEditor = ({
   value,
   defaultValue,
   onChange,
@@ -92,7 +92,7 @@ export function RichTextEditor({
   minRows = 5,
   invalid,
   disabled,
-}: RichTextEditorProps) {
+}: RichTextEditorProps) => {
   const field = useField();
   const reported = useRef<RichTextDoc | null | undefined>(value ?? defaultValue);
   const callbacks = useRef({ onChange, onBlur });
@@ -189,4 +189,6 @@ export function RichTextEditor({
       </View>
     </View>
   );
-}
+};
+
+export default RichTextEditor;

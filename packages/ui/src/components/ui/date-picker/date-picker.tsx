@@ -13,7 +13,7 @@ import {
 import { usePortalContainer } from '@lib/portal-container';
 import { Button } from '@ui/button';
 import { useField } from '@ui/field';
-import { Caret } from '@ui/select/caret';
+import Caret from '@ui/select/caret';
 import { popupFrame } from '@ui/select/menu';
 import type { DatePickerProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -28,7 +28,7 @@ const navButton = clsx(
   focus,
 );
 
-export function DatePicker({
+const DatePicker = ({
   id,
   value,
   defaultValue,
@@ -43,7 +43,7 @@ export function DatePicker({
   invalid,
   disabled,
   onBlur,
-}: DatePickerProps) {
+}: DatePickerProps) => {
   const container = usePortalContainer();
   const field = useField();
   const valueId = useId();
@@ -274,4 +274,6 @@ export function DatePicker({
       </Popover.Portal>
     </Popover.Root>
   );
-}
+};
+
+export default DatePicker;

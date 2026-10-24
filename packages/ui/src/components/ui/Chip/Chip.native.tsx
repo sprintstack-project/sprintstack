@@ -27,7 +27,7 @@ const sizes = {
   md: { box: 'h-10 px-4', text: 'text-[1rem]' },
 };
 
-export function Chip({
+const Chip = ({
   children,
   tone = 'neutral',
   size,
@@ -39,7 +39,7 @@ export function Chip({
   defaultPressed,
   onPressedChange,
   count,
-}: ChipProps) {
+}: ChipProps) => {
   const [ownPressed, setOwnPressed] = useState(Boolean(defaultPressed));
   const isPressed = pressed ?? ownPressed;
   const style = tones[tone as keyof typeof tones] ?? tones.neutral;
@@ -135,4 +135,6 @@ export function Chip({
       )}
     </View>
   );
-}
+};
+
+export default Chip;

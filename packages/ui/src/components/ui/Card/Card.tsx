@@ -20,7 +20,7 @@ const tiles = {
   muted: 'bg-surface-muted text-ink [&_em]:text-brand-ink',
 };
 
-export function Card(props: CardProps) {
+const Card = (props: CardProps) => {
   if (props.variant === 'tile') return <Tile {...props} />;
   if (props.variant === 'issue') return <IssueCard {...props} />;
 
@@ -50,9 +50,9 @@ export function Card(props: CardProps) {
       )}
     </section>
   );
-}
+};
 
-function Tile({ tone = 'brand', eyebrow, children }: CardProps) {
+const Tile = ({ tone = 'brand', eyebrow, children }: CardProps) => {
   return (
     <section
       className={clsx(
@@ -65,9 +65,9 @@ function Tile({ tone = 'brand', eyebrow, children }: CardProps) {
       {children}
     </section>
   );
-}
+};
 
-function IssueCard({
+const IssueCard = ({
   title: heading,
   issueKey,
   status,
@@ -84,7 +84,7 @@ function IssueCard({
   selected,
   linkLabel = 'View issue',
   onPress,
-}: CardProps) {
+}: CardProps) => {
   const [isWatched, setWatched] = useState(Boolean(watched));
   const titleId = useId();
   const interactive = Boolean(onPress);
@@ -205,4 +205,6 @@ function IssueCard({
       )}
     </article>
   );
-}
+};
+
+export default Card;

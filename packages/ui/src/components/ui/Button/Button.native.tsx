@@ -38,7 +38,7 @@ const sizes = {
 // Pad the touch area to 44pt, whatever the scale (spec heights: sm 40, md 48, lg 56).
 const hitSlop = { sm: touchSlop(40), md: touchSlop(48), lg: touchSlop(56) };
 
-export function Button({
+const Button = ({
   children,
   variant = 'secondary',
   size = 'md',
@@ -47,7 +47,7 @@ export function Button({
   iconOnly,
   disabled,
   onClick,
-}: ButtonProps) {
+}: ButtonProps) => {
   const isLink = variant === 'link';
   const style = isLink ? null : variants[variant];
   const iconColor = useTokenColor(disabled ? 'ink-disabled' : (style?.icon ?? 'brand-ink'));
@@ -97,4 +97,6 @@ export function Button({
       {IconEnd && !iconOnly && <IconEnd {...iconProps} />}
     </Pressable>
   );
-}
+};
+
+export default Button;

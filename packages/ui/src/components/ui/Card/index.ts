@@ -1,1 +1,1 @@
-export * from '@ui/card/card';
+export { default as Card } from '@ui/card/card';

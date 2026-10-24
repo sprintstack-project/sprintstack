@@ -3,9 +3,9 @@ import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { useTokenColor } from '@lib/use-token-color.native';
 import { useField } from '@ui/field';
-import { Caret } from '@ui/select/caret';
-import { OptionContent, optionText } from '@ui/select/option-content';
-import { SearchBox } from '@ui/select/search-box';
+import Caret from '@ui/select/caret';
+import OptionContent, { optionText } from '@ui/select/option-content';
+import SearchBox from '@ui/select/search-box';
 import { Text } from '@ui/text';
 import type { SelectProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { FlatList } from 'react-native-actions-sheet';
 
-export function Select<V = string>({
+const Select = <V = string>({
   options,
   value,
   defaultValue,
@@ -25,7 +25,7 @@ export function Select<V = string>({
   disabled,
   onBlur,
   searchable,
-}: SelectProps<V>) {
+}: SelectProps<V>) => {
   const field = useField();
   const sheet = useRef<SheetRef>(null);
   const [open, setOpen] = useState(false);
@@ -134,4 +134,6 @@ export function Select<V = string>({
       </Sheet>
     </>
   );
-}
+};
+
+export default Select;

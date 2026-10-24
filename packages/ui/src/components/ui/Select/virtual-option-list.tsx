@@ -31,11 +31,11 @@ const estimateRow = () =>
  * with `virtualized`: Base UI then tracks rows by `index` instead of by what's in the DOM, so
  * keyboard navigation and typeahead still reach rows that aren't rendered.
  */
-export function VirtualOptionList<T>({
+const VirtualOptionList = <T,>({
   virtualizerRef,
   initialIndex,
   children,
-}: VirtualOptionListProps<T>) {
+}: VirtualOptionListProps<T>) => {
   const items = Combobox.useFilteredItems<T>();
   const scrollElement = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
@@ -82,7 +82,7 @@ export function VirtualOptionList<T>({
       )}
     </Combobox.List>
   );
-}
+};
 
 /** Root's onItemHighlighted: keep the keyboard-highlighted row in view. */
 export const scrollHighlightedIntoView =
@@ -92,3 +92,5 @@ export const scrollHighlightedIntoView =
       virtualizerRef.current?.scrollToIndex(details.index, { align: 'auto' });
     }
   };
+
+export default VirtualOptionList;

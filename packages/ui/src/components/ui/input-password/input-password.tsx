@@ -10,25 +10,30 @@ import { useState } from 'react';
 const slot = 'flex shrink-0 items-center text-ink-muted';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
-export function InputPassword({
+const InputPassword = ({
   id,
+  value,
+  defaultValue,
   onChange,
   placeholder,
   invalid,
   disabled,
   onBlur,
-}: InputProps) {
+}: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div
       data-invalid={invalid || undefined}
       data-disabled={disabled || undefined}
-      className={twMerge(clsx('field flex w-full items-center gap-3 px-5'))}
+      className={twMerge(clsx('field flex w-full items-center gap-3 pr-1.5 pl-5'))}
     >
       <BaseInput
         id={id}
         type={showPassword ? 'text' : 'password'}
+        value={value}
+        defaultValue={defaultValue}
+        autoComplete="current-password"
         onValueChange={(next) => onChange?.(next)}
         placeholder={placeholder}
         onBlur={onBlur}
@@ -40,11 +45,20 @@ export function InputPassword({
           'placeholder:text-ink-placeholder disabled:cursor-not-allowed disabled:placeholder:text-ink-disabled',
         )}
       />
-      <Button
-        iconOnly
-        icon={showPassword ? EyeOff : Eye}
-        onClick={() => setShowPassword(!showPassword)}
-      ></Button>
+      <span className={slot}>
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
+          icon={showPassword ? EyeOff : Eye}
+          disabled={disabled}
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? 'Hide password' : 'Show password'}
+        </Button>
+      </span>
     </div>
   );
-}
+};
+
+export default InputPassword;

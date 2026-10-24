@@ -1,1 +1,1 @@
-export * from '@ui/input/input';
+export { default as Input } from '@ui/input/input';

@@ -56,7 +56,7 @@ const tools = [
   },
 ] as const;
 
-export function RichTextEditor({
+const RichTextEditor = ({
   id,
   value,
   defaultValue,
@@ -66,7 +66,7 @@ export function RichTextEditor({
   minRows = 5,
   invalid,
   disabled,
-}: RichTextEditorProps) {
+}: RichTextEditorProps) => {
   const field = useField();
   // The last document we reported. A `value` equal to it is our own echo; anything else is an
   // outside change (like form.reset after data loads) and replaces the content. No `key` hacks.
@@ -173,4 +173,6 @@ export function RichTextEditor({
       )}
     </div>
   );
-}
+};
+
+export default RichTextEditor;
