@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-col'},
  h('div',{className:'st-row'},h(S.Button,{variant:'primary'},'Create issue'),h(S.Button,{variant:'brand'},'Start sprint'),h(S.Button,null,'Cancel'),h(S.Button,{variant:'danger'},'Delete'),h(S.Button,{variant:'link'},'View details'),h(S.Button,{disabled:true},'Disabled')),
  h('div',{className:'st-row'},h(S.Button,{variant:'primary',size:'sm'},'Small'),h(S.Button,{variant:'primary'},'Medium'),h(S.Button,{variant:'primary',size:'lg'},'Large'),h(S.Button,{variant:'brand',iconOnly:true,icon:'arrow'},'Next'),h(S.Button,{variant:'primary',iconOnly:true,icon:'plus'},'Add'),h(S.Button,{variant:'ghost',iconOnly:true,icon:'bookmark'},'Watch'))));

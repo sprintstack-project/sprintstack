@@ -1,0 +1,101 @@
+/* SprintStack Bold layout in SprintStack Instrument colours.
+   Load after ds/SprintStack-bold/tokens.css: re-points every Bold colour token at its Instrument value.
+   Graphite (dark) is the default; Daylight on [data-theme="light"]. */
+
+:root,
+[data-theme="dark"] {
+  --canvas: #0a0c0b;
+  --surface: #111412;
+  --surface-muted: #1b201d;
+  --surface-hover: #1b201d;
+  --surface-pressed: #232925;
+  --line: #242a27;
+  --line-strong: #6b7670;
+  --ink: #e4e9e6;
+  --ink-muted: #8f9a94;
+  --ink-placeholder: #86918b;
+  --ink-disabled: #3b423e;
+  --on-ink: #0a0c0b;
+  --brand: #c6f432;
+  --brand-hover: #d7fb6a;
+  --on-brand: #0a0c0b;
+  --brand-ink: #c6f432;
+  --brand-on-ink: #4a6400;
+  --brand-subtle: #1d2a0a;
+  --focus-ring: #c6f432;
+  --danger: #ff6b5a;
+  --on-danger: #1a0503;
+  --warning: #ffb224;
+  --warning-subtle: #2e2108;
+  --warning-ink: #ffc457;
+  --success: #4ade9a;
+  --success-subtle: #0c2a1d;
+  --success-ink: #74e8b2;
+  --info: #4cc2ff;
+  --info-subtle: #0b2633;
+  --info-ink: #7dd3ff;
+  --review: #b49cff;
+  --review-subtle: #221b3a;
+  --review-ink: #c7b6ff;
+  --neutral-subtle: #232925;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --shadow-popover: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-toast: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+  --canvas: #f3f4f2;
+  --surface: #ffffff;
+  --surface-muted: #ebedea;
+  --surface-hover: #edefec;
+  --surface-pressed: #e2e5e1;
+  --line: #dde1dc;
+  --line-strong: #7a837d;
+  --ink: #0e1110;
+  --ink-muted: #535c57;
+  --ink-placeholder: #5f6863;
+  --ink-disabled: #b3b9b4;
+  --on-ink: #ffffff;
+  --brand: #c6f432;
+  --brand-hover: #b5e31e;
+  --on-brand: #0a0c0b;
+  --brand-ink: #4a6400;
+  --brand-on-ink: #c6f432;
+  --brand-subtle: #eef9cf;
+  --focus-ring: #4a6400;
+  --danger: #b8281a;
+  --on-danger: #ffffff;
+  --warning: #8a5200;
+  --warning-subtle: #fdf0d5;
+  --warning-ink: #7f4b00;
+  --success: #136c42;
+  --success-subtle: #e0f5ea;
+  --success-ink: #12673e;
+  --info: #0b6aa8;
+  --info-subtle: #e2f2fc;
+  --info-ink: #095a8f;
+  --review: #6b4cd6;
+  --review-subtle: #efebfd;
+  --review-ink: #5a3dc0;
+  --neutral-subtle: #e2e5e1;
+  --scrim: rgba(14, 17, 16, 0.32);
+  --shadow-popover: 0 0 0 1px rgba(14, 17, 16, 0.1), 0 12px 32px rgba(14, 17, 16, 0.14);
+  --shadow-toast: 0 0 0 1px rgba(14, 17, 16, 0.1), 0 8px 24px rgba(14, 17, 16, 0.12);
+}
+
+/* Instrument status colours on Bold's badges: In review = violet, Blocked = red (lime never means error). */
+.st-badge-review {
+  background: var(--review-subtle);
+  color: var(--review-ink);
+}
+.st-badge-danger {
+  background: var(--danger);
+  color: var(--on-danger);
+}
+.st-prio[data-level="highest"] svg,
+.st-prio[data-level="high"] svg {
+  color: var(--danger);
+}
+.st-btn-primary:hover {
+  opacity: 0.88;
+}

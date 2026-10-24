@@ -43,7 +43,7 @@ const preview: Preview = {
   decorators: [withThemes],
   globalTypes: {
     theme: {
-      description: 'Strata Bold theme',
+      description: 'SprintStack Bold theme',
       toolbar: {
         title: 'Theme',
         icon: 'mirror',

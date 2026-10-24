@@ -1,3 +1,5 @@
+'use client';
+
 import { NumberField } from '@base-ui/react/number-field';
 import type { NumberInputProps } from '@ui/types';
 import { clsx } from 'clsx';

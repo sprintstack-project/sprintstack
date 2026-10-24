@@ -1,3 +1,5 @@
+'use client';
+
 import { Toggle } from '@base-ui/react/toggle';
 import { EMPTY_DOC, sameDoc } from '@lib/rich-text';
 import { Placeholder } from '@tiptap/extensions';

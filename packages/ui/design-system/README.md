@@ -1,4 +1,4 @@
-Strata Bold is loud where it should be and calm everywhere else. Headlines shout in condensed heavy capitals, actions are fat pills, cards are soft white sheets with hairline edges, and one signal red marks what matters: the action, the link, the current step, the selected day. Behind that, the working surface stays white, roomy and easy to scan.
+SprintStack Bold is loud where it should be and calm everywhere else. Headlines shout in condensed heavy capitals, actions are fat pills, cards are soft white sheets with hairline edges, and one signal red marks what matters: the action, the link, the current step, the selected day. Behind that, the working surface stays white, roomy and easy to scan.
 
 It's built with **Base UI** (`@base-ui/react`, headless) styled with **Tailwind CSS** on the web, and with **React Native + NativeWind** on mobile, from the same tokens and props (`components/index.d.ts`). There are two themes: **Day** (`light`, default) and **Night** (`dark`).
 

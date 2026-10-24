@@ -15512,6 +15512,7 @@ __metadata:
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     babel-plugin-react-compiler: "npm:1.0.0"
+    lucide-react: "npm:^1.61.0"
     next: "npm:16.4.3"
     react: "npm:19.3.0"
     react-dom: "npm:19.3.0"

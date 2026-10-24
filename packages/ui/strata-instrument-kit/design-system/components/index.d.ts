@@ -1,14 +1,14 @@
 /**
- * Strata Instrument — the shared props contract.
+ * SprintStack Instrument — the shared props contract.
  * Web implements these with Base UI + Tailwind; React Native with native primitives + NativeWind.
  * Feature code imports from `ui/` and never knows which platform it runs on.
  */
 
 /** sm 24px (dense) · md 30px (default desktop) · lg 44px (touch + React Native) */
-export type ControlSize = "sm" | "md" | "lg";
-export type StatusTone = "neutral" | "info" | "review" | "success" | "warning" | "danger";
+export type ControlSize = 'sm' | 'md' | 'lg';
+export type StatusTone = 'neutral' | 'info' | 'review' | 'success' | 'warning' | 'danger';
 /** Shown as P0–P4. */
-export type Priority = "highest" | "high" | "medium" | "low" | "lowest";
+export type Priority = 'highest' | 'high' | 'medium' | 'low' | 'lowest';
 /** A key or chord as displayed, e.g. "C", "/", "⌘K", "⇧S". Wired to aria-keyshortcuts. */
 export type Shortcut = string;
 
@@ -35,7 +35,7 @@ export interface Option<V = string> {
 
 export interface CardProps {
   /** "panel" (default) or "issue" (board card). */
-  variant?: "panel" | "issue";
+  variant?: 'panel' | 'issue';
   title?: string;
   actions?: React.ReactNode;
   children?: React.ReactNode;
@@ -48,7 +48,7 @@ export interface CardProps {
   labels?: string[];
   /** Countdown string: "T-2D", "today", "2D OVER". */
   due?: string;
-  dueState?: "soon" | "over";
+  dueState?: 'soon' | 'over';
   /** Draws lime crop marks at the four corners. */
   selected?: boolean;
   onPress?: () => void;
@@ -70,7 +70,7 @@ export interface InputProps extends ControlBase {
   defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
-  type?: "text" | "email" | "url" | "search" | "password";
+  type?: 'text' | 'email' | 'url' | 'search' | 'password';
   /** Lucide icon name; "search" for search fields only. */
   leadingIcon?: string;
   /** Mono context before the value, separated by a 1px line: "git:", "https://". */
@@ -128,7 +128,7 @@ export interface MultiSelectProps<V = string> extends ControlBase {
   onValueChange?: (value: V[]) => void;
   placeholder?: string;
   /** "neutral" for people, "outline" for labels, "accent" for an active scope. */
-  chipTone?: "neutral" | "outline" | "accent";
+  chipTone?: 'neutral' | 'outline' | 'accent';
   creatable?: boolean;
   max?: number;
   loadOptions?: (query: string) => Promise<Option<V>[]>;
@@ -137,8 +137,8 @@ export interface MultiSelectProps<V = string> extends ControlBase {
 
 export interface ChipProps {
   children: React.ReactNode;
-  tone?: StatusTone | "outline" | "accent" | "key";
-  size?: "sm" | "md";
+  tone?: StatusTone | 'outline' | 'accent' | 'key';
+  size?: 'sm' | 'md';
   /** With a status tone: render a status meter + word instead of a token. */
   dot?: boolean;
   /** 0–4 filled segments; overrides the tone's default. */
@@ -173,7 +173,7 @@ export interface DatePickerProps extends ControlBase {
 
 export interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: ControlSize;
   icon?: string;
   /** Shown as a kbd hint and announced via aria-keyshortcuts. */

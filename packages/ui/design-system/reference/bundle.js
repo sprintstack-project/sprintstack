@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Strata","components":[{"name":"Card"},{"name":"Field"},{"name":"Input"},{"name":"TextArea"},{"name":"NumberInput"},{"name":"Select"},{"name":"MultiSelect"},{"name":"Chip"},{"name":"DatePicker"},{"name":"Button"}]} */
+/* @ds-bundle: {"format":4,"namespace":"SprintStack","components":[{"name":"Card"},{"name":"Field"},{"name":"Input"},{"name":"TextArea"},{"name":"NumberInput"},{"name":"Select"},{"name":"MultiSelect"},{"name":"Chip"},{"name":"DatePicker"},{"name":"Button"}]} */
 (function () {
   "use strict";
   var React = window.React;
@@ -241,6 +241,6 @@
           h(Button, { variant: "primary", size: "sm", onClick: function () { setVal(today); setMonth(new Date(today.getFullYear(), today.getMonth(), 1)); setView("days"); setOpen(false); } }, "Today"))));
   }
 
-  var Strata = { Card: Card, Field: Field, Input: Input, TextArea: TextArea, NumberInput: NumberInput, Select: Select, MultiSelect: MultiSelect, Chip: Chip, DatePicker: DatePicker, Button: Button, Icon: Icon, Badge: Badge, Priority: Prio };
-  window.Strata = Object.assign(window.Strata || {}, Strata);
+  var SprintStack = { Card: Card, Field: Field, Input: Input, TextArea: TextArea, NumberInput: NumberInput, Select: Select, MultiSelect: MultiSelect, Chip: Chip, DatePicker: DatePicker, Button: Button, Icon: Icon, Badge: Badge, Priority: Prio };
+  window.SprintStack = Object.assign(window.SprintStack || {}, SprintStack);
 })();

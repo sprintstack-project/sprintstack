@@ -1,3 +1,5 @@
+'use client';
+
 import { Combobox } from '@base-ui/react/combobox';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { usePortalContainer } from '@lib/portal-container';

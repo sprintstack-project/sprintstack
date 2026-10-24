@@ -137,7 +137,7 @@ export function RichTextEditor({
   // Re-style the WebView when the theme flips (the CSS above is only read at creation).
   const css = contentCSS(colors);
   useEffect(() => {
-    if (state.isReady) editor.injectCSS(css, 'strata-theme');
+    if (state.isReady) editor.injectCSS(css, 'SprintStack-theme');
   }, [editor, state.isReady, css]);
 
   // Report blur on the focused -> unfocused edge, for validate-on-blur.

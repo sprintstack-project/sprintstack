@@ -1,5 +1,5 @@
 /*
- * Strata Bold: React Native token values for Uniwind (from design-system/tokens.json).
+ * SprintStack Bold: React Native token values for Uniwind (from design-system/tokens.json).
  * Uniwind requires every theme to define the same variables.
  */
 @layer theme {
@@ -16,13 +16,16 @@
       --color-ink-muted: #535c57;
       --color-ink-placeholder: #5f6863;
       --color-ink-disabled: #b3b9b4;
-      --color-on-ink: #f3f4f2;
+      --color-on-ink: #ffffff;
       --color-brand: #c6f432;
       --color-brand-hover: #b5e31e;
       --color-on-brand: #0a0c0b;
       --color-brand-ink: #4a6400;
       --color-brand-subtle: #eef9cf;
+      --color-brand-on-ink: #c6f432;
       --color-focus-ring: #4a6400;
+      --color-danger: #b8281a;
+      --color-on-danger: #ffffff;
       --color-warning: #8a5200;
       --color-warning-subtle: #fdf0d5;
       --color-warning-ink: #7f4b00;
@@ -32,7 +35,10 @@
       --color-info: #0b6aa8;
       --color-info-subtle: #e2f2fc;
       --color-info-ink: #095a8f;
-      --color-neutral-subtle: #edefec;
+      --color-review: #6b4cd6;
+      --color-review-subtle: #efebfd;
+      --color-review-ink: #5a3dc0;
+      --color-neutral-subtle: #e2e5e1;
       --color-scrim: rgba(14, 17, 16, 0.32);
       --shadow-popover: 0 0.75rem 2rem rgba(0, 0, 0, 0.12);
       --shadow-toast: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
@@ -41,7 +47,7 @@
     @variant dark {
       --color-canvas: #0a0c0b;
       --color-surface: #111412;
-      --color-surface-muted: #070908;
+      --color-surface-muted: #1b201d;
       --color-surface-hover: #1b201d;
       --color-surface-pressed: #232925;
       --color-line: #242a27;
@@ -56,7 +62,10 @@
       --color-on-brand: #0a0c0b;
       --color-brand-ink: #c6f432;
       --color-brand-subtle: #1d2a0a;
+      --color-brand-on-ink: #4a6400;
       --color-focus-ring: #c6f432;
+      --color-danger: #ff6b5a;
+      --color-on-danger: #1a0503;
       --color-warning: #ffb224;
       --color-warning-subtle: #2e2108;
       --color-warning-ink: #ffc457;
@@ -66,7 +75,10 @@
       --color-info: #4cc2ff;
       --color-info-subtle: #0b2633;
       --color-info-ink: #7dd3ff;
-      --color-neutral-subtle: #1b201d;
+      --color-review: #b49cff;
+      --color-review-subtle: #221b3a;
+      --color-review-ink: #c7b6ff;
+      --color-neutral-subtle: #232925;
       --color-scrim: rgba(0, 0, 0, 0.6);
       --shadow-popover: 0 0.75rem 2rem rgba(0, 0, 0, 0.6);
       --shadow-toast: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);

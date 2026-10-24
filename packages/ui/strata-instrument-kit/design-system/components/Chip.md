@@ -2,7 +2,7 @@ Small readouts and controls: a **status meter**, a **priority tag**, a **token**
 
 ## When to use
 - **Status meter** (`dot` + tone): workflow state everywhere. Four segments fill as work moves right; Blocked shows ✕.
-- **Priority** (`Strata.Priority`): `P0–P4` stamped tags.
+- **Priority** (`SprintStack.Priority`): `P0–P4` stamped tags.
 - **Token** (`tone="neutral"`, `"outline"` for labels, `"accent"` for the active scope such as `sprint:24`) with `onRemove`.
 - **Filter toggles** (`toggle`): inside an `st-seg` group above boards, with a global shortcut (`F`) that cycles focus to the group.
 - **Key** (`tone="key"`): an inline issue key.

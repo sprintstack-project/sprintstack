@@ -1,6 +1,6 @@
-# Strata Bold design system
+# SprintStack Bold design system
 
-This project's UI follows the **Strata Bold** design system. The full spec is in `design-system/`.
+This project's UI follows the **SprintStack Bold** design system. The full spec is in `design-system/`.
 Read `design-system/README.md` before building or changing any UI.
 
 ## Stack
@@ -37,6 +37,8 @@ Read `design-system/README.md` before building or changing any UI.
 - `RichTextEditor` stores Tiptap JSON on both platforms (Tiptap on web, 10tap-editor's WebView on native). It keeps its own state while typing; a `value` that differs from the last one it reported replaces the content, so `form.reset(loaded)` works without remounts or `key`s. `richTextToPlainText` / `isRichTextEmpty` cover search and required checks.
 - Stories: web in `apps/storybook/src/stories` (with play-function tests), native in `apps/storybook/native-stories` (on-device Storybook, `yarn workspace storybook storybook:native`). Add both when a component changes.
 - Long option lists: `Select searchable` (Base UI Combobox + search) and `MultiSelect` virtualize their rows with TanStack Virtual (`Select/VirtualOptionList.tsx`; Combobox `virtualized` + item `index`). Plain `Select` stays on Base UI Select for short fixed lists; it can't be virtualized safely. Native sheets use actions-sheet's `FlatList`.
+- Web components that use hooks or context start with `'use client'`, so apps can import `@sprintstack/ui` from Server Components (the barrel loads every component).
+- Links or submit buttons that should look like a Button use `buttonClass(variant, size)` (`<a className={buttonClass('primary', 'sm')}>`). Hover states use `not-disabled:`, not `enabled:`, so they work on `<a>` too.
 - Style Base UI state attributes (`data-highlighted`, `data-selected`, `data-popup-open`, `data-invalid`, `data-disabled`, `data-pressed`), not React state.
 - Use token classes (`bg-surface`, `text-ink-muted`, `border-line-strong`, `rounded-xl`, `shadow-popover`). The default Tailwind palette is removed (`--color-*: initial`). No raw hex values, no `dark:` variants: themes switch via `data-theme` on `<html>` (web) or `Uniwind.setTheme` (native).
 - Wrap every form control in `Field` (`Field.Root` → `Field.Label` → control → `Field.Description` / `Field.Error`).

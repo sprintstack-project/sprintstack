@@ -1,3 +1,5 @@
+'use client';
+
 import { Combobox } from '@base-ui/react/combobox';
 import { useVirtualizer, type Virtualizer } from '@tanstack/react-virtual';
 import { type CSSProperties, type ReactNode, type RefObject, useLayoutEffect, useRef } from 'react';

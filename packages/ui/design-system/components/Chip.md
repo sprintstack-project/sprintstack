@@ -3,8 +3,8 @@ Pills and badges: **filter pills** you toggle, **value pills** (optionally remov
 ## When to use
 - **Filter pill** (`toggle`): outline pill, filled `ink` when on. Put them in a horizontally scrolling row above lists, with "Clear" as a red link at the end.
 - **Value pill**: `neutral` (grey), `ink` (black), `outline`; add `onRemove` for active filters and picked values.
-- **Status badge** (`Strata.Badge` or `Chip dot` with a tone): `NEW`, `TO DO`, `IN PROGRESS`, `IN REVIEW`, `DONE`, `BLOCKED`, `AT RISK`.
-- **Priority** (`Strata.Priority`): an arrow plus its name.
+- **Status badge** (`SprintStack.Badge` or `Chip dot` with a tone): `NEW`, `TO DO`, `IN PROGRESS`, `IN REVIEW`, `DONE`, `BLOCKED`, `AT RISK`.
+- **Priority** (`SprintStack.Priority`): an arrow plus its name.
 
 ## Consumer provides
 `children`, `tone` (`neutral` | `ink` | `outline` | `accent` | `key`, or a status tone with `dot`), optional `avatar`, `onRemove`, `toggle` + `pressed`/`onPressedChange` + `count`.

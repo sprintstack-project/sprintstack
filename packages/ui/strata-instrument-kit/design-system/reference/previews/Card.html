@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 function col(name, n, wip, kids) { return h('div', { className: 'st-column' }, h('div', { className: 'st-column-head' }, h('span', { className: 'st-label-caps' }, name), h('span', { className: 'st-wip', 'data-over': wip ? '' : undefined }, n)), kids); }
 var board = h('div', { className: 'st-board st-dots' },
   col('In progress', '3 / 3 WIP', true, [

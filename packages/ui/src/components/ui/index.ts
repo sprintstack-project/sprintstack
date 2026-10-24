@@ -1,7 +1,7 @@
 export { PortalContainerProvider } from '@lib/portal-container';
 export { EMPTY_DOC, isRichTextEmpty, richTextToPlainText } from '@lib/rich-text';
 export { Badge } from '@ui/Badge';
-export { Button } from '@ui/Button';
+export { Button, buttonClass } from '@ui/Button';
 export { Card } from '@ui/Card';
 export { Chip } from '@ui/Chip';
 export { DatePicker } from '@ui/DatePicker';

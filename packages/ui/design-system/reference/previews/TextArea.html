@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
  h(S.Field,{label:'Description',htmlFor:'t1'},h(S.TextArea,{id:'t1',placeholder:'Steps to reproduce, expected and actual result'})),
  h(S.Field,{label:'Release note',htmlFor:'t2',description:'Visible to customers'},h(S.TextArea,{id:'t2',maxLength:140,defaultValue:'Expired saved cards now prompt for an update instead of failing at checkout.'}))));

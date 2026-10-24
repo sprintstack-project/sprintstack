@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
  h(S.Field,{label:'Summary',required:true,htmlFor:'f1',description:'Shown on boards and in notifications.'},h(S.Input,{id:'f1',defaultValue:'Checkout fails on saved cards'})),
  h(S.Field,{label:'Reporter',htmlFor:'f2',error:'Enter an email like name@company.com'},h(S.Input,{id:'f2',defaultValue:'mira@',invalid:true}))));

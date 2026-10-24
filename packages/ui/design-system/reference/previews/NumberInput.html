@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
  h(S.Field,{label:'Story points',htmlFor:'n1'},h(S.NumberInput,{id:'n1',defaultValue:3,min:0,max:21})),
  h(S.Field,{label:'Capacity',htmlFor:'n3',error:'Must be 100% or less'},h(S.NumberInput,{id:'n3',defaultValue:120,unit:'%',invalid:true}))));

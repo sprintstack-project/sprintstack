@@ -1,3 +1,5 @@
+'use client';
+
 import { Field } from '@base-ui/react/field';
 import type { TextAreaProps } from '@ui/types';
 import { clsx } from 'clsx';

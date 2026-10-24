@@ -1,5 +1,5 @@
 /*
- * Strata Bold: shared Tailwind v4 theme for web and native (Uniwind).
+ * SprintStack Bold: shared Tailwind v4 theme for web and native (Uniwind).
  * Names only: values live in tokens.web.css (web) and tokens.native.css (Uniwind).
  * Entry points: web.css and native.css.
  */
@@ -23,7 +23,10 @@
   --color-on-brand: var(--color-on-brand);
   --color-brand-ink: var(--color-brand-ink);
   --color-brand-subtle: var(--color-brand-subtle);
+  --color-brand-on-ink: var(--color-brand-on-ink);
   --color-focus-ring: var(--color-focus-ring);
+  --color-danger: var(--color-danger);
+  --color-on-danger: var(--color-on-danger);
   --color-warning: var(--color-warning);
   --color-warning-subtle: var(--color-warning-subtle);
   --color-warning-ink: var(--color-warning-ink);
@@ -33,6 +36,9 @@
   --color-info: var(--color-info);
   --color-info-subtle: var(--color-info-subtle);
   --color-info-ink: var(--color-info-ink);
+  --color-review: var(--color-review);
+  --color-review-subtle: var(--color-review-subtle);
+  --color-review-ink: var(--color-review-ink);
   --color-neutral-subtle: var(--color-neutral-subtle);
   --color-scrim: var(--color-scrim);
 

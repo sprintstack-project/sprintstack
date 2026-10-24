@@ -5,7 +5,7 @@
 <body>
 <div id="root" class="st-root st-pad"></div>
 <script>
-var S = window.Strata, h = React.createElement;
+var S = window.SprintStack, h = React.createElement;
 var STATUS=[{value:'todo',label:'To do',status:'neutral'},{value:'progress',label:'In progress',status:'info'},{value:'review',label:'In review',status:'review'},{value:'done',label:'Done',status:'success'},{value:'blocked',label:'Blocked',status:'danger'}];
 ReactDOM.createRoot(document.getElementById('root')).render(h('div',{className:'st-grid2'},
  h(S.Field,{label:'Status',htmlFor:'s1'},h(S.Select,{id:'s1',options:STATUS,defaultValue:'progress',defaultOpen:true})),

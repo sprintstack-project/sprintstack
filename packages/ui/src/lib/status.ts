@@ -14,9 +14,9 @@ export const STATUS_LABEL: Record<StatusTone, string> = {
 export const STATUS_CLASSES: Record<StatusTone, { box: string; text: string }> = {
   neutral: { box: 'bg-neutral-subtle', text: 'text-ink-muted' },
   info: { box: 'bg-info-subtle', text: 'text-info-ink' },
-  review: { box: 'bg-warning-subtle', text: 'text-warning-ink' },
+  review: { box: 'bg-review-subtle', text: 'text-review-ink' },
   success: { box: 'bg-success-subtle', text: 'text-success-ink' },
-  danger: { box: 'bg-brand', text: 'text-on-brand' },
+  danger: { box: 'bg-danger', text: 'text-on-danger' },
   warning: { box: 'bg-warning-subtle', text: 'text-warning-ink' },
 };
 

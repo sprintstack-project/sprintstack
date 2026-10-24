@@ -1,4 +1,4 @@
-/* Strata Bold: web-only recipes used by every component (see design-system/components/*.md). */
+/* SprintStack Bold: web-only recipes used by every component (see design-system/components/*.md). */
 @utility headline {
   font-family: var(--font-display);
   font-weight: 800;

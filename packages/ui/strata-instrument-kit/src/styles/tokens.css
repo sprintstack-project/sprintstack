@@ -1,6 +1,7 @@
-/* Strata Instrument — generated from tokens.json. Graphite (dark) = :root / [data-theme="dark"], Daylight = [data-theme="light"]. Dark by default. */
+/* SprintStack Instrument — generated from tokens.json. Graphite (dark) = :root / [data-theme="dark"], Daylight = [data-theme="light"]. Dark by default. */
 
-:root, [data-theme="dark"] {
+:root,
+[data-theme="dark"] {
   --canvas: #0a0c0b;
   --grid-dot: #262b28;
   --surface: #111412;

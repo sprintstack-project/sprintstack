@@ -1,3 +1,5 @@
+'use client';
+
 import { Combobox } from '@base-ui/react/combobox';
 import { usePortalContainer } from '@lib/portal-container';
 import { isImageUrl, STATUS_LABEL } from '@lib/status';

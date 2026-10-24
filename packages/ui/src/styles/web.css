@@ -1,4 +1,4 @@
-/* Strata Bold for web. Import after tailwindcss in the app's CSS entry. */
+/* SprintStack Bold for web. Import after tailwindcss in the app's CSS entry. */
 @import "./theme.css";
 @import "./tokens.web.css";
 @import "./utilities.css";

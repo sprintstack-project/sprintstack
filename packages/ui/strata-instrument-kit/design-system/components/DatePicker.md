@@ -34,7 +34,7 @@ import { DayPicker } from "react-day-picker";
   </Popover.Positioner></Popover.Portal>
 </Popover.Root>
 ```
-`Strata.parseDate(text, today)` in the bundle is a reference parser covering `today`, `tom`, `+Nd`, `+Nw`, weekday names, `next <weekday>` and ISO dates. Swap in `chrono-node` if you need more phrasing or other languages.
+`SprintStack.parseDate(text, today)` in the bundle is a reference parser covering `today`, `tom`, `+Nd`, `+Nw`, weekday names, `next <weekday>` and ISO dates. Swap in `chrono-node` if you need more phrasing or other languages.
 
 ## Rules
 - Field format is `27 Oct 2026` (mono, zero-padded day) plus a countdown: `T-4D`, `today`, `2D OVER`.

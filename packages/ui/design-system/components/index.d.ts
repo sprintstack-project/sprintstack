@@ -1,7 +1,7 @@
 /**
- * Strata Bold — the shared props contract.
+ * SprintStack Bold — the shared props contract.
  * Web implements these with Base UI + Tailwind; React Native with native primitives + NativeWind.
- * Same component names and core props as Strata (Ledger) and Strata Instrument.
+ * Same component names and core props as SprintStack (Ledger) and SprintStack Instrument.
  */
 
 /** Inputs are always 56px. Buttons: sm 40 · md 48 · lg 56. */

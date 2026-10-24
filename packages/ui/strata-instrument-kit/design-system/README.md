@@ -1,4 +1,4 @@
-Strata Instrument treats issue tracking like a precision tool: **dark by default, keyboard first, measured in mono**. Surfaces are graphite, edges are 1px lines, figures are tabular, and one electric-lime signal marks where you are and what will happen when you press Enter. Every control shows its shortcut. Status reads like a gauge, not a sticker.
+SprintStack Instrument treats issue tracking like a precision tool: **dark by default, keyboard first, measured in mono**. Surfaces are graphite, edges are 1px lines, figures are tabular, and one electric-lime signal marks where you are and what will happen when you press Enter. Every control shows its shortcut. Status reads like a gauge, not a sticker.
 
 It's built with **Base UI** (`@base-ui/react`, headless) styled with **Tailwind CSS** on the web, and with **React Native + NativeWind** on mobile, from the same tokens and props (`components/index.d.ts`). There are two themes: **Graphite** (`dark`, default) and **Daylight** (`light`).
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge } from '@ui/Badge';
 import { Button } from '@ui/Button';
 import { Priority } from '@ui/Priority';

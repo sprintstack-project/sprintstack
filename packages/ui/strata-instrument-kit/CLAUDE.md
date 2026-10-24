@@ -1,6 +1,6 @@
-# Strata Instrument design system
+# SprintStack Instrument design system
 
-This project's UI follows **Strata Instrument**: dark by default, keyboard first, measured in mono. The full spec is in `design-system/`.
+This project's UI follows **SprintStack Instrument**: dark by default, keyboard first, measured in mono. The full spec is in `design-system/`.
 Read `design-system/README.md` before building or changing any UI.
 
 ## Stack

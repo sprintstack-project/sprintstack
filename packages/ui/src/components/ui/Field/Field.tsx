@@ -1,3 +1,5 @@
+'use client';
+
 import { Field as BaseField } from '@base-ui/react/field';
 import type { FieldProps } from '@ui/types';
 import { CircleAlert } from 'lucide-react';
