@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { AuthHeading } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice } from '@/components/auth/notice';
-import { authClient, errorMessage } from '@/lib/auth-client';
+import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
 import { useTokenColor } from '@/lib/use-token-color';
 
 /** Step 2 of an email sign-in, for accounts with an authenticator app. */
@@ -28,6 +28,7 @@ const SignInCodeScreen = () => {
         setError(errorMessage(error, 'That code didn’t work. Try the next one.'));
         return;
       }
+      await refreshSession();
       router.replace('/');
     },
   });

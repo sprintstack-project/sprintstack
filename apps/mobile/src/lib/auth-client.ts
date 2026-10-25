@@ -27,3 +27,10 @@ export const authClient = createAuthClient({
 /** Better Auth's error message, or a fallback that says what to do. */
 export const errorMessage = (error: { message?: string } | null | undefined, fallback: string) =>
   error?.message || fallback;
+
+/**
+ * Re-reads the session into useSession()'s store. Await it after signing in or up, before
+ * navigating: the store keeps its last value ("signed out") and only refetches a tick after the
+ * next screen subscribes, so that screen's session guard would otherwise bounce the person away.
+ */
+export const refreshSession = () => authClient.$store.atoms.session.get().refetch();

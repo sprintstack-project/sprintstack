@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import { AuthHeading, TextLink } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice } from '@/components/auth/notice';
-import { authClient, errorMessage } from '@/lib/auth-client';
+import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
 
 const RESEND_AFTER = 60;
 
@@ -35,6 +35,8 @@ const SignUpVerifyScreen = () => {
         setError(errorMessage(error, 'That code didn’t work. Check the latest email.'));
         return;
       }
+      // Picks up emailVerified, which the stored session still has as false.
+      await refreshSession();
       router.replace('/sign-up/secure');
     },
   });

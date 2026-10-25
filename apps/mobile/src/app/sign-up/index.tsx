@@ -9,7 +9,7 @@ import { AuthHeading, TextLink } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice, OrDivider } from '@/components/auth/notice';
 import { PasswordMeter } from '@/components/auth/password-meter';
-import { AUTH_URL, authClient, errorMessage } from '@/lib/auth-client';
+import { AUTH_URL, authClient, errorMessage, refreshSession } from '@/lib/auth-client';
 
 const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: false };
 
@@ -27,6 +27,7 @@ const SignUpScreen = () => {
         return;
       }
       // The API emails a 6-digit code on sign-up; the person stays signed in while they enter it.
+      await refreshSession();
       router.replace('/sign-up/verify');
     },
   });
@@ -42,6 +43,7 @@ const SignUpScreen = () => {
       return;
     }
     // GitHub emails are already verified, so new accounts skip to the Secure step.
+    await refreshSession();
     router.replace('/sign-up/secure');
   };
 

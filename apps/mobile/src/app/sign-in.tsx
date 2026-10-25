@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { AuthHeading, TextLink } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice, OrDivider } from '@/components/auth/notice';
-import { authClient, errorMessage } from '@/lib/auth-client';
+import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
 import { signInWithPasskey } from '@/lib/passkey';
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
@@ -34,8 +34,12 @@ const SignInScreen = () => {
         return;
       }
       // Accounts with an authenticator app finish on the code step.
-      if (data && 'twoFactorRedirect' in data) router.push('/sign-in-code');
-      else router.replace('/');
+      if (data && 'twoFactorRedirect' in data) {
+        router.push('/sign-in-code');
+        return;
+      }
+      await refreshSession();
+      router.replace('/');
     },
   });
 
@@ -44,6 +48,7 @@ const SignInScreen = () => {
     try {
       const { error } = await signInWithPasskey();
       if (error) throw new Error(error.message);
+      await refreshSession();
       router.replace('/');
     } catch (cause) {
       setError({
@@ -63,6 +68,7 @@ const SignInScreen = () => {
       setError({ title: 'Couldn’t reach GitHub', message: errorMessage(error, 'Try again.') });
       return;
     }
+    await refreshSession();
     router.replace('/');
   };
 
