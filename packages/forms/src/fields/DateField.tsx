@@ -6,7 +6,7 @@ type Bound = 'value' | 'defaultValue' | 'onValueChange' | 'onBlur' | 'invalid';
 export type DateFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<DatePickerProps, Bound>;
 
-export function DateField({ label, description, required, ...picker }: DateFieldProps) {
+export const DateField = ({ label, description, required, ...picker }: DateFieldProps) => {
   const field = useFieldContext<string | null>();
   const error = useFieldError();
   return (
@@ -20,4 +20,4 @@ export function DateField({ label, description, required, ...picker }: DateField
       />
     </Field>
   );
-}
+};

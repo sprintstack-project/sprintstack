@@ -34,7 +34,7 @@ const steps = [
   },
 ];
 
-export function HowItWorks() {
+export const HowItWorks = () => {
   return (
     <section className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-12 py-24">
       <div className="flex flex-col gap-3">
@@ -58,4 +58,4 @@ export function HowItWorks() {
       </ol>
     </section>
   );
-}
+};

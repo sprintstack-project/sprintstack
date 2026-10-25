@@ -17,9 +17,9 @@ interface FieldContextValue {
 // Native counterpart of Base UI's Field context: controls read their label and state from it.
 const FieldContext = createContext<FieldContextValue | null>(null);
 
-export function useField() {
+export const useField = () => {
   return useContext(FieldContext);
-}
+};
 
 const Field = ({ label, description, error, required, children }: FieldProps) => {
   const labelId = useId();

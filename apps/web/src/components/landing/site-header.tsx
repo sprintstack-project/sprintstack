@@ -8,15 +8,15 @@ const links = [
 ];
 
 /** The wordmark; on ink the dot switches to brand-on-ink. */
-export function Logo({ className, onInk }: { className: string; onInk?: boolean }) {
+export const Logo = ({ className, onInk }: { className: string; onInk?: boolean }) => {
   return (
     <span className={`headline leading-none ${className}`}>
       SprintStack<span className={onInk ? 'text-brand-on-ink' : 'text-brand-ink'}>.</span>
     </span>
   );
-}
+};
 
-export function SiteHeader() {
+export const SiteHeader = () => {
   return (
     <header className="mx-auto w-full max-w-7xl px-6 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-5">
       <a href="#top" aria-label="SprintStack home" className="text-ink no-underline">
@@ -46,4 +46,4 @@ export function SiteHeader() {
       </div>
     </header>
   );
-}
+};

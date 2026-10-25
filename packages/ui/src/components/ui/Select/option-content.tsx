@@ -34,11 +34,11 @@ const OptionContent = <V,>({ option, inTrigger }: { option: Option<V>; inTrigger
 };
 
 /** Text form of an option, for screen readers and typeahead when only a status badge is shown. */
-export function optionText<V>(
+export const optionText = <V,>(
   option: Option<V>,
   statusLabel: (tone: NonNullable<Option<V>['status']>) => string,
-) {
+) => {
   return option.label ?? (option.status ? statusLabel(option.status) : String(option.value));
-}
+};
 
 export default OptionContent;

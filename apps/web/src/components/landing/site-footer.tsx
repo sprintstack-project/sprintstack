@@ -1,6 +1,6 @@
 import { Logo } from './site-header';
 
-export function FinalCta() {
+export const FinalCta = () => {
   return (
     <section className="mx-auto w-full max-w-[80rem] px-6 pb-24">
       <div className="flex flex-wrap items-end justify-between gap-10 rounded-2xl bg-ink p-[clamp(2rem,4.5vw,4.5rem)] text-on-ink">
@@ -15,7 +15,7 @@ export function FinalCta() {
       </div>
     </section>
   );
-}
+};
 
 const columns = [
   {
@@ -46,7 +46,7 @@ const columns = [
 
 const legal = ['Privacy notice', 'Terms of use', 'Cookie settings'];
 
-export function SiteFooter() {
+export const SiteFooter = () => {
   return (
     <footer id="contact" className="rounded-t-2xl bg-ink text-on-ink">
       <div className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-12 pt-16 pb-8">
@@ -82,4 +82,4 @@ export function SiteFooter() {
       </div>
     </footer>
   );
-}
+};

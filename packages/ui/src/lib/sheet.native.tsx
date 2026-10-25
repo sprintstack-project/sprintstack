@@ -16,7 +16,7 @@ interface SheetProps {
 }
 
 /** The bottom sheet behind native Select, MultiSelect and DatePicker, themed from the tokens. */
-export function Sheet({ sheetRef, title, onClose, children }: SheetProps) {
+export const Sheet = ({ sheetRef, title, onClose, children }: SheetProps) => {
   const surface = useTokenColor('surface');
   const line = useTokenColor('line-strong');
   const scrim = useTokenColor('scrim');
@@ -43,4 +43,4 @@ export function Sheet({ sheetRef, title, onClose, children }: SheetProps) {
       </View>
     </ActionSheet>
   );
-}
+};

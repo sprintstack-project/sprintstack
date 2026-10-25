@@ -6,11 +6,11 @@ import { useFieldContext } from './context';
  * submit ("validate on blur and submit"). Validation itself can run on every change, so an error
  * clears as soon as it's fixed. Schema errors arrive as issues; plain validators return strings.
  */
-export function useFieldError(): string | undefined {
+export const useFieldError = (): string | undefined => {
   const field = useFieldContext<unknown>();
   const submitted = useStore(field.form.store, (state) => state.submissionAttempts > 0);
   const { errors, isBlurred } = field.state.meta;
   if (!(isBlurred || submitted) || errors.length === 0) return undefined;
   const first = errors[0] as string | { message?: string } | undefined;
   return typeof first === 'string' ? first : first?.message;
-}
+};

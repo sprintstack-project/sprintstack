@@ -17,6 +17,7 @@ const Button = ({
   icon: IconStart,
   iconEnd: IconEnd,
   iconOnly,
+  block,
   disabled,
   onClick,
 }: ButtonProps) => {
@@ -44,7 +45,7 @@ const Button = ({
     <BaseButton
       disabled={disabled}
       onClick={onClick}
-      className={buttonClass(variant, size, iconOnly)}
+      className={twMerge(buttonClass(variant, size, iconOnly), block && 'w-full')}
     >
       {IconStart && <IconStart aria-hidden strokeWidth={2} className={iconClass} />}
       {iconOnly ? <span className="sr-only">{children}</span> : children}

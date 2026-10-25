@@ -93,7 +93,7 @@ export const States: Story = {
 };
 
 /** A value from outside (here, a "Load" button) replaces the content without remounting. */
-function Loader() {
+const Loader = () => {
   const [doc, setDoc] = useState<RichTextDoc | null>(null);
   return (
     <div className="flex max-w-xl flex-col gap-3">
@@ -105,7 +105,7 @@ function Loader() {
       </Field>
     </div>
   );
-}
+};
 
 export const ExternalValue: Story = {
   tags: ['!autodocs'],

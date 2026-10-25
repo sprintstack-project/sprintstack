@@ -16,6 +16,7 @@ const Input = ({
   type = 'text',
   slots,
   pill,
+  autoComplete,
   invalid,
   disabled,
   onBlur,
@@ -41,6 +42,7 @@ const Input = ({
         defaultValue={defaultValue}
         onValueChange={(next) => onChange?.(next)}
         placeholder={placeholder}
+        autoComplete={autoComplete}
         onBlur={onBlur}
         disabled={disabled}
         aria-invalid={invalid || undefined}

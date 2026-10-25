@@ -45,6 +45,7 @@ const Button = ({
   icon: IconStart,
   iconEnd: IconEnd,
   iconOnly,
+  block,
   disabled,
   onClick,
 }: ButtonProps) => {
@@ -79,6 +80,7 @@ const Button = ({
                 iconOnly && variant === 'ghost' && 'border-line',
                 disabled && 'border-transparent bg-surface-pressed',
               ],
+          block && 'self-stretch',
         ),
       )}
     >

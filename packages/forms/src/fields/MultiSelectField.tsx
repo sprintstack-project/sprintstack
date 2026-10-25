@@ -6,12 +6,12 @@ type Bound = 'value' | 'defaultValue' | 'onValueChange' | 'onBlur' | 'invalid';
 export type MultiSelectFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<MultiSelectProps<string>, Bound>;
 
-export function MultiSelectField({
+export const MultiSelectField = ({
   label,
   description,
   required,
   ...multi
-}: MultiSelectFieldProps) {
+}: MultiSelectFieldProps) => {
   const field = useFieldContext<string[]>();
   const error = useFieldError();
   return (
@@ -25,4 +25,4 @@ export function MultiSelectField({
       />
     </Field>
   );
-}
+};

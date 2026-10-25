@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-function PasswordInput() {
+const PasswordInput = () => {
   const [visible, setVisible] = useState(false);
   return (
     <Input
@@ -36,9 +36,9 @@ function PasswordInput() {
       }}
     />
   );
-}
+};
 
-function ClearableInput() {
+const ClearableInput = () => {
   const [value, setValue] = useState('Checkout');
   return (
     <Input
@@ -55,7 +55,7 @@ function ClearableInput() {
       }}
     />
   );
-}
+};
 
 export const States: Story = {
   render: () => (

@@ -39,7 +39,7 @@ const perks = [
   '[Offline support to be confirmed]',
 ];
 
-function PhoneScreenshot() {
+const PhoneScreenshot = () => {
   return (
     <figure aria-label="Screenshot: mobile app, My issues" className="flex justify-center">
       <div className="box-border w-[21.25rem] max-w-full rounded-[3rem] bg-ink p-3">
@@ -107,9 +107,9 @@ function PhoneScreenshot() {
       </div>
     </figure>
   );
-}
+};
 
-export function Mobile() {
+export const Mobile = () => {
   return (
     <section id="mobile" className="bg-surface-muted">
       <div className="mx-auto w-full max-w-[80rem] px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,26.25rem),1fr))] items-center gap-14 py-24">
@@ -150,4 +150,4 @@ export function Mobile() {
       </div>
     </section>
   );
-}
+};

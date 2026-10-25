@@ -18,9 +18,9 @@ interface FieldIds {
 // other primitives, like DatePicker's popover trigger, read these ids to label themselves.
 const FieldContext = createContext<FieldIds | null>(null);
 
-export function useField() {
+export const useField = () => {
   return useContext(FieldContext);
-}
+};
 
 const Field = ({ label, htmlFor, description, error, required, children }: FieldProps) => {
   const invalid = Boolean(error);

@@ -7,7 +7,7 @@ import { Pricing } from '@/components/landing/pricing';
 import { FinalCta, SiteFooter } from '@/components/landing/site-footer';
 import { SiteHeader } from '@/components/landing/site-header';
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="flex-1 bg-canvas text-base leading-6 text-ink">
       <SiteHeader />
@@ -24,4 +24,6 @@ export default function Home() {
       <SiteFooter />
     </div>
   );
-}
+};
+
+export default Home;

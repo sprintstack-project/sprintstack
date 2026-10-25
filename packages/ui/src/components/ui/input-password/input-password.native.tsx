@@ -5,7 +5,7 @@ import { useField } from '@ui/field';
 import type { InputProps } from '@ui/types';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, type TextInputProps, View } from 'react-native';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
 const InputPassword = ({
@@ -14,6 +14,7 @@ const InputPassword = ({
   defaultValue,
   onChange,
   placeholder,
+  autoComplete = 'current-password',
   invalid,
   disabled,
   onBlur,
@@ -41,7 +42,7 @@ const InputPassword = ({
         inputMode="text"
         autoCapitalize="none"
         autoCorrect={false}
-        autoComplete="current-password"
+        autoComplete={autoComplete as TextInputProps['autoComplete']}
         accessibilityLabel={field?.label}
         aria-labelledby={field?.labelId}
         accessibilityHint={field?.hint}

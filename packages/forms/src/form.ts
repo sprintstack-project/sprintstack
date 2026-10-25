@@ -1,8 +1,11 @@
 import { createFormHook } from '@tanstack/react-form';
 import { fieldContext, formContext } from './context';
+import { CheckboxField } from './fields/CheckboxField';
+import { CodeField } from './fields/CodeField';
 import { DateField } from './fields/DateField';
 import { MultiSelectField } from './fields/MultiSelectField';
 import { NumberField } from './fields/NumberField';
+import { PasswordField } from './fields/PasswordField';
 import { RichTextField } from './fields/RichTextField';
 import { SelectField } from './fields/SelectField';
 import { TextAreaField } from './fields/TextAreaField';
@@ -22,7 +25,10 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
   formContext,
   fieldComponents: {
     TextField,
+    PasswordField,
     TextAreaField,
+    CheckboxField,
+    CodeField,
     NumberField,
     SelectField,
     MultiSelectField,

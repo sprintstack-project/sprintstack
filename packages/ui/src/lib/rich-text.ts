@@ -9,7 +9,7 @@ export const sameDoc = (a: RichTextDoc | null | undefined, b: RichTextDoc | null
 const BLOCKS = new Set(['paragraph', 'heading', 'blockquote', 'codeBlock', 'listItem', 'taskItem']);
 
 /** Plain text of a document, one line per block: for search, notifications and previews. */
-export function richTextToPlainText(doc: RichTextDoc | null | undefined): string {
+export const richTextToPlainText = (doc: RichTextDoc | null | undefined): string => {
   const lines: string[] = [];
   let line = '';
   const walk = (node: RichTextNode) => {
@@ -23,7 +23,7 @@ export function richTextToPlainText(doc: RichTextDoc | null | undefined): string
   };
   doc?.content?.forEach(walk);
   return lines.join('\n').trim();
-}
+};
 
 /** True when a document has no visible text (e.g. for a required description). */
 export const isRichTextEmpty = (doc: RichTextDoc | null | undefined) =>

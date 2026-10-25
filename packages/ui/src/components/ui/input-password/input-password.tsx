@@ -16,6 +16,7 @@ const InputPassword = ({
   defaultValue,
   onChange,
   placeholder,
+  autoComplete = 'current-password',
   invalid,
   disabled,
   onBlur,
@@ -33,7 +34,7 @@ const InputPassword = ({
         type={showPassword ? 'text' : 'password'}
         value={value}
         defaultValue={defaultValue}
-        autoComplete="current-password"
+        autoComplete={autoComplete}
         onValueChange={(next) => onChange?.(next)}
         placeholder={placeholder}
         onBlur={onBlur}

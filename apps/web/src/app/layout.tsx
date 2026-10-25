@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'Your backlog, sprints and releases in one fast, friendly workspace, on the web and in your pocket.',
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+const RootLayout = ({ children }: LayoutProps<'/'>) => {
   return (
     <html lang="en" className={`${archivo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
@@ -24,4 +24,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

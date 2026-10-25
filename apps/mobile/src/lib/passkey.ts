@@ -9,7 +9,7 @@ import { authClient } from './auth-client';
 export const isPasskeySupported = () => Passkey.isSupported();
 
 /** Signs in with a passkey saved on this device or in the user's password manager. */
-export async function signInWithPasskey() {
+export const signInWithPasskey = async () => {
   const options = await authClient.$fetch<PasskeyGetRequest>(
     '/passkey/generate-authenticate-options',
     { method: 'GET' },
@@ -20,10 +20,10 @@ export async function signInWithPasskey() {
     method: 'POST',
     body: { response },
   });
-}
+};
 
 /** Adds a passkey to the signed-in account. */
-export async function addPasskey(name?: string) {
+export const addPasskey = async (name?: string) => {
   const options = await authClient.$fetch<PasskeyCreateRequest>(
     '/passkey/generate-register-options',
     { method: 'GET', query: name ? { name } : undefined },
@@ -34,4 +34,4 @@ export async function addPasskey(name?: string) {
     method: 'POST',
     body: { response, name },
   });
-}
+};

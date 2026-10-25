@@ -77,7 +77,7 @@ export const States: Story = {
   ),
 };
 
-function RemovableChips({ onRemove }: { onRemove: (label: string) => void }) {
+const RemovableChips = ({ onRemove }: { onRemove: (label: string) => void }) => {
   const [labels, setLabels] = useState(['Tech debt', 'iOS']);
   return (
     <div className="flex gap-2">
@@ -94,7 +94,7 @@ function RemovableChips({ onRemove }: { onRemove: (label: string) => void }) {
       ))}
     </div>
   );
-}
+};
 
 export const Keyboard: Story = {
   tags: ['!autodocs'],

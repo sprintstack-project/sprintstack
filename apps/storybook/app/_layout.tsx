@@ -11,7 +11,7 @@ import {
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export default function RootLayout() {
+const RootLayout = () => {
   // The families @sprintstack/ui's Text picks per weight.
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -27,4 +27,6 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }} />
     </GestureHandlerRootView>
   );
-}
+};
+
+export default RootLayout;

@@ -3,7 +3,7 @@ import { useTokenColor } from '@lib/use-token-color.native';
 import { useField } from '@ui/field';
 import type { InputProps } from '@ui/types';
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, type TextInputProps, View } from 'react-native';
 
 // Inputs are always 56px (see ControlSize), so `size` is accepted but not applied.
 const Input = ({
@@ -15,6 +15,7 @@ const Input = ({
   type = 'text',
   slots,
   pill,
+  autoComplete,
   invalid,
   disabled,
   onBlur,
@@ -43,6 +44,7 @@ const Input = ({
         inputMode={type === 'password' ? 'text' : type}
         autoCapitalize={type === 'text' ? 'sentences' : 'none'}
         autoCorrect={type === 'text'}
+        autoComplete={autoComplete as TextInputProps['autoComplete']}
         accessibilityLabel={field?.label}
         aria-labelledby={field?.labelId}
         accessibilityHint={field?.hint}

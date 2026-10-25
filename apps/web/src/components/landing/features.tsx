@@ -27,7 +27,7 @@ const values = [
   },
 ];
 
-export function ValuePoints() {
+export const ValuePoints = () => {
   return (
     <section className="border-y border-line">
       <div className="mx-auto w-full max-w-7xl px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,17.5rem),1fr))] gap-10 py-14">
@@ -47,7 +47,7 @@ export function ValuePoints() {
       </div>
     </section>
   );
-}
+};
 
 const backlog: { title: string; points: string; Icon: LucideIcon; tint: string }[] = [
   { title: 'Export issues to CSV', points: '5 pts', Icon: ChevronUp, tint: 'text-brand-ink' },
@@ -55,7 +55,7 @@ const backlog: { title: string; points: string; Icon: LucideIcon; tint: string }
   { title: 'Tidy up onboarding copy', points: '1 pt', Icon: ChevronDown, tint: 'text-ink-muted' },
 ];
 
-function IssueFields() {
+const IssueFields = () => {
   return (
     <figure
       aria-label="Screenshot: issue fields"
@@ -117,7 +117,7 @@ function IssueFields() {
       </div>
     </figure>
   );
-}
+};
 
 const smallCards = [
   {
@@ -140,7 +140,7 @@ const smallCards = [
   },
 ];
 
-export function Features() {
+export const Features = () => {
   return (
     <section id="features" className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-10 py-24">
       <div className="flex max-w-[47.5rem] flex-col gap-3">
@@ -253,4 +253,4 @@ export function Features() {
       </div>
     </section>
   );
-}
+};

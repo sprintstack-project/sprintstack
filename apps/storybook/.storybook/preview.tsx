@@ -24,7 +24,7 @@ const withThemes: Decorator = (Story, { globals, parameters }) => {
 };
 
 // Popups portal into their own panel so they take that panel's theme.
-function ThemePanel({ theme, children }: { theme: string; children: ReactNode }) {
+const ThemePanel = ({ theme, children }: { theme: string; children: ReactNode }) => {
   const [panel, setPanel] = useState<HTMLDivElement | null>(null);
   return (
     <div
@@ -35,7 +35,7 @@ function ThemePanel({ theme, children }: { theme: string; children: ReactNode })
       <PortalContainerProvider value={panel}>{children}</PortalContainerProvider>
     </div>
   );
-}
+};
 
 const preview: Preview = {
   // A docs page per component: usage snippet, props table and every story with its code.

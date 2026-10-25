@@ -74,7 +74,7 @@ export const States: Story = {
   ),
 };
 
-function PasswordInput() {
+const PasswordInput = () => {
   const [visible, setVisible] = useState(false);
   return (
     <Input
@@ -95,9 +95,9 @@ function PasswordInput() {
       }}
     />
   );
-}
+};
 
-function ClearableInput() {
+const ClearableInput = () => {
   const [value, setValue] = useState('Checkout');
   return (
     <Input
@@ -114,7 +114,7 @@ function ClearableInput() {
       }}
     />
   );
-}
+};
 
 /** Left and right slots take icons, text or actions. */
 export const Slots: Story = {

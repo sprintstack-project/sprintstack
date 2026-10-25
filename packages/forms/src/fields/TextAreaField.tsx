@@ -6,7 +6,12 @@ type Bound = 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'invalid';
 export type TextAreaFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<TextAreaProps, Bound>;
 
-export function TextAreaField({ label, description, required, ...textarea }: TextAreaFieldProps) {
+export const TextAreaField = ({
+  label,
+  description,
+  required,
+  ...textarea
+}: TextAreaFieldProps) => {
   const field = useFieldContext<string>();
   const error = useFieldError();
   return (
@@ -19,4 +24,4 @@ export function TextAreaField({ label, description, required, ...textarea }: Tex
       />
     </Field>
   );
-}
+};

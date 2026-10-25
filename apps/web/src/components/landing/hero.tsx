@@ -59,7 +59,7 @@ const columns: { title: string; issues: Issue[] }[] = [
   },
 ];
 
-function IssueCard({ issue }: { issue: Issue }) {
+const IssueCard = ({ issue }: { issue: Issue }) => {
   const active = issue.progress !== undefined;
   return (
     <div
@@ -93,9 +93,9 @@ function IssueCard({ issue }: { issue: Issue }) {
       </div>
     </div>
   );
-}
+};
 
-function BoardScreenshot() {
+const BoardScreenshot = () => {
   return (
     <figure aria-label="Screenshot: sprint board" className="rounded-2xl bg-surface-muted p-4">
       <div className="overflow-hidden rounded-xl border border-line bg-canvas">
@@ -136,9 +136,9 @@ function BoardScreenshot() {
       </div>
     </figure>
   );
-}
+};
 
-export function Hero() {
+export const Hero = () => {
   return (
     <section
       id="top"
@@ -162,4 +162,4 @@ export function Hero() {
       <BoardScreenshot />
     </section>
   );
-}
+};

@@ -6,7 +6,7 @@ type Bound = 'value' | 'defaultValue' | 'onChange' | 'onBlur' | 'invalid';
 export type TextFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<InputProps, Bound>;
 
-export function TextField({ label, description, required, ...input }: TextFieldProps) {
+export const TextField = ({ label, description, required, ...input }: TextFieldProps) => {
   const field = useFieldContext<string>();
   const error = useFieldError();
   return (
@@ -19,4 +19,4 @@ export function TextField({ label, description, required, ...input }: TextFieldP
       />
     </Field>
   );
-}
+};

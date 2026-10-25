@@ -28,7 +28,7 @@ const Select = <V = string>(props: SelectProps<V>) => {
 };
 
 /** Always controlled internally, so action rows ("Clear this view") can run without becoming the value. */
-function useSelectValue<V>({ options, value, defaultValue, onValueChange }: SelectProps<V>) {
+const useSelectValue = <V,>({ options, value, defaultValue, onValueChange }: SelectProps<V>) => {
   const [ownValue, setOwnValue] = useState<V | null>(defaultValue ?? null);
   const current = value === undefined ? ownValue : value;
   const pick = (option: Option<V> | undefined) => {
@@ -38,7 +38,7 @@ function useSelectValue<V>({ options, value, defaultValue, onValueChange }: Sele
     onValueChange?.(option.value);
   };
   return { current, selected: options.find((o) => o.value === current), pick };
-}
+};
 
 const PlainSelect = <V,>(props: SelectProps<V>) => {
   const { id, options, placeholder, defaultOpen, invalid, disabled, onBlur } = props;

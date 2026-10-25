@@ -47,7 +47,7 @@ interface IssueFormProps {
   load?: () => Promise<IssueInput>;
 }
 
-function IssueForm({ onSubmit, load }: IssueFormProps) {
+const IssueForm = ({ onSubmit, load }: IssueFormProps) => {
   const form = useAppForm({
     defaultValues: empty,
     // Validate on every change; fields show errors once left or after a submit attempt.
@@ -124,7 +124,7 @@ function IssueForm({ onSubmit, load }: IssueFormProps) {
       </div>
     </Card>
   );
-}
+};
 
 const meta = {
   title: 'Forms/IssueForm',

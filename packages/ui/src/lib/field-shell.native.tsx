@@ -13,7 +13,10 @@ interface ShellState {
  * Native version of the web `field` utility: the 56px shell around inputs, selects and pickers.
  * Native has no :focus-within, so components pass their own focus state.
  */
-export function fieldShell({ focused, invalid, disabled }: ShellState, ...classes: ClassValue[]) {
+export const fieldShell = (
+  { focused, invalid, disabled }: ShellState,
+  ...classes: ClassValue[]
+) => {
   return twMerge(
     clsx(
       'min-h-14 rounded-lg border-[1.5px] border-line-strong bg-surface',
@@ -23,7 +26,7 @@ export function fieldShell({ focused, invalid, disabled }: ShellState, ...classe
       ...classes,
     ),
   );
-}
+};
 
 const FORWARD_REF = Symbol.for('react.forward_ref');
 
@@ -32,7 +35,7 @@ const FORWARD_REF = Symbol.for('react.forward_ref');
  * Lucide icons are forwardRef components; plain components such as our Button are left alone, as
  * are props the element already sets.
  */
-export function tintSlot(node: ReactNode, color: string): ReactNode {
+export const tintSlot = (node: ReactNode, color: string): ReactNode => {
   if (!isValidElement(node) || (node.type as { $$typeof?: symbol }).$$typeof !== FORWARD_REF)
     return node;
   const element = node as ReactElement<{ color?: string; size?: number }>;
@@ -40,4 +43,4 @@ export function tintSlot(node: ReactNode, color: string): ReactNode {
     color: element.props.color ?? color,
     size: element.props.size ?? scaled(24),
   });
-}
+};

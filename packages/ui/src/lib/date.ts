@@ -1,16 +1,16 @@
 // Calendar-date helpers shared by the web and native DatePicker. Dates are ISO "YYYY-MM-DD" strings,
 // read as local calendar days (never through UTC, which would shift them across time zones).
 
-export function parseISODate(iso: string | null | undefined): Date | undefined {
+export const parseISODate = (iso: string | null | undefined): Date | undefined => {
   const match = iso?.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!match) return undefined;
   return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-}
+};
 
-export function toISODate(date: Date): string {
+export const toISODate = (date: Date): string => {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
+};
 
 export const startOfToday = () => {
   const now = new Date();
@@ -37,7 +37,7 @@ export const isOutOfRange = (date: Date, min?: Date, max?: Date) =>
  * Weeks of the month as rows of 7, padded with nulls outside the month (those cells stay hidden).
  * Always 6 rows, so the calendar keeps one height whatever the month.
  */
-export function monthWeeks(month: Date, weekStartsOn: 0 | 1 | 6): (Date | null)[][] {
+export const monthWeeks = (month: Date, weekStartsOn: 0 | 1 | 6): (Date | null)[][] => {
   const first = new Date(month.getFullYear(), month.getMonth(), 1);
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
   const lead = (first.getDay() - weekStartsOn + 7) % 7;
@@ -50,10 +50,10 @@ export function monthWeeks(month: Date, weekStartsOn: 0 | 1 | 6): (Date | null)[
   ];
   while (cells.length < 42) cells.push(null);
   return Array.from({ length: 6 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
-}
+};
 
 /** Two-letter weekday headers starting on `weekStartsOn`. */
-export function weekdayLabels(weekStartsOn: 0 | 1 | 6) {
+export const weekdayLabels = (weekStartsOn: 0 | 1 | 6) => {
   // 4 Jan 2026 is a Sunday.
   return Array.from({ length: 7 }, (_, i) => {
     const day = new Date(2026, 0, 4 + ((weekStartsOn + i) % 7));
@@ -62,4 +62,4 @@ export function weekdayLabels(weekStartsOn: 0 | 1 | 6) {
       long: day.toLocaleDateString('en-GB', { weekday: 'long' }),
     };
   });
-}
+};

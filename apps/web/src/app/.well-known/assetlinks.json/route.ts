@@ -1,7 +1,7 @@
 import { list } from '@/lib/list';
 
 // Lets the Android app use passkeys for this domain through Credential Manager.
-export function GET() {
+export const GET = () => {
   const fingerprints = list(process.env.ANDROID_CERT_FINGERPRINTS);
   return Response.json(
     fingerprints.length
@@ -17,4 +17,4 @@ export function GET() {
         ]
       : [],
   );
-}
+};

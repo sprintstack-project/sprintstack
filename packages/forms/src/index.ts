@@ -1,7 +1,10 @@
 export { useFieldContext, useFormContext } from './context';
+export type { CheckboxFieldProps } from './fields/CheckboxField';
+export type { CodeFieldProps } from './fields/CodeField';
 export type { DateFieldProps } from './fields/DateField';
 export type { MultiSelectFieldProps } from './fields/MultiSelectField';
 export type { NumberFieldProps } from './fields/NumberField';
+export type { PasswordFieldProps } from './fields/PasswordField';
 export type { RichTextFieldProps } from './fields/RichTextField';
 export type { SelectFieldProps } from './fields/SelectField';
 export type { TextAreaFieldProps } from './fields/TextAreaField';

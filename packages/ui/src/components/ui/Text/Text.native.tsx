@@ -6,11 +6,11 @@ type Weight = keyof typeof fonts;
 const WEIGHTS = Object.keys(fonts).map(Number) as Weight[];
 
 /** The loaded weight closest to `fontWeight` ('bold', '800', 600, …). */
-function familyFor(fontWeight: unknown) {
+const familyFor = (fontWeight: unknown) => {
   const w = fontWeight === 'bold' ? 700 : Number(fontWeight) || 400;
   const nearest = WEIGHTS.reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a));
   return fonts[nearest];
-}
+};
 
 /**
  * React Native's Text with the Archivo family set. RN can't apply a custom font's weights from

@@ -31,7 +31,7 @@ const plans = [
   },
 ];
 
-export function Pricing() {
+export const Pricing = () => {
   return (
     <section id="pricing" className="border-t border-line">
       <div className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-10 py-24">
@@ -86,4 +86,4 @@ export function Pricing() {
       </div>
     </section>
   );
-}
+};

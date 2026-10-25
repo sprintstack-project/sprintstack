@@ -30,7 +30,7 @@ const labelOptions = ['payments', 'ios', 'web', 'tech-debt', 'flaky'].map((value
 }));
 
 /** Same fields and schema as the web Forms/IssueForm story, on native components. */
-function IssueForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
+const IssueForm = ({ onSubmit }: { onSubmit: (summary: string) => void }) => {
   const form = useAppForm({
     defaultValues: empty,
     validators: { onChange: issueSchema },
@@ -88,7 +88,7 @@ function IssueForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
       </View>
     </View>
   );
-}
+};
 
 const meta = {
   title: 'Forms/IssueForm',

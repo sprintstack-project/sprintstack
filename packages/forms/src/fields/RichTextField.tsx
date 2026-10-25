@@ -13,7 +13,7 @@ export type RichTextFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFo
   Omit<RichTextEditorProps, Bound>;
 
 /** The editor follows the form's value, so `form.reset(loaded)` fills it: no remount or `key`. */
-export function RichTextField({ label, description, required, ...editor }: RichTextFieldProps) {
+export const RichTextField = ({ label, description, required, ...editor }: RichTextFieldProps) => {
   const field = useFieldContext<RichTextDoc | null>();
   const error = useFieldError();
   return (
@@ -27,4 +27,4 @@ export function RichTextField({ label, description, required, ...editor }: RichT
       />
     </Field>
   );
-}
+};

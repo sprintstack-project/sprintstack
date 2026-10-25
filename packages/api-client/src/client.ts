@@ -15,7 +15,12 @@ export interface ApiClientOptions {
   serverRender?: boolean;
 }
 
-export function createApiClient({ url, fetch, onUnauthenticated, serverRender }: ApiClientOptions) {
+export const createApiClient = ({
+  url,
+  fetch,
+  onUnauthenticated,
+  serverRender,
+}: ApiClientOptions) => {
   return new Client({
     url,
     fetch,
@@ -34,4 +39,4 @@ export function createApiClient({ url, fetch, onUnauthenticated, serverRender }:
       ...(serverRender ? [] : [fetchExchange]),
     ],
   });
-}
+};

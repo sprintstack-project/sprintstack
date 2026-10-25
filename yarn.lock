@@ -10100,6 +10100,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-clipboard@npm:~58.0.4":
+  version: 58.0.4
+  resolution: "expo-clipboard@npm:58.0.4"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/471318371415ac8a5153e224603d3ec8506c07cf02e2afb4eb544aa172df4f43f47ff1a12bf449ea246ff283f59c0c8e008561b66c1138fa09aa432283c2d78b
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~58.0.13":
   version: 58.0.13
   resolution: "expo-constants@npm:58.0.13"
@@ -12959,6 +12970,7 @@ __metadata:
     "@types/react": "npm:~19.3.0"
     better-auth: "npm:^1.7.12"
     expo: "npm:~58.0.17"
+    expo-clipboard: "npm:~58.0.4"
     expo-constants: "npm:~58.0.13"
     expo-device: "npm:~58.0.5"
     expo-font: "npm:~58.0.9"
@@ -14147,7 +14159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -14345,6 +14357,13 @@ __metadata:
   version: 1.2.0
   resolution: "pvutils@npm:1.2.0"
   checksum: 10c0/1206766f0b9947fd44a629e2ed7945fb5d1d8ee0f31f032ec58d60cec2165b0b3afb11bf3727215348bf19132ca34986302680b5930d45b0a0d23745fd54224b
+  languageName: node
+  linkType: hard
+
+"qrcode-generator@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "qrcode-generator@npm:2.0.4"
+  checksum: 10c0/52dc3894bda6afecf09cb36aba9c181f3c4641fcbeac40c2af05d68da1383e3a1c7354bd3dc8c5e2a199d2e62314bbdec8cb4fbbd00bcfda40de56bb36bfdb17
   languageName: node
   linkType: hard
 
@@ -14737,6 +14756,18 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: 10c0/f1febbfd0fa4ede0656c6b5ff6c2c3d68a075337b2dc91f3b42b4fd89168e197fa6d926b1acf667371c3fb3187e0570b34e7d72803be0e92f0bf995f1d37afd2
+  languageName: node
+  linkType: hard
+
+"react-qr-code@npm:^2.0.18":
+  version: 2.2.0
+  resolution: "react-qr-code@npm:2.2.0"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+    qrcode-generator: "npm:^2.0.4"
+  peerDependencies:
+    react: "*"
+  checksum: 10c0/895b9bfe0d41467b375d271acf18a036dec1711b45990ba5afd770678fab068c9d8651b92c6c50f48f8d11664a0b4651a9e051450ae33b68f2876f9dc684a3be
   languageName: node
   linkType: hard
 
@@ -17033,6 +17064,7 @@ __metadata:
     next: "npm:16.4.3"
     react: "npm:19.3.0"
     react-dom: "npm:19.3.0"
+    react-qr-code: "npm:^2.0.18"
     tailwindcss: "npm:^4"
     typescript: "npm:^5"
   languageName: unknown

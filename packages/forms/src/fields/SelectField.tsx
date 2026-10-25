@@ -6,7 +6,7 @@ type Bound = 'value' | 'defaultValue' | 'onValueChange' | 'onBlur' | 'invalid';
 export type SelectFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<SelectProps<string>, Bound>;
 
-export function SelectField({ label, description, required, ...select }: SelectFieldProps) {
+export const SelectField = ({ label, description, required, ...select }: SelectFieldProps) => {
   const field = useFieldContext<string | null>();
   const error = useFieldError();
   return (
@@ -20,4 +20,4 @@ export function SelectField({ label, description, required, ...select }: SelectF
       />
     </Field>
   );
-}
+};

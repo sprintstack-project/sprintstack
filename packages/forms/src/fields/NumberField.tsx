@@ -6,7 +6,7 @@ type Bound = 'value' | 'defaultValue' | 'onValueChange' | 'onBlur' | 'invalid';
 export type NumberFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
   Omit<NumberInputProps, Bound>;
 
-export function NumberField({ label, description, required, ...number }: NumberFieldProps) {
+export const NumberField = ({ label, description, required, ...number }: NumberFieldProps) => {
   const field = useFieldContext<number | null>();
   const error = useFieldError();
   return (
@@ -20,4 +20,4 @@ export function NumberField({ label, description, required, ...number }: NumberF
       />
     </Field>
   );
-}
+};

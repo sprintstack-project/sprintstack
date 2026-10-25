@@ -32,7 +32,7 @@ export const createCache = () =>
     schema: introspection,
     // Types without an `id` field need a key here (or `() => null` to embed them in their parent).
     keys: {},
-    updates: {
-      Mutation: {},
-    },
+    // Add `Mutation: { … }` here once the schema has mutations: Graphcache warns about an
+    // `updates.Mutation` entry while the schema has no Mutation type.
+    updates: {},
   });

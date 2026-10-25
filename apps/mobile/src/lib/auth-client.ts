@@ -1,5 +1,5 @@
 import { expoClient } from '@better-auth/expo/client';
-import { twoFactorClient } from 'better-auth/client/plugins';
+import { emailOTPClient, twoFactorClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 import * as SecureStore from 'expo-secure-store';
 
@@ -8,8 +8,10 @@ import * as SecureStore from 'expo-secure-store';
  * callback URL and passkey domain match on every platform. On a device, point it at a URL the
  * device can reach (LAN IP or tunnel) and set BETTER_AUTH_URL in apps/api to match.
  */
+export const AUTH_URL = process.env.EXPO_PUBLIC_AUTH_URL ?? 'http://localhost:3001';
+
 export const authClient = createAuthClient({
-  baseURL: process.env.EXPO_PUBLIC_AUTH_URL ?? 'http://localhost:3001',
+  baseURL: AUTH_URL,
   plugins: [
     expoClient({
       // Keep in step with "scheme" in app.json and APP_SCHEME in apps/api.
@@ -18,5 +20,10 @@ export const authClient = createAuthClient({
       storage: SecureStore,
     }),
     twoFactorClient(),
+    emailOTPClient(),
   ],
 });
+
+/** Better Auth's error message, or a fallback that says what to do. */
+export const errorMessage = (error: { message?: string } | null | undefined, fallback: string) =>
+  error?.message || fallback;

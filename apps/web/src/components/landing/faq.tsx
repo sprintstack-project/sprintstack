@@ -23,7 +23,7 @@ const questions = [
 ];
 
 /** One answer open at a time; the first starts open. */
-export function Faq() {
+export const Faq = () => {
   const [open, setOpen] = useState(0);
   const id = useId();
   return (
@@ -58,4 +58,4 @@ export function Faq() {
       </div>
     </section>
   );
-}
+};

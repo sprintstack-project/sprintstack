@@ -72,10 +72,10 @@ const NumberInput = ({
     stopRepeat();
     repeat.current = setInterval(() => nudge(dir), REPEAT_MS);
   };
-  function stopRepeat() {
+  const stopRepeat = () => {
     if (repeat.current) clearInterval(repeat.current);
     repeat.current = null;
-  }
+  };
 
   const over =
     current != null &&

@@ -41,6 +41,8 @@ export interface ButtonProps {
   icon?: IconComponent;
   iconEnd?: IconComponent;
   iconOnly?: boolean;
+  /** Stretch to the container's width (e.g. the main action of a form). */
+  block?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -106,6 +108,8 @@ export interface InputProps extends ControlBase, Blurrable {
   slots?: InputSlots;
   /** Full-pill search bar; pair with a brand Button in `slots.right`. */
   pill?: boolean;
+  /** Autofill hint, e.g. "email", "new-password", "username webauthn" (passkey autofill on web). */
+  autoComplete?: string;
 }
 
 export interface TextAreaProps extends ControlBase, Blurrable {
@@ -251,5 +255,48 @@ export interface RichTextEditorProps extends Blurrable {
   minRows?: number;
   size?: ControlSize;
   invalid?: boolean;
+  disabled?: boolean;
+}
+
+/** Progress through a multi-step flow, e.g. sign-up: Account → Verify → Secure. */
+export interface StepperProps {
+  /** Step names in order, in sentence case (shown uppercase). */
+  steps: string[];
+  /** The current step's index (0-based). Earlier steps show as done. */
+  current: number;
+  /** Accessible name of the list, e.g. "Sign-up progress". */
+  label?: string;
+  /** Small screens: progress bars with "Step 2 of 3 · Verify" instead of numbered circles. */
+  compact?: boolean;
+}
+
+/**
+ * A one-time code (authenticator, email verification) shown as one box per digit. Typing, paste
+ * and OS autofill all go into one field, so it reads as a single input to assistive tech.
+ */
+export interface CodeInputProps extends Blurrable {
+  id?: string;
+  /** Number of digits. Default 6. */
+  length?: number;
+  value?: string;
+  defaultValue?: string;
+  /** Digits only, up to `length`. */
+  onChange?: (value: string) => void;
+  /** Called once every digit is filled, e.g. to submit. */
+  onComplete?: (value: string) => void;
+  autoFocus?: boolean;
+  invalid?: boolean;
+  disabled?: boolean;
+}
+
+export interface CheckboxProps {
+  id?: string;
+  /** The label. Links inside it stay clickable. */
+  children: ReactNode;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  /** Shown under the label, e.g. when a required agreement is left unticked. */
+  error?: string;
   disabled?: boolean;
 }

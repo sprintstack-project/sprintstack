@@ -65,7 +65,9 @@ const tools: {
 ];
 
 /** The same content styles as web's `rich-text` utility, injected into 10tap's WebView. */
-function contentCSS(c: Record<'ink' | 'muted' | 'placeholder' | 'line' | 'link' | 'code', string>) {
+const contentCSS = (
+  c: Record<'ink' | 'muted' | 'placeholder' | 'line' | 'link' | 'code', string>,
+) => {
   const px = (n: number) => `${n * UI_SCALE}px`;
   return `
     * { background: transparent; }
@@ -81,7 +83,7 @@ function contentCSS(c: Record<'ink' | 'muted' | 'placeholder' | 'line' | 'link' 
     .ProseMirror p.is-editor-empty:first-child::before { content: attr(data-placeholder);
       color: ${c.placeholder}; float: left; height: 0; pointer-events: none; }
   `;
-}
+};
 
 const RichTextEditor = ({
   value,
