@@ -4,7 +4,7 @@ import type { NextConfig } from 'next';
 // Monorepo root: dependencies are hoisted to <root>/node_modules
 const workspaceRoot = path.join(__dirname, '../..');
 
-// The NestJS API, which serves Better Auth at /api/auth.
+// The NestJS API, which serves Better Auth at /api/auth and GraphQL at /graphql.
 const apiUrl = process.env.API_URL ?? 'http://localhost:3000';
 
 const nextConfig: NextConfig = {
@@ -13,9 +13,13 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   outputFileTracingRoot: workspaceRoot,
-  // Serve auth from this origin so its cookies are first-party and passkeys use this domain.
+  // Serve the API from this origin: auth cookies are first-party (and sent with GraphQL requests),
+  // and passkeys use this domain.
   async rewrites() {
-    return [{ source: '/api/auth/:path*', destination: `${apiUrl}/api/auth/:path*` }];
+    return [
+      { source: '/api/auth/:path*', destination: `${apiUrl}/api/auth/:path*` },
+      { source: '/api/graphql', destination: `${apiUrl}/graphql` },
+    ];
   },
   turbopack: {
     root: workspaceRoot,

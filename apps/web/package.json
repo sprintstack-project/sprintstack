@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@better-auth/passkey": "^1.7.12",
+    "@sprintstack/api-client": "workspace:^",
     "@sprintstack/forms": "workspace:^",
     "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",

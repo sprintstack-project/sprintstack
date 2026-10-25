@@ -21,6 +21,7 @@
       "!**/package-lock.json",
       "!**/uniwind-types.d.ts",
       "!**/src/generated",
+      "!**/graphql-env.ts",
       "!packages/ui/design-system",
       "!**/.rnstorybook/storybook.requires.ts"
     ]

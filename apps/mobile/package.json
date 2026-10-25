@@ -7,6 +7,7 @@
     "@better-auth/expo": "^1.7.12",
     "@expo-google-fonts/archivo": "^0.4.2",
     "@expo/ui": "~58.0.22",
+    "@sprintstack/api-client": "workspace:^",
     "@sprintstack/forms": "workspace:^",
     "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",
