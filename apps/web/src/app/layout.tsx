@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Archivo } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
@@ -9,6 +9,14 @@ const archivo = Archivo({
   subsets: ['latin'],
   axes: ['wdth'],
 });
+
+// Browser chrome follows the page canvas (tokens.web.css: light #f3f4f2, dark #0a0c0b).
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f3f4f2' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0c0b' },
+  ],
+};
 
 export const metadata: Metadata = {
   title: 'SprintStack: issue tracking for teams that ship',
