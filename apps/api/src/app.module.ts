@@ -12,6 +12,7 @@ import { ViewerResolver } from './auth/viewer.resolver';
 import { HealthController } from './health/health.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
+import { RobotsController } from './robots/robots.controller';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { PrismaService } from './prisma/prisma.service';
       }),
     }),
   ],
-  controllers: [AppController, HealthController],
+  controllers: [AppController, HealthController, RobotsController],
   providers: [AppService, ViewerResolver],
 })
 export class AppModule {}

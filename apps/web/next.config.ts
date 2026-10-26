@@ -15,6 +15,18 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: workspaceRoot,
   // Serve the API from this origin: auth cookies are first-party (and sent with GraphQL requests),
   // and passkeys use this domain.
+  // Keep every response out of search indexes, including non-HTML files the robots meta tag
+  // can't cover (images, the manifest, proxied API responses).
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive, nosnippet, noimageindex' },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return [
       { source: '/api/auth/:path*', destination: `${apiUrl}/api/auth/:path*` },
