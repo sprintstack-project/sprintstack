@@ -46,11 +46,12 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
       ? turnstileHostnames
       : [new URL(webOrigin).hostname],
   });
-  // The native app has no widget yet, so requests from it skip the check. Its origin is only a
-  // header, so a script can claim it too: this stops bots driving the web forms, not the API.
+  // The native app has no widget, so in development its requests skip the check. Production
+  // enforces it for everyone: the app's origin is only a header that any script can send, and the
+  // app isn't released, so email sign-in and sign-up there work against a development API only.
   const isNativeApp = (request: Request) => {
     const origin = request.headers.get('expo-origin') ?? request.headers.get('origin') ?? '';
-    return origin.startsWith(`${appScheme}://`) || (isDev && origin.startsWith('exp://'));
+    return origin.startsWith(`${appScheme}://`) || origin.startsWith('exp://');
   };
 
   const githubClientId = env('GITHUB_CLIENT_ID');
@@ -61,6 +62,14 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
     baseURL,
     secret: required(env, 'BETTER_AUTH_SECRET'),
     database: prismaAdapter(prisma, { provider: 'postgresql' }),
+    // Email-code routes the apps don't use. They'd send mail with no Turnstile check (sign-in codes
+    // even to addresses without an account), so they're switched off rather than left open.
+    disabledPaths: [
+      '/sign-in/email-otp',
+      '/email-otp/request-password-reset',
+      '/forget-password/email-otp',
+      '/email-otp/reset-password',
+    ],
     trustedOrigins: [
       webOrigin,
       `${appScheme}://`,
@@ -104,6 +113,8 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
       emailOTP({
         otpLength: 6,
         expiresIn: 10 * 60,
+        // Codes go only to existing accounts; signing up happens through /sign-up/email.
+        disableSignUp: true,
         // Email verification uses this 6-digit code instead of a link.
         overrideDefaultEmailVerification: true,
         sendVerificationOTP: async ({ email, otp }) => {
@@ -135,7 +146,7 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
       {
         ...turnstile,
         onRequest: async (request, ctx) =>
-          isNativeApp(request) ? undefined : turnstile.onRequest(request, ctx),
+          isDev && isNativeApp(request) ? undefined : turnstile.onRequest(request, ctx),
       },
     ],
   });

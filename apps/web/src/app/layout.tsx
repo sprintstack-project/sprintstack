@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: 'SprintStack: issue tracking for teams that ship',
   description:
     'Your backlog, sprints and releases in one fast, friendly workspace, on the web and in your pocket.',
-  // Keep the app out of search results (see robots.ts).
+  // Keep the app out of search results (robots.ts explains why crawlers may still visit).
   robots: {
     index: false,
     follow: false,

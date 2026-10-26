@@ -62,7 +62,7 @@ const SignupPage = () => {
         </>
       }
       aside={{
-        eyebrow: 'Early access',
+        eyebrow: 'Demo purposes only',
         title: (
           <>
             Plan it.
