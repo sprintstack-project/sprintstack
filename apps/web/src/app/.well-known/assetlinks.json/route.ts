@@ -1,7 +1,10 @@
+import { connection } from 'next/server';
 import { list } from '@/lib/list';
 
 // Lets the Android app use passkeys for this domain through Credential Manager.
-export const GET = () => {
+export const GET = async () => {
+  // Read the env at request time; otherwise Cache Components prerenders this at build.
+  await connection();
   const fingerprints = list(process.env.ANDROID_CERT_FINGERPRINTS);
   return Response.json(
     fingerprints.length

@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/images/icon.png",
-      "bundleIdentifier": "com.sprintstack.app"
+      "bundleIdentifier": "com.sprintstack.app",
+      "associatedDomains": ["webcredentials:sprintstack.io"]
     },
     "android": {
       "adaptiveIcon": {

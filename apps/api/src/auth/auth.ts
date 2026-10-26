@@ -72,6 +72,13 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
     account: {
       accountLinking: { enabled: true, trustedProviders: ['github'] },
     },
+    // The rate limiter keys on the client IP. Cloudflare sets cf-connecting-ip to the visitor's
+    // address (the web app's rewrite passes it through); the default x-forwarded-for arrives as a
+    // proxy chain, which Better Auth won't trust. Only safe while the origin is reachable solely
+    // through Cloudflare, otherwise clients can spoof the header.
+    advanced: {
+      ipAddress: { ipAddressHeaders: ['cf-connecting-ip'] },
+    },
     plugins: [
       expo(),
       emailOTP({
