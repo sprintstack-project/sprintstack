@@ -5,21 +5,29 @@ import { forgotPasswordSchema } from '@sprintstack/shared';
 import { useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice } from '@/components/auth/notice';
+import { TURNSTILE_PENDING, useTurnstile } from '@/components/auth/turnstile';
 import { authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
 
 const ForgotPasswordPage = () => {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const turnstile = useTurnstile();
 
   const form = useAppForm({
     defaultValues: { email: '' },
     validators: { onChange: forgotPasswordSchema },
     onSubmit: async ({ value }) => {
       setError(null);
+      if (!turnstile.token) {
+        setError(TURNSTILE_PENDING);
+        return;
+      }
       const { error } = await authClient.requestPasswordReset({
         email: value.email,
         redirectTo: `${window.location.origin}/reset-password`,
+        fetchOptions: { headers: { 'x-captcha-response': turnstile.token } },
       });
+      turnstile.reset();
       if (error) {
         setError(errorMessage(error, 'Couldn’t send the link. Try again.'));
         return;
@@ -70,6 +78,7 @@ const ForgotPasswordPage = () => {
             />
           )}
         </form.AppField>
+        <div ref={turnstile.ref} />
         <form.AppForm>
           <form.SubmitButton size="lg" block>
             {sent ? 'Send another link' : 'Send reset link'}

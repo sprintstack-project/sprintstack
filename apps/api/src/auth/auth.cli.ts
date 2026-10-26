@@ -15,6 +15,7 @@ try {
 const placeholders: Record<string, string> = {
   BETTER_AUTH_SECRET: 'schema-generation-only',
   BETTER_AUTH_URL: 'http://localhost:3001',
+  TURNSTILE_SECRET: 'schema-generation-only',
 };
 
 export const auth = createAuth(

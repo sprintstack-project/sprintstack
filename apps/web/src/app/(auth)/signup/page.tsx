@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice, OrDivider } from '@/components/auth/notice';
 import { PasswordMeter } from '@/components/auth/password-meter';
+import { TURNSTILE_PENDING, useTurnstile } from '@/components/auth/turnstile';
 import { authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
 
 const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: false };
@@ -16,13 +17,24 @@ const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: f
 const SignupPage = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const turnstile = useTurnstile();
 
   const form = useAppForm({
     defaultValues,
     validators: { onChange: signUpSchema },
     onSubmit: async ({ value: { name, email, password } }) => {
       setError(null);
-      const { error } = await authClient.signUp.email({ name, email, password });
+      if (!turnstile.token) {
+        setError(TURNSTILE_PENDING);
+        return;
+      }
+      const { error } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        fetchOptions: { headers: { 'x-captcha-response': turnstile.token } },
+      });
+      turnstile.reset();
       if (error) {
         setError(errorMessage(error, 'Couldn’t create your account. Try again.'));
         return;
@@ -130,6 +142,7 @@ const SignupPage = () => {
             </field.CheckboxField>
           )}
         </form.AppField>
+        <div ref={turnstile.ref} />
         <form.AppForm>
           <form.SubmitButton size="lg" block>
             Create account

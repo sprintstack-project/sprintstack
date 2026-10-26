@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice, OrDivider } from '@/components/auth/notice';
+import { TURNSTILE_PENDING, useTurnstile } from '@/components/auth/turnstile';
 import { AFTER_SIGN_IN, authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
@@ -15,13 +16,22 @@ const defaultValues: SignInInput = { email: '', password: '', rememberMe: true }
 const SigninPage = () => {
   const router = useRouter();
   const [error, setError] = useState<{ title: string; message: string } | null>(null);
+  const turnstile = useTurnstile();
 
   const form = useAppForm({
     defaultValues,
     validators: { onChange: signInSchema },
     onSubmit: async ({ value }) => {
       setError(null);
-      const { data, error } = await authClient.signIn.email(value);
+      if (!turnstile.token) {
+        setError({ title: 'Couldn’t sign you in', message: TURNSTILE_PENDING });
+        return;
+      }
+      const { data, error } = await authClient.signIn.email({
+        ...value,
+        fetchOptions: { headers: { 'x-captcha-response': turnstile.token } },
+      });
+      turnstile.reset();
       if (error) {
         setError(
           error.status === 401
@@ -139,6 +149,7 @@ const SigninPage = () => {
         <form.AppField name="rememberMe">
           {(field) => <field.CheckboxField>Keep me signed in on this device</field.CheckboxField>}
         </form.AppField>
+        <div ref={turnstile.ref} />
         <form.AppForm>
           <form.SubmitButton size="lg" block>
             Sign in

@@ -2,6 +2,7 @@ import { expo } from '@better-auth/expo';
 import { passkey } from '@better-auth/passkey';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { captcha } from 'better-auth/plugins/captcha';
 import { emailOTP } from 'better-auth/plugins/email-otp';
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned';
 import { twoFactor } from 'better-auth/plugins/two-factor';
@@ -32,6 +33,25 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
   const webOrigin = env('WEB_ORIGIN') ?? baseURL;
   const appScheme = env('APP_SCHEME') ?? 'sprintstack';
   const isDev = env('NODE_ENV') !== 'production';
+
+  // Turnstile guards the web's email sign-up, sign-in and password-reset requests (Better Auth's
+  // default captcha endpoints). Tokens must come from the widget on an allowed web hostname.
+  const turnstileHostnames = list(env('TURNSTILE_HOSTNAMES'));
+  const turnstile = captcha({
+    provider: 'cloudflare-turnstile',
+    secretKey: required(env, 'TURNSTILE_SECRET'),
+    // Keep in step with TURNSTILE_ACTION in apps/web.
+    expectedAction: 'auth',
+    allowedHostnames: turnstileHostnames.length
+      ? turnstileHostnames
+      : [new URL(webOrigin).hostname],
+  });
+  // The native app has no widget yet, so requests from it skip the check. Its origin is only a
+  // header, so a script can claim it too: this stops bots driving the web forms, not the API.
+  const isNativeApp = (request: Request) => {
+    const origin = request.headers.get('expo-origin') ?? request.headers.get('origin') ?? '';
+    return origin.startsWith(`${appScheme}://`) || (isDev && origin.startsWith('exp://'));
+  };
 
   const githubClientId = env('GITHUB_CLIENT_ID');
   const githubClientSecret = env('GITHUB_CLIENT_SECRET');
@@ -112,6 +132,11 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
         // android:apk-key-hash:<hash> (Android), so those come from PASSKEY_ORIGINS.
         origin: [webOrigin, ...list(env('PASSKEY_ORIGINS'))],
       }),
+      {
+        ...turnstile,
+        onRequest: async (request, ctx) =>
+          isNativeApp(request) ? undefined : turnstile.onRequest(request, ctx),
+      },
     ],
   });
 };
