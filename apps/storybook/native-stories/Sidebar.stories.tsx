@@ -2,7 +2,7 @@ import { type Option, Sidebar, type SidebarSection, Text } from '@sprintstack/ui
 import type { Meta, StoryObj } from '@storybook/react-native';
 import {
   Columns3,
-  House,
+  LayoutDashboard,
   ListTree,
   LogOut,
   Network,
@@ -36,7 +36,7 @@ const account: Option[] = [
 const sections: SidebarSection[] = [
   {
     items: [
-      { key: 'home', label: 'Home', icon: House },
+      { key: 'home', label: 'Dashboard', icon: LayoutDashboard },
       { key: 'taskboard', label: 'Taskboard', icon: Columns3 },
       { key: 'backlog', label: 'Backlog', icon: Rows3 },
       { key: 'timeline', label: 'Timeline', icon: ListTree },

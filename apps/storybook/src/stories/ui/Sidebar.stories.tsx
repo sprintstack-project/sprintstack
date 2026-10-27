@@ -2,7 +2,7 @@ import { type Option, Sidebar, type SidebarSection } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   Columns3,
-  House,
+  LayoutDashboard,
   ListTree,
   LogOut,
   Network,
@@ -35,7 +35,7 @@ const account: Option[] = [
 const sections: SidebarSection[] = [
   {
     items: [
-      { key: 'home', label: 'Home', icon: House, href: '#home' },
+      { key: 'home', label: 'Dashboard', icon: LayoutDashboard, href: '#home' },
       { key: 'taskboard', label: 'Taskboard', icon: Columns3, href: '#taskboard' },
       { key: 'backlog', label: 'Backlog', icon: Rows3, href: '#backlog' },
       { key: 'timeline', label: 'Timeline', icon: ListTree, href: '#timeline' },
@@ -70,13 +70,13 @@ The project and account rows are switchers. Give one \`options\` and it opens a 
 
 \`\`\`tsx
 import { Sidebar, type Option, type SidebarSection } from '@sprintstack/ui';
-import { Columns3, House, LogOut, ShieldCheck, UserRound } from 'lucide-react';
+import { Columns3, LayoutDashboard, LogOut, ShieldCheck, UserRound } from 'lucide-react';
 import Link from 'next/link';
 
 const sections: SidebarSection[] = [
   {
     items: [
-      { key: 'home', label: 'Home', icon: House, href: '/' },
+      { key: 'home', label: 'Dashboard', icon: LayoutDashboard, href: '/' },
       { key: 'taskboard', label: 'Taskboard', icon: Columns3, href: '/taskboard' },
     ],
   },

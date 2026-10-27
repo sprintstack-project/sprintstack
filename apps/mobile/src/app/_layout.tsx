@@ -35,8 +35,7 @@ const RootLayout = () => {
   if (!ready) return null;
   return (
     <ApiProvider value={apiClient}>
-      {/* Sign-in and sign-up screens draw their own header. */}
-      <Stack screenOptions={({ route }) => ({ headerShown: route.name === 'index' })} />
+      <Stack screenOptions={{ headerShown: false }} />
     </ApiProvider>
   );
 };

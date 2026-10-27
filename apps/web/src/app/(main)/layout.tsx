@@ -3,7 +3,7 @@
 import { type Option, Sidebar, type SidebarSection } from '@sprintstack/ui';
 import {
   ChartNoAxesGantt,
-  House,
+  LayoutDashboard,
   ListTodo,
   LogOut,
   ShieldCheck,
@@ -24,7 +24,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const sections: SidebarSection[] = [
     {
       items: [
-        { key: 'dashboard', label: 'Home', icon: House, href: '/dashboard' },
+        { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
         { key: 'taskboard', label: 'Taskboard', icon: ListTodo, href: '/taskboard' },
         { key: 'backlog', label: 'Backlog', icon: SquareStack, href: '/backlog' },
         { key: 'timeline', label: 'Timeline', icon: ChartNoAxesGantt, href: '/timeline' },

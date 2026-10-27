@@ -25,7 +25,7 @@ const DRAWER_BELOW = 600;
 const WIDE = 1024;
 
 // Spec px; keep in step with the w-[17rem] / w-[4.75rem] widths on web.
-const FULL_WIDTH = 'w-[17rem]';
+const FULL_WIDTH = 'w-[18rem]';
 const RAIL_WIDTH = 'w-[4.75rem]';
 
 // The project key and the person's initials sit on the same brand tile.
