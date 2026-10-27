@@ -52,7 +52,7 @@ export const AuthShell = ({
           </a>
         </footer>
       </div>
-      <aside className="hidden min-h-[40rem] flex-[1_1_30rem] flex-col justify-between gap-8 rounded-[1.75rem] bg-ink p-12 text-on-ink min-[60rem]:flex">
+      <aside className="hidden min-h-160 flex-[1_1_30rem] flex-col justify-between gap-8 rounded-2xl bg-ink p-12 text-on-ink min-[60rem]:flex">
         <span className="font-display text-[0.8125rem] leading-4 font-bold uppercase tracking-[.03em] font-stretch-semi-condensed">
           {aside.eyebrow}
         </span>
@@ -61,7 +61,7 @@ export const AuthShell = ({
             {aside.title}
           </h2>
           {aside.children && (
-            <div className="max-w-[26.25rem] text-[1.125rem] leading-[1.625rem] font-semibold font-stretch-semi-condensed">
+            <div className="max-w-105 text-[1.125rem] leading-6.5 font-semibold font-stretch-semi-condensed">
               {aside.children}
             </div>
           )}

@@ -11,7 +11,7 @@ export const authClient = createAuthClient({
 });
 
 /** Where people land once signed in. There's no workspace screen yet, so it's the home page. */
-export const AFTER_SIGN_IN = '/';
+export const AFTER_SIGN_IN = '/dashboard';
 
 /** Better Auth's error message, or a fallback that says what to do. */
 export const errorMessage = (error: { message?: string } | null | undefined, fallback: string) =>
