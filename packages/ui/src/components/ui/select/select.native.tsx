@@ -6,8 +6,8 @@ import { useField } from '@ui/field';
 import Caret from '@ui/select/caret';
 import OptionContent, { optionText } from '@ui/select/option-content';
 import SearchBox from '@ui/select/search-box';
+import type { SelectWithTriggerProps } from '@ui/select/trigger';
 import { Text } from '@ui/text';
-import type { SelectProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { Check } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
@@ -25,7 +25,8 @@ const Select = <V = string>({
   disabled,
   onBlur,
   searchable,
-}: SelectProps<V>) => {
+  trigger: custom,
+}: SelectWithTriggerProps<V>) => {
   const field = useField();
   const sheet = useRef<SheetRef>(null);
   const [open, setOpen] = useState(false);
@@ -48,40 +49,53 @@ const Select = <V = string>({
 
   return (
     <>
-      <Pressable
-        accessibilityRole="combobox"
-        accessibilityLabel={field?.label}
-        accessibilityHint={field?.hint}
-        accessibilityValue={{ text: selected ? optionText(selected) : placeholder }}
-        accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
-        disabled={disabled}
-        onPress={show}
-        className={fieldShell(
-          { focused: open, invalid: invalid || field?.invalid, disabled },
-          'flex-row items-center gap-3 px-5',
-        )}
-      >
-        <View className="min-w-0 flex-1 flex-row items-center gap-3">
-          {selected ? (
-            <OptionContent option={selected} inTrigger />
-          ) : (
-            <Text
-              numberOfLines={1}
-              className={clsx(
-                'text-[1.0625rem]',
-                disabled ? 'text-ink-disabled' : 'text-ink-placeholder',
-              )}
-            >
-              {placeholder}
-            </Text>
+      {custom ? (
+        <Pressable
+          accessibilityRole="combobox"
+          accessibilityLabel={custom.label}
+          accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
+          disabled={disabled}
+          onPress={show}
+          className={custom.className}
+        >
+          {custom.children}
+        </Pressable>
+      ) : (
+        <Pressable
+          accessibilityRole="combobox"
+          accessibilityLabel={field?.label}
+          accessibilityHint={field?.hint}
+          accessibilityValue={{ text: selected ? optionText(selected) : placeholder }}
+          accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
+          disabled={disabled}
+          onPress={show}
+          className={fieldShell(
+            { focused: open, invalid: invalid || field?.invalid, disabled },
+            'flex-row items-center gap-3 px-5',
           )}
-        </View>
-        <Caret open={open} disabled={disabled} />
-      </Pressable>
+        >
+          <View className="min-w-0 flex-1 flex-row items-center gap-3">
+            {selected ? (
+              <OptionContent option={selected} inTrigger />
+            ) : (
+              <Text
+                numberOfLines={1}
+                className={clsx(
+                  'text-[1.0625rem]',
+                  disabled ? 'text-ink-disabled' : 'text-ink-placeholder',
+                )}
+              >
+                {placeholder}
+              </Text>
+            )}
+          </View>
+          <Caret open={open} disabled={disabled} />
+        </Pressable>
+      )}
 
       <Sheet
         sheetRef={sheet}
-        title={field?.label}
+        title={custom?.label ?? field?.label}
         onClose={() => {
           setOpen(false);
           setQuery('');

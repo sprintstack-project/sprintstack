@@ -300,3 +300,95 @@ export interface CheckboxProps {
   error?: string;
   disabled?: boolean;
 }
+
+export interface SidebarItem {
+  /** Matched against the sidebar's `active` key. */
+  key: string;
+  label: string;
+  icon: IconComponent;
+  /** Web: the item renders as a link (through `linkComponent`). Native: passed to `onNavigate`. */
+  href?: string;
+}
+
+export interface SidebarSection {
+  /** Overline above the group, e.g. "Administration". Leave out for the main group. */
+  title?: string;
+  items: SidebarItem[];
+}
+
+/**
+ * A sidebar row that switches something (the project, the account). Give it `options` and it opens
+ * a combobox: search plus virtualized rows on web, a bottom sheet on native, like `Select
+ * searchable`. Without `options` it's a plain button calling `onPress`.
+ */
+export interface SidebarSwitcher {
+  /** e.g. the person's projects, or account choices; `action` rows ("Sign out") run instead of selecting. */
+  options?: Option[];
+  /** The selected option's value, usually the current project or account. */
+  value?: string | null;
+  onValueChange?: (value: string | null) => void;
+  /** Search box and virtualized rows, for long lists. Default true; `false` for a short menu. */
+  searchable?: boolean;
+  /** Used when there are no `options`, e.g. to open a menu of your own. */
+  onPress?: () => void;
+}
+
+/** The project switcher at the top. */
+export interface SidebarProject extends SidebarSwitcher {
+  /** Short key shown on the brand tile, e.g. "PAY". */
+  code: string;
+  name: string;
+  /** e.g. "Scrum · 5 members". */
+  meta?: string;
+}
+
+/** The signed-in person at the bottom. */
+export interface SidebarUser extends SidebarSwitcher {
+  name: string;
+  email?: string;
+  /** Initials ("MO") or an image URL. */
+  avatar?: string;
+}
+
+/** Web only: the link component items render with, e.g. Next's `Link`. Defaults to `<a>`. */
+export type SidebarLinkComponent = ComponentType<{
+  href: string;
+  className?: string;
+  'aria-current'?: 'page';
+  onClick?: () => void;
+  children?: ReactNode;
+}>;
+
+/**
+ * App navigation. Three layouts, chosen by width (web: viewport; native: window, so a foldable
+ * switches as it opens): a drawer on phones, a collapsible rail on tablets (collapsed by default)
+ * and the full sidebar on wide screens. `Sidebar.Toggle` (in the page header) collapses it, or
+ * opens the drawer on phones. Both read the state from `Sidebar.Provider`.
+ */
+export interface SidebarProps {
+  /** The wordmark at the top. */
+  logo?: ReactNode;
+  /** Shown in place of `logo` while collapsed to a rail, e.g. a monogram. */
+  logoCollapsed?: ReactNode;
+  project?: SidebarProject;
+  sections: SidebarSection[];
+  /** The current page's item key. */
+  active?: string;
+  /** Called when an item is chosen (the drawer closes itself). */
+  onNavigate?: (item: SidebarItem) => void;
+  user?: SidebarUser;
+  /** Accessible name of the navigation landmark. Default "Main". */
+  label?: string;
+  linkComponent?: SidebarLinkComponent;
+}
+
+export interface SidebarProviderProps {
+  children: ReactNode;
+  /**
+   * Collapsed to a rail. `null` follows the width (a rail on tablets, full on wide screens) until
+   * the toggle pins the person's choice. Persist it with `onCollapsedChange`. Default `null`.
+   */
+  collapsed?: boolean | null;
+  defaultCollapsed?: boolean | null;
+  onCollapsedChange?: (collapsed: boolean) => void;
+}

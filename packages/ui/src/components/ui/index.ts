@@ -16,6 +16,7 @@ export { NumberInput } from '@ui/number-input';
 export { Priority } from '@ui/priority';
 export { RichTextEditor } from '@ui/rich-text-editor';
 export { Select } from '@ui/select';
+export { Sidebar, useSidebar } from '@ui/sidebar';
 export { Stepper } from '@ui/stepper';
 export { Text } from '@ui/text';
 export { TextArea } from '@ui/text-area';

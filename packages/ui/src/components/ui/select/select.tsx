@@ -7,6 +7,7 @@ import { STATUS_LABEL } from '@lib/status';
 import Caret from '@ui/select/caret';
 import { hairline, popup, popupFrame, row } from '@ui/select/menu';
 import OptionContent, { optionText } from '@ui/select/option-content';
+import type { SelectWithTriggerProps } from '@ui/select/trigger';
 import VirtualOptionList, {
   type OptionVirtualizer,
   scrollHighlightedIntoView,
@@ -23,7 +24,7 @@ const trigger = clsx(
   'focus-visible:outline-none data-disabled:cursor-not-allowed',
 );
 
-const Select = <V = string>(props: SelectProps<V>) => {
+const Select = <V = string>(props: SelectWithTriggerProps<V>) => {
   return props.searchable ? <SearchableSelect {...props} /> : <PlainSelect {...props} />;
 };
 
@@ -40,8 +41,21 @@ const useSelectValue = <V,>({ options, value, defaultValue, onValueChange }: Sel
   return { current, selected: options.find((o) => o.value === current), pick };
 };
 
-const PlainSelect = <V,>(props: SelectProps<V>) => {
-  const { id, options, placeholder, defaultOpen, invalid, disabled, onBlur } = props;
+// A custom trigger can be narrower than the menu (the sidebar's rail), so the menu keeps a floor.
+const menuWidth = (custom: boolean) =>
+  custom ? 'w-[max(var(--anchor-width),20rem)]' : 'min-w-(--anchor-width)';
+
+const PlainSelect = <V,>(props: SelectWithTriggerProps<V>) => {
+  const {
+    id,
+    options,
+    placeholder,
+    defaultOpen,
+    invalid,
+    disabled,
+    onBlur,
+    trigger: custom,
+  } = props;
   const { current, selected, pick } = useSelectValue(props);
   const container = usePortalContainer();
 
@@ -57,24 +71,32 @@ const PlainSelect = <V,>(props: SelectProps<V>) => {
       }}
       disabled={disabled}
     >
-      <BaseSelect.Trigger data-invalid={invalid || undefined} className={trigger}>
-        <BaseSelect.Value
-          placeholder={placeholder}
-          className="flex min-w-0 flex-1 items-center gap-3 truncate data-placeholder:text-ink-placeholder"
-        >
-          {() => (selected ? <OptionContent option={selected} inTrigger /> : placeholder)}
-        </BaseSelect.Value>
-        <BaseSelect.Icon className="flex data-popup-open:rotate-180">
-          <Caret />
-        </BaseSelect.Icon>
-      </BaseSelect.Trigger>
+      {custom ? (
+        <BaseSelect.Trigger aria-label={custom.label} className={custom.className}>
+          {custom.children}
+        </BaseSelect.Trigger>
+      ) : (
+        <BaseSelect.Trigger data-invalid={invalid || undefined} className={trigger}>
+          <BaseSelect.Value
+            placeholder={placeholder}
+            className="flex min-w-0 flex-1 items-center gap-3 truncate data-placeholder:text-ink-placeholder"
+          >
+            {() => (selected ? <OptionContent option={selected} inTrigger /> : placeholder)}
+          </BaseSelect.Value>
+          <BaseSelect.Icon className="flex data-popup-open:rotate-180">
+            <Caret />
+          </BaseSelect.Icon>
+        </BaseSelect.Trigger>
+      )}
       <BaseSelect.Portal container={container}>
         <BaseSelect.Positioner
+          side={custom?.side}
+          align={custom?.align}
           sideOffset={8}
           alignItemWithTrigger={false}
           className="z-50 outline-none"
         >
-          <BaseSelect.Popup className={clsx(popup, 'min-w-(--anchor-width)')}>
+          <BaseSelect.Popup className={clsx(popup, menuWidth(Boolean(custom)))}>
             <BaseSelect.List>
               {options.map((option) => (
                 <BaseSelect.Item
@@ -102,8 +124,17 @@ const PlainSelect = <V,>(props: SelectProps<V>) => {
 };
 
 /** Same trigger, plus a search box in the menu and virtualized rows (TanStack Virtual). */
-const SearchableSelect = <V,>(props: SelectProps<V>) => {
-  const { id, options, placeholder, defaultOpen, invalid, disabled, onBlur } = props;
+const SearchableSelect = <V,>(props: SelectWithTriggerProps<V>) => {
+  const {
+    id,
+    options,
+    placeholder,
+    defaultOpen,
+    invalid,
+    disabled,
+    onBlur,
+    trigger: custom,
+  } = props;
   const { selected, pick } = useSelectValue(props);
   const container = usePortalContainer();
   const virtualizer = useRef<OptionVirtualizer | null>(null);
@@ -129,32 +160,44 @@ const SearchableSelect = <V,>(props: SelectProps<V>) => {
       }}
       disabled={disabled}
     >
-      <Combobox.Trigger id={id} data-invalid={invalid || undefined} className={trigger}>
-        <span
-          className={clsx(
-            'flex min-w-0 flex-1 items-center gap-3 truncate',
-            !selected && 'text-ink-placeholder',
-          )}
-        >
-          {selected ? <OptionContent option={selected} inTrigger /> : placeholder}
-        </span>
-        <span className="flex in-data-popup-open:rotate-180">
-          <Caret />
-        </span>
-      </Combobox.Trigger>
+      {custom ? (
+        <Combobox.Trigger id={id} aria-label={custom.label} className={custom.className}>
+          {custom.children}
+        </Combobox.Trigger>
+      ) : (
+        <Combobox.Trigger id={id} data-invalid={invalid || undefined} className={trigger}>
+          <span
+            className={clsx(
+              'flex min-w-0 flex-1 items-center gap-3 truncate',
+              !selected && 'text-ink-placeholder',
+            )}
+          >
+            {selected ? <OptionContent option={selected} inTrigger /> : placeholder}
+          </span>
+          <span className="flex in-data-popup-open:rotate-180">
+            <Caret />
+          </span>
+        </Combobox.Trigger>
+      )}
       <Combobox.Portal container={container}>
-        <Combobox.Positioner sideOffset={8} className="z-50 outline-none">
+        <Combobox.Positioner
+          side={custom?.side}
+          align={custom?.align}
+          sideOffset={8}
+          className="z-50 outline-none"
+        >
           <Combobox.Popup
             // Opening puts the cursor in the search box, so typing filters straight away.
             initialFocus={searchInput}
-            className={clsx(popupFrame, 'min-w-(--anchor-width) overflow-hidden')}
+            className={clsx(popupFrame, menuWidth(Boolean(custom)), 'overflow-hidden')}
           >
             <div className="border-b border-line p-2">
               <div className="flex h-11 items-center gap-2 rounded-full bg-surface-muted px-4 text-ink-muted">
                 <Search aria-hidden strokeWidth={2} className="size-5 shrink-0" />
-                {/* Named by the surrounding Field's label, like the trigger. */}
+                {/* Named by the surrounding Field's label, like the trigger, or the custom trigger's. */}
                 <Combobox.Input
                   ref={searchInput}
+                  aria-label={custom?.label}
                   placeholder="Search"
                   className="min-w-0 flex-1 bg-transparent text-[1.0625rem] text-ink outline-none placeholder:text-ink-placeholder"
                 />

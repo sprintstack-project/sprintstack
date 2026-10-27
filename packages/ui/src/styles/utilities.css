@@ -139,3 +139,18 @@
     pointer-events: none;
   }
 }
+/*
+ * Sidebar collapsed to its icon rail: when the person chose it (data-sidebar="collapsed"), or by
+ * default on tablet widths (data-sidebar="auto", md to lg). Below md the sidebar is a drawer.
+ * Keep the widths in step with sidebar.tsx.
+ */
+@custom-variant rail {
+  &:where([data-sidebar="collapsed"], [data-sidebar="collapsed"] *) {
+    @slot;
+  }
+  @media (width < 64rem) {
+    &:where([data-sidebar="auto"], [data-sidebar="auto"] *) {
+      @slot;
+    }
+  }
+}
