@@ -3,11 +3,13 @@ import { fieldContext, formContext } from './context';
 import { CheckboxField } from './fields/CheckboxField';
 import { CodeField } from './fields/CodeField';
 import { DateField } from './fields/DateField';
+import { HeadlineField } from './fields/HeadlineField';
 import { MultiSelectField } from './fields/MultiSelectField';
 import { NumberField } from './fields/NumberField';
 import { PasswordField } from './fields/PasswordField';
 import { RichTextField } from './fields/RichTextField';
 import { SelectField } from './fields/SelectField';
+import { StoryPointsField } from './fields/StoryPointsField';
 import { TextAreaField } from './fields/TextAreaField';
 import { TextField } from './fields/TextField';
 import { SubmitButton } from './SubmitButton';
@@ -34,6 +36,8 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     MultiSelectField,
     DateField,
     RichTextField,
+    HeadlineField,
+    StoryPointsField,
   },
   formComponents: { SubmitButton },
 });

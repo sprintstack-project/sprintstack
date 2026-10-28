@@ -1,5 +1,5 @@
 // The props contract for every component. Web and native both import from here.
-import type { ComponentType, ReactNode } from 'react';
+import type { ComponentType, ReactNode, Ref } from 'react';
 
 /** Inputs are always 56px. Buttons: sm 40 · md 48 · lg 56. */
 export type ControlSize = 'sm' | 'md' | 'lg';
@@ -119,6 +119,45 @@ export interface TextAreaProps extends ControlBase, Blurrable {
   placeholder?: string;
   rows?: number;
   maxLength?: number;
+}
+
+/**
+ * A title written as the page's headline, e.g. a new work item's: big condensed text, no box. One
+ * line that wraps; Enter doesn't break it. The label is its accessible name and isn't shown.
+ */
+export interface HeadlineInputProps extends Blurrable {
+  id?: string;
+  /** Accessible name, e.g. "Title". */
+  label: string;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  /** A prompt, e.g. "What needs doing?". */
+  placeholder?: string;
+  /** Shown under the text, with a brand bar down the side. */
+  error?: string;
+  autoFocus?: boolean;
+  disabled?: boolean;
+  /** To focus it again, e.g. after "Create another". */
+  ref?: Ref<{ focus: () => void }>;
+}
+
+/**
+ * Story points as one row of toggles on the usual scale, the rarer values behind "…". Picking the
+ * chosen value again clears it, as does "No estimate" behind "…".
+ */
+export interface StoryPointsProps extends Blurrable {
+  /** The group's visible name. Default "Story points". */
+  label?: string;
+  value?: number | null;
+  defaultValue?: number | null;
+  onValueChange?: (value: number | null) => void;
+  /** The quick picks. Default 1, 2, 3, 5, 8, 13. */
+  scale?: readonly number[];
+  /** Behind "…". Default 0, 21, 34. */
+  more?: readonly number[];
+  error?: string;
+  disabled?: boolean;
 }
 
 export interface NumberInputProps extends ControlBase, Blurrable {

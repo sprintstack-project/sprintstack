@@ -25,3 +25,18 @@ export {
   issueSchema,
 } from './schemas/issue';
 export { richTextDoc, richTextRequired } from './schemas/rich-text';
+export {
+  type Criterion,
+  criterionSchema,
+  MORE_STORY_POINTS,
+  type NewWorkItem,
+  STORY_POINTS,
+  WORK_ITEM_LINK_KINDS,
+  WORK_ITEM_STATUSES,
+  type WorkItemInput,
+  type WorkItemLink,
+  type WorkItemLinkKind,
+  type WorkItemStatus,
+  workItemLinkSchema,
+  workItemSchema,
+} from './schemas/work-item';

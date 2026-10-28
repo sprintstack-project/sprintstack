@@ -171,7 +171,7 @@ const Root = (props: SidebarProps) => {
         id={id}
         data-sidebar={collapsed === null ? 'auto' : collapsed ? 'collapsed' : 'expanded'}
         className={clsx(
-          'sticky top-0 hidden h-dvh max-h-full w-[17rem] shrink-0 border-r border-line bg-canvas text-ink md:flex',
+          'sticky top-0 hidden h-dvh max-h-full w-68 shrink-0 border-r border-line bg-canvas text-ink md:flex',
           'transition-[width] duration-200 ease-out motion-reduce:transition-none rail:w-[4.75rem]',
         )}
       >

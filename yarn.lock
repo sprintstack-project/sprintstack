@@ -17733,6 +17733,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:apps/web"
   dependencies:
+    "@base-ui/react": "npm:^1.9.0"
     "@better-auth/passkey": "npm:^1.7.12"
     "@dnd-kit/core": "npm:^6.3.1"
     "@dnd-kit/sortable": "npm:^10.0.0"

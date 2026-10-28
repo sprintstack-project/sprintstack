@@ -187,7 +187,13 @@ const RichTextEditor = ({
         })}
       </View>
       <View className="px-5 py-4" style={{ minHeight: scaled(minRows * 24) }}>
-        <RichText editor={editor} accessibilityLabel={field?.label} />
+        <RichText
+          editor={editor}
+          accessibilityLabel={field?.label}
+          // WebViews paint an opaque white page; the CSS can't reach it, so clear it here.
+          style={{ backgroundColor: 'transparent' }}
+          containerStyle={{ backgroundColor: 'transparent' }}
+        />
       </View>
     </View>
   );

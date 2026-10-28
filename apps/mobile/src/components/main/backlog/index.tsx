@@ -3,7 +3,7 @@ import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { Button, Text } from '@sprintstack/ui';
 import { format } from 'date-fns';
 import { Check, Plus } from 'lucide-react-native';
-import { useRef, useState } from 'react';
+import { type Dispatch, type SetStateAction, useRef, useState } from 'react';
 import { Pressable, useWindowDimensions, View } from 'react-native';
 import type Animated from 'react-native-reanimated';
 import type { AnimatedRef } from 'react-native-reanimated';
@@ -16,7 +16,6 @@ import {
   filterItems,
   moveTo,
   NO_FILTERS,
-  PLANNED_ITEMS,
   type PlannedItem,
   regroup,
   SPRINTS,
@@ -77,8 +76,18 @@ const Capacity = ({ sprint, points }: { sprint: Sprint; points: number }) => {
   );
 };
 
-export const Backlog = ({ scrollRef }: { scrollRef: AnimatedRef<Animated.ScrollView> }) => {
-  const [allItems, setAllItems] = useState(PLANNED_ITEMS);
+interface BacklogProps {
+  scrollRef: AnimatedRef<Animated.ScrollView>;
+  /** Held by the page, so items made with its "New item" button join the backlog. */
+  items: PlannedItem[];
+  onItemsChange: Dispatch<SetStateAction<PlannedItem[]>>;
+}
+
+export const Backlog = ({
+  scrollRef,
+  items: allItems,
+  onItemsChange: setAllItems,
+}: BacklogProps) => {
   const [filters, setFilters] = useState(NO_FILTERS);
   const [collapsed, setCollapsed] = useState<string[]>([]);
   const [showAll, setShowAll] = useState(false);

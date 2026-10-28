@@ -77,9 +77,14 @@ const Shell = ({ user }: { user: Person }) => {
       {!drawer && (
         <Sidebar.Root
           logo={
-            <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">
-              SprintStack<Text className="text-brand-ink">.</Text>
-            </Text>
+            <View className="flex-row items-baseline">
+              <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">
+                SprintStack
+              </Text>
+              <Text className="text-brand-ink text-[3rem] leading-8 font-extrabold uppercase">
+                .
+              </Text>
+            </View>
           }
           logoCollapsed={
             <Image

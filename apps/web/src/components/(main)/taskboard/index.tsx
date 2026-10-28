@@ -4,6 +4,8 @@ import { Button } from '@ui/button';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { NewWorkItem } from '../new-work-item';
+import { toPlannedItem } from '../new-work-item/data';
 import {
   filterItems,
   NO_FILTERS,
@@ -24,6 +26,7 @@ const Taskboard = () => {
   const [filters, setFilters] = useState(NO_FILTERS);
   // Kept here so a card dragged to another column keeps its new status in the list view too.
   const [allItems, setAllItems] = useState(WORK_ITEMS);
+  const [creating, setCreating] = useState(false);
   const items = filterItems(allItems, filters);
   const points = items.reduce((sum, item) => sum + item.points, 0);
 
@@ -37,10 +40,23 @@ const Taskboard = () => {
           </p>
           <h1 className="headline text-7xl leading-none">Taskboard</h1>
         </div>
-        <Button variant="brand" size="lg" icon={PlusIcon}>
+        <Button variant="brand" size="lg" icon={PlusIcon} onClick={() => setCreating(true)}>
           New work item
         </Button>
       </div>
+      <NewWorkItem
+        open={creating}
+        onOpenChange={setCreating}
+        onCreate={(item) =>
+          setAllItems((all) => [
+            toPlannedItem(
+              item,
+              all.map((i) => i.key),
+            ),
+            ...all,
+          ])
+        }
+      />
       <Toolbar
         sprint={sprint}
         onSprintChange={setSprint}

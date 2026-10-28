@@ -1,5 +1,5 @@
 import { Text } from '@sprintstack/ui';
-import { useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 import { View } from 'react-native';
 import {
   filterItems,
@@ -8,19 +8,23 @@ import {
   SPRINT_DAYS_LEFT,
   SPRINTS,
   type View as ViewMode,
-  WORK_ITEMS,
+  type WorkItem,
 } from './data';
 import { KanbanView } from './kanban-view';
 import { Toolbar } from './toolbar';
 import { ListView } from './views';
 
-export const Taskboard = () => {
+interface TaskboardProps {
+  /** Held by the page, so items made with its "New item" button join the board. */
+  items: WorkItem[];
+  onItemsChange: Dispatch<SetStateAction<WorkItem[]>>;
+}
+
+export const Taskboard = ({ items: allItems, onItemsChange: setAllItems }: TaskboardProps) => {
   // Every sprint shows the same placeholder items until the API is wired up.
   const [sprint, setSprint] = useState(SPRINTS[0].value);
   const [view, setView] = useState<ViewMode>('list');
   const [filters, setFilters] = useState(NO_FILTERS);
-  // Kept here so a card moved to another column keeps its new status in the list view too.
-  const [allItems, setAllItems] = useState(WORK_ITEMS);
   const items = filterItems(allItems, filters);
   const points = items.reduce((sum, item) => sum + item.points, 0);
 

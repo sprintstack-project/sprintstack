@@ -1,4 +1,4 @@
-import { useStore } from '@tanstack/react-form';
+import { useSelector } from '@tanstack/react-form';
 import { useFieldContext } from './context';
 
 /**
@@ -8,7 +8,7 @@ import { useFieldContext } from './context';
  */
 export const useFieldError = (): string | undefined => {
   const field = useFieldContext<unknown>();
-  const submitted = useStore(field.form.store, (state) => state.submissionAttempts > 0);
+  const submitted = useSelector(field.form.store, (state) => state.submissionAttempts > 0);
   const { errors, isBlurred } = field.state.meta;
   if (!(isBlurred || submitted) || errors.length === 0) return undefined;
   const first = errors[0] as string | { message?: string } | undefined;

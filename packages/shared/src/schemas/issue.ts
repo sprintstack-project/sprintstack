@@ -1,21 +1,9 @@
 import { z } from 'zod';
+import { choice } from './choice';
 import { richTextRequired } from './rich-text';
 
 export const ISSUE_TYPES = ['bug', 'story', 'task'] as const;
 export const ISSUE_PRIORITIES = ['highest', 'high', 'medium', 'low', 'lowest'] as const;
-
-/** A choice that starts empty (null) in a form and must be made: null in, a real value out. */
-const choice = <const T extends readonly [string, ...string[]]>(values: T, message: string) =>
-  z
-    .enum(values)
-    .nullable()
-    .transform((value, ctx) => {
-      if (value === null) {
-        ctx.addIssue({ code: 'custom', message });
-        return z.NEVER;
-      }
-      return value;
-    });
 
 /**
  * Creating or editing an issue. Shared by the forms (web and native) and the API, so the two

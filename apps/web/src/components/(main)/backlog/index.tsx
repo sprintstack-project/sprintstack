@@ -21,6 +21,8 @@ import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useId, useState } from 'react';
+import { NewWorkItem } from '../new-work-item';
+import { toPlannedItem } from '../new-work-item/data';
 import {
   BACKLOG,
   BACKLOG_PAGE,
@@ -91,6 +93,9 @@ const Backlog = () => {
   const [collapsed, setCollapsed] = useState<string[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
+  // Open with the sprint a new item starts in: the active sprint from the header, the backlog
+  // from the backlog's own "Create item".
+  const [creating, setCreating] = useState<{ sprint?: string | null } | null>(null);
   // A stable id keeps dnd-kit's generated aria ids the same on the server and the client.
   const dndId = useId();
 
@@ -202,11 +207,25 @@ const Backlog = () => {
           <Button variant="secondary" size="lg" icon={PlusIcon}>
             New sprint
           </Button>
-          <Button variant="brand" size="lg" icon={PlusIcon}>
+          <Button variant="brand" size="lg" icon={PlusIcon} onClick={() => setCreating({})}>
             New work item
           </Button>
         </div>
       </div>
+      <NewWorkItem
+        open={creating !== null}
+        onOpenChange={(open) => !open && setCreating(null)}
+        sprint={creating?.sprint}
+        onCreate={(item) =>
+          setAllItems((all) => [
+            ...all,
+            toPlannedItem(
+              item,
+              all.map((i) => i.key),
+            ),
+          ])
+        }
+      />
       <Toolbar filters={filters} onFiltersChange={setFilters} />
       <DndContext
         id={dndId}
@@ -230,7 +249,12 @@ const Backlog = () => {
               </p>
             }
             action={
-              <Button variant="secondary" size="sm" icon={PlusIcon}>
+              <Button
+                variant="secondary"
+                size="sm"
+                icon={PlusIcon}
+                onClick={() => setCreating({ sprint: null })}
+              >
                 Create item
               </Button>
             }
