@@ -49,7 +49,7 @@ const ViewOption = ({
 };
 
 /** An outlined pill that fills with ink while on, the same height as FilterSelect. */
-const TogglePill = ({
+export const TogglePill = ({
   pressed,
   onPress,
   label,

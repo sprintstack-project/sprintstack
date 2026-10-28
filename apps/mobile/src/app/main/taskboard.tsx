@@ -1,16 +1,9 @@
-import { Button } from '@sprintstack/ui';
-import { Plus } from 'lucide-react-native';
 import { MainScreen } from '@/components/main/main-screen';
+import { NewItemFab } from '@/components/main/new-item-fab';
 import { Taskboard } from '@/components/main/taskboard';
 
 const TaskboardPage = () => (
-  <MainScreen
-    fab={
-      <Button variant="brand" size="lg" icon={Plus}>
-        New item
-      </Button>
-    }
-  >
+  <MainScreen fab={<NewItemFab />}>
     <Taskboard />
   </MainScreen>
 );

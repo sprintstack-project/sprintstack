@@ -1,5 +1,7 @@
+import Backlog from '@/components/(main)/backlog';
+
 const BacklogPage = () => {
-  return <div>Backlog</div>;
+  return <Backlog />;
 };
 
 export default BacklogPage;
