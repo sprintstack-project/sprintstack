@@ -1,5 +1,7 @@
+import Timeline from '@/components/(main)/timeline';
+
 const TimelinePage = () => {
-  return <div>Timeline</div>;
+  return <Timeline />;
 };
 
 export default TimelinePage;
