@@ -17,7 +17,6 @@ import { withUniwind } from 'uniwind';
 import { IntlProvider } from 'use-intl';
 import { apiClient } from '@/lib/api-client';
 
-// Gestures (react-native-sortables, drag handles) only work under this root view.
 const GestureHandlerRootView = withUniwind(BaseGestureHandlerRootView);
 
 // Dates and relative times format in the device's zone.

@@ -182,6 +182,26 @@ export interface SelectProps<V = string> extends ControlBase, Blurrable {
   searchable?: boolean;
 }
 
+/**
+ * A toolbar filter: an outlined pill reading "Label Value ⌄" (e.g. "Sprint  Sprint 24") that opens
+ * the same menu (web) or sheet (native) as Select. Forms use Select.
+ */
+export interface FilterSelectProps<V = string> {
+  /** The filter's name, shown muted before the value; also its accessible name. */
+  label: string;
+  options: Option<V>[];
+  value?: V | null;
+  defaultValue?: V | null;
+  onValueChange?: (value: V | null) => void;
+  /** Shown while nothing is selected. Default "All". */
+  placeholder?: string;
+  /** A bubble after the value, e.g. how many items the filter leaves. */
+  count?: number;
+  /** Stretch to the container's width, e.g. the sprint picker on phones. */
+  block?: boolean;
+  disabled?: boolean;
+}
+
 export interface MultiSelectProps<V = string> extends ControlBase, Blurrable {
   options: Option<V>[];
   value?: V[];

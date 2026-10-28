@@ -9,6 +9,7 @@ export { CodeInput } from '@ui/code-input';
 export { CommandPalette } from '@ui/command-palette';
 export { DatePicker } from '@ui/date-picker';
 export { Field } from '@ui/field';
+export { FilterSelect } from '@ui/filter-select';
 export { GitHubIcon } from '@ui/github-icon';
 export { Header } from '@ui/header';
 export { Input } from '@ui/input';

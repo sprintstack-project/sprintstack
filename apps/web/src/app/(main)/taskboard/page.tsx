@@ -1,5 +1,7 @@
+import Taskboard from '@/components/(main)/taskboard';
+
 const TaskboardPage = () => {
-  return <div>Taskboard</div>;
+  return <Taskboard />;
 };
 
 export default TaskboardPage;

@@ -37,6 +37,7 @@
     "react-native-actions-sheet": "^11.0.0",
     "react-native-gesture-handler": "~3.3.0",
     "react-native-gifted-charts": "^1.4.81",
+    "react-native-kanban-dnd": "^0.1.2",
     "react-native-passkey": "^3.6.2",
     "react-native-reanimated": "4.7.1",
     "react-native-safe-area-context": "~5.10.1",
