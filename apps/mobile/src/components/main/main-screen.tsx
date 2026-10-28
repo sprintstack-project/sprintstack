@@ -12,12 +12,15 @@ const SafeAreaView = withUniwind(BaseSafeAreaView);
  * The tab bar (phones) and the sidebar (tablets) keep clear of the bottom and left edges, so only
  * the right inset is handled here.
  */
-export const MainScreen = ({ title, children }: { title: string; children?: ReactNode }) => (
+export const MainScreen = ({ title, children }: { title?: string; children?: ReactNode }) => (
   <SafeAreaView edges={['right']} className="flex-1 bg-canvas">
     <ScrollView contentContainerClassName="gap-6 px-6 pt-6 pb-10">
-      <Text accessibilityRole="header" className="text-headline uppercase text-ink">
-        {title}
-      </Text>
+      {/* Screens with their own heading (the dashboard's greeting) leave it out. */}
+      {title && (
+        <Text accessibilityRole="header" className="text-headline uppercase text-ink">
+          {title}
+        </Text>
+      )}
       {children}
     </ScrollView>
   </SafeAreaView>

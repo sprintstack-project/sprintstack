@@ -9770,7 +9770,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^4.1.0":
+"date-fns@npm:^4.1.0, date-fns@npm:^4.4.0":
   version: 4.4.0
   resolution: "date-fns@npm:4.4.0"
   checksum: 10c0/988f0a13db183f5dfc85c36bbb6847a9c135a9225888bbea4005876ec15539a8613c21a07370a4e7ea543918d5a1cafb423c528b42cdbbde5fdfddb178126b21
@@ -13424,6 +13424,7 @@ __metadata:
     "@sprintstack/ui": "workspace:^"
     "@types/react": "npm:~19.3.0"
     better-auth: "npm:^1.7.12"
+    date-fns: "npm:^4.4.0"
     expo: "npm:~58.0.17"
     expo-clipboard: "npm:~58.0.4"
     expo-constants: "npm:~58.0.13"
@@ -17733,6 +17734,7 @@ __metadata:
     "@types/react-is": "npm:^19"
     babel-plugin-react-compiler: "npm:1.0.0"
     better-auth: "npm:^1.7.12"
+    date-fns: "npm:^4.4.0"
     lucide-react: "npm:^1.61.0"
     next: "npm:16.4.3"
     next-intl: "npm:^4.14.9"
