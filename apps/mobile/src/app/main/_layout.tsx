@@ -103,13 +103,16 @@ const Shell = ({ user }: { user: Person }) => {
       <View className="flex-1">
         <AppHeader project={project} user={account} />
         <Tabs
+          // Android's back retraces the tabs visited, so a page opened from More returns to it.
+          backBehavior="history"
           screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: canvas } }}
           tabBar={(props) => (drawer ? <TabBar {...props} /> : null)}
         >
-          {/* Only declared screens render; every sidebar item is one, Dashboard first. */}
+          {/* Only declared screens render: every sidebar item, Dashboard first, then More. */}
           {SECTIONS.flatMap((section) => section.items).map((item) => (
             <Tabs.Screen key={item.key} name={item.key} />
           ))}
+          <Tabs.Screen name="more" />
         </Tabs>
       </View>
     </View>

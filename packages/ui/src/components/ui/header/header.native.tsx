@@ -6,7 +6,7 @@ import { Avatar, Switcher, tile, tileText } from '@ui/sidebar/switcher';
 import { Text } from '@ui/text';
 import type { HeaderCrumb, HeaderProps, SidebarProject } from '@ui/types';
 import { clsx } from 'clsx';
-import { ChevronDown, Moon, Search, Sun } from 'lucide-react-native';
+import { ChevronDown, ChevronLeft, Moon, Search, Sun } from 'lucide-react-native';
 import { Pressable, useWindowDimensions, View } from 'react-native';
 
 // Phones (the sidebar's drawer widths) get the current page only and a search icon button. With
@@ -26,6 +26,7 @@ const Header = ({
   onThemeChange,
   project,
   user,
+  back,
 }: HeaderProps) => {
   const { width } = useWindowDimensions();
   const compact = width < COMPACT_BELOW;
@@ -46,7 +47,9 @@ const Header = ({
       )}
 
       <View className="min-w-0 flex-1 flex-row items-center gap-2">
-        {showProject ? (
+        {back ? (
+          <BackTitle back={back} title={breadcrumbs?.at(-1)?.label} />
+        ) : showProject ? (
           <ProjectSwitcher project={project} />
         ) : (
           crumbs?.map((crumb, index) => (
@@ -90,6 +93,33 @@ const Header = ({
         )
       )}
     </View>
+  );
+};
+
+/** "‹ TEAM": back to where the page was opened from, then the page's name. */
+const BackTitle = ({ back, title }: { back: NonNullable<HeaderProps['back']>; title?: string }) => {
+  const ink = useTokenColor('ink');
+  return (
+    <>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Back to ${back.label}`}
+        onPress={back.onPress}
+        hitSlop={touchSlop(40)}
+        className={clsx(iconButton, '-ml-2')}
+      >
+        <ChevronLeft aria-hidden size={scaled(28)} strokeWidth={2} color={ink} />
+      </Pressable>
+      {title && (
+        <Text
+          numberOfLines={1}
+          accessibilityRole="header"
+          className="shrink text-[1.5rem] leading-7 font-extrabold uppercase text-ink"
+        >
+          {title}
+        </Text>
+      )}
+    </>
   );
 };
 

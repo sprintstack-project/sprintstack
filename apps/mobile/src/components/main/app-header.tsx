@@ -12,7 +12,7 @@ import { CalendarClock, SunMoon } from 'lucide-react-native';
 import { useState } from 'react';
 import { SafeAreaView as BaseSafeAreaView } from 'react-native-safe-area-context';
 import { Uniwind, useUniwind, withUniwind } from 'uniwind';
-import { SECTIONS } from '@/components/main/navigation';
+import { MORE_KEYS, SECTIONS } from '@/components/main/navigation';
 
 // Uniwind only reads `className` on React Native's own components; third-party ones need wrapping.
 const SafeAreaView = withUniwind(BaseSafeAreaView);
@@ -74,9 +74,18 @@ export const AppHeader = ({ project, user }: { project: SidebarProject; user: Si
     <SafeAreaView edges={['top', 'right']} className="bg-canvas">
       <Header
         toggle={!drawer}
-        breadcrumbs={[{ label: project.name }, { label: page?.label ?? 'Home' }]}
+        breadcrumbs={[
+          { label: project.name },
+          { label: page?.label ?? (segments[1] === 'more' ? 'More' : 'Home') },
+        ]}
         project={project}
         user={user}
+        // Phones reach these pages from the More tab, so they lead back to it.
+        back={
+          drawer && MORE_KEYS.includes(segments[1] ?? '')
+            ? { label: 'More', onPress: () => router.navigate('/main/more' as Href) }
+            : undefined
+        }
         search={{ onOpen: () => setPaletteOpen(true) }}
         notifications={{
           items: notifications,

@@ -2,12 +2,12 @@ import { scaled } from '@lib/scale';
 import { type IconComponent, Text } from '@sprintstack/ui';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { Pressable, View } from 'react-native';
-import { TABS } from '@/components/main/navigation';
+import { MORE_KEYS, TABS } from '@/components/main/navigation';
 import { useTokenColor } from '@/lib/use-token-color';
 
 /** The phone navigation: tabs with an icon pill that fills in for the current screen. */
 export const TabBar = ({ state, emitter, navigateToTab, insets }: BottomTabBarProps) => {
-  const current = state.routes[state.index]?.key;
+  const current = state.routes[state.index];
 
   return (
     <View
@@ -23,7 +23,11 @@ export const TabBar = ({ state, emitter, navigateToTab, insets }: BottomTabBarPr
       {TABS.map((tab) => {
         const route = state.routes.find((r) => r.name === tab.key);
         if (!route) return null;
-        const focused = route.key === current;
+        // More stays marked on the pages it leads to.
+        const active = route.key === current?.key;
+        const focused =
+          active ||
+          (tab.key === 'more' && current !== undefined && MORE_KEYS.includes(current.name));
 
         const onPress = () => {
           const event = emitter.emit({
@@ -31,7 +35,8 @@ export const TabBar = ({ state, emitter, navigateToTab, insets }: BottomTabBarPr
             target: route.key,
             canPreventDefault: true,
           });
-          if (!focused && !event.defaultPrevented) navigateToTab(route.key);
+          // From a page under More, its tab goes back to the list.
+          if (!active && !event.defaultPrevented) navigateToTab(route.key);
         };
         const onLongPress = () => emitter.emit({ type: 'tabLongPress', target: route.key });
 

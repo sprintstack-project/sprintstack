@@ -86,3 +86,11 @@ export const Playground: Story = {};
 export const NoUnread: Story = {
   args: { notifications: { items: [], onViewAll: fn() } },
 };
+
+/** A phone page opened from More: back to it, then the page's name in place of the project. */
+export const FromMore: Story = {
+  args: {
+    breadcrumbs: [{ label: 'Payments' }, { label: 'Team' }],
+    back: { label: 'More', onPress: fn() },
+  },
+};

@@ -576,6 +576,12 @@ export interface HeaderProps {
    * `options`). Web ignores it, like `project`.
    */
   user?: SidebarUser;
+  /**
+   * Native: a back button and the page's name (the last crumb) take the breadcrumbs' or project
+   * switcher's place, for pages a phone reaches from another screen rather than a tab. `label` names
+   * where it goes ("More"). Web has breadcrumbs for this, so it ignores it, like `project`.
+   */
+  back?: { label: string; onPress: () => void };
 }
 
 export interface SidebarProviderProps {
