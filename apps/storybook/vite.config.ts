@@ -20,6 +20,7 @@ export default defineConfig({
   // reloads the browser, failing that run.
   optimizeDeps: {
     include: [
+      '@base-ui/react/autocomplete',
       '@base-ui/react/button',
       '@base-ui/react/combobox',
       '@base-ui/react/dialog',

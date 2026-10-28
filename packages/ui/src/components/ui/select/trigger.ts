@@ -13,6 +13,8 @@ export interface CustomTrigger {
   /** Web: where the menu opens. Native always uses the bottom sheet. */
   side?: 'top' | 'bottom' | 'right';
   align?: 'start' | 'end';
+  /** Native: extra touch area around a trigger drawn smaller than 44pt. */
+  hitSlop?: number;
 }
 
 export type SelectWithTriggerProps<V> = SelectProps<V> & {

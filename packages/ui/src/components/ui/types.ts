@@ -382,6 +382,110 @@ export interface SidebarProps {
   linkComponent?: SidebarLinkComponent;
 }
 
+/** A step in the header's breadcrumb trail. The last one is the current page. */
+export interface HeaderCrumb {
+  label: string;
+  /** Web: the crumb renders as a link (through `linkComponent`). Native: passed to `onNavigate`. */
+  href?: string;
+}
+
+export type Theme = 'light' | 'dark';
+
+export interface HeaderNotification {
+  id: string;
+  /** e.g. "Mira Okafor assigned you PAY-142". */
+  title: string;
+  /** e.g. the issue's summary. */
+  description?: string;
+  /** Already formatted, e.g. "2h ago". */
+  time: string;
+  /** Initials ("MO") or an image URL; or an `icon` for system notices. */
+  avatar?: string;
+  icon?: IconComponent;
+  unread?: boolean;
+}
+
+export interface HeaderNotifications {
+  /** Newest first. */
+  items: HeaderNotification[];
+  /** Called when a notification is chosen; the dropdown closes itself. */
+  onSelect?: (notification: HeaderNotification) => void;
+  /** Shows "Mark all as read" while anything is unread. */
+  onMarkAllRead?: () => void;
+  /** Shows "View all notifications" at the bottom. */
+  onViewAll?: () => void;
+  /** Unread count when more exist than `items` holds. Default: the unread `items`. */
+  unread?: number;
+}
+
+/** A row in the command palette: a page, an issue, an action. */
+export interface CommandItem {
+  key: string;
+  label: string;
+  icon?: IconComponent;
+  /** Initials or an image URL, e.g. for people. */
+  avatar?: string;
+  /** Shown at the end of the row, e.g. "PAY-142" or "Page". Also searched. */
+  description?: string;
+  /** Extra search terms that aren't shown. */
+  keywords?: string[];
+  /** Runs after the palette closes. */
+  onSelect: () => void;
+}
+
+export interface CommandGroup {
+  /** Overline above the group, e.g. "Pages". */
+  title: string;
+  items: CommandItem[];
+}
+
+/**
+ * Search and jump: a dialog with a search box over grouped results (web), a bottom sheet on native.
+ * Filters by label, description and keywords. Open it from `Header`'s `search.onOpen`.
+ */
+export interface CommandPaletteProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  groups: CommandGroup[];
+  /** Default "Search or jump to…". */
+  placeholder?: string;
+}
+
+/**
+ * The page header: the sidebar toggle, breadcrumbs, a search button that opens your command
+ * palette (⌘K / Ctrl+K on web), notifications and the theme switch. Every part is optional; the
+ * toggle needs `Sidebar.Provider` above it.
+ */
+export interface HeaderProps {
+  /** Show `Sidebar.Toggle`. Default true; native phones that navigate by tab bar pass false. */
+  toggle?: boolean;
+  /** e.g. project, then page. Narrow screens show only the last crumb. */
+  breadcrumbs?: HeaderCrumb[];
+  onNavigate?: (crumb: HeaderCrumb) => void;
+  linkComponent?: SidebarLinkComponent;
+  /** Opens the command palette. Collapses to an icon button on narrow screens. */
+  search?: {
+    onOpen: () => void;
+    /** Default "Search or jump to…". */
+    placeholder?: string;
+  };
+  /** The bell opens a dropdown (web) or sheet (native) listing these. */
+  notifications?: HeaderNotifications;
+  /** The current theme; the switch shows when `onThemeChange` is set. */
+  theme?: Theme;
+  onThemeChange?: (theme: Theme) => void;
+  /**
+   * Native phones, which have no sidebar: the project switcher takes the breadcrumbs' place.
+   * Web phones get it from the sidebar's drawer instead, so web ignores it.
+   */
+  project?: SidebarProject;
+  /**
+   * Native phones: the account switcher takes the theme switch's place (put a theme row in its
+   * `options`). Web ignores it, like `project`.
+   */
+  user?: SidebarUser;
+}
+
 export interface SidebarProviderProps {
   children: ReactNode;
   /**

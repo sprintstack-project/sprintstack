@@ -1,8 +1,17 @@
-import { type Option, Sidebar, Text, useSidebar } from '@sprintstack/ui';
+import {
+  type Option,
+  Sidebar,
+  type SidebarProject,
+  type SidebarUser,
+  Text,
+  useSidebar,
+} from '@sprintstack/ui';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { LogOut } from 'lucide-react-native';
+import { LogOut, Moon, Sun } from 'lucide-react-native';
 import { Image, View } from 'react-native';
+import { Uniwind, useUniwind } from 'uniwind';
+import { AppHeader } from '@/components/main/app-header';
 import { SECTIONS } from '@/components/main/navigation';
 import { TabBar } from '@/components/main/tab-bar';
 import { authClient } from '@/lib/auth-client';
@@ -20,26 +29,51 @@ const projects: Option[] = [
   { value: 'ios', label: 'iOS app', avatar: 'IOS', description: 'Kanban' },
 ];
 
-const account: Option[] = [
-  {
-    value: 'sign-out',
-    label: 'Sign out',
-    icon: LogOut,
-    danger: true,
-    // The session hook in MainLayout sees the sign-out and redirects to sign-in.
-    action: () => authClient.signOut(),
-  },
-];
+const signOut: Option = {
+  value: 'sign-out',
+  label: 'Sign out',
+  icon: LogOut,
+  danger: true,
+  // The session hook in MainLayout sees the sign-out and redirects to sign-in.
+  action: () => authClient.signOut(),
+};
 
 /** Phones navigate with the tab bar; tablets (the sidebar's non-drawer widths) with the sidebar. */
 const Shell = ({ user }: { user: Person }) => {
   const { drawer } = useSidebar();
   const segments = useSegments();
   const canvas = useTokenColor('canvas');
+  const { theme } = useUniwind();
+  const dark = theme === 'dark';
+
+  // Shared by the sidebar (tablets) and the header (phones).
+  const project: SidebarProject = {
+    code: 'PAY',
+    name: 'Payments',
+    meta: 'Scrum · 5 members',
+    options: projects,
+    value: 'pay',
+    onValueChange: () => {},
+  };
+  const account: SidebarUser = {
+    name: user.name,
+    email: user.email,
+    avatar: user.image ?? undefined,
+    options: [
+      // {
+      //   value: 'theme',
+      //   label: dark ? 'Light theme' : 'Dark theme',
+      //   icon: dark ? Sun : Moon,
+      //   action: () => Uniwind.setTheme(dark ? 'light' : 'dark'),
+      // },
+      signOut,
+    ],
+    searchable: false,
+  };
 
   return (
     <View className="flex-1 flex-row bg-canvas">
-      <StatusBar style="light" />
+      <StatusBar style={dark ? 'light' : 'dark'} />
       {!drawer && (
         <Sidebar.Root
           logo={
@@ -54,27 +88,15 @@ const Shell = ({ user }: { user: Person }) => {
               className="size-8 rounded-lg"
             />
           }
-          project={{
-            code: 'PAY',
-            name: 'Payments',
-            meta: 'Scrum · 5 members',
-            options: projects,
-            value: 'pay',
-            onValueChange: () => {},
-          }}
+          project={project}
           sections={SECTIONS}
           active={segments[1]}
           onNavigate={(item) => item.href && router.navigate(item.href as Href)}
-          user={{
-            name: user.name,
-            email: user.email,
-            avatar: user.image ?? undefined,
-            options: account,
-            searchable: false,
-          }}
+          user={account}
         />
       )}
       <View className="flex-1">
+        <AppHeader project={project} user={account} />
         <Tabs
           screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: canvas } }}
           tabBar={(props) => (drawer ? <TabBar {...props} /> : null)}

@@ -56,6 +56,7 @@ const Select = <V = string>({
           accessibilityState={{ disabled: Boolean(disabled), expanded: open }}
           disabled={disabled}
           onPress={show}
+          hitSlop={custom.hitSlop}
           className={custom.className}
         >
           {custom.children}

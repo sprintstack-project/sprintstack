@@ -1,7 +1,6 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { isImageUrl } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import Select from '@ui/select/select';
+import { Avatar, Switcher, tile, tileText } from '@ui/sidebar/switcher';
 import { Text } from '@ui/text';
 import type { SidebarItem, SidebarProps, SidebarProviderProps, SidebarSwitcher } from '@ui/types';
 import { clsx } from 'clsx';
@@ -9,7 +8,6 @@ import { ChevronsUpDown, PanelLeft } from 'lucide-react-native';
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  Image,
   LayoutAnimation,
   Modal,
   Pressable,
@@ -27,17 +25,6 @@ const WIDE = 1024;
 // Spec px; keep in step with the w-[17rem] / w-[4.75rem] widths on web.
 const FULL_WIDTH = 'w-[18rem]';
 const RAIL_WIDTH = 'w-[4.75rem]';
-
-// The project key and the person's initials sit on the same brand tile.
-const tile = 'size-11 shrink-0 items-center justify-center bg-brand';
-const tileText = 'text-[0.9375rem] leading-4 font-extrabold uppercase text-on-brand';
-
-const initialsOf = (name: string) =>
-  name
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join('')
-    .slice(0, 2);
 
 interface SidebarState {
   /** The person's choice; null follows the width. */
@@ -233,7 +220,7 @@ const Panel = ({
       )}
 
       {project && (
-        <Switcher
+        <SwitcherRow
           switcher={project}
           label={`${project.name}, switch project`}
           rail={rail}
@@ -257,7 +244,7 @@ const Panel = ({
               )}
             </View>
           )}
-        </Switcher>
+        </SwitcherRow>
       )}
 
       <ScrollView
@@ -302,7 +289,7 @@ const Panel = ({
       </ScrollView>
 
       {user && (
-        <Switcher switcher={user} label={`${user.name}, account`} rail={rail}>
+        <SwitcherRow switcher={user} label={`${user.name}, account`} rail={rail}>
           <Avatar name={user.name} avatar={user.avatar} />
           {!rail && (
             <View className="min-w-0 flex-1">
@@ -316,19 +303,18 @@ const Panel = ({
               )}
             </View>
           )}
-        </Switcher>
+        </SwitcherRow>
       )}
     </View>
   );
 };
 
-/** The project and account rows: a combobox (bottom sheet) when given options, else a button. */
-const Switcher = ({
-  switcher,
-  label,
+/** The project and account rows, with the up-down chevron unless in the rail. */
+const SwitcherRow = ({
   rail,
   className,
   children,
+  ...rest
 }: {
   switcher: SidebarSwitcher;
   label: string;
@@ -337,38 +323,18 @@ const Switcher = ({
   children: ReactNode;
 }) => {
   const muted = useTokenColor('ink-muted');
-  const trigger = clsx(
-    'flex-row items-center gap-3 rounded-lg active:bg-surface-pressed',
-    !rail && 'p-2 pr-3',
-    className,
-  );
-  const content = (
-    <>
+  return (
+    <Switcher
+      {...rest}
+      className={clsx(
+        'flex-row items-center gap-3 rounded-lg active:bg-surface-pressed',
+        !rail && 'p-2 pr-3',
+        className,
+      )}
+    >
       {children}
       {!rail && <ChevronsUpDown aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />}
-    </>
-  );
-
-  if (!switcher.options) {
-    return (
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={label}
-        onPress={switcher.onPress}
-        className={trigger}
-      >
-        {content}
-      </Pressable>
-    );
-  }
-  return (
-    <Select
-      options={switcher.options}
-      value={switcher.value}
-      onValueChange={switcher.onValueChange}
-      searchable={switcher.searchable ?? true}
-      trigger={{ label, className: trigger, children: content }}
-    />
+    </Switcher>
   );
 };
 
@@ -411,23 +377,6 @@ const NavItem = ({
         </Text>
       )}
     </Pressable>
-  );
-};
-
-const Avatar = ({ name, avatar }: { name: string; avatar?: string }) => {
-  if (avatar && isImageUrl(avatar)) {
-    return (
-      <Image
-        source={{ uri: avatar }}
-        accessibilityIgnoresInvertColors
-        className="size-11 rounded-full"
-      />
-    );
-  }
-  return (
-    <View className={clsx(tile, 'rounded-full')}>
-      <Text className={tileText}>{avatar ?? initialsOf(name)}</Text>
-    </View>
   );
 };
 

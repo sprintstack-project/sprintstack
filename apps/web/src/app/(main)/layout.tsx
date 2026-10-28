@@ -1,7 +1,17 @@
 'use client';
 
-import { type Option, Sidebar, type SidebarSection } from '@sprintstack/ui';
 import {
+  type CommandGroup,
+  CommandPalette,
+  Header,
+  type HeaderNotification,
+  type Option,
+  Sidebar,
+  type SidebarSection,
+  type Theme,
+} from '@sprintstack/ui';
+import {
+  CalendarClock,
   ChartNoAxesGantt,
   LayoutDashboard,
   ListTodo,
@@ -9,17 +19,33 @@ import {
   ShieldCheck,
   SlidersVertical,
   SquareStack,
+  SunMoon,
+  UserCog,
   UserGroup,
   UserRound,
+  Workflow,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const openProfile = () => {};
   const signOut = () => {};
+  const router = useRouter();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // Follows the system until switched. Not persisted yet, so a reload goes back to the system.
+  const [theme, setTheme] = useState<Theme>();
+  useEffect(() => {
+    setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }, []);
+  const changeTheme = (next: Theme) => {
+    document.documentElement.dataset.theme = next;
+    setTheme(next);
+  };
 
   const sections: SidebarSection[] = [
     {
@@ -39,7 +65,59 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     },
     {
       title: 'Administration',
-      items: [{ key: 'users', label: 'Users & permissions', icon: ShieldCheck, href: '/users' }],
+      items: [
+        { key: 'workflows', label: 'Workflows', icon: Workflow, href: '/main/workflows' },
+        { key: 'users', label: 'Users & permissions', icon: UserCog, href: '/main/users' },
+      ],
+    },
+  ];
+
+  const active = pathname?.split('/')[1];
+  const currentLabel = sections
+    .flatMap((section) => section.items)
+    .find((item) => item.key === active)?.label;
+
+  // Placeholder until notifications come from the API.
+  const [notifications, setNotifications] = useState<HeaderNotification[]>([
+    {
+      id: '1',
+      title: 'Mira Okafor assigned you PAY-142',
+      description: 'Retry failed card payouts',
+      time: '5m ago',
+      avatar: 'MO',
+      unread: true,
+    },
+    {
+      id: '2',
+      title: 'Sprint 14 starts tomorrow',
+      time: 'Yesterday',
+      icon: CalendarClock,
+    },
+  ]);
+
+  const commands: CommandGroup[] = [
+    {
+      title: 'Pages',
+      items: sections.flatMap((section) =>
+        section.items.map((item) => ({
+          key: item.key,
+          label: item.label,
+          icon: item.icon,
+          onSelect: () => item.href && router.push(item.href),
+        })),
+      ),
+    },
+    {
+      title: 'Actions',
+      items: [
+        {
+          key: 'theme',
+          label: theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
+          icon: SunMoon,
+          keywords: ['dark', 'light', 'appearance'],
+          onSelect: () => changeTheme(theme === 'dark' ? 'light' : 'dark'),
+        },
+      ],
     },
   ];
 
@@ -73,7 +151,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
               onValueChange: () => {},
             }}
             sections={sections}
-            active={pathname?.split('/')[1]}
+            active={active}
             user={{
               name: 'Mira Okafor',
               email: 'mira@company.com',
@@ -84,11 +162,28 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
             linkComponent={Link}
           />
           <div className="min-w-0 flex-1">
-            <header className="flex items-center gap-3 border-b border-line px-6 py-4">
-              <Sidebar.Toggle />
-            </header>
+            <Header
+              breadcrumbs={[
+                { label: 'Payments', href: '/dashboard' },
+                { label: currentLabel ?? 'Home' },
+              ]}
+              linkComponent={Link}
+              search={{ onOpen: () => setPaletteOpen(true) }}
+              notifications={{
+                items: notifications,
+                onSelect: (picked) =>
+                  setNotifications((all) =>
+                    all.map((n) => (n.id === picked.id ? { ...n, unread: false } : n)),
+                  ),
+                onMarkAllRead: () =>
+                  setNotifications((all) => all.map((n) => ({ ...n, unread: false }))),
+              }}
+              theme={theme}
+              onThemeChange={changeTheme}
+            />
             {children}
           </div>
+          <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} groups={commands} />
         </div>
       </Sidebar.Provider>
     </div>

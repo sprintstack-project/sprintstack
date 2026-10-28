@@ -3,10 +3,11 @@ import {
   ChartNoAxesGantt,
   LayoutDashboard,
   ListTodo,
-  ShieldCheck,
   SlidersVertical,
   SquareStack,
+  UserCog,
   UserGroup,
+  Workflow,
 } from 'lucide-react-native';
 
 // Item keys are the route names under app/main, so the current segment marks the active item.
@@ -28,7 +29,10 @@ export const SECTIONS: SidebarSection[] = [
   },
   {
     title: 'Administration',
-    items: [{ key: 'users', label: 'Users & permissions', icon: ShieldCheck, href: '/main/users' }],
+    items: [
+      { key: 'workflows', label: 'Workflows', icon: Workflow, href: '/main/workflows' },
+      { key: 'users', label: 'Users & permissions', icon: UserCog, href: '/main/users' },
+    ],
   },
 ];
 
