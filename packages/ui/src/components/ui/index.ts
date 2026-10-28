@@ -18,6 +18,7 @@ export { InputPassword } from '@ui/input-password';
 export { MultiSelect } from '@ui/multi-select';
 export { NumberInput } from '@ui/number-input';
 export { Priority } from '@ui/priority';
+export { RangeCalendar } from '@ui/range-calendar';
 export { RichTextEditor } from '@ui/rich-text-editor';
 export { Select } from '@ui/select';
 export { Sidebar, useSidebar } from '@ui/sidebar';

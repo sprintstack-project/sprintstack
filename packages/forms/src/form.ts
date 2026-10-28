@@ -7,6 +7,7 @@ import { HeadlineField } from './fields/HeadlineField';
 import { MultiSelectField } from './fields/MultiSelectField';
 import { NumberField } from './fields/NumberField';
 import { PasswordField } from './fields/PasswordField';
+import { RangeCalendarField } from './fields/RangeCalendarField';
 import { RichTextField } from './fields/RichTextField';
 import { SelectField } from './fields/SelectField';
 import { StoryPointsField } from './fields/StoryPointsField';
@@ -35,6 +36,7 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     SelectField,
     MultiSelectField,
     DateField,
+    RangeCalendarField,
     RichTextField,
     HeadlineField,
     StoryPointsField,

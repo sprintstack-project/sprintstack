@@ -190,6 +190,39 @@ export interface DatePickerProps extends Blurrable {
   disabled?: boolean;
 }
 
+/** A run of days, both ends included, as ISO dates (YYYY-MM-DD). One day has start === end. */
+export interface DateRange {
+  start: string;
+  end: string;
+}
+
+/** A day the calendar flags with a dot, named for screen readers (e.g. a public holiday). */
+export interface CalendarMarker {
+  /** ISO date (YYYY-MM-DD). */
+  date: string;
+  label: string;
+}
+
+/**
+ * An inline month calendar for picking a run of days: the first press sets the start, the next the
+ * end (an earlier day starts over). Wrap it in `Field`, which labels the grid.
+ */
+export interface RangeCalendarProps extends Blurrable {
+  value?: DateRange | null;
+  defaultValue?: DateRange | null;
+  onValueChange?: (value: DateRange | null) => void;
+  /** Pick one day only (start and end the same), e.g. a half day. */
+  single?: boolean;
+  /** ISO dates outside which days can't be picked. */
+  min?: string;
+  max?: string;
+  weekStartsOn?: 0 | 1 | 6;
+  /** Days flagged with a dot, e.g. public holidays. */
+  markers?: CalendarMarker[];
+  invalid?: boolean;
+  disabled?: boolean;
+}
+
 export interface Option<V = string> {
   value: V;
   /** Optional when `status` is set (the badge is the label). */

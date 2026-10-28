@@ -22,7 +22,7 @@ interface Choice<V> {
 }
 
 /** A row of buttons in a grey track, the pressed one filled with ink. */
-const Segmented = <V extends string>({
+export const Segmented = <V extends string>({
   label,
   choices,
   value,

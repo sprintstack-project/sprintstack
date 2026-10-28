@@ -17,6 +17,7 @@ export {
   signInSchema,
   signUpSchema,
 } from './schemas/auth';
+export { type DateRange, dateRange, dateRangeSchema } from './schemas/date-range';
 export {
   ISSUE_PRIORITIES,
   ISSUE_TYPES,
@@ -25,6 +26,13 @@ export {
   issueSchema,
 } from './schemas/issue';
 export { richTextDoc, richTextRequired } from './schemas/rich-text';
+export {
+  type NewTimeOff,
+  TIME_OFF_TYPES,
+  type TimeOffInput,
+  type TimeOffType,
+  timeOffSchema,
+} from './schemas/time-off';
 export {
   type Criterion,
   criterionSchema,

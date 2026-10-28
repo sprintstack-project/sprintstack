@@ -13,10 +13,11 @@ const focus =
 const meta = 'text-meta font-semibold tabular-nums text-ink-muted font-stretch-semi-condensed';
 const title = 'font-display text-title font-extrabold text-ink font-stretch-condensed';
 
-// Poster second lines go in <em>: red on ink tiles, ink on red tiles.
+// Poster second lines go in <em>: brand on ink tiles (darkened in Night, where ink turns light),
+// ink on brand tiles.
 const tiles = {
   brand: 'bg-brand text-on-brand [&_em]:text-ink',
-  ink: 'bg-ink text-on-ink [&_em]:text-brand',
+  ink: 'bg-ink text-on-ink [&_em]:text-brand-on-ink',
   muted: 'bg-surface-muted text-ink [&_em]:text-brand-ink',
 };
 

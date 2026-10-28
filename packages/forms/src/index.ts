@@ -7,6 +7,7 @@ export type { HeadlineFieldProps } from './fields/HeadlineField';
 export type { MultiSelectFieldProps } from './fields/MultiSelectField';
 export type { NumberFieldProps } from './fields/NumberField';
 export type { PasswordFieldProps } from './fields/PasswordField';
+export type { RangeCalendarFieldProps } from './fields/RangeCalendarField';
 export type { RichTextFieldProps } from './fields/RichTextField';
 export type { SelectFieldProps } from './fields/SelectField';
 export type { StoryPointsFieldProps } from './fields/StoryPointsField';

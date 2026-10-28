@@ -63,3 +63,16 @@ export const weekdayLabels = (weekStartsOn: 0 | 1 | 6) => {
     };
   });
 };
+
+/**
+ * The range after pressing `day` (ISO): with a lone start picked, a later day ends the range;
+ * otherwise (or for an earlier day, or in single-day mode) the day starts a new one.
+ */
+export const nextRange = (
+  range: { start: string; end: string } | null | undefined,
+  day: string,
+  single?: boolean,
+) =>
+  single || !range || range.start !== range.end || day < range.start
+    ? { start: day, end: day }
+    : { start: range.start, end: day };
