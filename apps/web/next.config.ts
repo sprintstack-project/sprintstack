@@ -1,5 +1,9 @@
 import path from 'node:path';
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+// Points next-intl at src/i18n/request.ts.
+const withNextIntl = createNextIntlPlugin();
 
 // Monorepo root: dependencies are hoisted to <root>/node_modules
 const workspaceRoot = path.join(__dirname, '../..');
@@ -44,4 +48,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

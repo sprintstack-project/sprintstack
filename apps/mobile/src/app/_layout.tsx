@@ -8,10 +8,20 @@ import {
   useFonts,
 } from '@expo-google-fonts/archivo';
 import { ApiProvider } from '@sprintstack/api-client';
+import { DEFAULT_LOCALE, MESSAGES } from '@sprintstack/shared/i18n';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { GestureHandlerRootView as BaseGestureHandlerRootView } from 'react-native-gesture-handler';
+import { withUniwind } from 'uniwind';
+import { IntlProvider } from 'use-intl';
 import { apiClient } from '@/lib/api-client';
+
+// Gestures (react-native-sortables, drag handles) only work under this root view.
+const GestureHandlerRootView = withUniwind(BaseGestureHandlerRootView);
+
+// Dates and relative times format in the device's zone.
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 // Keep the native splash (app.json) up until the fonts are in, so there's no blank frame.
 SplashScreen.preventAutoHideAsync();
@@ -34,9 +44,14 @@ const RootLayout = () => {
 
   if (!ready) return null;
   return (
-    <ApiProvider value={apiClient}>
-      <Stack screenOptions={{ headerShown: false }} />
-    </ApiProvider>
+    <GestureHandlerRootView className="flex-1">
+      {/* English only for now, matching the web app (apps/web/src/i18n/request.ts). */}
+      <IntlProvider locale={DEFAULT_LOCALE} messages={MESSAGES[DEFAULT_LOCALE]} timeZone={timeZone}>
+        <ApiProvider value={apiClient}>
+          <Stack screenOptions={{ headerShown: false }} />
+        </ApiProvider>
+      </IntlProvider>
+    </GestureHandlerRootView>
   );
 };
 

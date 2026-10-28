@@ -1,0 +1,9 @@
+{
+  "Common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "loading": "Loading…",
+    "workItems": "{count, plural, one {# work item} other {# work items}}"
+  }
+}

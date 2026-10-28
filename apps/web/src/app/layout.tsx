@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Archivo } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -31,11 +33,15 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({ children }: LayoutProps<'/'>) => {
+const RootLayout = async ({ children }: LayoutProps<'/'>) => {
+  const locale = await getLocale();
   return (
-    <html lang="en" className={`${archivo.variable} h-full antialiased`}>
+    <html lang={locale} className={`${archivo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        {/* Passes src/i18n/request.ts's locale and messages to client components. */}
+        <NextIntlClientProvider>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
