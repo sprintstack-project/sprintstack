@@ -1,5 +1,5 @@
 import { MainScreen } from '@/components/main/main-screen';
 
-const Taskboard = () => <MainScreen title="Taskboard" />;
+const TaskboardPage = () => <MainScreen title="Taskboard" />;
 
-export default Taskboard;
+export default TaskboardPage;

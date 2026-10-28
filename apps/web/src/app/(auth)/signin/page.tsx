@@ -13,7 +13,7 @@ import { AFTER_SIGN_IN, authClient, errorMessage, signInWithGitHub } from '@/lib
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
 
-const SigninPage = () => {
+const SignInPage = () => {
   const router = useRouter();
   const [error, setError] = useState<{ title: string; message: string } | null>(null);
   const turnstile = useTurnstile();
@@ -164,4 +164,4 @@ const SigninPage = () => {
   );
 };
 
-export default SigninPage;
+export default SignInPage;

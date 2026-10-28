@@ -12,18 +12,18 @@ import { WorkStatus } from './work-status';
 export const Dashboard = () => {
   return (
     <>
-      <View className="gap-2">
-        <Text className="text-eyebrow font-bold uppercase text-ink-muted">
+      <View>
+        <Text className="text-sm font-bold uppercase text-ink-muted">
           {format(TODAY, 'eeee, d MMMM')}
         </Text>
         <View className="flex-row items-center gap-2">
           <Text
             accessibilityRole="header"
-            className="text-3xl leading-14 font-extrabold uppercase text-ink"
+            className="text-4xl leading-14 font-extrabold uppercase text-ink"
           >
             Hello,
           </Text>
-          <Text className="text-3xl leading-14 font-extrabold uppercase text-brand-ink">
+          <Text className="text-4xl leading-14 font-extrabold uppercase text-brand-ink">
             {USER.firstName}.
           </Text>
         </View>

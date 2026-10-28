@@ -13,7 +13,7 @@ import { authClient, errorMessage } from '@/lib/auth-client';
 const RESEND_AFTER = 60;
 
 /** Step 2: the 6-digit code the API emailed at sign-up. */
-const SignupVerifyPage = () => {
+const SignUpVerifyPage = () => {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const email = session?.user.email ?? '';
@@ -147,4 +147,4 @@ const SignupVerifyPage = () => {
   );
 };
 
-export default SignupVerifyPage;
+export default SignUpVerifyPage;

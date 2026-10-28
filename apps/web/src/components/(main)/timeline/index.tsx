@@ -1,5 +1,5 @@
-const TimelinePage = () => {
+const Timeline = () => {
   return <div>Timeline</div>;
 };
 
-export default TimelinePage;
+export default Timeline;

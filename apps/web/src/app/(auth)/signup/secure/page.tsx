@@ -27,7 +27,7 @@ const toTotp = (uri: string, backupCodes: string[]): Totp => ({
 const groupKey = (secret: string) => secret.replace(/(.{4})(?=.)/g, '$1 ');
 
 /** Step 3 (optional): a passkey, an authenticator app, or both. Then the recovery codes. */
-const SignupSecurePage = () => {
+const SignUpSecurePage = () => {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [hasPassword, setHasPassword] = useState<boolean | null>(null);
@@ -287,4 +287,4 @@ const SignupSecurePage = () => {
   );
 };
 
-export default SignupSecurePage;
+export default SignUpSecurePage;

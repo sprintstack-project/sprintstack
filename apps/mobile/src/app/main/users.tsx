@@ -1,5 +1,5 @@
 import { MainScreen } from '@/components/main/main-screen';
 
-const Users = () => <MainScreen title="Users & permissions" />;
+const UsersPage = () => <MainScreen title="Users & permissions" />;
 
-export default Users;
+export default UsersPage;

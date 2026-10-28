@@ -1,10 +1,10 @@
-import { Dashboard as DashboardContent } from '@/components/main/dashboard';
+import { Dashboard } from '@/components/main/dashboard';
 import { MainScreen } from '@/components/main/main-screen';
 
-const Dashboard = () => (
+const DashboardPage = () => (
   <MainScreen>
-    <DashboardContent />
+    <Dashboard />
   </MainScreen>
 );
 
-export default Dashboard;
+export default DashboardPage;

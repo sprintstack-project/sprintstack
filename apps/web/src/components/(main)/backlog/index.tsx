@@ -1,5 +1,5 @@
-const BacklogPage = () => {
+const Backlog = () => {
   return <div>Backlog</div>;
 };
 
-export default BacklogPage;
+export default Backlog;

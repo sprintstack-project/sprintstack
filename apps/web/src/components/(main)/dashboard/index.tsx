@@ -38,7 +38,7 @@ const WIDGETS: Record<WidgetKey, { title: string; href: string; content: ReactNo
 
 const DEFAULT_WIDGETS = Object.keys(WIDGETS) as WidgetKey[];
 
-const DashboardPage = () => {
+const Dashboard = () => {
   // Layout isn't saved yet: a reload brings back the default widgets in the default order.
   const [widgets, setWidgets] = useState<WidgetKey[]>(DEFAULT_WIDGETS);
   const removed = DEFAULT_WIDGETS.filter((key) => !widgets.includes(key));
@@ -102,4 +102,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

@@ -14,7 +14,7 @@ import { authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
 
 const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: false };
 
-const SignupPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const turnstile = useTurnstile();
@@ -153,4 +153,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

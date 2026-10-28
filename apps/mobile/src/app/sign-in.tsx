@@ -13,7 +13,7 @@ import { signInWithPasskey } from '@/lib/passkey';
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
 
-const SignInScreen = () => {
+const SignInPage = () => {
   const [error, setError] = useState<{ title: string; message: string } | null>(null);
 
   const form = useAppForm({
@@ -133,4 +133,4 @@ const SignInScreen = () => {
   );
 };
 
-export default SignInScreen;
+export default SignInPage;

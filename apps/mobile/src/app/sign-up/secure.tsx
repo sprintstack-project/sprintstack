@@ -23,7 +23,7 @@ interface Totp {
 const groupKey = (secret: string) => secret.replace(/(.{4})(?=.)/g, '$1 ');
 
 /** Step 3 (optional): a passkey, an authenticator app, or both. Then the recovery codes. */
-const SignUpSecureScreen = () => {
+const SignUpSecurePage = () => {
   const onBrand = useTokenColor('on-brand');
   const ink = useTokenColor('ink');
   const { data: session, isPending } = authClient.useSession();
@@ -241,4 +241,4 @@ const SignUpSecureScreen = () => {
   );
 };
 
-export default SignUpSecureScreen;
+export default SignUpSecurePage;

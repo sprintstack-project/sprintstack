@@ -12,7 +12,7 @@ import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
 import { useTokenColor } from '@/lib/use-token-color';
 
 /** Step 2 of an email sign-in, for accounts with an authenticator app. */
-const SignInCodeScreen = () => {
+const SignInCodePage = () => {
   const onBrand = useTokenColor('on-brand');
   const [recovery, setRecovery] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -101,4 +101,4 @@ const SignInCodeScreen = () => {
   );
 };
 
-export default SignInCodeScreen;
+export default SignInCodePage;

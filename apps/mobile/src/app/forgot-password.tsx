@@ -9,7 +9,7 @@ import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice } from '@/components/auth/notice';
 import { AUTH_URL, authClient, errorMessage } from '@/lib/auth-client';
 
-const ForgotPasswordScreen = () => {
+const ForgotPasswordPage = () => {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -78,4 +78,4 @@ const ForgotPasswordScreen = () => {
   );
 };
 
-export default ForgotPasswordScreen;
+export default ForgotPasswordPage;

@@ -1,5 +1,5 @@
 import { MainScreen } from '@/components/main/main-screen';
 
-const Timeline = () => <MainScreen title="Timeline" />;
+const TimelinePage = () => <MainScreen title="Timeline" />;
 
-export default Timeline;
+export default TimelinePage;

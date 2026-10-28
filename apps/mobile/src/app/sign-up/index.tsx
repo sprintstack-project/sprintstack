@@ -13,7 +13,7 @@ import { AUTH_URL, authClient, errorMessage, refreshSession } from '@/lib/auth-c
 
 const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: false };
 
-const SignUpScreen = () => {
+const SignUpPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const form = useAppForm({
@@ -110,4 +110,4 @@ const SignUpScreen = () => {
   );
 };
 
-export default SignUpScreen;
+export default SignUpPage;

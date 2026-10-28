@@ -1,5 +1,5 @@
 import { MainScreen } from '@/components/main/main-screen';
 
-const Backlog = () => <MainScreen title="Backlog" />;
+const BacklogPage = () => <MainScreen title="Backlog" />;
 
-export default Backlog;
+export default BacklogPage;

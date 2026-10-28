@@ -1,5 +1,5 @@
-const TaskboardPage = () => {
+const Taskboard = () => {
   return <div>Taskboard</div>;
 };
 
-export default TaskboardPage;
+export default Taskboard;
