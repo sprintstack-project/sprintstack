@@ -76,6 +76,7 @@ const Tab = ({
       {({ pressed }) => (
         <>
           <View
+            collapsable={false}
             className={`h-10 w-18 items-center justify-center rounded-full ${
               focused ? 'bg-ink' : pressed ? 'bg-surface-pressed' : ''
             }`}
