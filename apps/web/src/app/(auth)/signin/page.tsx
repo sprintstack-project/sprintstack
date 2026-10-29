@@ -9,14 +9,35 @@ import { useEffect, useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice, OrDivider } from '@/components/auth/notice';
 import { TURNSTILE_PENDING, useTurnstile } from '@/components/auth/turnstile';
-import { AFTER_SIGN_IN, authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
+import { afterSignIn, authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
+
+// GitHub sends new accounts without an invite back here as ?error=…. Keep in step with
+// SIGN_UP_NEEDS_INVITE in apps/api/src/auth/auth.ts.
+const SIGN_UP_NEEDS_INVITE = 'SIGN_UP_NEEDS_INVITE';
 
 const SignInPage = () => {
   const router = useRouter();
   const [error, setError] = useState<{ title: string; message: string } | null>(null);
   const turnstile = useTurnstile();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('error');
+    if (!code) return;
+    setError(
+      code === SIGN_UP_NEEDS_INVITE
+        ? {
+            title: 'No account for that GitHub user',
+            message:
+              'To start a new organization, create an account with email. To join one, ask your admin for an invite.',
+          }
+        : { title: 'Couldn’t sign you in', message: 'GitHub sign-in didn’t finish. Try again.' },
+    );
+    // Drop the code so a reload doesn't show it again.
+    window.history.replaceState(null, '', window.location.pathname);
+  }, []);
 
   const form = useAppForm({
     defaultValues,
@@ -44,7 +65,7 @@ const SignInPage = () => {
         return;
       }
       // Accounts with an authenticator app finish on the code step.
-      router.push(data && 'twoFactorRedirect' in data ? '/signin/code' : AFTER_SIGN_IN);
+      router.push(data && 'twoFactorRedirect' in data ? '/signin/code' : afterSignIn());
     },
   });
 
@@ -55,7 +76,7 @@ const SignInPage = () => {
     window.PublicKeyCredential.isConditionalMediationAvailable().then((available) => {
       if (!available || !active) return;
       authClient.signIn.passkey({ autoFill: true }).then(({ error }) => {
-        if (active && !error) router.push(AFTER_SIGN_IN);
+        if (active && !error) router.push(afterSignIn());
       });
     });
     return () => {

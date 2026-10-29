@@ -1,5 +1,6 @@
 import { expoClient } from '@better-auth/expo/client';
-import { emailOTPClient, twoFactorClient } from 'better-auth/client/plugins';
+import { organizationSlug } from '@sprintstack/shared';
+import { emailOTPClient, organizationClient, twoFactorClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 import * as SecureStore from 'expo-secure-store';
 import { hostUrl } from './host-url';
@@ -22,8 +23,19 @@ export const authClient = createAuthClient({
     }),
     twoFactorClient(),
     emailOTPClient(),
+    organizationClient(),
   ],
 });
+
+/**
+ * Creates an organization owned by the signed-in person and makes it active. When the plain slug
+ * is taken, tries once more with a random suffix.
+ */
+export const createOrganization = async (name: string) => {
+  const result = await authClient.organization.create({ name, slug: organizationSlug(name) });
+  if (result.error?.code !== 'ORGANIZATION_ALREADY_EXISTS') return result;
+  return authClient.organization.create({ name, slug: organizationSlug(name, true) });
+};
 
 /** Better Auth's error message, or a fallback that says what to do. */
 export const errorMessage = (error: { message?: string } | null | undefined, fallback: string) =>

@@ -1,37 +1,48 @@
-import { Check, CircleAlert } from 'lucide-react';
+import { Check, CircleAlert, Info } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-/** A boxed message: an error (wrong password) or a success (reset link sent). */
+const tones = {
+  danger: {
+    box: 'border-[1.5px] border-danger bg-surface-muted',
+    icon: 'text-danger',
+    Icon: CircleAlert,
+  },
+  success: {
+    box: 'border border-success bg-success-subtle',
+    icon: 'text-success-ink',
+    Icon: Check,
+  },
+  info: { box: 'border border-line bg-surface-muted', icon: 'text-ink-muted', Icon: Info },
+};
+
+/**
+ * A boxed message: an error (wrong password), a success (reset link sent) or something to know
+ * before going on (what signing up creates).
+ */
 export const Notice = ({
   tone,
   title,
   children,
 }: {
-  tone: 'danger' | 'success';
-  title: string;
+  tone: keyof typeof tones;
+  title?: string;
   children?: ReactNode;
 }) => {
-  const danger = tone === 'danger';
+  const { box, icon, Icon } = tones[tone];
   return (
     <div
-      role={danger ? 'alert' : 'status'}
-      className={
-        danger
-          ? 'flex items-start gap-3 rounded-2xl border-[1.5px] border-danger bg-surface-muted px-4.5 py-4'
-          : 'flex items-start gap-3 rounded-2xl border border-success bg-success-subtle px-4.5 py-4'
-      }
+      role={tone === 'danger' ? 'alert' : 'status'}
+      className={`flex items-start gap-3 rounded-2xl px-4.5 py-4 ${box}`}
     >
-      <span className={danger ? 'flex-none text-danger' : 'flex-none text-success-ink'}>
-        {danger ? (
-          <CircleAlert aria-hidden strokeWidth={2} className="size-6" />
-        ) : (
-          <Check aria-hidden strokeWidth={2} className="size-6" />
-        )}
+      <span className={`flex-none ${icon}`}>
+        <Icon aria-hidden strokeWidth={2} className="size-6" />
       </span>
       <div className="flex flex-col gap-0.5">
-        <strong className="headline text-[1.0625rem] leading-5.5">{title}</strong>
+        {title && <strong className="headline text-[1.0625rem] leading-5.5">{title}</strong>}
         {children && (
-          <span className="text-[0.9375rem] leading-5 font-semibold font-stretch-semi-condensed text-ink-muted">
+          <span
+            className={`text-[0.9375rem] leading-5 font-semibold font-stretch-semi-condensed ${title ? 'text-ink-muted' : 'text-ink'}`}
+          >
             {children}
           </span>
         )}

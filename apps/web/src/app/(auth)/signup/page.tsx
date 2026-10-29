@@ -1,43 +1,82 @@
 'use client';
 
 import { useAppForm } from '@sprintstack/forms';
-import { SIGN_UP_STEPS, type SignUpInput, signUpSchema } from '@sprintstack/shared';
+import {
+  invitedSignUpSchema,
+  SIGN_UP_STEPS,
+  type SignUpInput,
+  signUpSchema,
+} from '@sprintstack/shared';
 import { Button, GitHubIcon, Stepper } from '@sprintstack/ui';
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice, OrDivider } from '@/components/auth/notice';
 import { PasswordMeter } from '@/components/auth/password-meter';
 import { TURNSTILE_PENDING, useTurnstile } from '@/components/auth/turnstile';
-import { authClient, errorMessage, signInWithGitHub } from '@/lib/auth-client';
+import {
+  authClient,
+  createOrganization,
+  errorMessage,
+  hasPendingInvitation,
+  signInWithGitHub,
+} from '@/lib/auth-client';
 
-const defaultValues: SignUpInput = { name: '', email: '', password: '', terms: false };
+const defaultValues: SignUpInput = {
+  name: '',
+  email: '',
+  organization: '',
+  password: '',
+  terms: false,
+};
 
 const SignUpPage = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const turnstile = useTurnstile();
+  // Opened from an invite: the person joins that organization rather than creating one. Read after
+  // mount, since the invite is kept in this tab's storage.
+  const [invited, setInvited] = useState(false);
+  useEffect(() => setInvited(hasPendingInvitation()), []);
+  // Set once the account exists, so a retry after the organization failed doesn't sign up again.
+  const accountCreated = useRef(false);
 
   const form = useAppForm({
     defaultValues,
-    validators: { onChange: signUpSchema },
-    onSubmit: async ({ value: { name, email, password } }) => {
+    validators: { onChange: invited ? invitedSignUpSchema : signUpSchema },
+    onSubmit: async ({ value: { name, email, organization, password } }) => {
       setError(null);
-      if (!turnstile.token) {
-        setError(TURNSTILE_PENDING);
-        return;
+      if (!accountCreated.current) {
+        if (!turnstile.token) {
+          setError(TURNSTILE_PENDING);
+          return;
+        }
+        const { error } = await authClient.signUp.email({
+          name,
+          email,
+          password,
+          fetchOptions: { headers: { 'x-captcha-response': turnstile.token } },
+        });
+        turnstile.reset();
+        if (error) {
+          setError(errorMessage(error, 'Couldn’t create your account. Try again.'));
+          return;
+        }
+        accountCreated.current = true;
       }
-      const { error } = await authClient.signUp.email({
-        name,
-        email,
-        password,
-        fetchOptions: { headers: { 'x-captcha-response': turnstile.token } },
-      });
-      turnstile.reset();
-      if (error) {
-        setError(errorMessage(error, 'Couldn’t create your account. Try again.'));
-        return;
+      if (!invited) {
+        // The person is signed in now; they own the new organization and it becomes active.
+        const { error } = await createOrganization(organization.trim());
+        if (error) {
+          setError(
+            errorMessage(
+              error,
+              'Your account was created, but the organization wasn’t. Try again.',
+            ),
+          );
+          return;
+        }
       }
       // The API emails a 6-digit code on sign-up; the person stays signed in while they enter it.
       router.push('/signup/verify');
@@ -91,17 +130,29 @@ const SignUpPage = () => {
       <Stepper label="Sign-up progress" steps={SIGN_UP_STEPS} current={0} />
       <AuthHeading title="Create your account.">Free during the beta. No credit card.</AuthHeading>
 
+      {!invited && (
+        <Notice tone="info">
+          You are creating a new admin owner account for SprintStack. If your organization already
+          uses SprintStack, contact your admin for an invite instead.
+        </Notice>
+      )}
+
       {error && (
         <Notice tone="danger" title="Account not created">
           {error}
         </Notice>
       )}
 
-      <Button variant="secondary" size="lg" block icon={GitHubIcon} onClick={github}>
-        Sign up with GitHub
-      </Button>
-
-      <OrDivider />
+      {/* GitHub can't ask for an organization name, so it's only for joining one from an invite
+          (the API refuses new GitHub accounts without one). */}
+      {invited && (
+        <>
+          <Button variant="secondary" size="lg" block icon={GitHubIcon} onClick={github}>
+            Sign up with GitHub
+          </Button>
+          <OrDivider />
+        </>
+      )}
 
       <form
         noValidate
@@ -119,6 +170,17 @@ const SignUpPage = () => {
             {(field) => <field.TextField label="Work email" type="email" autoComplete="email" />}
           </form.AppField>
         </div>
+        {!invited && (
+          <form.AppField name="organization">
+            {(field) => (
+              <field.TextField
+                label="Organization name"
+                autoComplete="organization"
+                placeholder="Acme Inc."
+              />
+            )}
+          </form.AppField>
+        )}
         <div className="flex flex-col gap-2.5">
           <form.AppField name="password">
             {(field) => <field.PasswordField label="Password" autoComplete="new-password" />}

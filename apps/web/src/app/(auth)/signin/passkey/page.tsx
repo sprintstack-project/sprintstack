@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice } from '@/components/auth/notice';
-import { AFTER_SIGN_IN, authClient, errorMessage } from '@/lib/auth-client';
+import { afterSignIn, authClient, errorMessage } from '@/lib/auth-client';
 
 type Status = 'waiting' | 'failed' | 'done';
 
@@ -31,7 +31,7 @@ const SignInPasskeyPage = () => {
       return;
     }
     setStatus('done');
-    router.push(AFTER_SIGN_IN);
+    router.push(afterSignIn());
   }, [router]);
 
   useEffect(() => {

@@ -2,14 +2,19 @@ import { expo } from '@better-auth/expo';
 import { passkey } from '@better-auth/passkey';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { APIError } from 'better-auth/api';
 import { captcha } from 'better-auth/plugins/captcha';
 import { emailOTP } from 'better-auth/plugins/email-otp';
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned';
+import { organization } from 'better-auth/plugins/organization';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import type { PrismaClient } from '../generated/prisma/client';
 import { sendAuthEmail } from './mailer';
 
 export const APP_NAME = 'SprintStack';
+
+/** Refusing a new GitHub account without an invite. Keep in step with the web sign-in page. */
+export const SIGN_UP_NEEDS_INVITE = 'SIGN_UP_NEEDS_INVITE';
 
 /** Reads a variable; ConfigService.get in the app, process.env in the CLI entry. */
 export type EnvReader = (key: string) => string | undefined;
@@ -98,6 +103,48 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
       githubClientId && githubClientSecret
         ? { github: { clientId: githubClientId, clientSecret: githubClientSecret } }
         : {},
+    databaseHooks: {
+      user: {
+        create: {
+          // Email sign-up also creates the person's organization, so it's open to anyone. Every
+          // other way in (GitHub, from either page) only creates an account for someone with a
+          // pending invite; otherwise they'd arrive without an organization.
+          before: async (user, ctx) => {
+            if (ctx?.path === '/sign-up/email') return;
+            const invitation = await prisma.invitation.findFirst({
+              where: {
+                email: { equals: user.email, mode: 'insensitive' },
+                status: 'pending',
+                expiresAt: { gt: new Date() },
+              },
+              select: { id: true },
+            });
+            if (!invitation) {
+              // The OAuth callback passes the code on as ?error= to the page that started it.
+              throw new APIError('FORBIDDEN', {
+                code: SIGN_UP_NEEDS_INVITE,
+                message: 'Sign up with email, or ask your admin for an invite.',
+              });
+            }
+          },
+        },
+      },
+      session: {
+        create: {
+          // A new session has no active organization, and organization calls (inviting, listing
+          // members) need one. Start with the first organization the person joined.
+          before: async (session) => {
+            const member = await prisma.member.findFirst({
+              where: { userId: session.userId },
+              orderBy: { createdAt: 'asc' },
+              select: { organizationId: true },
+            });
+            if (!member) return;
+            return { data: { ...session, activeOrganizationId: member.organizationId } };
+          },
+        },
+      },
+    },
     account: {
       accountLinking: { enabled: true, trustedProviders: ['github'] },
     },
@@ -142,6 +189,24 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
         // Browsers report the web origin. Native apps report https://<rpID> (iOS) or
         // android:apk-key-hash:<hash> (Android), so those come from PASSKEY_ORIGINS.
         origin: [webOrigin, ...list(env('PASSKEY_ORIGINS'))],
+      }),
+      // Organizations own projects and time off. Roles are owner, admin and member; projects keep
+      // their own membership, so teams stay off.
+      organization({
+        // Sign-up lets people in before they verify, so an invite only works for a verified email.
+        requireEmailVerificationOnInvitation: true,
+        // Deleting one would cascade to every project, work item and time off in it, and the
+        // endpoint is open to any owner. Archive projects instead; removal is a support job.
+        disableOrganizationDeletion: true,
+        // Enough for a few workspaces each, without letting one account create them in bulk.
+        organizationLimit: 5,
+        sendInvitationEmail: async ({ id, email, inviter, organization }) => {
+          void sendAuthEmail({
+            to: email,
+            subject: `${inviter.user.name} invited you to ${organization.name} on ${APP_NAME}`,
+            text: `Join ${organization.name}: ${webOrigin}/invitations/${id}\n\nThe invitation expires in 48 hours. If you weren't expecting it, ignore this email.`,
+          });
+        },
       }),
       {
         ...turnstile,

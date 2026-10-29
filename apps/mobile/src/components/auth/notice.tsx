@@ -1,39 +1,51 @@
 import { Text } from '@sprintstack/ui';
-import { Check, CircleAlert } from 'lucide-react-native';
+import { Check, CircleAlert, Info } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
 
-/** A boxed message: an error (wrong password) or a success (reset link sent). */
+const tones = {
+  danger: {
+    box: 'border-[1.5px] border-danger bg-surface-muted',
+    color: 'danger',
+    Icon: CircleAlert,
+  },
+  success: { box: 'border border-success bg-success-subtle', color: 'success-ink', Icon: Check },
+  info: { box: 'border border-line bg-surface-muted', color: 'ink-muted', Icon: Info },
+};
+
+/**
+ * A boxed message: an error (wrong password), a success (reset link sent) or something to know
+ * before going on (what signing up creates).
+ */
 export const Notice = ({
   tone,
   title,
   children,
 }: {
-  tone: 'danger' | 'success';
-  title: string;
+  tone: keyof typeof tones;
+  title?: string;
   children?: ReactNode;
 }) => {
-  const danger = tone === 'danger';
-  const iconColor = useTokenColor(danger ? 'danger' : 'success-ink');
-  const Icon = danger ? CircleAlert : Check;
+  const { box, color, Icon } = tones[tone];
+  const iconColor = useTokenColor(color);
   return (
     <View
-      accessibilityRole={danger ? 'alert' : 'text'}
+      accessibilityRole={tone === 'danger' ? 'alert' : 'text'}
       accessibilityLiveRegion="polite"
-      className={
-        danger
-          ? 'flex-row items-start gap-3 rounded-2xl border-[1.5px] border-danger bg-surface-muted px-4.5 py-4'
-          : 'flex-row items-start gap-3 rounded-2xl border border-success bg-success-subtle px-4.5 py-4'
-      }
+      className={`flex-row items-start gap-3 rounded-2xl px-4.5 py-4 ${box}`}
     >
       <Icon color={iconColor} size={20} strokeWidth={2} />
       <View className="flex-1 gap-0.5">
-        <Text className="text-[1.0625rem] leading-5.5 font-extrabold uppercase text-ink">
-          {title}
-        </Text>
+        {title && (
+          <Text className="text-[1.0625rem] leading-5.5 font-extrabold uppercase text-ink">
+            {title}
+          </Text>
+        )}
         {children && (
-          <Text className="text-[0.9375rem] leading-5 font-semibold text-ink-muted">
+          <Text
+            className={`text-[0.9375rem] leading-5 font-semibold ${title ? 'text-ink-muted' : 'text-ink'}`}
+          >
             {children}
           </Text>
         )}

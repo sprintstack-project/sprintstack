@@ -21,6 +21,7 @@ import {
   type TimeOffDraft,
   type View,
 } from './data';
+import InviteDialog from './invite-dialog';
 import SummaryTiles from './summary-tiles';
 import TimeOffDialog from './time-off-dialog';
 import Toolbar from './toolbar';
@@ -32,6 +33,7 @@ const Team = () => {
   const [timeOff, setTimeOff] = useState(TIME_OFF);
   const [adjust, setAdjust] = useState<Adjustments>({});
   const [draft, setDraft] = useState<TimeOffDraft | null>(null);
+  const [inviting, setInviting] = useState(false);
 
   const sprint = findSprint(sprintId);
   const loads = loadsOf(sprint, timeOff, adjust);
@@ -68,7 +70,7 @@ const Team = () => {
           </p>
           <h1 className="headline text-7xl leading-none">Team</h1>
         </div>
-        <Button variant="secondary" size="lg" icon={Mail}>
+        <Button variant="secondary" size="lg" icon={Mail} onClick={() => setInviting(true)}>
           Invite people
         </Button>
       </div>
@@ -109,6 +111,7 @@ const Team = () => {
         onSave={save}
         onRemove={(id) => setTimeOff((all) => all.filter((e) => e.id !== id))}
       />
+      <InviteDialog open={inviting} onClose={() => setInviting(false)} />
     </div>
   );
 };

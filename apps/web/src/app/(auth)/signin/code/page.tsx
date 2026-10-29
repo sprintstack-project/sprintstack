@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AuthHeading, AuthIcon, AuthShell } from '@/components/auth/auth-shell';
 import { Notice } from '@/components/auth/notice';
-import { AFTER_SIGN_IN, authClient, errorMessage } from '@/lib/auth-client';
+import { afterSignIn, authClient, errorMessage } from '@/lib/auth-client';
 
 /** Step 2 of an email sign-in, for accounts with an authenticator app. */
 const SignInCodePage = () => {
@@ -27,7 +27,7 @@ const SignInCodePage = () => {
         setError(errorMessage(error, 'That code didn’t work. Try the next one.'));
         return;
       }
-      router.push(AFTER_SIGN_IN);
+      router.push(afterSignIn());
     },
   });
 

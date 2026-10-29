@@ -9,7 +9,7 @@ import QRCode from 'react-qr-code';
 import { Notice } from '@/components/auth/notice';
 import { RecoveryCodes } from '@/components/auth/recovery-codes';
 import { Logo } from '@/components/landing/site-header';
-import { AFTER_SIGN_IN, authClient, errorMessage } from '@/lib/auth-client';
+import { afterSignIn, authClient, errorMessage } from '@/lib/auth-client';
 
 interface Totp {
   uri: string;
@@ -98,7 +98,7 @@ const SignUpSecurePage = () => {
     setCopied(true);
   };
 
-  const finish = () => router.push(AFTER_SIGN_IN);
+  const finish = () => router.push(afterSignIn());
 
   if (showCodes && totp) return <RecoveryCodes codes={totp.backupCodes} onDone={finish} />;
 

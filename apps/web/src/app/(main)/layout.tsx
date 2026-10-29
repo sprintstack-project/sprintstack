@@ -29,12 +29,27 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { authClient } from '@/lib/auth-client';
+
+/** "Mira Okafor" → "MO", for the avatar when there's no photo. */
+const initialsOf = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase())
+    .join('');
 
 const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const openProfile = () => {};
-  const signOut = () => {};
   const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const signOut = async () => {
+    await authClient.signOut();
+    router.push('/signin');
+  };
   const [paletteOpen, setPaletteOpen] = useState(false);
 
   // Follows the system until switched. Not persisted yet, so a reload goes back to the system.
@@ -152,13 +167,18 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
             }}
             sections={sections}
             active={active}
-            user={{
-              name: 'Mira Okafor',
-              email: 'mira@company.com',
-              avatar: 'MO',
-              options: account,
-              searchable: false,
-            }}
+            user={
+              session
+                ? {
+                    name: session.user.name,
+                    email: session.user.email,
+                    // GitHub accounts bring a photo; everyone else gets their initials.
+                    avatar: session.user.image || initialsOf(session.user.name),
+                    options: account,
+                    searchable: false,
+                  }
+                : undefined
+            }
             linkComponent={Link}
           />
           <div className="min-w-0 flex-1">

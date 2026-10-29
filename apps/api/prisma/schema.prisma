@@ -6,6 +6,7 @@ generator client {
   output              = "../src/generated/prisma"
   moduleFormat        = "esm"
   importFileExtension = ""
+  previewFeatures     = ["partialIndexes"]
 }
 
 datasource db {
@@ -13,33 +14,49 @@ datasource db {
 }
 
 model User {
-  id               String      @id
+  id               String       @id
   name             String
   email            String
-  emailVerified    Boolean     @default(false)
+  emailVerified    Boolean      @default(false)
   image            String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  twoFactorEnabled Boolean?    @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  twoFactorEnabled Boolean?     @default(false)
   sessions         Session[]
   accounts         Account[]
   twofactors       TwoFactor[]
   passkeys         Passkey[]
+  members          Member[]
+  invitations      Invitation[]
+
+  // App relations. Keep these when re-running `auth:generate`.
+  projects          ProjectMember[]
+  sprintCapacities  SprintCapacity[]
+  timeOff           TimeOff[]
+  assignedItems     WorkItem[]       @relation("assignee")
+  reportedItems     WorkItem[]       @relation("reporter")
+  linksCreated      WorkItemLink[]
+  comments          Comment[]
+  attachments       Attachment[]
+  activity          Activity[]
+  notifications     Notification[]   @relation("recipient")
+  notificationsSent Notification[]   @relation("actor")
 
   @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String   @id
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeOrganizationId String?
 
   @@unique([token])
   @@index([userId])
@@ -110,4 +127,409 @@ model Passkey {
   @@index([userId])
   @@index([credentialID])
   @@map("passkey")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  // App relations. Keep these when re-running `auth:generate`.
+  projects Project[]
+  timeOff  TimeOff[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String       @default("member")
+  createdAt      DateTime
+
+  // The plugin checks this before adding someone, but two accepts at once could both pass.
+  // Keep it when re-running `auth:generate`.
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String       @default("pending")
+  expiresAt      DateTime
+  createdAt      DateTime     @default(now())
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([email])
+  @@map("invitation")
+}
+
+// =============================================================================
+// App models. The ones above are Better Auth's (see `auth:generate`).
+// Values of the enums match the constants in packages/shared, so the API and the
+// forms agree without mapping. Ids are UUIDv7, so they sort by creation.
+// =============================================================================
+
+enum ProjectRole {
+  admin
+  member
+  viewer
+}
+
+enum Methodology {
+  scrum
+  kanban
+}
+
+enum SprintState {
+  planned
+  active
+  closed
+}
+
+/// Epics and features plan the timeline; stories, bugs and tasks are the work (ISSUE_TYPES).
+
+enum WorkItemType {
+  epic
+  feature
+  story
+  bug
+  task
+}
+
+/// WORK_ITEM_STATUSES.
+
+enum WorkItemStatus {
+  todo
+  in_progress
+  in_review
+  blocked
+  done
+}
+
+/// ISSUE_PRIORITIES.
+
+enum Priority {
+  highest
+  high
+  medium
+  low
+  lowest
+}
+
+/// Stored once, from the source item's side. The target reads the inverse:
+/// precedes → preceded_by / succeeded_by, causes → caused_by. Parent and child are WorkItem.parentId.
+/// Related has no direction, so it's stored with the smaller id as fromId (a check constraint in
+/// the migration enforces it) and each pair is saved once.
+enum WorkItemLinkKind {
+  related
+  precedes
+  causes
+}
+
+/// TIME_OFF_TYPES.
+
+enum TimeOffType {
+  vacation
+  sick
+  half
+  other
+}
+
+enum ActivityAction {
+  created
+  updated
+  status_changed
+  assigned
+  sprint_changed
+  commented
+  linked
+  attached
+  deleted
+}
+
+enum NotificationType {
+  assigned
+  mentioned
+  commented
+  status_changed
+  sprint_starting
+  sprint_ending
+}
+
+model Project {
+  id             String          @id @default(uuid(7)) @db.Uuid
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  /// Prefix of item keys, e.g. "PAY" in PAY-1482.
+  key            String
+  name           String
+  description    String?
+  methodology    Methodology     @default(scrum)
+  /// The number the next work item takes. Claim it with UPDATE … RETURNING so keys never repeat.
+  nextItemNumber Int             @default(1)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  archivedAt     DateTime?
+  members        ProjectMember[]
+  holidays       Holiday[]
+  sprints        Sprint[]
+  workItems      WorkItem[]
+  activity       Activity[]
+
+  @@unique([organizationId, key])
+  @@map("project")
+}
+
+/// Someone on a project's team. Title and estimates drive the Team page's capacity.
+
+model ProjectMember {
+  projectId String      @db.Uuid
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      ProjectRole @default(member)
+  /// Job title shown on the team, e.g. "Backend engineer".
+  title     String?
+  /// Takes story points. Design and QA don't, so they have days but no point capacity.
+  estimates Boolean     @default(true)
+  createdAt DateTime    @default(now())
+
+  @@id([projectId, userId])
+  @@index([userId])
+  @@map("projectMember")
+}
+
+/// Non-working days on the project's calendar, on top of weekends.
+
+model Holiday {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  projectId String   @db.Uuid
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  name      String
+
+  @@unique([projectId, date])
+  @@map("holiday")
+}
+
+model Sprint {
+  id            String           @id @default(uuid(7)) @db.Uuid
+  projectId     String           @db.Uuid
+  project       Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name          String
+  goal          String?
+  /// First and last day, both included.
+  startDate     DateTime         @db.Date
+  endDate       DateTime         @db.Date
+  /// One active sprint per project (a partial unique index below).
+  state         SprintState      @default(planned)
+  startedAt     DateTime?
+  closedAt      DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  capacities    SprintCapacity[]
+  workItems     WorkItem[]
+  notifications Notification[]
+
+  @@unique([projectId], map: "sprint_one_active_per_project", where: raw("state = 'active'"))
+  @@index([projectId, startDate])
+  @@map("sprint")
+}
+
+/// Days a member's availability was changed by hand for a sprint (meetings, support rota,
+/// part-time), on top of working days minus time off. Halves allowed.
+
+model SprintCapacity {
+  sprintId       String  @db.Uuid
+  sprint         Sprint  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adjustmentDays Decimal @db.Decimal(4, 1)
+
+  @@id([sprintId, userId])
+  @@map("sprintCapacity")
+}
+
+/// Someone's days off, across every project in the organization.
+
+model TimeOff {
+  id             String       @id @default(uuid(7)) @db.Uuid
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           TimeOffType
+  /// First and last day, both included. A half day starts and ends on the same day.
+  startDate      DateTime     @db.Date
+  endDate        DateTime     @db.Date
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId, startDate, endDate])
+  @@index([userId, startDate])
+  @@map("timeOff")
+}
+
+model WorkItem {
+  id            String         @id @default(uuid(7)) @db.Uuid
+  projectId     String         @db.Uuid
+  project       Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  /// With the project key it makes the item's key, e.g. PAY-1482.
+  number        Int
+  type          WorkItemType
+  title         String
+  /// Tiptap JSON document.
+  description   Json           @default("{\"type\":\"doc\"}")
+  /// Given · When · Then: [{ given, when, outcome }].
+  criteria      Json           @default("[]")
+  status        WorkItemStatus @default(todo)
+  /// Epics and features at risk show as "warning" on the timeline.
+  atRisk        Boolean        @default(false)
+  priority      Priority       @default(medium)
+  points        Int?
+  tags          String[]
+  startDate     DateTime?      @db.Date
+  targetDate    DateTime?      @db.Date
+  /// Null while the item sits in the backlog.
+  sprintId      String?        @db.Uuid
+  sprint        Sprint?        @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  /// Order within its sprint or the backlog, as a fractional index. The column uses the "C"
+  /// collation (set in the migration; Prisma can't express it) so it sorts byte by byte.
+  rank          String         @db.Text
+  /// Epic → feature → story/bug/task → task.
+  parentId      String?        @db.Uuid
+  parent        WorkItem?      @relation("hierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children      WorkItem[]     @relation("hierarchy")
+  assigneeId    String?
+  assignee      User?          @relation("assignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  reporterId    String?
+  reporter      User?          @relation("reporter", fields: [reporterId], references: [id], onDelete: SetNull)
+  /// When it last moved to done; feeds the burndown and velocity.
+  completedAt   DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+  linksFrom     WorkItemLink[] @relation("from")
+  linksTo       WorkItemLink[] @relation("to")
+  comments      Comment[]
+  attachments   Attachment[]
+  activity      Activity[]
+  notifications Notification[]
+
+  @@unique([projectId, number])
+  @@index([projectId, sprintId, rank])
+  @@index([projectId, type, startDate])
+  @@index([assigneeId, status])
+  @@index([parentId])
+  @@map("workItem")
+}
+
+model WorkItemLink {
+  id          String           @id @default(uuid(7)) @db.Uuid
+  fromId      String           @db.Uuid
+  from        WorkItem         @relation("from", fields: [fromId], references: [id], onDelete: Cascade)
+  toId        String           @db.Uuid
+  to          WorkItem         @relation("to", fields: [toId], references: [id], onDelete: Cascade)
+  kind        WorkItemLinkKind
+  createdById String?
+  createdBy   User?            @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime         @default(now())
+
+  @@unique([fromId, toId, kind])
+  @@index([toId])
+  @@map("workItemLink")
+}
+
+model Comment {
+  id         String    @id @default(uuid(7)) @db.Uuid
+  workItemId String    @db.Uuid
+  workItem   WorkItem  @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  authorId   String?
+  author     User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  /// Tiptap JSON document.
+  body       Json
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  editedAt   DateTime?
+  deletedAt  DateTime?
+
+  @@index([workItemId, createdAt])
+  @@map("comment")
+}
+
+/// Files are uploaded before the item is saved, so an attachment starts without a work item.
+/// Unclaimed uploads older than a day can be swept.
+
+model Attachment {
+  id           String    @id @default(uuid(7)) @db.Uuid
+  workItemId   String?   @db.Uuid
+  workItem     WorkItem? @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  uploadedById String?
+  uploadedBy   User?     @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  fileName     String
+  /// Where the object lives in storage.
+  storageKey   String    @unique
+  mimeType     String
+  sizeBytes    Int
+  createdAt    DateTime  @default(now())
+
+  @@index([workItemId])
+  @@map("attachment")
+}
+
+/// Recent activity on the dashboard and an item's history. `data` holds what the line shows,
+/// e.g. { from: "in_progress", to: "in_review" } or { commentId, quote }.
+
+model Activity {
+  id         String         @id @default(uuid(7)) @db.Uuid
+  projectId  String         @db.Uuid
+  project    Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItemId String?        @db.Uuid
+  workItem   WorkItem?      @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  actorId    String?
+  actor      User?          @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     ActivityAction
+  data       Json           @default("{}")
+  createdAt  DateTime       @default(now())
+
+  @@index([projectId, createdAt(sort: Desc)])
+  @@index([workItemId, createdAt])
+  @@map("activity")
+}
+
+/// The header's bell. The text is written from the type and what it points at.
+
+model Notification {
+  id         String           @id @default(uuid(7)) @db.Uuid
+  userId     String
+  user       User             @relation("recipient", fields: [userId], references: [id], onDelete: Cascade)
+  actorId    String?
+  actor      User?            @relation("actor", fields: [actorId], references: [id], onDelete: SetNull)
+  type       NotificationType
+  workItemId String?          @db.Uuid
+  workItem   WorkItem?        @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  sprintId   String?          @db.Uuid
+  sprint     Sprint?          @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  readAt     DateTime?
+  createdAt  DateTime         @default(now())
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("notification")
 }
