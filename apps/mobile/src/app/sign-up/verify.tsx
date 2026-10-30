@@ -8,6 +8,7 @@ import { AuthHeading, TextLink } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice } from '@/components/auth/notice';
 import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
+import { signOut } from '@/lib/restore-key';
 
 const RESEND_AFTER = 60;
 
@@ -60,7 +61,7 @@ const SignUpVerifyPage = () => {
 
   // The account exists already; signing out lets them start again with another address.
   const changeEmail = async () => {
-    await authClient.signOut();
+    await signOut();
     router.replace('/sign-up');
   };
 

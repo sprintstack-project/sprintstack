@@ -8,13 +8,15 @@ import {
 } from '@sprintstack/ui';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { LogOut, Moon, Sun } from 'lucide-react-native';
+import { LogOut } from 'lucide-react-native';
+import { useEffect } from 'react';
 import { Image, View } from 'react-native';
-import { Uniwind, useUniwind } from 'uniwind';
+import { useUniwind } from 'uniwind';
 import { AppHeader } from '@/components/main/app-header';
 import { SECTIONS } from '@/components/main/navigation';
 import { TabBar } from '@/components/main/tab-bar';
 import { authClient } from '@/lib/auth-client';
+import { signOut, syncRestoreKey } from '@/lib/restore-key';
 import { useTokenColor } from '@/lib/use-token-color';
 
 interface Person {
@@ -29,13 +31,13 @@ const projects: Option[] = [
   { value: 'ios', label: 'iOS app', avatar: 'IOS', description: 'Kanban' },
 ];
 
-const signOut: Option = {
+const signOutOption: Option = {
   value: 'sign-out',
   label: 'Sign out',
   icon: LogOut,
   danger: true,
   // The session hook in MainLayout sees the sign-out and redirects to sign-in.
-  action: () => authClient.signOut(),
+  action: () => signOut(),
 };
 
 /** Phones navigate with the tab bar; tablets (the sidebar's non-drawer widths) with the sidebar. */
@@ -66,7 +68,7 @@ const Shell = ({ user }: { user: Person }) => {
       //   icon: dark ? Sun : Moon,
       //   action: () => Uniwind.setTheme(dark ? 'light' : 'dark'),
       // },
-      signOut,
+      signOutOption,
     ],
     searchable: false,
   };
@@ -121,6 +123,13 @@ const Shell = ({ user }: { user: Person }) => {
 
 const MainLayout = () => {
   const { data: session, isPending } = authClient.useSession();
+  const sessionId = session?.session.id;
+
+  // Lets a new Android phone sign in without asking (Google Play's zero-tap sign-in restoration).
+  useEffect(() => {
+    if (sessionId) syncRestoreKey(sessionId);
+  }, [sessionId]);
+
   if (isPending) return null;
   if (!session) return <Redirect href="/sign-in" />;
 

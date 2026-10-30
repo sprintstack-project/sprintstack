@@ -41,6 +41,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-secure-store',
+    // Zero-tap sign-in restoration on Android (src/lib/restore-key.ts). The backup agent notices a
+    // data restore after first launch, so the app tries its restore key again.
+    ['expo-restore-credentials', { backupAgent: true }],
     [
       './plugins/withAndroidSigning',
       {

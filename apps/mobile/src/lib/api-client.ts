@@ -1,6 +1,7 @@
 import { createApiClient } from '@sprintstack/api-client';
 import { authClient } from './auth-client';
 import { hostUrl } from './host-url';
+import { signOut } from './restore-key';
 
 /**
  * Talks to the API directly. Native fetch has no cookie jar for it, so each request carries the
@@ -16,5 +17,5 @@ export const apiClient = createApiClient({
     return fetch(input, { ...init, headers, credentials: 'omit' });
   },
   // Clears the stored session, so useSession() reports signed out.
-  onUnauthenticated: () => authClient.signOut(),
+  onUnauthenticated: () => signOut(),
 });

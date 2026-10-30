@@ -10,6 +10,7 @@ import { organization } from 'better-auth/plugins/organization';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import type { PrismaClient } from '../generated/prisma/client';
 import { sendAuthEmail } from './mailer';
+import { restoreKey } from './restore-key';
 
 export const APP_NAME = 'SprintStack';
 
@@ -58,6 +59,11 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
     const origin = request.headers.get('expo-origin') ?? request.headers.get('origin') ?? '';
     return origin.startsWith(`${appScheme}://`) || origin.startsWith('exp://');
   };
+
+  // Passkeys and restore keys share a domain. Browsers report the web origin. Native apps report
+  // https://<rpID> (iOS) or android:apk-key-hash:<hash> (Android), so those come from PASSKEY_ORIGINS.
+  const rpID = env('PASSKEY_RP_ID') ?? new URL(webOrigin).hostname;
+  const webAuthnOrigins = [webOrigin, ...list(env('PASSKEY_ORIGINS'))];
 
   const githubClientId = env('GITHUB_CLIENT_ID');
   const githubClientSecret = env('GITHUB_CLIENT_SECRET');
@@ -183,13 +189,9 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
         // GitHub- and passkey-only accounts have no password to confirm with.
         allowPasswordless: true,
       }),
-      passkey({
-        rpName: APP_NAME,
-        rpID: env('PASSKEY_RP_ID') ?? new URL(webOrigin).hostname,
-        // Browsers report the web origin. Native apps report https://<rpID> (iOS) or
-        // android:apk-key-hash:<hash> (Android), so those come from PASSKEY_ORIGINS.
-        origin: [webOrigin, ...list(env('PASSKEY_ORIGINS'))],
-      }),
+      passkey({ rpName: APP_NAME, rpID, origin: webAuthnOrigins }),
+      // Signs the Android app back in on a new device (Google Play's zero-tap sign-in restoration).
+      restoreKey({ rpName: APP_NAME, rpID, origin: webAuthnOrigins }),
       // Organizations own projects and time off. Roles are owner, admin and member; projects keep
       // their own membership, so teams stay off.
       organization({
