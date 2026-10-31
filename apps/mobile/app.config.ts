@@ -12,6 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     icon: './assets/images/icon.png',
     bundleIdentifier: 'com.sprintstack.app',
+    supportsTablet: true,
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Associated Domains)
     // associatedDomains: ['webcredentials:sprintstack.io'],
   },
