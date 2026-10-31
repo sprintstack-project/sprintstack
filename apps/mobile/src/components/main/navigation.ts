@@ -1,9 +1,11 @@
-import type { IconComponent, SidebarSection } from '@sprintstack/ui';
+import type { IconComponent, SidebarItem, SidebarSection } from '@sprintstack/ui';
 import {
+  Bell,
+  CalendarDays,
   ChartNoAxesGantt,
-  Ellipsis,
   LayoutDashboard,
   ListTodo,
+  Pencil,
   SlidersVertical,
   SquareStack,
   UserCog,
@@ -21,10 +23,10 @@ export const SECTIONS: SidebarSection[] = [
       { key: 'timeline', label: 'Timeline', icon: ChartNoAxesGantt, href: '/main/timeline' },
       { key: 'team', label: 'Team', icon: UserGroup, href: '/main/team' },
       {
-        key: 'project-settings',
+        key: 'settings',
         label: 'Project settings',
         icon: SlidersVertical,
-        href: '/main/project-settings',
+        href: '/main/settings',
       },
     ],
   },
@@ -37,20 +39,31 @@ export const SECTIONS: SidebarSection[] = [
   },
 ];
 
-/** The phone tab bar: the main destinations, then More for everything else in the sidebar. */
+/** The phone tab bar: the main destinations, then Settings, which leads to everything else. */
 export const TABS: { key: string; label: string; icon: IconComponent }[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'taskboard', label: 'Taskboard', icon: ListTodo },
   { key: 'backlog', label: 'Backlog', icon: SquareStack },
   { key: 'timeline', label: 'Timeline', icon: ChartNoAxesGantt },
-  { key: 'more', label: 'More', icon: Ellipsis },
+  { key: 'settings', label: 'Settings', icon: SlidersVertical },
 ];
 
-/** The sidebar's items that have no tab, grouped as in the sidebar; the More screen lists them. */
-export const MORE_SECTIONS: SidebarSection[] = SECTIONS.map((section) => ({
-  ...section,
-  items: section.items.filter((item) => !TABS.some((tab) => tab.key === item.key)),
-})).filter((section) => section.items.length > 0);
+/** The project's settings, each its own page under Settings (route names `settings/<key>`). */
+export const PROJECT_SETTINGS: SidebarItem[] = [
+  { key: 'settings/details', label: 'Details', icon: Pencil, href: '/main/settings/details' },
+  { key: 'settings/sprints', label: 'Sprints', icon: CalendarDays, href: '/main/settings/sprints' },
+  {
+    key: 'settings/notifications',
+    label: 'Notifications',
+    icon: Bell,
+    href: '/main/settings/notifications',
+  },
+];
 
-/** Route names reached through More, so its tab stays marked on them. */
-export const MORE_KEYS = MORE_SECTIONS.flatMap((section) => section.items.map((item) => item.key));
+/** The sidebar's items that have no tab; on phones the Settings screen lists them. */
+export const ADMIN_ITEMS: SidebarItem[] = SECTIONS.flatMap((section) => section.items).filter(
+  (item) => item.key !== 'settings' && !TABS.some((tab) => tab.key === item.key),
+);
+
+/** Route names reached through Settings, so its tab stays marked and they lead back to it. */
+export const SETTINGS_KEYS = [...PROJECT_SETTINGS, ...ADMIN_ITEMS].map((item) => item.key);

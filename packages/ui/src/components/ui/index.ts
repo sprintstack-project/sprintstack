@@ -24,6 +24,7 @@ export { Select } from '@ui/select';
 export { Sidebar, useSidebar } from '@ui/sidebar';
 export { Stepper } from '@ui/stepper';
 export { StoryPoints } from '@ui/story-points';
+export { Switch } from '@ui/switch';
 export { Text } from '@ui/text';
 export { TextArea } from '@ui/text-area';
 export type * from '@ui/types';

@@ -1,5 +1,8 @@
+import { redirect } from 'next/navigation';
+
+/** Opens on the first section. */
 const ProjectSettingsPage = () => {
-  return <div>Project Settings</div>;
+  redirect('/project-settings/details');
 };
 
 export default ProjectSettingsPage;

@@ -393,6 +393,20 @@ export interface CheckboxProps {
   disabled?: boolean;
 }
 
+/**
+ * An on/off setting, e.g. a notification rule. It draws only the track: the row's own title says
+ * what it does, so pass that text as `label` (the accessible name).
+ */
+export interface SwitchProps {
+  id?: string;
+  /** Accessible name, usually the row's title, e.g. "A work item is created". */
+  label: string;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  disabled?: boolean;
+}
+
 export interface SidebarItem {
   /** Matched against the sidebar's `active` key. */
   key: string;

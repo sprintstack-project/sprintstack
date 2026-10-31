@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { Image, View } from 'react-native';
 import { useUniwind } from 'uniwind';
 import { AppHeader } from '@/components/main/app-header';
-import { SECTIONS } from '@/components/main/navigation';
+import { PROJECT_SETTINGS, SECTIONS } from '@/components/main/navigation';
 import { TabBar } from '@/components/main/tab-bar';
 import { authClient } from '@/lib/auth-client';
 import { signOut, syncRestoreKey } from '@/lib/restore-key';
@@ -105,16 +105,15 @@ const Shell = ({ user }: { user: Person }) => {
       <View className="flex-1">
         <AppHeader project={project} user={account} />
         <Tabs
-          // Android's back retraces the tabs visited, so a page opened from More returns to it.
+          // Android's back retraces the tabs visited, so a page opened from Settings returns to it.
           backBehavior="history"
           screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: canvas } }}
           tabBar={(props) => (drawer ? <TabBar {...props} /> : null)}
         >
-          {/* Only declared screens render: every sidebar item, Dashboard first, then More. */}
-          {SECTIONS.flatMap((section) => section.items).map((item) => (
+          {/* Only declared screens render: every sidebar item (Dashboard first), then Settings' pages. */}
+          {[...SECTIONS.flatMap((section) => section.items), ...PROJECT_SETTINGS].map((item) => (
             <Tabs.Screen key={item.key} name={item.key} />
           ))}
-          <Tabs.Screen name="more" />
         </Tabs>
       </View>
     </View>

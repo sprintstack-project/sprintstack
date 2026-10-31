@@ -72,7 +72,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         { key: 'team', label: 'Team', icon: UserGroup, href: '/team' },
         {
           key: 'project-settings',
-          label: 'Project Settings',
+          label: 'Project settings',
           icon: SlidersVertical,
           href: '/project-settings',
         },
