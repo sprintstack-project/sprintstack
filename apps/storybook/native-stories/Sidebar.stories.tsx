@@ -74,11 +74,20 @@ const meta = {
       </Sidebar.Provider>
     ),
   ],
+  // The logos are elements, so they stay out of args: inferring arg types walks into an element's
+  // internals and reaches expo-router's LinkingContext, whose default throws when read.
+  render: (args) => (
+    <Sidebar.Root
+      {...args}
+      logo={
+        <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">Strata.</Text>
+      }
+      logoCollapsed={
+        <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">S.</Text>
+      }
+    />
+  ),
   args: {
-    logo: <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">Strata.</Text>,
-    logoCollapsed: (
-      <Text className="text-[2rem] leading-8 font-extrabold uppercase text-ink">S.</Text>
-    ),
     project: {
       code: 'PAY',
       name: 'Payments',

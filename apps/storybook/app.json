@@ -6,6 +6,15 @@
     "orientation": "portrait",
     "scheme": "sprintstack-storybook",
     "userInterfaceStyle": "automatic",
-    "plugins": ["expo-router", "@react-native-community/datetimepicker"]
+    "plugins": [
+      "expo-router",
+      "@react-native-community/datetimepicker"
+    ],
+    "android": {
+      "package": "com.anonymous.sprintstackstorybook"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.sprintstackstorybook"
+    }
   }
 }

@@ -8,6 +8,7 @@ export { Chip } from '@ui/chip';
 export { CodeInput } from '@ui/code-input';
 export { CommandPalette } from '@ui/command-palette';
 export { DatePicker } from '@ui/date-picker';
+export { EmptyState } from '@ui/empty-state';
 export { Field } from '@ui/field';
 export { FilterSelect } from '@ui/filter-select';
 export { GitHubIcon } from '@ui/github-icon';

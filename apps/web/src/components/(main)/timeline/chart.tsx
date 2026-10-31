@@ -24,7 +24,7 @@ import {
   TODAY,
 } from './data';
 
-const labelWidth = 'w-52 shrink-0 sm:w-72 lg:w-[26rem]';
+export const labelWidth = 'w-52 shrink-0 sm:w-72 lg:w-[26rem]';
 
 /** The label column; it stays put while the track scrolls under it. */
 const labels = `sticky left-0 z-20 border-r border-line ${labelWidth}`;
@@ -68,7 +68,7 @@ const KindIcon = ({ kind }: { kind: keyof typeof kinds }) => {
 };
 
 /** A line where each column starts, behind the bars. */
-const Gridlines = ({ columns }: { columns: Column[] }) =>
+export const Gridlines = ({ columns }: { columns: Column[] }) =>
   columns
     .filter((c) => c.left > 0)
     .map((c) => (

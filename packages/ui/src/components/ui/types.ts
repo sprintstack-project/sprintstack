@@ -394,6 +394,33 @@ export interface CheckboxProps {
 }
 
 /**
+ * What a page, view or panel shows when it has nothing in it yet. It draws no box of its own: put
+ * it in the card, table or panel it stands in for.
+ */
+export interface EmptyStateProps {
+  /**
+   * page (default): a poster title over three stacked bars, for a whole page or view.
+   * widget: an icon and a short title in a dashed box, for a dashboard panel.
+   */
+  variant?: 'page' | 'widget';
+  /** Page: the uppercase line above the title, e.g. "Backlog" or "0 results". */
+  eyebrow?: string;
+  title: string;
+  /** Page: a second title line in brand, e.g. "is empty" under "Your backlog". */
+  highlight?: string;
+  description?: string;
+  /**
+   * Page: which of the three bars is solid (the rest are dashed outlines), or `false` to leave the
+   * art out, e.g. when a timeline draws its own placeholder rows.
+   */
+  art?: 'top' | 'middle' | 'bottom' | false;
+  /** Widget: the icon in the circle. */
+  icon?: IconComponent;
+  /** Under the text. Page: one or two Buttons. Widget: a link Button. */
+  actions?: ReactNode;
+}
+
+/**
  * An on/off setting, e.g. a notification rule. It draws only the track: the row's own title says
  * what it does, so pass that text as `label` (the accessible name).
  */

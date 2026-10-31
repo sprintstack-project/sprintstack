@@ -170,3 +170,17 @@ export const STATUS_COUNTS: { tone: StatusTone; count: number }[] = [
   { tone: 'danger', count: 2 },
   { tone: 'success', count: 6 },
 ];
+
+export interface SetupStep {
+  label: string;
+  href: string;
+  done: boolean;
+}
+
+/** The first-run checklist an empty dashboard leads with. */
+export const SETUP_STEPS: SetupStep[] = [
+  { label: 'Create the Payments project', href: '/project-settings', done: true },
+  { label: 'Invite your team', href: '/team', done: false },
+  { label: 'Create your first work item', href: '/backlog', done: false },
+  { label: 'Plan and start a sprint', href: '/backlog', done: false },
+];
