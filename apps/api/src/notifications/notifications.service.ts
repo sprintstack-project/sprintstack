@@ -60,6 +60,8 @@ const errorMessage = (error: unknown) => (error instanceof Error ? error.message
 @Injectable()
 export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
+  // Pushes still being sent, for settled().
+  private readonly sending = new Set<Promise<void>>();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -79,8 +81,14 @@ export class NotificationsService {
       include: SUBJECTS,
     });
     await this.redisPush.publish(input.userId, 'created');
-    void this.push(notification);
+    const sending = this.push(notification).finally(() => this.sending.delete(sending));
+    this.sending.add(sending);
     return notification;
+  }
+
+  /** Resolves once every push started so far has been sent (or failed), e.g. before exiting. */
+  async settled() {
+    await Promise.all(this.sending);
   }
 
   /** Newest first. `after` is the id of the last one already shown. */

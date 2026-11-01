@@ -16,7 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Associated Domains)
     // associatedDomains: ['webcredentials:sprintstack.io'],
     // Pushes (src/lib/push.ts): Firebase console → Project settings → Your apps → the iOS app.
-    googleServicesFile: './dev/firebase/GoogleService-Info.plist',
+    googleServicesFile: './firebase/dev/GoogleService-Info.plist',
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Push
     // Notifications). Until then iOS gets no pushes; the bell refreshes when the app opens.
     // entitlements: { 'aps-environment': 'production' },
@@ -32,7 +32,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     predictiveBackGestureEnabled: false,
     package: 'com.sprintstack.app',
     // Pushes: Firebase console → Project settings → Your apps → the Android app.
-    googleServicesFile: './dev/firebase/google-services.json',
+    googleServicesFile: './firebase/dev/google-services.json',
   },
   plugins: [
     'expo-router',

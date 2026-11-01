@@ -8,13 +8,17 @@ import {
 import { initialsOf } from '@sprintstack/shared';
 import type { HeaderNotification, HeaderNotifications } from '@sprintstack/ui';
 import { CalendarClock } from 'lucide-react';
-import { useFormatter, useNow, useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useFormatter, useTranslations } from 'next-intl';
+import { useCallback, useEffect, useState } from 'react';
 import { enablePush, type PushPermission, pushPermission } from './push';
 
 // Rewritten to the API's SSE endpoint (next.config.ts), so the session cookie goes with it.
 const STREAM = '/api/notifications/stream';
 const RECONNECT = 10_000;
+const MINUTE = 60_000;
+
+// Pushes are extra to the bell, so failures are logged rather than shown.
+const warn = (error: unknown) => console.warn('[push] Registration failed:', error);
 
 type T = ReturnType<typeof useTranslations<'Notifications'>>;
 
@@ -44,10 +48,19 @@ const titleOf = ({ type, actor, workItem, sprint }: BellNotification, t: T) => {
 export const useBell = (): HeaderNotifications => {
   const t = useTranslations('Notifications');
   const format = useFormatter();
-  const now = useNow({ updateInterval: 60_000 });
+  // Read after mounting: the clock can't be read during the prerender (cacheComponents). The bell
+  // has no notifications until then anyway.
+  const [now, setNow] = useState<Date>();
   const { notifications, unread, refresh, markRead } = useNotifications();
   const registerDevice = useRegisterPushDevice();
   const [permission, setPermission] = useState<PushPermission>('unsupported');
+  const onDevice = useCallback(
+    async (fid: string) => {
+      const { error } = await registerDevice(fid, 'web');
+      if (error) warn(error);
+    },
+    [registerDevice],
+  );
 
   useEffect(() => {
     let source: EventSource | undefined;
@@ -75,22 +88,32 @@ export const useBell = (): HeaderNotifications => {
     };
   }, [refresh]);
 
-  // Re-registers on every visit once allowed, so a browser shared between accounts follows
-  // whoever signed in last.
   useEffect(() => {
-    const onDevice = (fid: string) => registerDevice(fid, 'web');
-    pushPermission().then((current) => {
-      setPermission(current);
-      if (current === 'granted') enablePush(onDevice).catch(() => {});
-    });
-  }, [registerDevice]);
+    setNow(new Date());
+    const timer = setInterval(() => setNow(new Date()), MINUTE);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Re-registers on every visit once allowed, so a browser shared between accounts follows
+  // whoever signed in last. Firebase refuses while the browser reports itself offline, so it also
+  // tries again on coming back online.
+  useEffect(() => {
+    const start = () =>
+      pushPermission().then((current) => {
+        setPermission(current);
+        if (current === 'granted') enablePush(onDevice).catch(warn);
+      });
+    start();
+    window.addEventListener('online', start);
+    return () => window.removeEventListener('online', start);
+  }, [onDevice]);
 
   const items = notifications.map(
     (notification): HeaderNotification => ({
       id: notification.id,
       title: titleOf(notification, t),
       description: notification.workItem?.title,
-      time: format.relativeTime(new Date(notification.createdAt), now),
+      time: now ? format.relativeTime(new Date(notification.createdAt), now) : '',
       avatar: notification.actor
         ? notification.actor.image || initialsOf(notification.actor.name)
         : undefined,
@@ -114,9 +137,7 @@ export const useBell = (): HeaderNotifications => {
             label: t('enablePush'),
             action: t('enablePushAction'),
             onPress: () => {
-              enablePush((fid) => registerDevice(fid, 'web'))
-                .then(setPermission)
-                .catch(() => {});
+              enablePush(onDevice).then(setPermission).catch(warn);
             },
           }
         : undefined,

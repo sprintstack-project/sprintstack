@@ -50,7 +50,12 @@ export type PushPlatform = 'ios' | 'android' | 'web';
  * mobile); `markRead` updates the cache straight away (src/cache.ts).
  */
 export const useNotifications = () => {
-  const [{ data }, reexecute] = useQuery({ query: BellQuery });
+  // Paused during Next's server render: there's no session there, and running a query reads the
+  // clock (urql's dev timestamps), which cacheComponents refuses while prerendering.
+  const [{ data }, reexecute] = useQuery({
+    query: BellQuery,
+    pause: typeof window === 'undefined',
+  });
   const [, markReadMutation] = useMutation(MarkNotificationsReadMutation);
 
   const refresh = useCallback(() => reexecute({ requestPolicy: 'network-only' }), [reexecute]);
