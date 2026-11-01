@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { createAuth } from './auth/auth';
 import { ViewerResolver } from './auth/viewer.resolver';
 import { HealthController } from './health/health.controller';
+import { NotificationsModule } from './notifications/notifications.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { RedisModule } from './redis/redis.module';
@@ -52,6 +53,7 @@ import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
         csrfPrevention: true,
       }),
     }),
+    NotificationsModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [AppService, ViewerResolver, { provide: APP_GUARD, useClass: ClientThrottlerGuard }],

@@ -7,7 +7,56 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Mutation {
+  """Marks these, or all without ids, read. Returns how many."""
+  markNotificationsRead(ids: [ID!]): Int!
+
+  """Sends the user's pushes to this device (its Firebase Installation ID)."""
+  registerPushDevice(fid: String!, platform: PushPlatform!): Boolean!
+
+  """Stops pushes to this device. Call before signing out."""
+  unregisterPushDevice(fid: String!): Boolean!
+}
+
+type Notification {
+  actor: NotificationActor
+  createdAt: DateTime!
+  id: ID!
+  readAt: DateTime
+  sprintId: ID
+  type: NotificationType!
+  workItemId: ID
+}
+
+type NotificationActor {
+  id: ID!
+  image: String
+  name: String!
+}
+
+enum NotificationType {
+  assigned
+  commented
+  mentioned
+  sprint_ending
+  sprint_starting
+  status_changed
+}
+
+enum PushPlatform {
+  android
+  ios
+  web
+}
+
 type Query {
+  """Newest first."""
+  notifications(
+    """The last id already shown."""
+    after: ID
+    first: Int! = 20
+  ): [Notification!]!
+  unreadNotificationCount: Int!
   viewer: User!
 }
 

@@ -42,6 +42,7 @@ model User {
   activity          Activity[]
   notifications     Notification[]   @relation("recipient")
   notificationsSent Notification[]   @relation("actor")
+  pushDevices       PushDevice[]
 
   @@unique([email])
   @@map("user")
@@ -289,6 +290,12 @@ enum NotificationType {
   status_changed
   sprint_starting
   sprint_ending
+}
+
+enum PushPlatform {
+  ios
+  android
+  web
 }
 
 model Project {
@@ -550,4 +557,22 @@ model Notification {
 
   @@index([userId, createdAt(sort: Desc)])
   @@map("notification")
+}
+
+/// A device or browser that receives the bell's notifications as pushes through FCM. `fid` is its
+/// Firebase Installation ID. A device that signs in as someone else moves to them, so it's unique.
+/// FCM reports a device it no longer knows when sending, and that row is deleted then.
+
+model PushDevice {
+  id        String       @id @default(uuid(7)) @db.Uuid
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fid       String       @unique
+  platform  PushPlatform
+  createdAt DateTime     @default(now())
+  /// Last registered. The apps register on every launch, so stale devices show here.
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId])
+  @@map("pushDevice")
 }

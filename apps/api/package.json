@@ -45,6 +45,7 @@
     "@simplewebauthn/server": "^13.3.1",
     "@thallesp/nestjs-better-auth": "^2.8.0",
     "better-auth": "^1.7.12",
+    "firebase-admin": "^14.5.0",
     "graphql": "^16.11.0",
     "ioredis": "^6.0.0",
     "pg": "^8.23.1",
