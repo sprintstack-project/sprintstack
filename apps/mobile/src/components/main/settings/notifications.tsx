@@ -5,13 +5,12 @@ import {
   PROJECT_ROLE_LABEL,
   type ProjectRole,
 } from '@sprintstack/shared';
-import { Chip, Text, useSidebar } from '@sprintstack/ui';
+import { Chip, Section, Segmented, Text, useSidebar } from '@sprintstack/ui';
 import Select from '@ui/select/select';
 import { Plus } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
 import { CHANNEL_CHOICES, EVENTS, notificationsForm, ROLE_OPTIONS, save, useSaved } from './data';
-import { Panel, Segmented, ToggleRow } from './parts';
 
 /** The roles a rule notifies, as removable chips, and a button that adds one from a sheet. */
 const RoleChips = ({
@@ -70,7 +69,7 @@ export const Notifications = () => {
 
   return (
     <>
-      <Panel
+      <Section
         title="Notifications"
         description="Project-wide rules. Each person can still mute these in their own account."
         phoneDescription
@@ -81,30 +80,27 @@ export const Notifications = () => {
               label="Send as"
               choices={CHANNEL_CHOICES}
               value={f.state.value}
-              onChange={f.handleChange}
+              onValueChange={f.handleChange}
+              onBlur={f.handleBlur}
             />
           )}
         </form.AppField>
         <View>
           {EVENTS.map((event) => (
-            <form.AppField key={event.key} name={`rules.${event.key}`}>
+            <form.AppField key={event.key} name={`rules.${event.key}.enabled`}>
               {(f) => (
-                <ToggleRow
-                  title={event.title}
-                  description={event.description}
-                  checked={f.state.value.enabled}
-                  onCheckedChange={(enabled) => f.handleChange({ ...f.state.value, enabled })}
-                >
-                  <RoleChips
-                    value={f.state.value.roles}
-                    onChange={(roles) => f.handleChange({ ...f.state.value, roles })}
-                  />
-                </ToggleRow>
+                <f.ToggleRowField title={event.title} description={event.description}>
+                  <form.AppField name={`rules.${event.key}.roles`}>
+                    {(roles) => (
+                      <RoleChips value={roles.state.value} onChange={roles.handleChange} />
+                    )}
+                  </form.AppField>
+                </f.ToggleRowField>
               )}
             </form.AppField>
           ))}
         </View>
-      </Panel>
+      </Section>
       <View className={drawer ? '' : 'items-start'}>
         <form.AppForm>
           <form.SubmitButton size="lg" block={drawer}>

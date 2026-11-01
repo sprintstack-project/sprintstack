@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@ui/button';
+import { Segmented } from '@ui/segmented';
 import Select from '@ui/select/select';
 import {
   CalendarDays,
@@ -11,7 +12,6 @@ import {
   Plus,
   UsersRound,
 } from 'lucide-react';
-import { Segmented } from '../timeline/toolbar';
 import { SPRINT_OPTIONS, SPRINTS, type Sprint, sprintDates, type View } from './data';
 
 const views = [
@@ -34,7 +34,7 @@ const Toolbar = ({ view, onViewChange, sprint, onSprintChange, onAddTimeOff }: T
   const at = SPRINTS.indexOf(sprint);
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <Segmented label="View" choices={views} value={view} onChange={onViewChange} />
+      <Segmented label="View" choices={views} value={view} onValueChange={onViewChange} />
       <div className="flex items-center gap-1 sm:ml-3">
         <button
           type="button"

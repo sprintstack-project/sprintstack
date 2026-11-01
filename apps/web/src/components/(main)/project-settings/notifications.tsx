@@ -2,10 +2,10 @@
 
 import { useAppForm } from '@sprintstack/forms';
 import { notificationSettingsSchema } from '@sprintstack/shared';
-import { Switch } from '@ui/switch';
-import { Segmented } from '../timeline/toolbar';
+import { Eyebrow } from '@ui/eyebrow';
+import { Section } from '@ui/section';
+import { Segmented } from '@ui/segmented';
 import { CHANNEL_CHOICES, EVENTS, notificationsForm, ROLE_OPTIONS, save, useSaved } from './data';
-import { Actions, Panel } from './parts';
 
 const Notifications = () => {
   const saved = useSaved().notifications;
@@ -21,20 +21,21 @@ const Notifications = () => {
 
   return (
     <>
-      <Panel
+      <Section
         title="Notifications"
         description="Project-wide rules. Each person can still mute these in their own account settings."
       >
         <div className="flex flex-col">
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6">
-            <p className="eyebrow">Event</p>
+            <Eyebrow>Event</Eyebrow>
             <form.AppField name="channel">
               {(f) => (
                 <Segmented
                   label="Send as"
                   choices={CHANNEL_CHOICES}
                   value={f.state.value}
-                  onChange={f.handleChange}
+                  onValueChange={f.handleChange}
+                  onBlur={f.handleBlur}
                 />
               )}
             </form.AppField>
@@ -61,26 +62,17 @@ const Notifications = () => {
               <form.AppField name={`rules.${event.key}.enabled`}>
                 {(f) => (
                   <div className="md:pt-7">
-                    <Switch
-                      label={event.title}
-                      checked={f.state.value}
-                      onCheckedChange={f.handleChange}
-                    />
+                    <f.SwitchField label={event.title} />
                   </div>
                 )}
               </form.AppField>
             </div>
           ))}
         </div>
-      </Panel>
-      <Actions
-        save={
-          <form.AppForm>
-            <form.SubmitButton size="lg">Save changes</form.SubmitButton>
-          </form.AppForm>
-        }
-        onDiscard={() => form.reset(saved)}
-      />
+      </Section>
+      <form.AppForm>
+        <form.FormActions onDiscard={() => form.reset(saved)} />
+      </form.AppForm>
     </>
   );
 };

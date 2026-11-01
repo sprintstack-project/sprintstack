@@ -106,6 +106,12 @@ export const WEEKDAY_LABEL: Record<Weekday, { letter: string; name: string }> = 
   sun: { letter: 'S', name: 'Sunday' },
 };
 
+export const WEEKDAY_CHOICES = WEEKDAYS.map((value) => ({
+  value,
+  label: WEEKDAY_LABEL[value].letter,
+  ariaLabel: WEEKDAY_LABEL[value].name,
+}));
+
 export const CHANNEL_CHOICES = [
   { value: 'email' as const, label: 'In-app & email' },
   { value: 'in-app' as const, label: 'In-app only' },

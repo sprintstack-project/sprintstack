@@ -8,7 +8,6 @@ import { Button } from '@ui/button';
 import { clsx } from 'clsx';
 import { Check, Trash2, TriangleAlert, X } from 'lucide-react';
 import { useState } from 'react';
-import { Segmented } from '../timeline/toolbar';
 import {
   type Adjustments,
   datesOf,
@@ -85,21 +84,7 @@ const Body = ({ initial, timeOff, adjust, onSave, onRemove, onClose }: BodyProps
             },
           }}
         >
-          {(f) => (
-            <div className="flex flex-col gap-3">
-              <p className="text-[1.0625rem] leading-5.5 font-bold text-ink font-stretch-semi-condensed">
-                Type
-              </p>
-              <div className="self-start">
-                <Segmented
-                  label="Type"
-                  choices={types}
-                  value={f.state.value}
-                  onChange={f.handleChange}
-                />
-              </div>
-            </div>
-          )}
+          {(f) => <f.SegmentedField label="Type" choices={types} />}
         </form.AppField>
         <form.AppField
           name="dates"

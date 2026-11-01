@@ -1,5 +1,6 @@
 'use client';
 
+import { PageHeading } from '@ui/page-heading';
 import { Bell, CalendarDays, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -38,14 +39,7 @@ const ProjectSettings = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
-      <div className="flex flex-col gap-2">
-        <p className="eyebrow">
-          {details.name} · {details.key}
-        </p>
-        <h1 className="headline text-7xl leading-none">
-          Project <span className="text-brand-ink">settings</span>
-        </h1>
-      </div>
+      <PageHeading eyebrow={`${details.name} · ${details.key}`} title="Project" accent="settings" />
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(16rem,22rem)_minmax(0,1fr)]">
         <nav
           aria-label="Project settings"

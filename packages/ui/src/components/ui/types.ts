@@ -160,6 +160,28 @@ export interface StoryPointsProps extends Blurrable {
   disabled?: boolean;
 }
 
+/** One option of a `Segmented` control. */
+export interface SegmentedChoice<V extends string = string> {
+  value: V;
+  label: string;
+  /** Read out instead of `label` when the label is abbreviated, e.g. "Monday" for "M". */
+  ariaLabel?: string;
+  icon?: IconComponent;
+}
+
+/**
+ * A single required choice from a few options, as a row of buttons in a grey track, the chosen
+ * one filled with ink, e.g. a timeline's scale or a settings toggle like "Send as". For story
+ * points (nullable, with an overflow menu) use `StoryPoints`.
+ */
+export interface SegmentedProps<V extends string = string> extends Blurrable {
+  /** The group's accessible name, e.g. "Scale". Inside a `Field`, the field's label names it. */
+  label: string;
+  choices: readonly SegmentedChoice<V>[];
+  value: V;
+  onValueChange: (value: V) => void;
+}
+
 export interface NumberInputProps extends ControlBase, Blurrable {
   value?: number | null;
   defaultValue?: number | null;
@@ -432,6 +454,51 @@ export interface SwitchProps {
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   disabled?: boolean;
+}
+
+/**
+ * A setting that's on or off: its title and what it does, the switch on the right. Rows draw a
+ * divider above themselves, so stack them in a plain column.
+ */
+export interface ToggleRowProps {
+  title: string;
+  description: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  /** More of the setting under the description, e.g. who it notifies. */
+  children?: ReactNode;
+}
+
+/** The overline and headline at the top of a page, e.g. "Payments · PAY" over "Project settings". */
+export interface PageHeadingProps {
+  eyebrow?: string;
+  title: string;
+  /** A last word in brand colour after the title, e.g. "settings". */
+  accent?: string;
+}
+
+/** A small uppercase overline, e.g. a group's name ("Administration") or a column's ("Event"). */
+export interface EyebrowProps {
+  children: string;
+  /** It names the content under it, so it's announced as a heading. */
+  heading?: boolean;
+}
+
+/** A titled part of a page, e.g. a settings section: its headline and what it's for, then its content. */
+export interface SectionProps {
+  title: string;
+  description: string;
+  /**
+   * Native only: phones drop the frame and headline (the screen's header names the section). Set
+   * this to keep the description there.
+   */
+  phoneDescription?: boolean;
+  children: ReactNode;
+}
+
+/** A row of buttons, e.g. a form's Save and Discard. It wraps when there isn't room. */
+export interface ButtonGroupProps {
+  children: ReactNode;
 }
 
 export interface SidebarItem {

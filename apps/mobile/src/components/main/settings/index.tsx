@@ -1,5 +1,5 @@
 import { scaled } from '@lib/scale';
-import { Button, type SidebarItem, Text } from '@sprintstack/ui';
+import { Button, Eyebrow, PageHeading, Segmented, type SidebarItem, Text } from '@sprintstack/ui';
 import { type Href, router } from 'expo-router';
 import { ChevronRight, LogOut, Moon, Sun } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
@@ -8,7 +8,6 @@ import { ADMIN_ITEMS, PROJECT_SETTINGS } from '@/components/main/navigation';
 import { signOut } from '@/lib/restore-key';
 import { useTokenColor } from '@/lib/use-token-color';
 import { notificationsSummary, sprintsSummary, useSaved } from './data';
-import { GroupTitle, Heading, Segmented } from './parts';
 
 // Placeholders until teams, workflows and roles come from the API.
 const ADMIN_SUMMARY: Record<string, string> = {
@@ -62,7 +61,7 @@ const Group = ({
   rows: { item: SidebarItem; description: string }[];
 }) => (
   <View className="gap-3">
-    <GroupTitle>{title}</GroupTitle>
+    <Eyebrow heading>{title}</Eyebrow>
     <View className="overflow-hidden rounded-3xl border border-line bg-surface">
       {rows.map((row, i) => (
         <Row key={row.item.key} item={row.item} description={row.description} first={i === 0} />
@@ -87,7 +86,7 @@ export const Settings = () => {
 
   return (
     <>
-      <Heading eyebrow={`${saved.details.name} · ${saved.details.key}`} title="Settings" />
+      <PageHeading eyebrow={`${saved.details.name} · ${saved.details.key}`} title="Settings" />
       <Group
         title="Project"
         rows={PROJECT_SETTINGS.map((item) => ({ item, description: projectSummary[item.key] }))}
@@ -97,12 +96,12 @@ export const Settings = () => {
         rows={ADMIN_ITEMS.map((item) => ({ item, description: ADMIN_SUMMARY[item.key] }))}
       />
       <View className="gap-3">
-        <GroupTitle>Appearance</GroupTitle>
+        <Eyebrow heading>Appearance</Eyebrow>
         <Segmented
           label="Theme"
           choices={themes}
           value={theme === 'dark' ? 'dark' : 'light'}
-          onChange={(next) => Uniwind.setTheme(next)}
+          onValueChange={(next) => Uniwind.setTheme(next)}
         />
       </View>
       {/* The session hook in MainLayout sees the sign-out and redirects to sign-in. */}

@@ -2,9 +2,8 @@
 
 import { useAppForm, useSelector } from '@sprintstack/forms';
 import { SPRINT_LENGTH_MAX, SPRINT_LENGTH_MIN, sprintSettingsSchema } from '@sprintstack/shared';
-import { Segmented } from '../timeline/toolbar';
+import { Section } from '@ui/section';
 import { CURRENT_SPRINT, nextSprint, save, sprintsForm, useSaved, WEEKDAY_CHOICES } from './data';
-import { Actions, Panel, ToggleRow } from './parts';
 
 const Sprints = () => {
   const saved = useSaved().sprints;
@@ -22,7 +21,7 @@ const Sprints = () => {
 
   return (
     <>
-      <Panel
+      <Section
         title="Sprints"
         description={`Applies from the next sprint. Sprint ${CURRENT_SPRINT.number} keeps its current dates.`}
       >
@@ -40,47 +39,27 @@ const Sprints = () => {
           </form.AppField>
         </div>
         <form.AppField name="startDay">
-          {(f) => (
-            <div className="flex flex-col gap-3">
-              <p className="text-[1.0625rem] leading-5.5 font-bold text-ink font-stretch-semi-condensed">
-                Sprints start on
-              </p>
-              <div className="self-start overflow-x-auto">
-                <Segmented
-                  label="Sprints start on"
-                  choices={WEEKDAY_CHOICES}
-                  value={f.state.value}
-                  onChange={f.handleChange}
-                />
-              </div>
-            </div>
-          )}
+          {(f) => <f.SegmentedField label="Sprints start on" choices={WEEKDAY_CHOICES} />}
         </form.AppField>
         <div className="flex flex-col">
           <form.AppField name="autoStart">
             {(f) => (
-              <ToggleRow
+              <f.ToggleRowField
                 title="Start the next sprint automatically"
                 description="When a sprint ends, the planned one starts at 09:00 on its start day."
-                checked={f.state.value}
-                onCheckedChange={f.handleChange}
-                className="border-t border-line py-6"
               />
             )}
           </form.AppField>
           <form.AppField name="carryOver">
             {(f) => (
-              <ToggleRow
+              <f.ToggleRowField
                 title="Carry over unfinished work"
                 description="Open items move to the next sprint instead of back to the backlog."
-                checked={f.state.value}
-                onCheckedChange={f.handleChange}
-                className="border-t border-line pt-6"
               />
             )}
           </form.AppField>
         </div>
-      </Panel>
+      </Section>
       <section
         aria-live="polite"
         className="flex flex-wrap items-end justify-between gap-6 rounded-3xl bg-ink p-6 text-on-ink md:px-10 md:py-8"
@@ -96,14 +75,9 @@ const Sprints = () => {
           <span className="text-[1.0625rem] leading-6 font-bold">working days</span>
         </p>
       </section>
-      <Actions
-        save={
-          <form.AppForm>
-            <form.SubmitButton size="lg">Save changes</form.SubmitButton>
-          </form.AppForm>
-        }
-        onDiscard={() => form.reset(saved)}
-      />
+      <form.AppForm>
+        <form.FormActions onDiscard={() => form.reset(saved)} />
+      </form.AppForm>
     </>
   );
 };

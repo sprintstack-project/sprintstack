@@ -1,5 +1,6 @@
 import { createFormHook } from '@tanstack/react-form';
 import { fieldContext, formContext } from './context';
+import { FormActions } from './FormActions';
 import { CheckboxField } from './fields/CheckboxField';
 import { CodeField } from './fields/CodeField';
 import { DateField } from './fields/DateField';
@@ -9,10 +10,13 @@ import { NumberField } from './fields/NumberField';
 import { PasswordField } from './fields/PasswordField';
 import { RangeCalendarField } from './fields/RangeCalendarField';
 import { RichTextField } from './fields/RichTextField';
+import { SegmentedField } from './fields/SegmentedField';
 import { SelectField } from './fields/SelectField';
 import { StoryPointsField } from './fields/StoryPointsField';
+import { SwitchField } from './fields/SwitchField';
 import { TextAreaField } from './fields/TextAreaField';
 import { TextField } from './fields/TextField';
+import { ToggleRowField } from './fields/ToggleRowField';
 import { SubmitButton } from './SubmitButton';
 
 /**
@@ -40,6 +44,9 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     RichTextField,
     HeadlineField,
     StoryPointsField,
+    SegmentedField,
+    SwitchField,
+    ToggleRowField,
   },
-  formComponents: { SubmitButton },
+  formComponents: { SubmitButton, FormActions },
 });

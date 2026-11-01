@@ -1,15 +1,16 @@
-import { touchSlop } from '@lib/scale';
 import { useAppForm, useSelector } from '@sprintstack/forms';
+import { SPRINT_LENGTH_MAX, SPRINT_LENGTH_MIN, sprintSettingsSchema } from '@sprintstack/shared';
+import { Section, Text, useSidebar } from '@sprintstack/ui';
+import { View } from 'react-native';
 import {
-  SPRINT_LENGTH_MAX,
-  SPRINT_LENGTH_MIN,
-  sprintSettingsSchema,
-  WEEKDAYS,
-} from '@sprintstack/shared';
-import { Text, useSidebar } from '@sprintstack/ui';
-import { Pressable, View } from 'react-native';
-import { CURRENT_SPRINT, nextSprint, save, sprintsForm, useSaved, WEEKDAY_LABEL } from './data';
-import { Label, Panel, ToggleRow } from './parts';
+  CURRENT_SPRINT,
+  nextSprint,
+  save,
+  sprintsForm,
+  useSaved,
+  WEEKDAY_CHOICES,
+  WEEKDAY_LABEL,
+} from './data';
 
 export const Sprints = () => {
   const saved = useSaved().sprints;
@@ -28,7 +29,7 @@ export const Sprints = () => {
 
   return (
     <>
-      <Panel
+      <Section
         title="Sprints"
         description={`Applies from the next sprint. Sprint ${CURRENT_SPRINT.number} keeps its current dates.`}
       >
@@ -45,61 +46,32 @@ export const Sprints = () => {
         </form.AppField>
         <form.AppField name="startDay">
           {(f) => (
-            <View className="gap-3">
-              <Label>Sprints start on</Label>
-              <View
-                accessibilityRole="radiogroup"
-                accessibilityLabel="Sprints start on"
-                className="flex-row rounded-full bg-surface-muted p-1"
-              >
-                {WEEKDAYS.map((day) => {
-                  const selected = f.state.value === day;
-                  return (
-                    <Pressable
-                      key={day}
-                      accessibilityRole="radio"
-                      accessibilityLabel={WEEKDAY_LABEL[day].name}
-                      accessibilityState={{ checked: selected }}
-                      hitSlop={touchSlop(44)}
-                      onPress={() => f.handleChange(day)}
-                      className={`h-11 flex-1 items-center justify-center rounded-full ${selected ? 'bg-ink' : 'active:bg-surface-pressed'}`}
-                    >
-                      <Text
-                        className={`text-[1.0625rem] font-extrabold ${selected ? 'text-on-ink' : 'text-ink'}`}
-                      >
-                        {WEEKDAY_LABEL[day].letter}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-              <Text className="text-meta text-ink-muted">{WEEKDAY_LABEL[f.state.value].name}</Text>
-            </View>
+            <f.SegmentedField
+              label="Sprints start on"
+              description={WEEKDAY_LABEL[values.startDay].name}
+              choices={WEEKDAY_CHOICES}
+            />
           )}
         </form.AppField>
         <View>
           <form.AppField name="autoStart">
             {(f) => (
-              <ToggleRow
+              <f.ToggleRowField
                 title="Start the next sprint automatically"
                 description="At 09:00 on its start day."
-                checked={f.state.value}
-                onCheckedChange={f.handleChange}
               />
             )}
           </form.AppField>
           <form.AppField name="carryOver">
             {(f) => (
-              <ToggleRow
+              <f.ToggleRowField
                 title="Carry over unfinished work"
                 description="Open items move to the next sprint, not the backlog."
-                checked={f.state.value}
-                onCheckedChange={f.handleChange}
               />
             )}
           </form.AppField>
         </View>
-      </Panel>
+      </Section>
       <View
         accessibilityLiveRegion="polite"
         className={`gap-2 rounded-3xl bg-ink ${drawer ? 'p-6' : 'p-8'}`}

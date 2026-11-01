@@ -257,7 +257,7 @@ const Body = ({ sprint, onCreate, onClose }: BodyProps) => {
 
         <View className="gap-4 border-t border-line px-6 pt-4 pb-2">
           <View className="flex-row items-center justify-end gap-2">
-            <Button variant="ghost" size="lg" onClick={discard}>
+            <Button variant="secondary" size="lg" onClick={discard}>
               Discard
             </Button>
             <form.AppForm>

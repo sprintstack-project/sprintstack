@@ -4,11 +4,12 @@ import { twMerge } from '@lib/tw-merge';
 import { useAppForm, useSelector } from '@sprintstack/forms';
 import { PROJECT_DESCRIPTION_MAX_LENGTH, projectDetailsSchema } from '@sprintstack/shared';
 import { Button, buttonClass } from '@ui/button';
-import { Archive, CircleAlert, ImageIcon } from 'lucide-react';
+import { Field } from '@ui/field';
+import { Section } from '@ui/section';
+import { Archive, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { detailsForm, save, useSaved } from './data';
-import { Actions, Panel } from './parts';
 
 const ICON_MIN_SIZE = 256;
 
@@ -37,6 +38,7 @@ const Details = () => {
   const [image, setImage] = useState(saved.image);
   const [imageError, setImageError] = useState<string>();
   const fileInput = useRef<HTMLInputElement>(null);
+  const fileInputId = useId();
 
   const form = useAppForm({
     ...detailsForm,
@@ -81,16 +83,18 @@ const Details = () => {
 
   return (
     <>
-      <Panel
+      <Section
         title="Details"
         description="Shown across the app, in links and in notification emails."
       >
         <div className="flex flex-wrap items-center gap-6">
           <ProjectIcon image={image} code={key} />
-          <div className="flex flex-col gap-3">
-            <p className="text-[1.0625rem] leading-5.5 font-bold text-ink font-stretch-semi-condensed">
-              Project icon
-            </p>
+          <Field
+            label="Project icon"
+            htmlFor={fileInputId}
+            description={`PNG or SVG, at least ${ICON_MIN_SIZE} × ${ICON_MIN_SIZE}.`}
+            error={imageError}
+          >
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="secondary"
@@ -106,9 +110,9 @@ const Details = () => {
               )}
               <input
                 ref={fileInput}
+                id={fileInputId}
                 type="file"
                 accept="image/png,image/svg+xml"
-                aria-label="Project icon"
                 className="sr-only"
                 tabIndex={-1}
                 onChange={(event) => {
@@ -117,20 +121,7 @@ const Details = () => {
                 }}
               />
             </div>
-            {imageError ? (
-              <p
-                role="alert"
-                className="flex items-center gap-1 text-meta font-bold text-brand-ink font-stretch-semi-condensed"
-              >
-                <CircleAlert aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
-                {imageError}
-              </p>
-            ) : (
-              <p className="text-meta text-ink-muted font-stretch-semi-condensed">
-                PNG or SVG, at least {ICON_MIN_SIZE} × {ICON_MIN_SIZE}.
-              </p>
-            )}
-          </div>
+          </Field>
         </div>
         <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(10rem,18rem)]">
           <form.AppField name="name">
@@ -166,16 +157,11 @@ const Details = () => {
           )}
         </form.AppField>
         <div className="border-t border-line pt-8">
-          <Actions
-            save={
-              <form.AppForm>
-                <form.SubmitButton size="lg">Save changes</form.SubmitButton>
-              </form.AppForm>
-            }
-            onDiscard={discard}
-          />
+          <form.AppForm>
+            <form.FormActions onDiscard={discard} />
+          </form.AppForm>
         </div>
-      </Panel>
+      </Section>
       <section className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-danger p-6 md:px-10 md:py-8">
         <div className="flex max-w-2xl flex-col gap-2">
           <h2 className="headline text-[1.875rem] leading-none text-ink">Archive project</h2>

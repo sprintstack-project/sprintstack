@@ -2,8 +2,9 @@
 
 import { Button } from '@ui/button';
 import { FilterSelect } from '@ui/filter-select';
+import { Segmented } from '@ui/segmented';
 import Select from '@ui/select/select';
-import { clsx } from 'clsx';
+import type { SegmentedChoice } from '@ui/types';
 import { Calendar, ChevronDown, Sparkles, Zap } from 'lucide-react';
 import {
   findRange,
@@ -15,52 +16,12 @@ import {
   type StatusFilter,
 } from './data';
 
-interface Choice<V> {
-  value: V;
-  label: string;
-  icon?: typeof Zap;
-}
-
-/** A row of buttons in a grey track, the pressed one filled with ink. */
-export const Segmented = <V extends string>({
-  label,
-  choices,
-  value,
-  onChange,
-}: {
-  label: string;
-  choices: Choice<V>[];
-  value: V;
-  onChange: (value: V) => void;
-}) => (
-  <fieldset
-    aria-label={label}
-    className="m-0 flex shrink-0 rounded-full border-0 bg-surface-muted p-1"
-  >
-    {choices.map(({ value: choice, label, icon: Icon }) => (
-      <button
-        key={choice}
-        type="button"
-        aria-pressed={value === choice}
-        onClick={() => onChange(choice)}
-        className={clsx(
-          'kbd-focus inline-flex h-10 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full px-5 text-[1.0625rem] leading-5 font-extrabold whitespace-nowrap font-stretch-condensed transition-colors duration-120',
-          value === choice ? 'bg-ink text-on-ink' : 'text-ink hover:bg-surface-hover',
-        )}
-      >
-        {Icon && <Icon aria-hidden strokeWidth={2} className="size-5" />}
-        {label}
-      </button>
-    ))}
-  </fieldset>
-);
-
-const levels: Choice<Level>[] = [
+const levels: SegmentedChoice<Level>[] = [
   { value: 'epics', label: 'Epics', icon: Zap },
   { value: 'features', label: 'Features', icon: Sparkles },
 ];
 
-const scales: Choice<Scale>[] = [
+const scales: SegmentedChoice<Scale>[] = [
   { value: 'weeks', label: 'Weeks' },
   { value: 'months', label: 'Months' },
   { value: 'quarters', label: 'Quarters' },
@@ -92,7 +53,7 @@ const Toolbar = ({
   onToday,
 }: ToolbarProps) => (
   <div className="flex flex-wrap items-center gap-3">
-    <Segmented label="Show" choices={levels} value={level} onChange={onLevelChange} />
+    <Segmented label="Show" choices={levels} value={level} onValueChange={onLevelChange} />
     <FilterSelect<StatusFilter>
       label="Status"
       options={STATUS_OPTIONS}
@@ -125,7 +86,7 @@ const Toolbar = ({
       Today
     </Button>
     <div className="xl:ml-auto">
-      <Segmented label="Scale" choices={scales} value={scale} onChange={onScaleChange} />
+      <Segmented label="Scale" choices={scales} value={scale} onValueChange={onScaleChange} />
     </div>
   </div>
 );

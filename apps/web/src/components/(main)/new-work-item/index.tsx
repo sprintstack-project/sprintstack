@@ -306,7 +306,7 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
             <kbd className={clsx(kbd, 'border-line-strong text-ink-muted')}>Esc</kbd> to discard
           </span>
           <Button
-            variant="ghost"
+            variant="secondary"
             size="lg"
             onClick={() => {
               discard();
