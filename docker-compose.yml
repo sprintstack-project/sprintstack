@@ -17,5 +17,17 @@ services:
       timeout: 5s
       retries: 10
 
+  redis:
+    # Keep in sync with the Redis major version on Railway. A cache only, so no volume.
+    image: redis:8-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   postgres-data:

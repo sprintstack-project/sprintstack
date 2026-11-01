@@ -14,6 +14,7 @@ import { ViewerResolver } from './auth/viewer.resolver';
 import { HealthController } from './health/health.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
+import { RedisModule } from './redis/redis.module';
 import { RobotsController } from './robots/robots.controller';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
 
@@ -21,6 +22,8 @@ import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
+    // Backs @Cacheable and @CacheEvict (src/redis/cacheable.ts).
+    RedisModule,
     // A backstop behind Cloudflare: 60 requests a minute per client IP on each route and GraphQL
     // operation. Generous for people, tight enough that one client can't flood the API or database.
     ThrottlerModule.forRoot({ throttlers: [{ ttl: 60_000, limit: 60 }] }),
