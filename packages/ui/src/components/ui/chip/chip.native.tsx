@@ -105,12 +105,12 @@ const Chip = ({
           <Image
             source={{ uri: avatar }}
             accessibilityIgnoresInvertColors
-            className="-ml-2 size-[1.375rem] rounded-full"
+            className="-ml-2 size-5.5 rounded-full"
           />
         ) : (
           <View
             aria-hidden
-            className="-ml-2 size-[1.375rem] items-center justify-center rounded-full bg-ink-muted"
+            className="-ml-2 size-5.5 items-center justify-center rounded-full bg-ink-muted"
           >
             <Text className="text-[0.625rem] font-bold text-on-ink">{avatar}</Text>
           </View>
@@ -128,7 +128,7 @@ const Chip = ({
           onPress={onRemove}
           // A small button; hitSlop brings the touch target to 44pt.
           hitSlop={touchSlop(22)}
-          className="-mr-1.5 size-[1.375rem] items-center justify-center rounded-full active:bg-surface-pressed"
+          className="-mr-1.5 size-5.5 items-center justify-center rounded-full active:bg-surface-pressed"
         >
           <X aria-hidden size={scaled(18)} strokeWidth={2} color={removeColor} />
         </Pressable>

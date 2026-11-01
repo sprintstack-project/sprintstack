@@ -8,7 +8,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: `A one-time code shown as one box per digit. Typing, paste and the browser's one-time-code autofill all go into one field. Wrap it in \`Field\` for its label.
+        component: `A one-time code shown as one box per digit, built on Base UI's OTP field. Typing moves to the next box, Backspace to the previous one, and paste or the browser's one-time-code autofill fill every box. Wrap it in \`Field\` for its label.
 
 \`\`\`tsx
 import { CodeInput, Field } from '@sprintstack/ui';
@@ -60,15 +60,20 @@ export const Typing: Story = {
   parameters: { singleTheme: true },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByLabelText('Authentication code');
+    const first = canvas.getByRole('textbox', { name: 'Authentication code' });
+    const last = canvas.getByRole('textbox', { name: 'Digit 6 of 6' });
 
-    await userEvent.type(input, '4a8');
+    await userEvent.type(first, '4a8');
     await expect(args.onChange).toHaveBeenLastCalledWith('48');
 
-    await userEvent.clear(input);
-    await userEvent.click(input);
+    // Ctrl+Backspace clears every box.
+    await userEvent.keyboard('{Control>}{Backspace}{/Control}');
+    await expect(args.onChange).toHaveBeenLastCalledWith('');
+
+    await userEvent.click(first);
     await userEvent.paste('123 456 789');
-    await expect(input).toHaveValue('123456');
+    await expect(first).toHaveValue('1');
+    await expect(last).toHaveValue('6');
     await expect(args.onComplete).toHaveBeenCalledWith('123456');
   },
 };

@@ -386,7 +386,8 @@ export interface StepperProps {
 
 /**
  * A one-time code (authenticator, email verification) shown as one box per digit. Typing, paste
- * and OS autofill all go into one field, so it reads as a single input to assistive tech.
+ * and OS autofill fill every box. On web each box is its own input (Base UI OTP field); on native
+ * one hidden field sits under the boxes.
  */
 export interface CodeInputProps extends Blurrable {
   id?: string;

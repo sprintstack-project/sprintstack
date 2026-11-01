@@ -72,11 +72,11 @@ const Chip = ({
     >
       {avatar &&
         (isImageUrl(avatar) ? (
-          <img src={avatar} alt="" className="-ml-2 size-[1.375rem] rounded-full object-cover" />
+          <img src={avatar} alt="" className="-ml-2 size-5.5 rounded-full object-cover" />
         ) : (
           <span
             aria-hidden
-            className="-ml-2 grid size-[1.375rem] place-items-center rounded-full bg-ink-muted text-[0.625rem] font-bold text-on-ink"
+            className="-ml-2 grid size-5.5 place-items-center rounded-full bg-ink-muted text-[0.625rem] font-bold text-on-ink"
           >
             {avatar}
           </span>
@@ -88,12 +88,12 @@ const Chip = ({
           aria-label={label ? `Remove ${label}` : 'Remove'}
           onClick={onRemove}
           className={clsx(
-            '-mr-1.5 grid size-[1.375rem] shrink-0 cursor-pointer place-items-center rounded-full hover:bg-ink/15',
+            '-mr-1.5 grid size-5.5 shrink-0 cursor-pointer place-items-center rounded-full hover:bg-ink/15',
             focus,
             'focus-visible:outline-offset-1',
           )}
         >
-          <X aria-hidden strokeWidth={2} className="size-[1.125rem]" />
+          <X aria-hidden strokeWidth={2} className="size-4.5" />
         </button>
       )}
     </span>

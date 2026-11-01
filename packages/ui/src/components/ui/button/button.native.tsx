@@ -4,6 +4,7 @@ import { useTokenColor } from '@lib/use-token-color.native';
 import { Text } from '@ui/text';
 import type { ButtonProps } from '@ui/types';
 import { clsx } from 'clsx';
+import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import { Pressable } from 'react-native';
 
 type Variant = NonNullable<ButtonProps['variant']>;
@@ -38,6 +39,11 @@ const sizes = {
 // Pad the touch area to 44pt, whatever the scale (spec heights: sm 40, md 48, lg 56).
 const hitSlop = { sm: touchSlop(40), md: touchSlop(48), lg: touchSlop(56) };
 
+// Fire-and-forget: the tap shouldn't wait on the haptic engine, and devices without one just no-op.
+const tapFeedback = () => {
+  impactAsync(ImpactFeedbackStyle.Light).catch(() => {});
+};
+
 const Button = ({
   children,
   variant = 'secondary',
@@ -66,7 +72,10 @@ const Button = ({
       accessibilityLabel={iconOnly ? label : undefined}
       accessibilityState={{ disabled: Boolean(disabled) }}
       disabled={disabled}
-      onPress={onClick}
+      onPress={() => {
+        tapFeedback();
+        onClick?.();
+      }}
       hitSlop={hitSlop[size]}
       className={twMerge(
         clsx(

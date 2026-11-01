@@ -57,7 +57,7 @@ const Tile = ({ tone = 'brand', eyebrow, children }: CardProps) => {
   return (
     <section
       className={clsx(
-        'flex min-h-[12.5rem] min-w-0 flex-col justify-between gap-4 rounded-2xl p-8 [&_em]:not-italic',
+        'flex min-h-50 min-w-0 flex-col justify-between gap-4 rounded-2xl p-8 [&_em]:not-italic',
         tiles[tone],
       )}
     >
@@ -111,7 +111,7 @@ const IssueCard = ({
       className={clsx(
         'min-w-0 rounded-xl border border-line bg-surface p-6 text-ink',
         // The selected card gets a 2px ink border (padding shrinks to keep the content still).
-        'data-selected:border-2 data-selected:border-ink data-selected:p-[1.4375rem]',
+        'data-selected:border-2 data-selected:border-ink data-selected:p-5.75',
         interactive && [
           'cursor-pointer transition-colors duration-120 hover:border-line-strong',
           focus,
@@ -168,11 +168,11 @@ const IssueCard = ({
       ) : (
         <>
           {(priority || points !== undefined || due) && (
-            <div className="mt-4 flex flex-wrap items-center gap-5 text-[1.0625rem] leading-[1.375rem] font-bold text-ink-muted font-stretch-semi-condensed">
+            <div className="mt-4 flex flex-wrap items-center gap-5 text-[1.0625rem] leading-5.5 font-bold text-ink-muted font-stretch-semi-condensed">
               {priority && <Priority level={priority} />}
               {points !== undefined && (
                 <span className="inline-flex items-center gap-2">
-                  <Target aria-hidden strokeWidth={2} className="size-[1.125rem]" />
+                  <Target aria-hidden strokeWidth={2} className="size-4.5" />
                   {points} pts
                 </span>
               )}
@@ -180,7 +180,7 @@ const IssueCard = ({
                 <span
                   className={clsx('inline-flex items-center gap-2', overdue && 'text-brand-ink')}
                 >
-                  <Clock aria-hidden strokeWidth={2} className="size-[1.125rem]" />
+                  <Clock aria-hidden strokeWidth={2} className="size-4.5" />
                   {due}
                 </span>
               )}

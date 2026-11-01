@@ -57,7 +57,7 @@ export const RecoveryCodes = ({ codes, onDone }: { codes: string[]; onDone: () =
         </ul>
       </div>
 
-      <div className="flex flex-wrap gap-2.5 [&>*]:flex-[1_1_8.75rem]">
+      <div className="flex flex-wrap gap-2.5 *:flex-[1_1_8.75rem]">
         <Button variant="secondary" icon={Download} onClick={download}>
           Download
         </Button>

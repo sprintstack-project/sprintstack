@@ -22,7 +22,7 @@ const Card = (props: CardProps) => {
 
   const { title, actions, children, footer } = props;
   return (
-    <View className="min-w-0 rounded-[1.25rem] border border-line bg-surface p-6">
+    <View className="min-w-0 rounded-xl border border-line bg-surface p-6">
       {(title || actions) && (
         <View className="flex-row items-start gap-3">
           {title && (
@@ -59,10 +59,7 @@ const Card = (props: CardProps) => {
 const Tile = ({ tone = 'brand', eyebrow, children }: CardProps) => {
   return (
     <View
-      className={clsx(
-        'min-h-[12.5rem] min-w-0 justify-between gap-4 rounded-[1.75rem] p-8',
-        tiles[tone].box,
-      )}
+      className={clsx('min-h-50 min-w-0 justify-between gap-4 rounded-2xl p-8', tiles[tone].box)}
     >
       {eyebrow && (
         <Text
@@ -112,10 +109,10 @@ const IssueCard = ({
       disabled={!onPress}
       onPress={onPress}
       className={clsx(
-        'min-w-0 rounded-[1.25rem] bg-surface',
+        'min-w-0 rounded-xl bg-surface',
         // The selected card gets a 2px ink border (padding shrinks to keep the content still).
         selected
-          ? 'border-2 border-ink p-[1.4375rem]'
+          ? 'border-2 border-ink p-5.75'
           : 'border border-line p-6 active:border-line-strong',
       )}
     >
