@@ -5,5 +5,18 @@
     "delete": "Delete",
     "loading": "Loading…",
     "workItems": "{count, plural, one {# work item} other {# work items}}"
+  },
+  "Notifications": {
+    "someone": "Someone",
+    "assigned": "{actor} assigned you {item}",
+    "mentioned": "{actor} mentioned you in {item}",
+    "commented": "{actor} commented on {item}",
+    "status_changed": "{actor} changed the status of {item}",
+    "sprint_starting": "{sprint} starts tomorrow",
+    "sprint_ending": "{sprint} ends tomorrow",
+    "enablePush": "Get notified when SprintStack is closed",
+    "enablePushAction": "Turn on",
+    "pushBlocked": "Notifications are off for SprintStack",
+    "pushBlockedAction": "Open settings"
   }
 }

@@ -1,22 +1,20 @@
 'use client';
 
+import { initialsOf } from '@sprintstack/shared';
 import {
   type CommandGroup,
   CommandPalette,
   Header,
-  type HeaderNotification,
   type Option,
   Sidebar,
   type SidebarSection,
   type Theme,
 } from '@sprintstack/ui';
 import {
-  CalendarClock,
   ChartNoAxesGantt,
   LayoutDashboard,
   ListTodo,
   LogOut,
-  ShieldCheck,
   SlidersVertical,
   SquareStack,
   SunMoon,
@@ -30,16 +28,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
-
-/** "Mira Okafor" → "MO", for the avatar when there's no photo. */
-const initialsOf = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase())
-    .join('');
+import { disablePush } from '@/lib/push';
+import { useBell } from '@/lib/use-bell';
 
 const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -47,6 +37,8 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const signOut = async () => {
+    // While the session still exists: this browser stops getting the person's pushes.
+    await disablePush();
     await authClient.signOut();
     router.push('/signin');
   };
@@ -92,23 +84,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     .flatMap((section) => section.items)
     .find((item) => item.key === active)?.label;
 
-  // Placeholder until notifications come from the API.
-  const [notifications, setNotifications] = useState<HeaderNotification[]>([
-    {
-      id: '1',
-      title: 'Mira Okafor assigned you PAY-142',
-      description: 'Retry failed card payouts',
-      time: '5m ago',
-      avatar: 'MO',
-      unread: true,
-    },
-    {
-      id: '2',
-      title: 'Sprint 14 starts tomorrow',
-      time: 'Yesterday',
-      icon: CalendarClock,
-    },
-  ]);
+  const notifications = useBell();
 
   const commands: CommandGroup[] = [
     {
@@ -189,15 +165,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
               ]}
               linkComponent={Link}
               search={{ onOpen: () => setPaletteOpen(true) }}
-              notifications={{
-                items: notifications,
-                onSelect: (picked) =>
-                  setNotifications((all) =>
-                    all.map((n) => (n.id === picked.id ? { ...n, unread: false } : n)),
-                  ),
-                onMarkAllRead: () =>
-                  setNotifications((all) => all.map((n) => ({ ...n, unread: false }))),
-              }}
+              notifications={notifications}
               theme={theme}
               onThemeChange={changeTheme}
             />

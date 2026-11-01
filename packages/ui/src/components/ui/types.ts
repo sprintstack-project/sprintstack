@@ -549,6 +549,14 @@ export interface HeaderNotifications {
   onViewAll?: () => void;
   /** Unread count when more exist than `items` holds. Default: the unread `items`. */
   unread?: number;
+  /** A line above the list asking to turn on pushes, e.g. "Turn on" or "Open settings". */
+  prompt?: HeaderNotificationsPrompt;
+}
+
+export interface HeaderNotificationsPrompt {
+  label: string;
+  action: string;
+  onPress: () => void;
 }
 
 /** A row in the command palette: a page, an issue, an action. */

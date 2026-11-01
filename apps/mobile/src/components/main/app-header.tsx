@@ -2,35 +2,22 @@ import {
   type CommandGroup,
   CommandPalette,
   Header,
-  type HeaderNotification,
   type SidebarProject,
   type SidebarUser,
   useSidebar,
 } from '@sprintstack/ui';
 import { type Href, router, useSegments } from 'expo-router';
-import { CalendarClock, SunMoon } from 'lucide-react-native';
+import { SunMoon } from 'lucide-react-native';
 import { useState } from 'react';
 import { SafeAreaView as BaseSafeAreaView } from 'react-native-safe-area-context';
 import { Uniwind, useUniwind, withUniwind } from 'uniwind';
 import { PROJECT_SETTINGS, SECTIONS, SETTINGS_KEYS } from '@/components/main/navigation';
+import { useBell } from '@/lib/use-bell';
 
 // Uniwind only reads `className` on React Native's own components; third-party ones need wrapping.
 const SafeAreaView = withUniwind(BaseSafeAreaView);
 
 const PAGES = SECTIONS.flatMap((section) => section.items);
-
-// Placeholder until notifications come from the API (same as the web layout).
-const NOTIFICATIONS: HeaderNotification[] = [
-  {
-    id: '1',
-    title: 'Mira Okafor assigned you PAY-142',
-    description: 'Retry failed card payouts',
-    time: '5m ago',
-    avatar: 'MO',
-    unread: true,
-  },
-  { id: '2', title: 'Sprint 14 starts tomorrow', time: 'Yesterday', icon: CalendarClock },
-];
 
 /**
  * The header above every signed-in screen, with its command palette. Tablets get the sidebar
@@ -46,7 +33,7 @@ export const AppHeader = ({ project, user }: { project: SidebarProject; user: Si
   // Settings' own pages are routes like "settings/details", under Project settings.
   const route = segments.slice(1).join('/');
   const subpage = PROJECT_SETTINGS.find((item) => item.key === route);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const notifications = useBell();
 
   const commands: CommandGroup[] = [
     {
@@ -92,14 +79,7 @@ export const AppHeader = ({ project, user }: { project: SidebarProject; user: Si
             : undefined
         }
         search={{ onOpen: () => setPaletteOpen(true) }}
-        notifications={{
-          items: notifications,
-          onSelect: (picked) =>
-            setNotifications((all) =>
-              all.map((n) => (n.id === picked.id ? { ...n, unread: false } : n)),
-            ),
-          onMarkAllRead: () => setNotifications((all) => all.map((n) => ({ ...n, unread: false }))),
-        }}
+        notifications={notifications}
         theme={dark ? 'dark' : 'light'}
         onThemeChange={(next) => Uniwind.setTheme(next)}
       />

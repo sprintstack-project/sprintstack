@@ -15,6 +15,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true,
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Associated Domains)
     // associatedDomains: ['webcredentials:sprintstack.io'],
+    // Pushes (src/lib/push.ts): Firebase console → Project settings → Your apps → the iOS app.
+    googleServicesFile: './dev/firebase/GoogleService-Info.plist',
+    // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Push
+    // Notifications). Until then iOS gets no pushes; the bell refreshes when the app opens.
+    // entitlements: { 'aps-environment': 'production' },
+    // infoPlist: { UIBackgroundModes: ['remote-notification'] },
   },
   android: {
     adaptiveIcon: {
@@ -25,6 +31,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     predictiveBackGestureEnabled: false,
     package: 'com.sprintstack.app',
+    // Pushes: Firebase console → Project settings → Your apps → the Android app.
+    googleServicesFile: './dev/firebase/google-services.json',
   },
   plugins: [
     'expo-router',
@@ -58,6 +66,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         useReleaseSigning: process.env.EXPO_PUBLIC_APP_ENV === 'prd',
       },
     ],
+    // Only for push permission (src/lib/push.ts); Firebase delivers the pushes.
+    'expo-notifications',
+    '@react-native-firebase/app',
+    // Devices are known to the API by Firebase Installation ID, not FCM token.
+    ['@react-native-firebase/messaging', { installationIdEnabled: true }],
+    // Firebase's Apple SDK ships as dynamic frameworks only.
+    ['expo-build-properties', { ios: { useFrameworks: 'dynamic' } }],
   ],
   experiments: {
     typedRoutes: true,

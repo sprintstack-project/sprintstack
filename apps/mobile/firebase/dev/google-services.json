@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147494691488",
+    "project_id": "sprintstack-dev",
+    "storage_bucket": "sprintstack-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147494691488:android:d7218fe40db8e7146e1fc5",
+        "android_client_info": {
+          "package_name": "com.sprintstack.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1lsd8PwJji4Jvo5pZ863EjjaIxDvJai8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

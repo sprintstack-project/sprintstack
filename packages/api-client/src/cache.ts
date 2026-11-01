@@ -1,5 +1,33 @@
 import { cacheExchange, type UpdateResolver } from '@urql/exchange-graphcache';
+import { graphql } from './graphql';
 import { introspection } from './graphql-env';
+
+const ReadAtFragment = graphql(`
+  fragment ReadAt on Notification {
+    id
+    readAt
+  }
+`);
+
+/**
+ * markNotificationsRead only returns a count, so mark the cached notifications read here (the ids
+ * given, or every one) and refetch the unread count.
+ */
+const markNotificationsRead: UpdateResolver = (_result, args, cache) => {
+  const ids = args.ids as string[] | null | undefined;
+  const readAt = new Date().toISOString();
+  for (const { fieldName, fieldKey } of cache.inspectFields('Query')) {
+    if (fieldName !== 'notifications') continue;
+    const keys = (cache.resolve('Query', fieldKey) as string[] | null) ?? [];
+    for (const key of keys) {
+      const id = cache.resolve(key, 'id') as string;
+      if (ids && !ids.includes(id)) continue;
+      if (cache.resolve(key, 'readAt')) continue;
+      cache.writeFragment(ReadAtFragment, { id, readAt });
+    }
+  }
+  cache.invalidate('Query', 'unreadNotificationCount');
+};
 
 /**
  * Refetches every cached variant of a list field (each project, filter and page), like RTK
@@ -32,7 +60,7 @@ export const createCache = () =>
     schema: introspection,
     // Types without an `id` field need a key here (or `() => null` to embed them in their parent).
     keys: {},
-    // Add `Mutation: { … }` here once the schema has mutations: Graphcache warns about an
-    // `updates.Mutation` entry while the schema has no Mutation type.
-    updates: {},
+    updates: {
+      Mutation: { markNotificationsRead },
+    },
   });

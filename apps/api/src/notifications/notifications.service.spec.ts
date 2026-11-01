@@ -36,7 +36,7 @@ const NOTIFICATION = {
   readAt: null,
   createdAt: new Date(),
   actor: { id: 'ben', name: 'Ben', image: null },
-  workItem: { number: 1482, title: 'Retry failed payouts', project: { key: 'PAY' } },
+  workItem: { id: 'w1', number: 1482, title: 'Retry failed payouts', project: { key: 'PAY' } },
   sprint: null,
 };
 

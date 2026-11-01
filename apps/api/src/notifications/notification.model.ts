@@ -17,6 +17,30 @@ export class NotificationActorModel {
   image?: string | null;
 }
 
+/** The work item a notification is about. */
+@ObjectType('NotificationWorkItem')
+export class NotificationWorkItemModel {
+  @Field(() => ID)
+  id: string;
+
+  /** e.g. "PAY-1482". */
+  @Field()
+  key: string;
+
+  @Field()
+  title: string;
+}
+
+/** The sprint a reminder is about. */
+@ObjectType('NotificationSprint')
+export class NotificationSprintModel {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
+  name: string;
+}
+
 /** A line in the header's bell. Clients write the text from the type and what it points at. */
 @ObjectType('Notification')
 export class NotificationModel {
@@ -30,11 +54,11 @@ export class NotificationModel {
   @Field(() => NotificationActorModel, { nullable: true })
   actor?: NotificationActorModel | null;
 
-  @Field(() => ID, { nullable: true })
-  workItemId?: string | null;
+  @Field(() => NotificationWorkItemModel, { nullable: true })
+  workItem?: NotificationWorkItemModel | null;
 
-  @Field(() => ID, { nullable: true })
-  sprintId?: string | null;
+  @Field(() => NotificationSprintModel, { nullable: true })
+  sprint?: NotificationSprintModel | null;
 
   @Field(() => Date, { nullable: true })
   readAt?: Date | null;

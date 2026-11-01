@@ -23,14 +23,19 @@ type Notification {
   createdAt: DateTime!
   id: ID!
   readAt: DateTime
-  sprintId: ID
+  sprint: NotificationSprint
   type: NotificationType!
-  workItemId: ID
+  workItem: NotificationWorkItem
 }
 
 type NotificationActor {
   id: ID!
   image: String
+  name: String!
+}
+
+type NotificationSprint {
+  id: ID!
   name: String!
 }
 
@@ -41,6 +46,12 @@ enum NotificationType {
   sprint_ending
   sprint_starting
   status_changed
+}
+
+type NotificationWorkItem {
+  id: ID!
+  key: String!
+  title: String!
 }
 
 enum PushPlatform {

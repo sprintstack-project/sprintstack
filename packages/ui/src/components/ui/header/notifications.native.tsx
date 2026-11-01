@@ -5,7 +5,7 @@ import { useTokenColor } from '@lib/use-token-color.native';
 import { Text } from '@ui/text';
 import type { HeaderNotification, HeaderNotifications } from '@ui/types';
 import { clsx } from 'clsx';
-import { Bell, BellOff } from 'lucide-react-native';
+import { Bell, BellOff, BellRing } from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import { FlatList } from 'react-native-actions-sheet';
@@ -17,6 +17,7 @@ const Notifications = ({
   onMarkAllRead,
   onViewAll,
   unread: unreadProp,
+  prompt,
   buttonClassName,
 }: HeaderNotifications & { buttonClassName: string }) => {
   const sheet = useRef<SheetRef>(null);
@@ -63,6 +64,21 @@ const Notifications = ({
             </Pressable>
           )}
         </View>
+
+        {prompt && (
+          <View className="mx-4 mb-2 flex-row items-center gap-3 rounded-md bg-surface-muted px-3 py-3">
+            <BellRing aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />
+            <Text className="flex-1 text-meta font-semibold text-ink-muted">{prompt.label}</Text>
+            <Pressable
+              accessibilityRole="button"
+              onPress={prompt.onPress}
+              hitSlop={touchSlop(24)}
+              className="active:opacity-70"
+            >
+              <Text className="text-meta font-bold text-brand-ink">{prompt.action}</Text>
+            </Pressable>
+          </View>
+        )}
 
         <FlatList
           data={items}

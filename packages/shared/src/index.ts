@@ -1,3 +1,4 @@
+export { initialsOf } from './initials';
 export {
   PASSWORD_STRENGTH_LABEL,
   type PasswordStrength,

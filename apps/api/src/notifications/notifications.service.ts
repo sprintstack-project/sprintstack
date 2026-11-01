@@ -17,13 +17,16 @@ export interface NotifyInput {
 
 const ACTOR = { select: { id: true, name: true, image: true } } as const;
 
-const PUSH_INCLUDE = {
+// What the bell and pushes show: who, and the item or sprint it's about.
+const SUBJECTS = {
   actor: ACTOR,
-  workItem: { select: { number: true, title: true, project: { select: { key: true } } } },
-  sprint: { select: { name: true } },
+  workItem: {
+    select: { id: true, number: true, title: true, project: { select: { key: true } } },
+  },
+  sprint: { select: { id: true, name: true } },
 } as const satisfies Prisma.NotificationInclude;
 
-type PushedNotification = Prisma.NotificationGetPayload<{ include: typeof PUSH_INCLUDE }>;
+type PushedNotification = Prisma.NotificationGetPayload<{ include: typeof SUBJECTS }>;
 
 type PushSubject = Pick<PushedNotification, 'actor' | 'workItem' | 'sprint'>;
 
@@ -38,9 +41,13 @@ const PUSH_TEXT: Record<NotificationType, (subject: PushSubject) => { title: str
   sprint_ending: ({ sprint }) => ({ title: `${sprint?.name ?? 'Your sprint'} ends tomorrow` }),
 };
 
+/** "PAY-1482". */
+const itemKey = ({ number, project }: { number: number; project: { key: string } }) =>
+  `${project.key}-${number}`;
+
 const pushText = (type: NotificationType, subject: PushSubject) => {
   const { workItem } = subject;
-  const body = workItem ? `${workItem.project.key}-${workItem.number} ${workItem.title}` : '';
+  const body = workItem ? `${itemKey(workItem)} ${workItem.title}` : '';
   return { ...PUSH_TEXT[type](subject), body };
 };
 
@@ -69,7 +76,7 @@ export class NotificationsService {
     if (input.actorId && input.actorId === input.userId) return null;
     const notification = await this.prisma.notification.create({
       data: input,
-      include: PUSH_INCLUDE,
+      include: SUBJECTS,
     });
     await this.redisPush.publish(input.userId, 'created');
     void this.push(notification);
@@ -77,14 +84,18 @@ export class NotificationsService {
   }
 
   /** Newest first. `after` is the id of the last one already shown. */
-  list(userId: string, { first, after }: { first: number; after?: string | null }) {
-    return this.prisma.notification.findMany({
+  async list(userId: string, { first, after }: { first: number; after?: string | null }) {
+    const notifications = await this.prisma.notification.findMany({
       where: { userId },
-      include: { actor: ACTOR },
+      include: SUBJECTS,
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
       take: first,
       ...(after && { cursor: { id: after }, skip: 1 }),
     });
+    return notifications.map(({ workItem, ...notification }) => ({
+      ...notification,
+      workItem: workItem && { id: workItem.id, key: itemKey(workItem), title: workItem.title },
+    }));
   }
 
   unreadCount(userId: string) {

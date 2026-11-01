@@ -35,6 +35,9 @@ const nextConfig: NextConfig = {
     return [
       { source: '/api/auth/:path*', destination: `${apiUrl}/api/auth/:path*` },
       { source: '/api/graphql', destination: `${apiUrl}/graphql` },
+      // Server-sent events for the bell. The API marks the stream no-transform, so it isn't
+      // compressed (which would buffer it).
+      { source: '/api/notifications/stream', destination: `${apiUrl}/notifications/stream` },
     ];
   },
   turbopack: {

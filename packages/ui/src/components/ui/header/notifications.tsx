@@ -6,7 +6,7 @@ import { isImageUrl } from '@lib/status';
 import { popupFrame } from '@ui/select/menu';
 import type { HeaderNotification, HeaderNotifications } from '@ui/types';
 import { clsx } from 'clsx';
-import { Bell, BellOff } from 'lucide-react';
+import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
 
 const focus =
@@ -24,6 +24,7 @@ const Notifications = ({
   onMarkAllRead,
   onViewAll,
   unread: unreadProp,
+  prompt,
   buttonClassName,
 }: HeaderNotifications & { buttonClassName: string }) => {
   const container = usePortalContainer();
@@ -60,6 +61,18 @@ const Notifications = ({
                 </button>
               )}
             </div>
+
+            {prompt && (
+              <div className="flex shrink-0 items-center gap-3 border-b border-line bg-surface-muted px-5 py-3">
+                <BellRing aria-hidden strokeWidth={2} className="size-5 shrink-0 text-ink-muted" />
+                <p className="flex-1 text-meta text-ink-muted font-stretch-semi-condensed">
+                  {prompt.label}
+                </p>
+                <button type="button" onClick={prompt.onPress} className={textButton}>
+                  {prompt.action}
+                </button>
+              </div>
+            )}
 
             {items.length === 0 ? (
               <div className="flex flex-col items-center gap-2 px-6 py-10 text-center text-ink-muted">

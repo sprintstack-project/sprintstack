@@ -1,6 +1,7 @@
 import * as RestoreCredentials from 'expo-restore-credentials';
 import * as SecureStore from 'expo-secure-store';
 import { authClient } from './auth-client';
+import { stopPush } from './push';
 
 // Android Restore Credentials, for Google Play's zero-tap sign-in restoration. While signed in, the
 // device holds a restore key that Credential Manager backs up with the phone; on a new phone the app
@@ -97,6 +98,8 @@ export const shouldRestoreSignIn = () => RestoreCredentials.shouldAttemptRestore
  * out. The API drops its copy of the key along with the session.
  */
 export const signOut = async () => {
+  // This device stops getting the person's pushes.
+  await stopPush();
   await RestoreCredentials.clearRestoreCredentialAsync().catch(() => {});
   await SecureStore.deleteItemAsync(KEY_SESSION).catch(() => {});
   return authClient.signOut();

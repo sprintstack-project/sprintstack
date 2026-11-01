@@ -23,139 +23,524 @@
  * ```
  */
 const introspection = {
-  __schema: {
-    queryType: {
-      name: 'Query',
+  "__schema": {
+    "queryType": {
+      "name": "Query"
     },
-    mutationType: null,
-    subscriptionType: null,
-    types: [
+    "mutationType": {
+      "name": "Mutation"
+    },
+    "subscriptionType": null,
+    "types": [
       {
-        kind: 'SCALAR',
-        name: 'Boolean',
+        "kind": "SCALAR",
+        "name": "Boolean"
       },
       {
-        kind: 'SCALAR',
-        name: 'DateTime',
+        "kind": "SCALAR",
+        "name": "DateTime"
       },
       {
-        kind: 'SCALAR',
-        name: 'ID',
+        "kind": "SCALAR",
+        "name": "ID"
       },
       {
-        kind: 'OBJECT',
-        name: 'Query',
-        fields: [
+        "kind": "SCALAR",
+        "name": "Int"
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "fields": [
           {
-            name: 'viewer',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'OBJECT',
-                name: 'User',
-              },
+            "name": "markNotificationsRead",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
             },
-            args: [],
-            isDeprecated: false,
+            "args": [
+              {
+                "name": "ids",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID"
+                    }
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
           },
+          {
+            "name": "registerPushDevice",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [
+              {
+                "name": "fid",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              },
+              {
+                "name": "platform",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "PushPlatform"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "unregisterPushDevice",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [
+              {
+                "name": "fid",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          }
         ],
-        interfaces: [],
+        "interfaces": []
       },
       {
-        kind: 'SCALAR',
-        name: 'String',
-      },
-      {
-        kind: 'OBJECT',
-        name: 'User',
-        fields: [
+        "kind": "OBJECT",
+        "name": "Notification",
+        "fields": [
           {
-            name: 'createdAt',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'DateTime',
-              },
+            "name": "actor",
+            "type": {
+              "kind": "OBJECT",
+              "name": "NotificationActor"
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'email',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'String',
-              },
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime"
+              }
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'emailVerified',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'Boolean',
-              },
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'id',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'ID',
-              },
+            "name": "readAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime"
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'image',
-            type: {
-              kind: 'SCALAR',
-              name: 'String',
+            "name": "sprint",
+            "type": {
+              "kind": "OBJECT",
+              "name": "NotificationSprint"
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'name',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'String',
-              },
+            "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "NotificationType"
+              }
             },
-            args: [],
-            isDeprecated: false,
+            "args": [],
+            "isDeprecated": false
           },
           {
-            name: 'twoFactorEnabled',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'Boolean',
-              },
+            "name": "workItem",
+            "type": {
+              "kind": "OBJECT",
+              "name": "NotificationWorkItem"
             },
-            args: [],
-            isDeprecated: false,
-          },
+            "args": [],
+            "isDeprecated": false
+          }
         ],
-        interfaces: [],
+        "interfaces": []
       },
+      {
+        "kind": "OBJECT",
+        "name": "NotificationActor",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "image",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NotificationSprint",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "NotificationType",
+        "enumValues": [
+          {
+            "name": "assigned",
+            "isDeprecated": false
+          },
+          {
+            "name": "commented",
+            "isDeprecated": false
+          },
+          {
+            "name": "mentioned",
+            "isDeprecated": false
+          },
+          {
+            "name": "sprint_ending",
+            "isDeprecated": false
+          },
+          {
+            "name": "sprint_starting",
+            "isDeprecated": false
+          },
+          {
+            "name": "status_changed",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NotificationWorkItem",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "key",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "title",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "PushPlatform",
+        "enumValues": [
+          {
+            "name": "android",
+            "isDeprecated": false
+          },
+          {
+            "name": "ios",
+            "isDeprecated": false
+          },
+          {
+            "name": "web",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Query",
+        "fields": [
+          {
+            "name": "notifications",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Notification"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "after",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID"
+                }
+              },
+              {
+                "name": "first",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int"
+                  }
+                },
+                "defaultValue": "20"
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "unreadNotificationCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "viewer",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "SCALAR",
+        "name": "String"
+      },
+      {
+        "kind": "OBJECT",
+        "name": "User",
+        "fields": [
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "email",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "emailVerified",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "image",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "twoFactorEnabled",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      }
     ],
-    directives: [],
-  },
+    "directives": []
+  }
 } as const;
 
 export { introspection };
