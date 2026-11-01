@@ -103,7 +103,7 @@ export const Notifications = () => {
       </Section>
       <View className={drawer ? '' : 'items-start'}>
         <form.AppForm>
-          <form.SubmitButton size="lg" block={drawer}>
+          <form.SubmitButton size="lg" fullwidth={drawer}>
             Save changes
           </form.SubmitButton>
         </form.AppForm>

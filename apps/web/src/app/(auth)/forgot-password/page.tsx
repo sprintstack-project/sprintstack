@@ -80,7 +80,7 @@ const ForgotPasswordPage = () => {
         </form.AppField>
         <div ref={turnstile.ref} />
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             {sent ? 'Send another link' : 'Send reset link'}
           </form.SubmitButton>
         </form.AppForm>

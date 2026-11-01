@@ -179,7 +179,7 @@ const Body = ({ initial, timeOff, adjust, onSave, onRemove, onDone }: BodyProps)
         )}
         <View className="flex-1">
           <form.AppForm>
-            <form.SubmitButton size="lg" block>
+            <form.SubmitButton size="lg" fullwidth>
               Save time off
             </form.SubmitButton>
           </form.AppForm>

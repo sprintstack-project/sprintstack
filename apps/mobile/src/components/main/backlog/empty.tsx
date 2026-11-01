@@ -18,10 +18,10 @@ export const EmptyBacklog = ({ onCreate, onImport }: EmptyBacklogProps) => (
       description="Capture everything the team might work on, rank it, then drag the top items into a sprint."
       actions={
         <>
-          <Button variant="brand" size="lg" icon={Plus} block onClick={onCreate}>
+          <Button variant="brand" size="lg" icon={Plus} fullwidth onClick={onCreate}>
             Create a work item
           </Button>
-          <Button size="lg" block onClick={onImport}>
+          <Button size="lg" fullwidth onClick={onImport}>
             Import from CSV
           </Button>
         </>

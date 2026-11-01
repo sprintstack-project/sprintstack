@@ -120,7 +120,7 @@ const SignUpPage = () => {
       </View>
 
       <form.AppForm>
-        <form.SubmitButton size="lg" block>
+        <form.SubmitButton size="lg" fullwidth>
           Create account
         </form.SubmitButton>
       </form.AppForm>

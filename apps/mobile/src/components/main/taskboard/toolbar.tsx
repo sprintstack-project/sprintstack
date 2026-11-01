@@ -102,7 +102,7 @@ export const Toolbar = ({
   return (
     <View className="gap-4">
       <FilterSelect
-        block
+        fullwidth
         label="Sprint"
         options={SPRINTS}
         value={sprint}

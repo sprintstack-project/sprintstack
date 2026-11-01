@@ -127,7 +127,7 @@ const SignUpVerifyPage = () => {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Verify email
           </form.SubmitButton>
         </form.AppForm>

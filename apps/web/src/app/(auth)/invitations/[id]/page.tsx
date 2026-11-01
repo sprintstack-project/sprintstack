@@ -118,10 +118,10 @@ const InvitationPage = () => {
             come straight back here to join.
           </AuthHeading>
           <div className="flex flex-col gap-3">
-            <Button variant="primary" size="lg" block onClick={() => router.push('/signin')}>
+            <Button variant="primary" size="lg" fullwidth onClick={() => router.push('/signin')}>
               Sign in
             </Button>
-            <Button variant="secondary" size="lg" block onClick={() => router.push('/signup')}>
+            <Button variant="secondary" size="lg" fullwidth onClick={() => router.push('/signup')}>
               Create an account
             </Button>
           </div>
@@ -136,7 +136,12 @@ const InvitationPage = () => {
             Invites only work for a verified address. Confirm <strong>{session.user.email}</strong>{' '}
             and you’ll come back here to join.
           </AuthHeading>
-          <Button variant="primary" size="lg" block onClick={() => router.push('/signup/verify')}>
+          <Button
+            variant="primary"
+            size="lg"
+            fullwidth
+            onClick={() => router.push('/signup/verify')}
+          >
             Verify email
           </Button>
         </>
@@ -153,7 +158,7 @@ const InvitationPage = () => {
               This invite was sent to a different email address than{' '}
               <strong>{session.user.email}</strong>. Sign in with the address it was sent to.
             </AuthHeading>
-            <Button variant="primary" size="lg" block onClick={switchAccount}>
+            <Button variant="primary" size="lg" fullwidth onClick={switchAccount}>
               Sign in with another account
             </Button>
           </>
@@ -164,7 +169,12 @@ const InvitationPage = () => {
             <AuthHeading eyebrow="Invitation" title="This invite can’t be used.">
               {state.message} Ask whoever invited you to send a new one.
             </AuthHeading>
-            <Button variant="secondary" size="lg" block onClick={() => router.push(afterSignIn())}>
+            <Button
+              variant="secondary"
+              size="lg"
+              fullwidth
+              onClick={() => router.push(afterSignIn())}
+            >
               Go to SprintStack
             </Button>
           </>
@@ -175,7 +185,12 @@ const InvitationPage = () => {
             <Notice tone="success" title="Invite declined">
               You won’t be added. If that was a mistake, ask for a new invite.
             </Notice>
-            <Button variant="secondary" size="lg" block onClick={() => router.push(afterSignIn())}>
+            <Button
+              variant="secondary"
+              size="lg"
+              fullwidth
+              onClick={() => router.push(afterSignIn())}
+            >
               Go to SprintStack
             </Button>
           </>
@@ -194,10 +209,10 @@ const InvitationPage = () => {
               </Notice>
             )}
             <div className="flex flex-col gap-3">
-              <Button variant="primary" size="lg" block disabled={busy} onClick={accept}>
+              <Button variant="primary" size="lg" fullwidth disabled={busy} onClick={accept}>
                 Accept and join
               </Button>
-              <Button variant="secondary" size="lg" block disabled={busy} onClick={decline}>
+              <Button variant="secondary" size="lg" fullwidth disabled={busy} onClick={decline}>
                 Decline
               </Button>
             </div>

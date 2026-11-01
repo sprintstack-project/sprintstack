@@ -90,7 +90,7 @@ export const ResetPasswordForm = () => {
           </form.Subscribe>
         </div>
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Change password
           </form.SubmitButton>
         </form.AppForm>

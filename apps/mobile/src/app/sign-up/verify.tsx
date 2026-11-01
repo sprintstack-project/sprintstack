@@ -100,11 +100,11 @@ const SignUpVerifyPage = () => {
 
       <View className="mt-auto gap-3">
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Verify email
           </form.SubmitButton>
         </form.AppForm>
-        <Button variant="ghost" size="lg" block disabled={wait > 0 || !email} onClick={resend}>
+        <Button variant="ghost" size="lg" fullwidth disabled={wait > 0 || !email} onClick={resend}>
           Resend code
         </Button>
         <Text className="text-center text-meta font-semibold text-ink-muted">

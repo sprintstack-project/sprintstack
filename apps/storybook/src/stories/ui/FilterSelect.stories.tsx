@@ -65,7 +65,7 @@ export const States: Story = {
         <FilterSelect label="Assignee" options={[]} placeholder="Anyone" disabled />
       </div>
       <div className="w-80">
-        <FilterSelect block label="Sprint" options={sprints} defaultValue="sprint-24" />
+        <FilterSelect fullwidth label="Sprint" options={sprints} defaultValue="sprint-24" />
       </div>
     </div>
   ),

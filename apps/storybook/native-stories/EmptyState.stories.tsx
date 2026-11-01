@@ -25,10 +25,10 @@ export const Playground: Story = {
       {...args}
       actions={
         <>
-          <Button variant="brand" size="lg" block>
+          <Button variant="brand" size="lg" fullwidth>
             Plan a sprint
           </Button>
-          <Button size="lg" icon={Plus} block>
+          <Button size="lg" icon={Plus} fullwidth>
             Create a work item
           </Button>
         </>

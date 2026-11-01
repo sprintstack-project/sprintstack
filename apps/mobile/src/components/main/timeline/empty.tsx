@@ -62,10 +62,10 @@ export const EmptyTimeline = ({ columns, onCreate, onConvert }: EmptyTimelinePro
         description="Epics group work across sprints. Give one a start and end date and it shows up here."
         actions={
           <>
-            <Button variant="brand" size="lg" icon={Plus} block onClick={onCreate}>
+            <Button variant="brand" size="lg" icon={Plus} fullwidth onClick={onCreate}>
               Create an epic
             </Button>
-            <Button size="lg" block onClick={onConvert}>
+            <Button size="lg" fullwidth onClick={onConvert}>
               Turn a story into an epic
             </Button>
           </>

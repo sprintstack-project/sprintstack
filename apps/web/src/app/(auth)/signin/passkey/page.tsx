@@ -105,10 +105,10 @@ const SignInPasskeyPage = () => {
       )}
 
       <div className="flex flex-col gap-3">
-        <Button variant="brand" size="lg" block disabled={status !== 'failed'} onClick={start}>
+        <Button variant="brand" size="lg" fullwidth disabled={status !== 'failed'} onClick={start}>
           Try again
         </Button>
-        <Button variant="secondary" size="lg" block onClick={() => router.push('/signin')}>
+        <Button variant="secondary" size="lg" fullwidth onClick={() => router.push('/signin')}>
           Use email and password
         </Button>
       </div>

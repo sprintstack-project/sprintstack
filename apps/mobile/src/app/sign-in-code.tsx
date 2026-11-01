@@ -80,14 +80,14 @@ const SignInCodePage = () => {
 
       <View className="mt-auto gap-3">
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Verify
           </form.SubmitButton>
         </form.AppForm>
         <Button
           variant="ghost"
           size="lg"
-          block
+          fullwidth
           onClick={() => {
             setRecovery(!recovery);
             setError(null);

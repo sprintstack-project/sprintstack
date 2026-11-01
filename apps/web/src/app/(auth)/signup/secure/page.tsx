@@ -160,7 +160,7 @@ const SignUpSecurePage = () => {
               <Button
                 variant="brand"
                 size="lg"
-                block
+                fullwidth
                 icon={passkeyAdded ? Check : undefined}
                 disabled={passkeyAdded}
                 onClick={addPasskey}

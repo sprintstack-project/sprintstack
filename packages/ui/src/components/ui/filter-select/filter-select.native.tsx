@@ -17,7 +17,7 @@ const FilterSelect = <V = string>({
   onValueChange,
   placeholder = 'All',
   count,
-  block,
+  fullwidth,
   disabled,
 }: FilterSelectProps<V>) => {
   const [ownValue, setOwnValue] = useState<V | null>(defaultValue ?? null);
@@ -39,7 +39,7 @@ const FilterSelect = <V = string>({
         hitSlop: touchSlop(48),
         className: clsx(
           'h-12 flex-row items-center gap-2 rounded-full border-[1.5px] border-line-strong px-5 active:bg-surface-pressed',
-          block ? 'self-stretch' : 'self-start',
+          fullwidth ? 'self-stretch' : 'self-start',
         ),
         children: (
           <>
@@ -49,7 +49,7 @@ const FilterSelect = <V = string>({
               className={clsx(
                 'shrink text-[1.0625rem] leading-5 font-bold',
                 disabled ? 'text-ink-disabled' : 'text-ink',
-                block && 'flex-1',
+                fullwidth && 'flex-1',
               )}
             >
               {selected ? optionText(selected) : placeholder}

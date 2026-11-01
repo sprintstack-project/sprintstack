@@ -30,7 +30,7 @@ export const RecoveryCodes = ({ codes, onDone }: { codes: string[]; onDone: () =
 
       <View
         accessibilityLabel={`Recovery codes: ${codes.join(', ')}`}
-        className="flex-row flex-wrap gap-y-2.5 rounded-[1.25rem] border border-line bg-surface p-5"
+        className="flex-row flex-wrap gap-y-2.5 rounded-xl border border-line bg-surface p-5"
       >
         {codes.map((code) => (
           <Text key={code} className="w-1/2 font-mono text-[1.0625rem] leading-7 text-ink">
@@ -41,12 +41,12 @@ export const RecoveryCodes = ({ codes, onDone }: { codes: string[]; onDone: () =
 
       <View className="flex-row gap-2.5">
         <View className="flex-1">
-          <Button variant="secondary" block onClick={() => Share.share({ message: text })}>
+          <Button variant="secondary" fullwidth onClick={() => Share.share({ message: text })}>
             Share or save
           </Button>
         </View>
         <View className="flex-1">
-          <Button variant="secondary" block onClick={copy}>
+          <Button variant="secondary" fullwidth onClick={copy}>
             {copied ? 'Copied' : 'Copy all'}
           </Button>
         </View>
@@ -59,7 +59,7 @@ export const RecoveryCodes = ({ codes, onDone }: { codes: string[]; onDone: () =
       </View>
 
       <View className="mt-auto">
-        <Button variant="brand" size="lg" block disabled={!saved} onClick={onDone}>
+        <Button variant="brand" size="lg" fullwidth disabled={!saved} onClick={onDone}>
           Go to my workspace
         </Button>
       </View>

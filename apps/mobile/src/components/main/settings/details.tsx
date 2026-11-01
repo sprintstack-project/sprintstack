@@ -79,7 +79,7 @@ export const Details = () => {
         </form.AppField>
         <View className={drawer ? '' : 'items-start border-t border-line pt-6'}>
           <form.AppForm>
-            <form.SubmitButton size="lg" block={drawer}>
+            <form.SubmitButton size="lg" fullwidth={drawer}>
               Save changes
             </form.SubmitButton>
           </form.AppForm>

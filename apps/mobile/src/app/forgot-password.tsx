@@ -66,11 +66,11 @@ const ForgotPasswordPage = () => {
 
       <View className="mt-auto gap-3">
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             {sent ? 'Send another link' : 'Send reset link'}
           </form.SubmitButton>
         </form.AppForm>
-        <Button variant="ghost" size="lg" block onClick={() => router.back()}>
+        <Button variant="ghost" size="lg" fullwidth onClick={() => router.back()}>
           Back to sign in
         </Button>
       </View>

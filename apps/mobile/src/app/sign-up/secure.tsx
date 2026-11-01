@@ -147,7 +147,7 @@ const SignUpSecurePage = () => {
           <Button
             variant="brand"
             size="lg"
-            block
+            fullwidth
             icon={passkeyAdded ? Check : undefined}
             disabled={passkeyAdded}
             onClick={createPasskey}
@@ -157,7 +157,7 @@ const SignUpSecurePage = () => {
         </View>
       )}
 
-      <View className="gap-4 rounded-[1.25rem] border border-line bg-surface p-6">
+      <View className="gap-4 rounded-xl border border-line bg-surface p-6">
         <View className="flex-row items-center gap-3">
           <View className="size-12 items-center justify-center rounded-full bg-surface-muted">
             <Smartphone color={ink} size={22} strokeWidth={2} />
@@ -172,7 +172,7 @@ const SignUpSecurePage = () => {
             <Field label="Confirm your password" description="Then add SprintStack to your app.">
               <InputPassword value={password} onChange={setPassword} />
             </Field>
-            <Button variant="primary" block disabled={!password} onClick={startTotp}>
+            <Button variant="primary" fullwidth disabled={!password} onClick={startTotp}>
               Set up authenticator
             </Button>
           </>
@@ -184,7 +184,7 @@ const SignUpSecurePage = () => {
               On this phone there’s no QR code to scan: open your authenticator directly, or copy
               the key.
             </Text>
-            <Button variant="secondary" block onClick={openAuthenticator}>
+            <Button variant="secondary" fullwidth onClick={openAuthenticator}>
               Open authenticator app
             </Button>
             <View className="min-h-11 flex-row items-center gap-2 rounded-xl bg-surface-muted py-1 pr-1.5 pl-3.5">
@@ -212,7 +212,7 @@ const SignUpSecurePage = () => {
             </Field>
             <Button
               variant="primary"
-              block
+              fullwidth
               icon={totpOn ? Check : undefined}
               disabled={totpOn}
               onClick={turnOn}
@@ -232,7 +232,7 @@ const SignUpSecurePage = () => {
       <Button
         variant="brand"
         size="lg"
-        block
+        fullwidth
         onClick={() => (totpOn ? setShowCodes(true) : finish())}
       >
         Continue

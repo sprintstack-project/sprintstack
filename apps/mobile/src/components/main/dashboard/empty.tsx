@@ -78,7 +78,7 @@ const ImportTile = ({ onImport }: { onImport?: () => void }) => (
       <Text className="text-body font-semibold text-ink-muted">
         Import issues, sprints and assignees from a CSV export.
       </Text>
-      <Button size="lg" block onClick={onImport}>
+      <Button size="lg" fullwidth onClick={onImport}>
         Import from CSV
       </Button>
     </View>

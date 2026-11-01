@@ -125,13 +125,13 @@ const SignInPage = () => {
       )}
 
       <div className="flex flex-col gap-3">
-        <Button variant="secondary" size="lg" block icon={GitHubIcon} onClick={github}>
+        <Button variant="secondary" size="lg" fullwidth icon={GitHubIcon} onClick={github}>
           Continue with GitHub
         </Button>
         <Button
           variant="secondary"
           size="lg"
-          block
+          fullwidth
           icon={KeyRound}
           onClick={() => router.push('/signin/passkey')}
         >
@@ -172,7 +172,7 @@ const SignInPage = () => {
         </form.AppField>
         <div ref={turnstile.ref} />
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Sign in
           </form.SubmitButton>
         </form.AppForm>

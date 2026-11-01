@@ -90,10 +90,10 @@ const SignInPage = () => {
       )}
 
       <View className="gap-3">
-        <Button variant="primary" size="lg" block icon={KeyRound} onClick={passkey}>
+        <Button variant="primary" size="lg" fullwidth icon={KeyRound} onClick={passkey}>
           Sign in with a passkey
         </Button>
-        <Button variant="secondary" size="lg" block icon={GitHubIcon} onClick={github}>
+        <Button variant="secondary" size="lg" fullwidth icon={GitHubIcon} onClick={github}>
           Continue with GitHub
         </Button>
       </View>
@@ -124,7 +124,7 @@ const SignInPage = () => {
 
       <View className="mt-auto gap-3">
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Sign in
           </form.SubmitButton>
         </form.AppForm>

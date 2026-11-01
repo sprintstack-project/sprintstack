@@ -105,7 +105,7 @@ export const Settings = () => {
         />
       </View>
       {/* The session hook in MainLayout sees the sign-out and redirects to sign-in. */}
-      <Button variant="secondary" size="lg" icon={LogOut} block onClick={() => signOut()}>
+      <Button variant="secondary" size="lg" icon={LogOut} fullwidth onClick={() => signOut()}>
         Log out
       </Button>
     </>

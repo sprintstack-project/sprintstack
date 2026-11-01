@@ -16,7 +16,7 @@ const FilterSelect = <V = string>({
   onValueChange,
   placeholder = 'All',
   count,
-  block,
+  fullwidth,
   disabled,
 }: FilterSelectProps<V>) => {
   const [ownValue, setOwnValue] = useState<V | null>(defaultValue ?? null);
@@ -41,12 +41,12 @@ const FilterSelect = <V = string>({
           'transition-colors duration-120 hover:bg-surface-hover data-popup-open:border-ink',
           'focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-focus-ring',
           'data-disabled:cursor-not-allowed data-disabled:text-ink-disabled',
-          block && 'w-full',
+          fullwidth && 'w-full',
         ),
         children: (
           <>
             <span className="font-semibold text-ink-muted">{label}</span>
-            <span className={clsx('truncate font-bold', block && 'flex-1 text-left')}>
+            <span className={clsx('truncate font-bold', fullwidth && 'flex-1 text-left')}>
               {selected ? optionText(selected, (tone) => STATUS_LABEL[tone]) : placeholder}
             </span>
             {count !== undefined && (

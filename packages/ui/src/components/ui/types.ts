@@ -42,7 +42,7 @@ export interface ButtonProps {
   iconEnd?: IconComponent;
   iconOnly?: boolean;
   /** Stretch to the container's width (e.g. the main action of a form). */
-  block?: boolean;
+  fullwidth?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -292,7 +292,7 @@ export interface FilterSelectProps<V = string> {
   /** A bubble after the value, e.g. how many items the filter leaves. */
   count?: number;
   /** Stretch to the container's width, e.g. the sprint picker on phones. */
-  block?: boolean;
+  fullwidth?: boolean;
   disabled?: boolean;
 }
 

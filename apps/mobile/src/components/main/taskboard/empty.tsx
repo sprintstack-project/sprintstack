@@ -17,12 +17,12 @@ export const NoSprint = ({ onCreate }: { onCreate?: () => void }) => (
             variant="brand"
             size="lg"
             icon={SquareStack}
-            block
+            fullwidth
             onClick={() => router.navigate('/main/backlog')}
           >
             Plan a sprint
           </Button>
-          <Button size="lg" icon={Plus} block onClick={onCreate}>
+          <Button size="lg" icon={Plus} fullwidth onClick={onCreate}>
             Create a work item
           </Button>
         </>
@@ -51,11 +51,11 @@ export const NoMatches = ({ description, eyebrow, onClearAll, suggestion }: NoMa
       description={description}
       actions={
         <>
-          <Button variant="primary" size="lg" block onClick={onClearAll}>
+          <Button variant="primary" size="lg" fullwidth onClick={onClearAll}>
             Clear all filters
           </Button>
           {suggestion && (
-            <Button size="lg" block onClick={suggestion.onRemove}>
+            <Button size="lg" fullwidth onClick={suggestion.onRemove}>
               Remove “{suggestion.label}”
             </Button>
           )}

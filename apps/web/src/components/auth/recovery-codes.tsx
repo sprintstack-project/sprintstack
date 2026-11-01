@@ -75,7 +75,7 @@ export const RecoveryCodes = ({ codes, onDone }: { codes: string[]; onDone: () =
         </Checkbox>
       </div>
 
-      <Button variant="brand" size="lg" block disabled={!saved} onClick={onDone}>
+      <Button variant="brand" size="lg" fullwidth disabled={!saved} onClick={onDone}>
         Go to my workspace
       </Button>
     </AuthShell>

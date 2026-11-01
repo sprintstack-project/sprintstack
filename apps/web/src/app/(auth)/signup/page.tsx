@@ -147,7 +147,7 @@ const SignUpPage = () => {
           (the API refuses new GitHub accounts without one). */}
       {invited && (
         <>
-          <Button variant="secondary" size="lg" block icon={GitHubIcon} onClick={github}>
+          <Button variant="secondary" size="lg" fullwidth icon={GitHubIcon} onClick={github}>
             Sign up with GitHub
           </Button>
           <OrDivider />
@@ -206,7 +206,7 @@ const SignUpPage = () => {
         </form.AppField>
         <div ref={turnstile.ref} />
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Create account
           </form.SubmitButton>
         </form.AppForm>

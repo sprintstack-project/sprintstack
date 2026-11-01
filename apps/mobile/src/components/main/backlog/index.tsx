@@ -161,7 +161,7 @@ export const Backlog = ({
         }
         action={
           sprint.state === 'planned' && (
-            <Button variant="primary" size="lg" block>
+            <Button variant="primary" size="lg" fullwidth>
               Start sprint
             </Button>
           )
@@ -244,7 +244,7 @@ export const Backlog = ({
           )
         }
       />
-      <Button variant="secondary" size="lg" icon={Plus} block>
+      <Button variant="secondary" size="lg" icon={Plus} fullwidth>
         New sprint
       </Button>
       <Sheet

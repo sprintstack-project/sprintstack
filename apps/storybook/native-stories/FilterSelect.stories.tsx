@@ -22,7 +22,7 @@ export const Playground: Story = {};
 export const States: Story = {
   render: () => (
     <View className="gap-4">
-      <FilterSelect block label="Sprint" options={sprints} defaultValue="sprint-24" />
+      <FilterSelect fullwidth label="Sprint" options={sprints} defaultValue="sprint-24" />
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

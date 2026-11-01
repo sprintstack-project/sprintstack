@@ -103,7 +103,7 @@ const SignInCodePage = () => {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton size="lg" block>
+          <form.SubmitButton size="lg" fullwidth>
             Verify and sign in
           </form.SubmitButton>
         </form.AppForm>
