@@ -14,9 +14,10 @@ export class PostHogService implements OnApplicationShutdown {
   constructor(config: ConfigService) {
     const projectToken = config.get<string>('POSTHOG_PROJECT_TOKEN');
     const host = config.get<string>('POSTHOG_HOST');
+    // disableGeoip: no location looked up from the client's IP.
     this.client =
       projectToken && host
-        ? new PostHog(projectToken, { host, enableExceptionAutocapture: true })
+        ? new PostHog(projectToken, { host, enableExceptionAutocapture: true, disableGeoip: true })
         : null;
   }
 

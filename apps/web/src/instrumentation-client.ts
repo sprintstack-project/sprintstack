@@ -24,4 +24,7 @@ if (projectToken && host) {
     advanced_disable_flags: true,
     persistence: 'memory',
   });
+  // No location looked up from the visitor's IP. posthog-js has no option for it (its `ip` does
+  // nothing), so every event carries the property PostHog checks.
+  posthog.register({ $geoip_disable: true });
 }

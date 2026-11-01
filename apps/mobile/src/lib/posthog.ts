@@ -18,5 +18,7 @@ export const posthog = new PostHog(projectToken ?? 'disabled', {
   preloadFeatureFlags: false,
   disableRemoteFeatureFlags: true,
   disableSurveys: true,
+  // No location looked up from the device's IP.
+  disableGeoip: true,
   errorTracking: { autocapture: { uncaughtExceptions: true, unhandledRejections: true } },
 });
