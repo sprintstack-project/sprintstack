@@ -5,10 +5,11 @@ import {
 } from '@sprintstack/api-client';
 import { initialsOf } from '@sprintstack/shared';
 import type { HeaderNotification, HeaderNotifications } from '@sprintstack/ui';
+import { formatDistanceStrict } from 'date-fns';
 import { CalendarClock } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { AppState, Linking, Platform } from 'react-native';
-import { useFormatter, useNow, useTranslations } from 'use-intl';
+import { useNow, useTranslations } from 'use-intl';
 import { listenToPushes, type PushStatus, startPush } from './push';
 
 type T = ReturnType<typeof useTranslations<'Notifications'>>;
@@ -40,7 +41,6 @@ const titleOf = ({ type, actor, workItem, sprint }: BellNotification, t: T) => {
  */
 export const useBell = (): HeaderNotifications => {
   const t = useTranslations('Notifications');
-  const format = useFormatter();
   const now = useNow({ updateInterval: 60_000 });
   const { notifications, unread, refresh, markRead } = useNotifications();
   const registerDevice = useRegisterPushDevice();
@@ -94,7 +94,7 @@ export const useBell = (): HeaderNotifications => {
       id: notification.id,
       title: titleOf(notification, t),
       description: notification.workItem?.title,
-      time: format.relativeTime(new Date(notification.createdAt), now),
+      time: formatDistanceStrict(new Date(notification.createdAt), now, { addSuffix: true }),
       avatar: notification.actor
         ? notification.actor.image || initialsOf(notification.actor.name)
         : undefined,

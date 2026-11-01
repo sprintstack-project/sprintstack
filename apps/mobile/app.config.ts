@@ -9,6 +9,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/images/icon.png',
   scheme: 'sprintstack',
   userInterfaceStyle: 'automatic',
+  // PostHog error tracking (src/lib/posthog.ts).
+  extra: {
+    posthogProjectToken: process.env.POSTHOG_PROJECT_TOKEN,
+    posthogHost: process.env.POSTHOG_HOST,
+  },
   ios: {
     icon: './assets/images/icon.png',
     bundleIdentifier: 'com.sprintstack.app',
@@ -71,6 +76,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     '@react-native-firebase/app',
     // Devices are known to the API by Firebase Installation ID, not FCM token.
     ['@react-native-firebase/messaging', { installationIdEnabled: true }],
+    // Crash reports alongside the app's other Firebase data (src/lib/monitoring.ts).
+    '@react-native-firebase/crashlytics',
     // Firebase's Apple SDK ships as dynamic frameworks only.
     ['expo-build-properties', { ios: { useFrameworks: 'dynamic' } }],
   ],

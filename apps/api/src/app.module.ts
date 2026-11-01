@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import { ApolloDriver, type ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
@@ -11,8 +11,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { createAuth } from './auth/auth';
 import { ViewerResolver } from './auth/viewer.resolver';
+import { ErrorReportingFilter } from './error-reporting.filter';
 import { HealthController } from './health/health.controller';
 import { NotificationsModule } from './notifications/notifications.module';
+import { PostHogService } from './posthog.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { RedisModule } from './redis/redis.module';
@@ -56,6 +58,12 @@ import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
     NotificationsModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
-  providers: [AppService, ViewerResolver, { provide: APP_GUARD, useClass: ClientThrottlerGuard }],
+  providers: [
+    AppService,
+    ViewerResolver,
+    PostHogService,
+    { provide: APP_GUARD, useClass: ClientThrottlerGuard },
+    { provide: APP_FILTER, useClass: ErrorReportingFilter },
+  ],
 })
 export class AppModule {}

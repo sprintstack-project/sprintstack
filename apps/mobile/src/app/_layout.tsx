@@ -1,4 +1,5 @@
 import '../global.css';
+import '@/lib/monitoring';
 import {
   Archivo_400Regular,
   Archivo_500Medium,
@@ -11,11 +12,13 @@ import { ApiProvider } from '@sprintstack/api-client';
 import { DEFAULT_LOCALE, MESSAGES } from '@sprintstack/shared/i18n';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { PostHogProvider } from 'posthog-react-native';
 import { useEffect } from 'react';
 import { GestureHandlerRootView as BaseGestureHandlerRootView } from 'react-native-gesture-handler';
 import { withUniwind } from 'uniwind';
 import { IntlProvider } from 'use-intl';
 import { apiClient } from '@/lib/api-client';
+import { posthog } from '@/lib/posthog';
 
 const GestureHandlerRootView = withUniwind(BaseGestureHandlerRootView);
 
@@ -46,9 +49,11 @@ const RootLayout = () => {
     <GestureHandlerRootView className="flex-1">
       {/* English only for now, matching the web app (apps/web/src/i18n/request.ts). */}
       <IntlProvider locale={DEFAULT_LOCALE} messages={MESSAGES[DEFAULT_LOCALE]} timeZone={timeZone}>
-        <ApiProvider value={apiClient}>
-          <Stack screenOptions={{ headerShown: false }} />
-        </ApiProvider>
+        <PostHogProvider client={posthog} autocapture={false}>
+          <ApiProvider value={apiClient}>
+            <Stack screenOptions={{ headerShown: false }} />
+          </ApiProvider>
+        </PostHogProvider>
       </IntlProvider>
     </GestureHandlerRootView>
   );
