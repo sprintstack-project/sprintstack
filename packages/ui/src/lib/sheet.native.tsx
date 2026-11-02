@@ -11,12 +11,13 @@ interface SheetProps {
   sheetRef: RefObject<SheetRef | null>;
   /** Shown at the top, usually the field's label. */
   title?: string;
+  onOpen?: () => void;
   onClose?: () => void;
   children: ReactNode;
 }
 
 /** The bottom sheet behind native Select, MultiSelect and DatePicker, themed from the tokens. */
-export const Sheet = ({ sheetRef, title, onClose, children }: SheetProps) => {
+export const Sheet = ({ sheetRef, title, onOpen, onClose, children }: SheetProps) => {
   const surface = useTokenColor('surface');
   const line = useTokenColor('line-strong');
   const scrim = useTokenColor('scrim');
@@ -25,6 +26,7 @@ export const Sheet = ({ sheetRef, title, onClose, children }: SheetProps) => {
       ref={sheetRef}
       gestureEnabled
       useBottomSafeAreaPadding
+      onOpen={onOpen}
       onClose={onClose}
       overlayColor={scrim}
       defaultOverlayOpacity={1}

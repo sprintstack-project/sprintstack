@@ -1,7 +1,7 @@
-import { Field, type RichTextDoc, RichTextEditor } from '@sprintstack/ui';
+import { Field, type MentionItem, type RichTextDoc, RichTextEditor } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { expect, fireEvent, fn, spyOn, userEvent, waitFor, within } from 'storybook/test';
 
 export const sampleDoc: RichTextDoc = {
   type: 'doc',
@@ -61,6 +61,18 @@ import { Field, RichTextEditor, richTextToPlainText } from '@sprintstack/ui';
 </Field>
 
 const preview = richTextToPlainText(doc); // for search and notifications
+\`\`\`
+
+The toolbar also adds links, images and emoji. Images can be pasted or dropped in too. Pass \`uploadImage\` to store them and return a URL; without it they're embedded as data URLs.
+
+\`\`\`tsx
+<RichTextEditor uploadImage={async (image) => (await api.uploads.create(image)).url} />
+\`\`\`
+
+Pass \`searchMentions\` to turn on \`@\` mentions (web only for now). Each one is saved as a \`mention\` node with the person's \`id\` and \`label\`.
+
+\`\`\`tsx
+<RichTextEditor searchMentions={(query) => api.members.search(projectId, query)} />
 \`\`\``,
       },
     },
@@ -156,5 +168,116 @@ export const Keyboard: Story = {
     // Leaving the editor reports blur (for validate-on-blur).
     await userEvent.click(canvas.getByRole('textbox', { name: 'Next field' }));
     await expect(args.onBlur).toHaveBeenCalled();
+  },
+};
+
+const pixel = new File(
+  [
+    Uint8Array.from(atob('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'), (c) =>
+      c.charCodeAt(0),
+    ),
+  ],
+  'pixel.gif',
+  { type: 'image/gif' },
+);
+
+export const LinksAndImages: Story = {
+  tags: ['!autodocs'],
+  parameters: { singleTheme: true },
+  render: (args) => (
+    <div className="max-w-xl">
+      <Field label="Description">
+        <RichTextEditor onChange={args.onChange} />
+      </Field>
+    </div>
+  ),
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const editor = await canvas.findByRole('textbox', { name: 'Description' });
+
+    // No selection: the link popover inserts the address as linked text.
+    await userEvent.click(editor);
+    await userEvent.click(canvas.getByRole('button', { name: 'Link' }));
+    await userEvent.type(await body.findByRole('textbox', { name: 'Link address' }), 'example.com');
+    await userEvent.click(body.getByRole('button', { name: 'Add link' }));
+    await waitFor(() =>
+      expect(editor.querySelector('a')).toHaveAttribute('href', 'https://example.com'),
+    );
+
+    // Without uploadImage, a picked image is embedded as a data URL.
+    const input = canvasElement.querySelector<HTMLInputElement>('input[type="file"]');
+    if (input) await userEvent.upload(input, pixel);
+    await waitFor(() =>
+      expect(editor.querySelector('img')?.getAttribute('src')).toMatch(/^data:image\/gif/),
+    );
+
+    // Dragging a corner handle resizes the image and saves its width.
+    const handle = await waitFor(() => {
+      const el = editor.querySelector<HTMLElement>('[data-resize-handle="bottom-right"]');
+      if (!el) throw new Error('No resize handle');
+      return el;
+    });
+    fireEvent.mouseDown(handle, { clientX: 0, clientY: 0 });
+    fireEvent.mouseMove(document, { clientX: 120, clientY: 120 });
+    fireEvent.mouseUp(document, { clientX: 120, clientY: 120 });
+    await waitFor(() => {
+      const doc = (args.onChange as ReturnType<typeof fn>).mock.lastCall?.[0] as RichTextDoc;
+      const image = doc.content?.find((n) => n.type === 'image');
+      expect(image?.attrs?.width).toBeGreaterThanOrEqual(48);
+    });
+
+    // A plain click edits the link; ⌘/Ctrl-click opens it in a new tab.
+    const open = spyOn(window, 'open').mockReturnValue(null);
+    const link = editor.querySelector('a') as HTMLAnchorElement;
+    await userEvent.click(link);
+    await expect(open).not.toHaveBeenCalled();
+    fireEvent.click(link, { metaKey: true });
+    await expect(open).toHaveBeenCalledWith(
+      'https://example.com/',
+      '_blank',
+      'noopener,noreferrer',
+    );
+    open.mockRestore();
+  },
+};
+
+const people: MentionItem[] = [
+  { id: 'u1', label: 'Ada Lovelace', description: 'Engineering' },
+  { id: 'u2', label: 'Grace Hopper', description: 'Platform' },
+  { id: 'u3', label: 'Alan Turing', description: 'Research' },
+];
+const searchPeople = (query: string) =>
+  people.filter((p) => p.label.toLowerCase().includes(query.toLowerCase()));
+
+/** `searchMentions` turns on `@` suggestions; the arrow keys and Enter pick one. */
+export const Mentions: Story = {
+  tags: ['!autodocs'],
+  parameters: { singleTheme: true },
+  render: (args) => (
+    <div className="max-w-xl">
+      <Field label="Description" description="Type @ to mention someone">
+        <RichTextEditor onChange={args.onChange} searchMentions={searchPeople} />
+      </Field>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const editor = await canvas.findByRole('textbox', { name: 'Description' });
+
+    await userEvent.click(editor);
+    await userEvent.keyboard('Ask @a');
+    const list = await body.findByRole('listbox', { name: 'People' });
+    await expect(within(list).getAllByRole('option')).toHaveLength(3);
+
+    await userEvent.keyboard('l');
+    await waitFor(() => expect(within(list).getAllByRole('option')).toHaveLength(1));
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() =>
+      expect(editor.querySelector('[data-type="mention"]')).toHaveTextContent('@Alan Turing'),
+    );
+    await expect(body.queryByRole('listbox', { name: 'People' })).not.toBeInTheDocument();
   },
 };

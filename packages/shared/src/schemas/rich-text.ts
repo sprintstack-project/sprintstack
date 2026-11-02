@@ -6,8 +6,11 @@ interface Node {
   content?: Node[];
 }
 
+/** Text, or a mention (which reads as "@Name"). */
 const hasText = (node: Node): boolean =>
-  (node.type === 'text' && Boolean(node.text?.trim())) || Boolean(node.content?.some(hasText));
+  (node.type === 'text' && Boolean(node.text?.trim())) ||
+  node.type === 'mention' ||
+  Boolean(node.content?.some(hasText));
 
 /** A Tiptap JSON document, as written by RichTextEditor on web (Tiptap) and native (10tap-editor). */
 export const richTextDoc = z.object({

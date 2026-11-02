@@ -354,6 +354,15 @@ export interface RichTextNode {
   text?: string;
 }
 
+/** Someone (or something) `@` can mention. Stored in the document as a `mention` node. */
+export interface MentionItem {
+  id: string;
+  /** Shown after the `@`, e.g. "Ada Lovelace". */
+  label: string;
+  /** A second line in the suggestions, e.g. an email or role. */
+  description?: string;
+}
+
 /** Added for issue descriptions and comments. */
 export interface RichTextEditorProps extends Blurrable {
   id?: string;
@@ -367,6 +376,17 @@ export interface RichTextEditorProps extends Blurrable {
   placeholder?: string;
   /** Minimum height in text lines (default 5). */
   minRows?: number;
+  /**
+   * Stores an image the person pasted, dropped or picked and resolves to its URL. Without it,
+   * images are embedded in the document as data URLs.
+   */
+  uploadImage?: (image: Blob) => Promise<string>;
+  /**
+   * Who can be mentioned, called with the search text (empty at first). On web, typing `@` opens
+   * suggestions; on native, the toolbar's @ button opens a searchable sheet. Without it, there are
+   * no mentions to add (saved ones still show).
+   */
+  searchMentions?: (query: string) => MentionItem[] | Promise<MentionItem[]>;
   size?: ControlSize;
   invalid?: boolean;
   disabled?: boolean;

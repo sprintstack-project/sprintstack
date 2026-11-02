@@ -1,14 +1,32 @@
 'use client';
 
 import { Toggle } from '@base-ui/react/toggle';
-import { EMPTY_DOC, sameDoc } from '@lib/rich-text';
+import { blobToDataUrl, EMPTY_DOC, sameDoc } from '@lib/rich-text';
+import { Extension } from '@tiptap/core';
+import FileHandler from '@tiptap/extension-file-handler';
+import Image from '@tiptap/extension-image';
+import Mention from '@tiptap/extension-mention';
 import { Placeholder } from '@tiptap/extensions';
+import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { type Editor, EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useField } from '@ui/field';
+import EmojiPopover from '@ui/rich-text-editor/emoji-popover';
+import LinkPopover from '@ui/rich-text-editor/link-popover';
+import { renderMentionList } from '@ui/rich-text-editor/mention-list';
+import { toolbarButton } from '@ui/rich-text-editor/toolbar-button';
 import type { RichTextDoc, RichTextEditorProps } from '@ui/types';
 import { clsx } from 'clsx';
-import { Bold, Code, Italic, List, ListOrdered, Quote, Strikethrough } from 'lucide-react';
+import {
+  Bold,
+  Code,
+  ImagePlus,
+  Italic,
+  List,
+  ListOrdered,
+  Quote,
+  Strikethrough,
+} from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 const tools = [
@@ -56,6 +74,31 @@ const tools = [
   },
 ] as const;
 
+const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+
+/** A plain click on a link places the caret (so it stays editable); ⌘/Ctrl-click opens it. */
+const OpenLinkOnModClick = Extension.create({
+  name: 'openLinkOnModClick',
+  addProseMirrorPlugins: () => [
+    new Plugin({
+      key: new PluginKey('openLinkOnModClick'),
+      // The DOM click, not ProseMirror's handleClick: that skips clicks it counts as double clicks.
+      props: {
+        handleDOMEvents: {
+          click: (view, event) => {
+            if (!event.metaKey && !event.ctrlKey) return false;
+            const link = (event.target as HTMLElement | null)?.closest('a');
+            if (!link?.href || !view.dom.contains(link)) return false;
+            event.preventDefault();
+            window.open(link.href, '_blank', 'noopener,noreferrer');
+            return true;
+          },
+        },
+      },
+    }),
+  ],
+});
+
 const RichTextEditor = ({
   id,
   value,
@@ -64,6 +107,8 @@ const RichTextEditor = ({
   onBlur,
   placeholder,
   minRows = 5,
+  uploadImage,
+  searchMentions,
   invalid,
   disabled,
 }: RichTextEditorProps) => {
@@ -71,13 +116,51 @@ const RichTextEditor = ({
   // The last document we reported. A `value` equal to it is our own echo; anything else is an
   // outside change (like form.reset after data loads) and replaces the content. No `key` hacks.
   const reported = useRef<RichTextDoc | null | undefined>(value ?? defaultValue);
-  const callbacks = useRef({ onChange, onBlur });
-  callbacks.current = { onChange, onBlur };
+  const callbacks = useRef({ onChange, onBlur, uploadImage, searchMentions });
+  callbacks.current = { onChange, onBlur, uploadImage, searchMentions };
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  // Uploads (or embeds) each image, then inserts it at `pos`, or at the caret.
+  const insertImages = async (e: Editor, files: File[], pos?: number) => {
+    for (const file of files) {
+      const src = await (callbacks.current.uploadImage ?? blobToDataUrl)(file);
+      e.chain().focus(pos).setImage({ src, alt: file.name }).run();
+      pos = undefined;
+    }
+  };
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [2, 3] }, link: { openOnClick: false } }),
       Placeholder.configure({ placeholder }),
+      Image.configure({
+        allowBase64: true,
+        // Corner handles; the width and height it commits are saved on the node.
+        resize: {
+          enabled: true,
+          directions: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+          minWidth: 48,
+          minHeight: 48,
+          alwaysPreserveAspectRatio: true,
+        },
+      }),
+      OpenLinkOnModClick,
+      // Always loaded, so saved mentions render; `@` only suggests when there's a search.
+      Mention.configure({
+        HTMLAttributes: { class: 'mention' },
+        suggestion: {
+          allow: () => Boolean(callbacks.current.searchMentions),
+          items: async ({ query }) => (await callbacks.current.searchMentions?.(query)) ?? [],
+          render: renderMentionList,
+        },
+      }),
+      FileHandler.configure({
+        allowedMimeTypes: IMAGE_TYPES,
+        // Pasting an image copied from a page also carries its HTML; take the file, not both.
+        consumePasteEvent: true,
+        onPaste: (e, files) => insertImages(e, files),
+        onDrop: (e, files, pos) => insertImages(e, files, pos),
+      }),
     ],
     content: value ?? defaultValue ?? EMPTY_DOC,
     editable: !disabled,
@@ -125,10 +208,9 @@ const RichTextEditor = ({
   const active = useEditorState({
     editor,
     selector: ({ editor: e }) =>
-      Object.fromEntries(tools.map((t) => [t.name, e?.isActive(t.name) ?? false])) as Record<
-        string,
-        boolean
-      >,
+      Object.fromEntries(
+        [...tools.map((t) => t.name), 'link'].map((name) => [name, e?.isActive(name) ?? false]),
+      ) as Record<string, boolean>,
   });
 
   return (
@@ -151,16 +233,40 @@ const RichTextEditor = ({
             // Keep focus (and the selection) in the editor while formatting.
             onMouseDown={(e) => e.preventDefault()}
             onPressedChange={() => editor && tool.run(editor)}
-            className={clsx(
-              'grid size-9 cursor-pointer place-items-center rounded-md text-ink hover:bg-surface-hover',
-              'data-pressed:bg-ink data-pressed:text-on-ink',
-              'disabled:cursor-not-allowed disabled:text-ink-disabled disabled:hover:bg-transparent',
-              'focus-visible:outline-2 focus-visible:outline-focus-ring',
-            )}
+            className={toolbarButton}
           >
             <tool.icon aria-hidden strokeWidth={2} className="size-5" />
           </Toggle>
         ))}
+        <span aria-hidden className="mx-1 my-1.5 w-px bg-line" />
+        <LinkPopover
+          editor={editor}
+          active={Boolean(active?.link)}
+          disabled={disabled || !editor}
+        />
+        <button
+          type="button"
+          aria-label="Insert image"
+          disabled={disabled || !editor}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => fileInput.current?.click()}
+          className={toolbarButton}
+        >
+          <ImagePlus aria-hidden strokeWidth={2} className="size-5" />
+        </button>
+        <input
+          ref={fileInput}
+          type="file"
+          accept={IMAGE_TYPES.join(',')}
+          multiple
+          hidden
+          onChange={(e) => {
+            const files = Array.from(e.target.files ?? []);
+            e.target.value = '';
+            if (editor && files.length) insertImages(editor, files);
+          }}
+        />
+        <EmojiPopover editor={editor} disabled={disabled || !editor} />
       </div>
       {editor ? (
         <EditorContent

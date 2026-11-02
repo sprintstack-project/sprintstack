@@ -9,7 +9,18 @@ const meta = {
     title: 'Sprints',
     description: 'Applies from the next sprint. Sprint 24 keeps its current dates.',
     phoneDescription: true,
-    children: (
+    children: null,
+  },
+} satisfies Meta<typeof Section>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// The row is an element, so it stays out of args: inferring arg types walks into an element's
+// internals and reaches expo-router's LinkingContext, whose default throws when read.
+export const Playground: Story = {
+  render: (args) => (
+    <Section {...args}>
       <View>
         <ToggleRow
           title="Carry over unfinished work"
@@ -18,11 +29,6 @@ const meta = {
           onCheckedChange={() => {}}
         />
       </View>
-    ),
-  },
-} satisfies Meta<typeof Section>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Playground: Story = {};
+    </Section>
+  ),
+};
