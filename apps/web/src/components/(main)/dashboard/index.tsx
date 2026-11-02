@@ -18,9 +18,10 @@ import {
 import { Button } from '@ui/button';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
-import { type ReactNode, useId, useState } from 'react';
+import { type ReactNode, Suspense, useId, useState } from 'react';
+import { authClient } from '@/lib/auth-client';
 import Burndown from './burndown';
-import { SPRINT, TODAY, USER } from './data';
+import { SPRINT } from './data';
 import NextItems from './next-items';
 import RecentActivity from './recent-activity';
 import SummaryTiles from './summary-tiles';
@@ -44,6 +45,7 @@ const Dashboard = () => {
   const removed = DEFAULT_WIDGETS.filter((key) => !widgets.includes(key));
   // A stable id keeps dnd-kit's generated aria ids the same on the server and the client.
   const dndId = useId();
+  const { data: session } = authClient.useSession();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -61,9 +63,11 @@ const Dashboard = () => {
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <p className="eyebrow">{format(TODAY, 'eeee, d MMMM')}</p>
+          <Suspense>
+            <p className="eyebrow">{format(new Date(), 'eeee, d MMMM')}</p>
+          </Suspense>
           <h1 className="headline text-7xl leading-none">
-            Hello, <span className="text-brand-ink">{USER.firstName}.</span>
+            Hello, <span className="text-brand-ink">{session?.user?.name?.split(' ')?.[0]}.</span>
           </h1>
         </div>
         {/* Brings back a removed widget; a picker can replace this once there are more. */}
