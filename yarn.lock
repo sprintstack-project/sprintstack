@@ -11801,14 +11801,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-restore-credentials@file:../../../expo-restore-credentials/expo-restore-credentials-0.1.0.tgz::locator=mobile%40workspace%3Aapps%2Fmobile":
-  version: 0.1.0
-  resolution: "expo-restore-credentials@file:../../../expo-restore-credentials/expo-restore-credentials-0.1.0.tgz#../../../expo-restore-credentials/expo-restore-credentials-0.1.0.tgz::hash=4c8b0c&locator=mobile%40workspace%3Aapps%2Fmobile"
+"expo-restore-credentials@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "expo-restore-credentials@npm:0.1.1"
   peerDependencies:
     expo: "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/52b65380a1317730a74118a779b787b920d76921a2ad74abda90cfa9e30056a5f0f944b74b87e2a411087097e7d7ebb864556b3f77e8c3dd6c02020fc13cbf96
+  checksum: 10c0/1d642c8e42caba72d9882e440bd7e7387c374126c33df9236900e0763cc4ca808f4eff6a6ab6e528fa146d5e3031fe219e6d6e2dc6d6d71f7823f33c70174966
   languageName: node
   linkType: hard
 
@@ -15086,7 +15086,7 @@ __metadata:
     expo-linking: "npm:~58.0.14"
     expo-network: "npm:~58.0.4"
     expo-notifications: "npm:~58.1.7"
-    expo-restore-credentials: "file:../../../expo-restore-credentials/expo-restore-credentials-0.1.0.tgz"
+    expo-restore-credentials: "npm:^0.1.1"
     expo-router: "npm:~58.0.25"
     expo-secure-store: "npm:~58.0.2"
     expo-splash-screen: "npm:~58.0.11"

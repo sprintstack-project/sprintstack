@@ -205,8 +205,8 @@ export interface DatePickerProps extends Blurrable {
   weekStartsOn?: 0 | 1 | 6;
   /** Past dates read "· Overdue". */
   dueStyle?: boolean;
-  /** Open on the day grid or the 4×3 month-pill grid. */
-  defaultView?: 'days' | 'months';
+  /** Open on the day grid, the 4×3 month-pill grid or the 4×3 year-pill grid. */
+  defaultView?: 'days' | 'months' | 'years';
   defaultOpen?: boolean;
   invalid?: boolean;
   disabled?: boolean;

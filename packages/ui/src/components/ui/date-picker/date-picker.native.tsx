@@ -9,6 +9,7 @@ import {
   startOfToday,
   toISODate,
   weekdayLabels,
+  yearPage,
 } from '@lib/date';
 import { fieldShell } from '@lib/field-shell.native';
 import { scaled } from '@lib/scale';
@@ -75,8 +76,25 @@ const DatePicker = ({
     setMonth(
       view === 'days'
         ? new Date(month.getFullYear(), month.getMonth() + dir, 1)
-        : new Date(month.getFullYear() + dir, month.getMonth(), 1),
+        : new Date(month.getFullYear() + dir * (view === 'years' ? 12 : 1), month.getMonth(), 1),
     );
+  const years = yearPage(month.getFullYear());
+  const range = `${years[0]}–${years[11]}`;
+  // The title steps out a level (days → months → years) and back round to days.
+  const header = {
+    days: {
+      title: monthTitle(month),
+      label: `${monthTitle(month)}, choose a month`,
+      next: 'months',
+    },
+    months: {
+      title: month.getFullYear(),
+      label: `${month.getFullYear()}, choose a year`,
+      next: 'years',
+    },
+    years: { title: range, label: `${range}, back to days`, next: 'days' },
+  } as const;
+  const unit = { days: 'month', months: 'year', years: '12 years' }[view];
 
   return (
     <>
@@ -119,16 +137,12 @@ const DatePicker = ({
         <View className="flex-row items-center justify-between px-1">
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={
-              view === 'days'
-                ? `${monthTitle(month)}, choose a month`
-                : `${month.getFullYear()}, back to days`
-            }
-            onPress={() => setView(view === 'days' ? 'months' : 'days')}
+            accessibilityLabel={header[view].label}
+            onPress={() => setView(header[view].next)}
             className="rounded-full px-2.5 py-1.5 active:bg-surface-pressed"
           >
             <Text className="text-[1.375rem] leading-6 font-extrabold uppercase text-ink">
-              {view === 'days' ? monthTitle(month) : month.getFullYear()}
+              {header[view].title}
             </Text>
           </Pressable>
           <View className="flex-row">
@@ -136,7 +150,7 @@ const DatePicker = ({
               <Pressable
                 key={dir}
                 accessibilityRole="button"
-                accessibilityLabel={`${dir === 1 ? 'Next' : 'Previous'} ${view === 'days' ? 'month' : 'year'}`}
+                accessibilityLabel={`${dir === 1 ? 'Next' : 'Previous'} ${unit}`}
                 onPress={() => step(dir)}
                 className="size-11 items-center justify-center rounded-full active:bg-surface-pressed"
               >
@@ -184,7 +198,7 @@ const DatePicker = ({
               </View>
             ))}
           </View>
-        ) : (
+        ) : view === 'months' ? (
           <View className="flex-row flex-wrap gap-y-2">
             {MONTHS_SHORT.map((name, m) => {
               const isSelected =
@@ -210,6 +224,43 @@ const DatePicker = ({
                       )}
                     >
                       {name}
+                    </Text>
+                  </Pressable>
+                </View>
+              );
+            })}
+          </View>
+        ) : (
+          <View className="flex-row flex-wrap gap-y-2">
+            {years.map((year) => {
+              const isSelected = selected?.getFullYear() === year;
+              const blocked = Boolean(
+                (minDate && year < minDate.getFullYear()) ||
+                  (maxDate && year > maxDate.getFullYear()),
+              );
+              return (
+                <View key={year} className="w-1/4 px-1">
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: isSelected, disabled: blocked }}
+                    disabled={blocked}
+                    onPress={() => {
+                      setMonth(new Date(year, month.getMonth(), 1));
+                      setView('months');
+                    }}
+                    className={clsx(
+                      'h-12 items-center justify-center rounded-full',
+                      isSelected ? 'bg-brand' : 'bg-surface-muted active:bg-surface-pressed',
+                    )}
+                  >
+                    <Text
+                      className={clsx(
+                        'text-[1.0625rem] font-extrabold',
+                        isSelected ? 'text-on-brand' : blocked ? 'text-ink-disabled' : 'text-ink',
+                      )}
+                      style={{ fontVariant: ['tabular-nums'] }}
+                    >
+                      {year}
                     </Text>
                   </Pressable>
                 </View>

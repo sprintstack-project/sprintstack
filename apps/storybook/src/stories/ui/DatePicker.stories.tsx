@@ -127,6 +127,38 @@ export const Keyboard: Story = {
   },
 };
 
+export const Views: Story = {
+  tags: ['!autodocs'],
+  parameters: { singleTheme: true },
+  render: () => (
+    <div className="pb-[440px]">
+      <Field label="Due date">
+        <DatePicker defaultValue="2026-03-15" />
+      </Field>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /^Due date/ }));
+    const dialog = within(await screen.findByRole('dialog'));
+
+    // The title steps out from days to months to years, and back round to days.
+    await userEvent.click(dialog.getByRole('button', { name: 'March 2026, choose a month' }));
+    await userEvent.click(dialog.getByRole('button', { name: '2026, choose a year' }));
+    await expect(dialog.getByRole('button', { name: '2026' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await userEvent.click(dialog.getByRole('button', { name: 'Previous 12 years' }));
+    await expect(dialog.getByRole('button', { name: '2004–2015, back to days' })).toBeVisible();
+
+    // Picking a year opens that year's months; picking a month opens its days.
+    await userEvent.click(dialog.getByRole('button', { name: '2010' }));
+    await userEvent.click(dialog.getByRole('button', { name: 'Jul' }));
+    await expect(dialog.getByRole('button', { name: 'July 2010, choose a month' })).toBeVisible();
+  },
+};
+
 export const Labels: Story = {
   tags: ['!autodocs'],
   parameters: { singleTheme: true },

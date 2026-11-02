@@ -9,6 +9,7 @@ import {
   parseISODate,
   startOfToday,
   toISODate,
+  yearPage,
 } from '@lib/date';
 import { usePortalContainer } from '@lib/portal-container';
 import { Button } from '@ui/button';
@@ -59,11 +60,35 @@ const DatePicker = ({
   const [month, setMonth] = useState(selected ?? today);
   const overdue = dueStyle && selected && selected < today;
 
+  const years = yearPage(month.getFullYear());
+  const range = `${years[0]}–${years[11]}`;
+  // The title steps out a level (days → months → years) and back round to days.
+  const header = {
+    days: {
+      title: monthTitle(month),
+      label: `${monthTitle(month)}, choose a month`,
+      next: 'months',
+    },
+    months: {
+      title: month.getFullYear(),
+      label: `${month.getFullYear()}, choose a year`,
+      next: 'years',
+    },
+    years: { title: range, label: `${range}, back to days`, next: 'days' },
+  } as const;
+  const unit = { days: 'month', months: 'year', years: '12 years' }[view];
+
   const commit = (date: Date | null) => {
     const next = date ? toISODate(date) : null;
     setOwnValue(next);
     onValueChange?.(next);
   };
+  const step = (dir: 1 | -1) =>
+    setMonth(
+      view === 'days'
+        ? new Date(month.getFullYear(), month.getMonth() + dir, 1)
+        : new Date(month.getFullYear() + dir * (view === 'years' ? 12 : 1), month.getMonth(), 1),
+    );
 
   return (
     <Popover.Root
@@ -113,54 +138,34 @@ const DatePicker = ({
             // popupFrame, not popup: the menu height cap would cut off a 6-week month.
             className={clsx(
               popupFrame,
-              'max-h-(--available-height) w-[22.5rem] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-xl p-5',
+              'max-h-(--available-height) w-90 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-xl p-5',
             )}
           >
             <div className="mb-3 flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => setView(view === 'days' ? 'months' : 'days')}
-                aria-label={
-                  view === 'days'
-                    ? `${monthTitle(month)}, choose a month`
-                    : `${month.getFullYear()}, back to days`
-                }
+                onClick={() => setView(header[view].next)}
+                aria-label={header[view].label}
                 className={clsx(
                   'headline cursor-pointer rounded-full px-2.5 py-1.5 text-[1.375rem] leading-none text-ink hover:bg-surface-hover',
                   focus,
                 )}
               >
-                {view === 'days' ? monthTitle(month) : month.getFullYear()}
+                {header[view].title}
               </button>
               <div className="flex">
                 <button
                   type="button"
-                  aria-label={view === 'days' ? 'Previous month' : 'Previous year'}
-                  onClick={() =>
-                    setMonth(
-                      new Date(
-                        month.getFullYear() - (view === 'days' ? 0 : 1),
-                        month.getMonth() - (view === 'days' ? 1 : 0),
-                        1,
-                      ),
-                    )
-                  }
+                  aria-label={`Previous ${unit}`}
+                  onClick={() => step(-1)}
                   className={navButton}
                 >
                   <ChevronLeft aria-hidden strokeWidth={2} className="size-6" />
                 </button>
                 <button
                   type="button"
-                  aria-label={view === 'days' ? 'Next month' : 'Next year'}
-                  onClick={() =>
-                    setMonth(
-                      new Date(
-                        month.getFullYear() + (view === 'days' ? 0 : 1),
-                        month.getMonth() + (view === 'days' ? 1 : 0),
-                        1,
-                      ),
-                    )
-                  }
+                  aria-label={`Next ${unit}`}
+                  onClick={() => step(1)}
                   className={navButton}
                 >
                   <ChevronRight aria-hidden strokeWidth={2} className="size-6" />
@@ -210,7 +215,7 @@ const DatePicker = ({
                   outside: 'invisible',
                 }}
               />
-            ) : (
+            ) : view === 'months' ? (
               <div className="grid grid-cols-4 gap-2">
                 {MONTHS_SHORT.map((name, m) => {
                   const pill = new Date(month.getFullYear(), m, 1);
@@ -241,6 +246,37 @@ const DatePicker = ({
                       )}
                     >
                       {name}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="grid grid-cols-4 gap-2">
+                {years.map((year) => {
+                  const isSelected = selected?.getFullYear() === year;
+                  const blocked =
+                    (minDate && year < minDate.getFullYear()) ||
+                    (maxDate && year > maxDate.getFullYear());
+                  return (
+                    <button
+                      key={year}
+                      type="button"
+                      disabled={Boolean(blocked)}
+                      aria-pressed={isSelected}
+                      onClick={() => {
+                        setMonth(new Date(year, month.getMonth(), 1));
+                        setView('months');
+                      }}
+                      className={clsx(
+                        'h-12 cursor-pointer rounded-full text-[1.0625rem] font-extrabold tabular-nums font-stretch-condensed',
+                        isSelected
+                          ? 'bg-brand text-on-brand'
+                          : 'bg-surface-muted text-ink hover:bg-surface-pressed',
+                        'disabled:cursor-not-allowed disabled:text-ink-disabled',
+                        focus,
+                      )}
+                    >
+                      {year}
                     </button>
                   );
                 })}

@@ -35,6 +35,9 @@ export const States: Story = {
       <Field label="Release month" description="Opens on the month grid">
         <DatePicker defaultValue={iso(40)} defaultView="months" />
       </Field>
+      <Field label="Founded" description="Opens on the year grid">
+        <DatePicker defaultValue={iso(-2000)} defaultView="years" />
+      </Field>
       <Field label="Sprint start" description="Locked once the sprint begins">
         <DatePicker defaultValue={iso(-2)} disabled />
       </Field>

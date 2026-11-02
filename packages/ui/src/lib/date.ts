@@ -30,6 +30,12 @@ export const MONTHS_SHORT = Array.from({ length: 12 }, (_, m) =>
   new Date(2026, m, 1).toLocaleDateString('en-GB', { month: 'short' }),
 );
 
+/** The 12 years on the year grid that holds `year`, aligned so pages don't overlap: 2016–2027, 2028–2039… */
+export const yearPage = (year: number) => {
+  const first = year - (year % 12);
+  return Array.from({ length: 12 }, (_, i) => first + i);
+};
+
 export const isOutOfRange = (date: Date, min?: Date, max?: Date) =>
   Boolean((min && date < min) || (max && date > max));
 
