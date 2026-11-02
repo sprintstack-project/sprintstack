@@ -1,4 +1,5 @@
 import { scaled, touchSlop } from '@lib/scale';
+import { useSearchMentions } from '@sprintstack/api-client';
 import { useAppForm, useSelector } from '@sprintstack/forms';
 import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared';
 import { Button, Text } from '@sprintstack/ui';
@@ -108,6 +109,7 @@ const Body = ({ sprint, onCreate, onClose }: BodyProps) => {
   const titleRef = useRef<{ focus: () => void }>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const searchMentions = useSearchMentions();
   const form = useAppForm({
     ...workItemForm,
     defaultValues: draft?.values ?? emptyWorkItem(sprint),
@@ -239,6 +241,7 @@ const Body = ({ sprint, onCreate, onClose }: BodyProps) => {
                       label="Description"
                       placeholder="What’s the problem, and what does done look like?"
                       minRows={6}
+                      searchMentions={searchMentions}
                     />
                     <DescriptionMeta savedAt={savedAt} />
                   </View>

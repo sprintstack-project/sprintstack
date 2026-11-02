@@ -86,26 +86,34 @@ const MentionList = ({ items, command, loading, query, ref }: MentionListProps) 
   );
 };
 
-/** Tiptap's suggestion `render`: mounts MentionList by the caret and forwards keys to it. */
-export const renderMentionList: SuggestionOptions<MentionItem>['render'] = () => {
-  let component: ReactRenderer<MentionListHandle, MentionListProps> | undefined;
-  let unmount: (() => void) | undefined;
-  return {
-    onStart: (props) => {
-      component = new ReactRenderer(MentionList, {
-        props,
-        editor: props.editor,
-        className: 'z-50',
-      });
-      unmount = props.mount(component.element);
-    },
-    onUpdate: (props) => component?.updateProps(props),
-    onKeyDown: (props) => component?.ref?.onKeyDown(props) ?? false,
-    onExit: () => {
-      unmount?.();
-      component?.destroy();
-    },
+/**
+ * Tiptap's suggestion `render`: mounts MentionList by the caret and forwards keys to it. The list
+ * goes into the portal container, read when it opens: Tiptap's own `container` is fixed when the
+ * editor is created, and a list left in <body> sits behind a modal dialog.
+ */
+export const mentionListRenderer =
+  (getContainer: () => HTMLElement | undefined): SuggestionOptions<MentionItem>['render'] =>
+  () => {
+    let component: ReactRenderer<MentionListHandle, MentionListProps> | undefined;
+    let unmount: (() => void) | undefined;
+    return {
+      onStart: (props) => {
+        component = new ReactRenderer(MentionList, {
+          props,
+          editor: props.editor,
+          className: 'z-50',
+        });
+        // Already in the page, so `mount` only positions it; destroy() takes it out again.
+        (getContainer() ?? document.body).appendChild(component.element);
+        unmount = props.mount(component.element);
+      },
+      onUpdate: (props) => component?.updateProps(props),
+      onKeyDown: (props) => component?.ref?.onKeyDown(props) ?? false,
+      onExit: () => {
+        unmount?.();
+        component?.destroy();
+      },
+    };
   };
-};
 
 export default MentionList;

@@ -8,3 +8,4 @@ export {
   useNotifications,
   useRegisterPushDevice,
 } from './notifications';
+export { type UserSummary, useSearchMentions, useSearchUsers } from './users';

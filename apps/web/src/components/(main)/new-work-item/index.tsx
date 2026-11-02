@@ -3,6 +3,7 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { Tabs } from '@base-ui/react/tabs';
 import { PortalContainerProvider } from '@lib/portal-container';
+import { useSearchMentions } from '@sprintstack/api-client';
 import { useAppForm, useSelector } from '@sprintstack/forms';
 import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared';
 import { Button } from '@ui/button';
@@ -97,6 +98,7 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
     draft ? JSON.stringify({ values: draft.values, files: draft.files }) : '',
   );
 
+  const searchMentions = useSearchMentions();
   const form = useAppForm({
     ...workItemForm,
     defaultValues: draft?.values ?? emptyWorkItem(sprint),
@@ -279,6 +281,7 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
                       label="Description"
                       placeholder="What’s the problem, and what does done look like?"
                       minRows={6}
+                      searchMentions={searchMentions}
                     />
                     <DescriptionMeta savedAt={savedAt} />
                   </div>

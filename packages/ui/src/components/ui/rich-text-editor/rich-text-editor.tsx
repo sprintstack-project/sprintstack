@@ -1,6 +1,7 @@
 'use client';
 
 import { Toggle } from '@base-ui/react/toggle';
+import { usePortalContainer } from '@lib/portal-container';
 import { blobToDataUrl, EMPTY_DOC, sameDoc } from '@lib/rich-text';
 import { Extension } from '@tiptap/core';
 import FileHandler from '@tiptap/extension-file-handler';
@@ -13,7 +14,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useField } from '@ui/field';
 import EmojiPopover from '@ui/rich-text-editor/emoji-popover';
 import LinkPopover from '@ui/rich-text-editor/link-popover';
-import { renderMentionList } from '@ui/rich-text-editor/mention-list';
+import { mentionListRenderer } from '@ui/rich-text-editor/mention-list';
 import { toolbarButton } from '@ui/rich-text-editor/toolbar-button';
 import type { RichTextDoc, RichTextEditorProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -116,8 +117,9 @@ const RichTextEditor = ({
   // The last document we reported. A `value` equal to it is our own echo; anything else is an
   // outside change (like form.reset after data loads) and replaces the content. No `key` hacks.
   const reported = useRef<RichTextDoc | null | undefined>(value ?? defaultValue);
-  const callbacks = useRef({ onChange, onBlur, uploadImage, searchMentions });
-  callbacks.current = { onChange, onBlur, uploadImage, searchMentions };
+  const portalContainer = usePortalContainer();
+  const callbacks = useRef({ onChange, onBlur, uploadImage, searchMentions, portalContainer });
+  callbacks.current = { onChange, onBlur, uploadImage, searchMentions, portalContainer };
   const fileInput = useRef<HTMLInputElement>(null);
 
   // Uploads (or embeds) each image, then inserts it at `pos`, or at the caret.
@@ -151,7 +153,7 @@ const RichTextEditor = ({
         suggestion: {
           allow: () => Boolean(callbacks.current.searchMentions),
           items: async ({ query }) => (await callbacks.current.searchMentions?.(query)) ?? [],
-          render: renderMentionList,
+          render: mentionListRenderer(() => callbacks.current.portalContainer),
         },
       }),
       FileHandler.configure({

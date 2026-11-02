@@ -20,6 +20,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { RedisModule } from './redis/redis.module';
 import { RobotsController } from './robots/robots.controller';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
       }),
     }),
     NotificationsModule,
+    UsersModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [

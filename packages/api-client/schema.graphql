@@ -68,6 +68,11 @@ type Query {
     first: Int! = 20
   ): [Notification!]!
   unreadNotificationCount: Int!
+
+  """
+  People in the active organization, e.g. for @mentions. Matches name or email.
+  """
+  users(first: Int! = 20, search: String): [UserSummary!]!
   viewer: User!
 }
 
@@ -79,4 +84,11 @@ type User {
   image: String
   name: String!
   twoFactorEnabled: Boolean!
+}
+
+type UserSummary {
+  email: String!
+  id: ID!
+  image: String
+  name: String!
 }
