@@ -11,6 +11,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { createAuth } from './auth/auth';
 import { ViewerResolver } from './auth/viewer.resolver';
+import { CsvParseModule } from './csv-parse/csv-parse.module';
 import { ErrorReportingFilter } from './error-reporting.filter';
 import { HealthController } from './health/health.controller';
 import { NotificationsModule } from './notifications/notifications.module';
@@ -60,6 +61,7 @@ import { UsersModule } from './users/users.module';
     NotificationsModule,
     ProjectsModule,
     UsersModule,
+    CsvParseModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [

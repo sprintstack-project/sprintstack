@@ -1,0 +1,35 @@
+import { z } from 'zod';
+
+const ColumnMapping = z.object({
+  project: z.string().nullable(),
+  number: z.number().nullable(),
+  type: z.enum(['epic', 'feature', 'story', 'bug', 'task']).nullable(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  criteria: z.string().nullable(),
+  status: z.enum(['todo', 'in_progress', 'in_review', 'blocked', 'done']).nullable(),
+  atRisk: z.boolean().nullable(),
+  priority: z.enum(['highest', 'high', 'medium', 'low', 'lowest']).nullable(),
+  points: z.number().nullable(),
+  tags: z.array(z.string()).nullable(),
+  startDate: z.string().nullable(),
+  targetDate: z.string().nullable(),
+  sprint: z.string().nullable(),
+  rank: z.string().nullable(),
+  parent: z.string().nullable(),
+  children: z.array(z.string()).nullable(),
+  assignee: z.string().nullable(),
+  reporter: z.string().nullable(),
+  completedAt: z.string().nullable(),
+  createdAt: z.string().nullable(),
+  updatedAt: z.string().nullable(),
+  deletedAt: z.string().nullable(),
+  linksFrom: z.array(z.string()).nullable(),
+  linksTo: z.array(z.string()).nullable(),
+  comments: z.array(z.string()).nullable(),
+  attachments: z.array(z.string()).nullable(),
+  activity: z.array(z.string()).nullable(),
+  notifications: z.array(z.string()).nullable(),
+});
+
+export default ColumnMapping;
