@@ -1,11 +1,5 @@
-import {
-  type Option,
-  Sidebar,
-  type SidebarProject,
-  type SidebarUser,
-  Text,
-  useSidebar,
-} from '@sprintstack/ui';
+import { useProjectSwitcher } from '@sprintstack/shared/hooks';
+import { type Option, Sidebar, type SidebarUser, Text, useSidebar } from '@sprintstack/ui';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { LogOut } from 'lucide-react-native';
@@ -25,12 +19,6 @@ interface Person {
   image?: string | null;
 }
 
-// Placeholder until projects come from the API (same as the web layout).
-const projects: Option[] = [
-  { value: 'pay', label: 'Payments', avatar: 'PAY', description: 'Scrum' },
-  { value: 'ios', label: 'iOS app', avatar: 'IOS', description: 'Kanban' },
-];
-
 const signOutOption: Option = {
   value: 'sign-out',
   label: 'Sign out',
@@ -49,14 +37,8 @@ const Shell = ({ user }: { user: Person }) => {
   const dark = theme === 'dark';
 
   // Shared by the sidebar (tablets) and the header (phones).
-  const project: SidebarProject = {
-    code: 'PAY',
-    name: 'Payments',
-    meta: 'Scrum · 5 members',
-    options: projects,
-    value: 'pay',
-    onValueChange: () => {},
-  };
+  const { switcher } = useProjectSwitcher();
+
   const account: SidebarUser = {
     name: user.name,
     email: user.email,
@@ -95,7 +77,7 @@ const Shell = ({ user }: { user: Person }) => {
               className="size-8 rounded-lg"
             />
           }
-          project={project}
+          project={switcher}
           sections={SECTIONS}
           active={segments[1]}
           onNavigate={(item) => item.href && router.navigate(item.href as Href)}
@@ -103,7 +85,7 @@ const Shell = ({ user }: { user: Person }) => {
         />
       )}
       <View className="flex-1">
-        <AppHeader project={project} user={account} />
+        <AppHeader project={switcher} user={account} />
         <Tabs
           // Android's back retraces the tabs visited, so a page opened from Settings returns to it.
           backBehavior="history"

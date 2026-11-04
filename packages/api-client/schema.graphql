@@ -7,6 +7,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+enum Methodology {
+  kanban
+  scrum
+}
+
 type Mutation {
   """Marks these, or all without ids, read. Returns how many."""
   markNotificationsRead(ids: [ID!]): Int!
@@ -54,6 +59,15 @@ type NotificationWorkItem {
   title: String!
 }
 
+type Project {
+  description: String
+  id: ID!
+  key: String!
+  memberCount: Int!
+  methodology: Methodology!
+  name: String!
+}
+
 enum PushPlatform {
   android
   ios
@@ -67,6 +81,11 @@ type Query {
     after: ID
     first: Int! = 20
   ): [Notification!]!
+
+  """
+  The viewer’s projects in the active organization, for the project switcher.
+  """
+  projects: [Project!]!
   unreadNotificationCount: Int!
 
   """

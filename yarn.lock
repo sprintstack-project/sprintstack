@@ -6566,8 +6566,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sprintstack/shared@workspace:packages/shared"
   dependencies:
+    "@sprintstack/api-client": "workspace:^"
+    "@types/react": "npm:~19.3.0"
+    react: "npm:19.3.0"
     typescript: "npm:~6.0.3"
     zod: "npm:^4.6.7"
+  peerDependencies:
+    react: ^19
   languageName: unknown
   linkType: soft
 
@@ -9610,6 +9615,7 @@ __metadata:
     rxjs: "npm:^7.8.1"
     source-map-support: "npm:^0.5.21"
     supertest: "npm:^7.0.0"
+    tsx: "npm:^4.23.15"
     typescript: "npm:^6.0.2"
     vite-tsconfig-paths: "npm:^5.1.4"
     vitest: "npm:^4.1.2"
@@ -11677,7 +11683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0 || ^0.26.0 || ^0.27.0 || ^0.28.0":
+"esbuild@npm:^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0 || ^0.26.0 || ^0.27.0 || ^0.28.0, esbuild@npm:~0.28.0":
   version: 0.28.2
   resolution: "esbuild@npm:0.28.2"
   dependencies:
@@ -19484,6 +19490,21 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 10c0/69ae09c49eea644bc5ebe1bca4fa4cc2c82b7b3e02f43b84bd891504edf66dbc6b2ec0eef31a957042de2269139e4acff911e6d186a258fb14069cd7f6febce2
+  languageName: node
+  linkType: hard
+
+"tsx@npm:^4.23.15":
+  version: 4.23.15
+  resolution: "tsx@npm:4.23.15"
+  dependencies:
+    esbuild: "npm:~0.28.0"
+    fsevents: "npm:~2.3.3"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    tsx: dist/cli.mjs
+  checksum: 10c0/3c5fc53e578da87d3a63565286b1ecbb0e01b9bb646daec1957294ef890d14f22cc67bb4b09b5daffab0e7ce0217b1e7645393feb0f524b1ddf26ae9595d7e75
   languageName: node
   linkType: hard
 

@@ -17,6 +17,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { PostHogService } from './posthog.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
+import { ProjectsModule } from './projects/projects.module';
 import { RedisModule } from './redis/redis.module';
 import { RobotsController } from './robots/robots.controller';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
@@ -57,6 +58,7 @@ import { UsersModule } from './users/users.module';
       }),
     }),
     NotificationsModule,
+    ProjectsModule,
     UsersModule,
   ],
   controllers: [AppController, HealthController, RobotsController],

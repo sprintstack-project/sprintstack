@@ -49,6 +49,20 @@ const introspection = {
         "name": "Int"
       },
       {
+        "kind": "ENUM",
+        "name": "Methodology",
+        "enumValues": [
+          {
+            "name": "kanban",
+            "isDeprecated": false
+          },
+          {
+            "name": "scrum",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
@@ -361,6 +375,82 @@ const introspection = {
         "interfaces": []
       },
       {
+        "kind": "OBJECT",
+        "name": "Project",
+        "fields": [
+          {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "key",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "memberCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "methodology",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Methodology"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "ENUM",
         "name": "PushPlatform",
         "enumValues": [
@@ -417,6 +507,24 @@ const introspection = {
                 "defaultValue": "20"
               }
             ],
+            "isDeprecated": false
+          },
+          {
+            "name": "projects",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Project"
+                  }
+                }
+              }
+            },
+            "args": [],
             "isDeprecated": false
           },
           {

@@ -1,6 +1,7 @@
 'use client';
 
 import { initialsOf } from '@sprintstack/shared';
+import { useProjectSwitcher } from '@sprintstack/shared/hooks';
 import {
   type CommandGroup,
   CommandPalette,
@@ -112,10 +113,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     },
   ];
 
-  const projects: Option[] = [
-    { value: 'pay', label: 'Payments', avatar: 'PAY', description: 'Scrum' },
-    { value: 'ios', label: 'iOS app', avatar: 'IOS', description: 'Kanban' },
-  ];
+  const { project, switcher } = useProjectSwitcher();
 
   const account: Option[] = [
     { value: 'profile', label: 'Profile', icon: UserRound, action: openProfile },
@@ -133,14 +131,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
               </span>
             }
             logoCollapsed={<Image src="../../icon.svg" alt="SprintStack" width={32} height={32} />}
-            project={{
-              code: 'PAY',
-              name: 'Payments',
-              meta: 'Scrum · 5 members',
-              options: projects,
-              value: 'pay',
-              onValueChange: () => {},
-            }}
+            project={switcher}
             sections={sections}
             active={active}
             user={
@@ -160,7 +151,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
           <div className="min-w-0 flex-1">
             <Header
               breadcrumbs={[
-                { label: 'Payments', href: '/dashboard' },
+                ...(project ? [{ label: project.name, href: '/dashboard' }] : []),
                 { label: currentLabel ?? 'Home' },
               ]}
               linkComponent={Link}

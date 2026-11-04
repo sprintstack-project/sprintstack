@@ -24,6 +24,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "auth:generate": "npx auth@latest generate --config src/auth/auth.cli.ts --output prisma/schema.prisma"
   },
@@ -69,6 +70,7 @@
     "@vitest/coverage-v8": "^4.1.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.1.2"

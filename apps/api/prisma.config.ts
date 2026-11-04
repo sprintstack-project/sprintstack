@@ -19,6 +19,8 @@ export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
+    // `yarn workspace api db:seed`; see the file for SEED_ORG.
+    seed: 'tsx prisma/seed.ts',
   },
   datasource: {
     url: withSchema(process.env.DATABASE_URL),

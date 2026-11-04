@@ -8,4 +8,5 @@ export {
   useNotifications,
   useRegisterPushDevice,
 } from './notifications';
+export { type Project, useProjects } from './projects';
 export { type UserSummary, useSearchMentions, useSearchUsers } from './users';

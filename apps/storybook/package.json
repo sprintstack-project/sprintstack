@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "storybook": "storybook dev -p 6006",
+    "start": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest run --project=storybook",
     "typecheck": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json && tsc -p tsconfig.json",
     "lint": "biome check",
     "format": "biome format --write",
-    "storybook:native": "expo start --port 8083",
-    "storybook:native:ios": "expo start --ios --port 8083",
-    "storybook:native:stories": "sb-rn-get-stories --config-path .rnstorybook"
+    "start:native": "expo start --port 8083",
+    "start:native:ios": "expo start --ios --port 8083",
+    "start:native:stories": "sb-rn-get-stories --config-path .rnstorybook"
   },
   "dependencies": {
     "@10play/tentap-editor": "^1.1.0",

@@ -18,7 +18,7 @@ import {
 import { Button } from '@ui/button';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
-import { type ReactNode, Suspense, useId, useState } from 'react';
+import { type ReactNode, Suspense, useId, useState, useSyncExternalStore } from 'react';
 import { authClient } from '@/lib/auth-client';
 import Burndown from './burndown';
 import { SPRINT } from './data';
@@ -47,6 +47,12 @@ const Dashboard = () => {
   const dndId = useId();
   const { data: session } = authClient.useSession();
 
+  const today = useSyncExternalStore(
+    () => () => {},
+    () => format(new Date(), 'eeee, d MMMM'),
+    () => null,
+  );
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -64,7 +70,7 @@ const Dashboard = () => {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">
           <Suspense>
-            <p className="eyebrow">{format(new Date(), 'eeee, d MMMM')}</p>
+            <p className="eyebrow">{today}</p>
           </Suspense>
           <h1 className="headline text-7xl leading-none">
             Hello, <span className="text-brand-ink">{session?.user?.name?.split(' ')?.[0]}.</span>

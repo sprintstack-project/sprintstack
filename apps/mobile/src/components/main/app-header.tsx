@@ -23,7 +23,7 @@ const PAGES = SECTIONS.flatMap((section) => section.items);
  * The header above every signed-in screen, with its command palette. Tablets get the sidebar
  * toggle and breadcrumbs; phones (no sidebar) the project and account switchers instead.
  */
-export const AppHeader = ({ project, user }: { project: SidebarProject; user: SidebarUser }) => {
+export const AppHeader = ({ project, user }: { project?: SidebarProject; user: SidebarUser }) => {
   const { drawer } = useSidebar();
   const segments = useSegments();
   const { theme } = useUniwind();
@@ -65,7 +65,7 @@ export const AppHeader = ({ project, user }: { project: SidebarProject; user: Si
       <Header
         toggle={!drawer}
         breadcrumbs={[
-          { label: project.name },
+          ...(project ? [{ label: project.name }] : []),
           { label: page?.label ?? 'Home', href: subpage ? page?.href : undefined },
           ...(subpage ? [{ label: subpage.label }] : []),
         ]}
