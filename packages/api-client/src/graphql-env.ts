@@ -37,6 +37,25 @@ const introspection = {
         "name": "Boolean"
       },
       {
+        "kind": "OBJECT",
+        "name": "CsvImport",
+        "fields": [
+          {
+            "name": "success",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "SCALAR",
         "name": "DateTime"
       },
@@ -66,6 +85,39 @@ const introspection = {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "importCsv",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CsvImport"
+              }
+            },
+            "args": [
+              {
+                "name": "content",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              },
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
           {
             "name": "markNotificationsRead",
             "type": {
@@ -473,6 +525,29 @@ const introspection = {
         "name": "Query",
         "fields": [
           {
+            "name": "currentSprint",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Sprint"
+              }
+            },
+            "args": [
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "notifications",
             "type": {
               "kind": "NON_NULL",
@@ -525,6 +600,58 @@ const introspection = {
               }
             },
             "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "sprint",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Sprint"
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "sprints",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Sprint"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
             "isDeprecated": false
           },
           {
@@ -590,6 +717,97 @@ const introspection = {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Sprint",
+        "fields": [
+          {
+            "name": "endDate",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "goal",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "startDate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "state",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "SprintState"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "SprintState",
+        "enumValues": [
+          {
+            "name": "active",
+            "isDeprecated": false
+          },
+          {
+            "name": "closed",
+            "isDeprecated": false
+          },
+          {
+            "name": "planned",
+            "isDeprecated": false
+          }
+        ]
       },
       {
         "kind": "SCALAR",

@@ -88,6 +88,9 @@ enum PushPlatform {
 }
 
 type Query {
+  """Get the current sprint"""
+  currentSprint(projectId: ID!): Sprint!
+
   """Newest first."""
   notifications(
     """The last id already shown."""
@@ -99,6 +102,12 @@ type Query {
   The viewer’s projects in the active organization, for the project switcher.
   """
   projects: [Project!]!
+
+  """Get a sprint by ID"""
+  sprint(id: ID!): Sprint!
+
+  """Get all sprints"""
+  sprints(projectId: ID!): [Sprint!]!
   unreadNotificationCount: Int!
 
   """
@@ -106,6 +115,21 @@ type Query {
   """
   users(first: Int! = 20, search: String): [UserSummary!]!
   viewer: User!
+}
+
+type Sprint {
+  endDate: DateTime
+  goal: String
+  id: ID!
+  name: String!
+  startDate: DateTime!
+  state: SprintState!
+}
+
+enum SprintState {
+  active
+  closed
+  planned
 }
 
 type User {

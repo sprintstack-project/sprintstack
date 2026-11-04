@@ -1,7 +1,7 @@
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import { GraphQLError } from 'graphql';
-import type { Auth } from '../auth/auth';
+import type { Auth } from '@/auth/auth';
 import { CsvImportModel } from './csv-parse.model';
 import { CsvParseService } from './csv-parse.service';
 

@@ -15,19 +15,19 @@ const METHODOLOGY_LABEL: Record<Project['methodology'], string> = {
  *   <Sidebar.Root project={useProjectSwitcher().switcher} />
  */
 export const useProjectSwitcher = () => {
-  const { projects } = useProjects();
+  const { data: projects } = useProjects();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const current = projects.find((p) => p.id === selectedId) ?? projects[0];
+  const current = projects?.find((p) => p.id === selectedId) ?? projects?.[0];
 
   const switcher = useMemo(
     () =>
       current && {
         code: current.key,
         name: current.name,
-        meta: `${METHODOLOGY_LABEL[current.methodology]} · ${current.memberCount} ${
+        meta: `${METHODOLOGY_LABEL[current.methodology as keyof typeof METHODOLOGY_LABEL]} · ${current.memberCount} {
           current.memberCount === 1 ? 'member' : 'members'
         }`,
-        options: projects.map((p) => ({
+        options: projects?.map((p) => ({
           value: p.id,
           label: p.name,
           avatar: p.key,

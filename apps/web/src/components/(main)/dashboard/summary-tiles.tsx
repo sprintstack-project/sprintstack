@@ -1,10 +1,15 @@
+import { useGetCurrentSprint } from '@sprintstack/api-client';
 import { Card } from '@ui/card';
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { ASSIGNED, AWAITING_REVIEW, SPRINT, SPRINT_DAYS_LEFT } from './data';
+import { ASSIGNED, AWAITING_REVIEW, SPRINT } from './data';
 
 const SprintTile = () => {
+  const { data: currentSprintData, fetching: isCurrentSprintDataFetching } = useGetCurrentSprint(
+    '01a19e27-1ce3-7763-9392-f6a797c12ef6',
+  );
+  console.log(currentSprintData);
   const progress = (SPRINT.pointsDone / SPRINT.pointsTotal) * 100;
   return (
     <Card variant="tile" tone="ink">
@@ -18,18 +23,28 @@ const SprintTile = () => {
           </span>
         </div>
         <div className="flex flex-1 flex-wrap items-end justify-between gap-4">
-          <p className="headline text-[4.5rem] leading-[0.92] tabular-nums">
-            {SPRINT_DAYS_LEFT} days
-            <br />
-            <span className="text-brand-on-ink">left</span>
-          </p>
-          <p className="text-right">
-            <span className="headline block text-headline tabular-nums">
-              {SPRINT.pointsDone}
-              <span className="opacity-60">/{SPRINT.pointsTotal}</span>
-            </span>
-            <span className="text-meta font-semibold font-stretch-semi-condensed">points done</span>
-          </p>
+          {isCurrentSprintDataFetching ? (
+            <>Loading...</>
+          ) : (
+            <>
+              <p className="headline text-[4.5rem] leading-[0.92] tabular-nums">
+                {currentSprintData?.endDate &&
+                  differenceInDays(currentSprintData?.endDate, new Date())}{' '}
+                days
+                <br />
+                <span className="text-brand-on-ink">left</span>
+              </p>
+              <p className="text-right">
+                <span className="headline block text-headline tabular-nums">
+                  {SPRINT.pointsDone}
+                  <span className="opacity-60">/{SPRINT.pointsTotal}</span>
+                </span>
+                <span className="text-meta font-semibold font-stretch-semi-condensed">
+                  points done
+                </span>
+              </p>
+            </>
+          )}
         </div>
         <div
           role="progressbar"

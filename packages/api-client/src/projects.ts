@@ -1,5 +1,5 @@
-import { useQuery } from 'urql';
 import { graphql, type ResultOf } from './graphql';
+import useRootQuery from './useRootQuery';
 
 const ProjectsQuery = graphql(`
   query Projects {
@@ -17,11 +17,8 @@ const ProjectsQuery = graphql(`
 export type Project = ResultOf<typeof ProjectsQuery>['projects'][number];
 
 /** The viewer's projects in their active organization, by name, for the project switcher. */
-export const useProjects = () => {
-  // Paused during Next's server render, like the bell: there's no session there.
-  const [{ data, fetching, error }] = useQuery({
+export const useProjects = () =>
+  useRootQuery({
     query: ProjectsQuery,
     pause: typeof window === 'undefined',
   });
-  return { projects: data?.projects ?? [], fetching, error };
-};
