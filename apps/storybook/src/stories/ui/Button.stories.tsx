@@ -1,7 +1,8 @@
 import { Button } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Bookmark, Plus, Trash2 } from 'lucide-react';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { useState } from 'react';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 
 const meta = {
   title: 'UI/Button',
@@ -18,6 +19,16 @@ import { Plus, Bookmark } from 'lucide-react'; // lucide-react-native on mobile
 <Button variant="primary" icon={Plus} onClick={create}>Create issue</Button>
 <Button variant="brand">Start sprint</Button>
 <Button variant="ghost" iconOnly icon={Bookmark}>Watch</Button> {/* children = accessible name */}
+
+// While the action runs: same width, label changes, clicks ignored. "done" shows for 1.5 s, then idle.
+<Button
+  variant="brand"
+  status={save.isPending ? 'pending' : save.isSuccess ? 'done' : undefined}
+  pendingLabel="Saving…"
+  doneLabel="Saved"
+>
+  Save changes
+</Button>
 \`\`\``,
       },
     },
@@ -154,5 +165,69 @@ export const Labels: Story = {
     for (const button of canvas.getAllByRole('button')) {
       await expect(button).toHaveAttribute('type', 'button');
     }
+  },
+};
+
+/** Working states keep the button's width; only the label changes. Done goes back to idle after 1.5 s (re-render to replay). */
+export const Working: Story = {
+  render: () => (
+    <div className="grid w-fit grid-cols-3 gap-3">
+      <Button variant="brand">Save changes</Button>
+      <Button variant="brand" status="pending" pendingLabel="Saving…">
+        Save changes
+      </Button>
+      <Button variant="brand" status="done" doneLabel="Saved">
+        Save changes
+      </Button>
+      <Button>Start sprint</Button>
+      <Button status="pending" pendingLabel="Starting…">
+        Start sprint
+      </Button>
+      <Button status="done" doneLabel="Started">
+        Start sprint
+      </Button>
+    </div>
+  ),
+};
+
+const SaveDemo = ({ onSave }: { onSave: () => void }) => {
+  const [status, setStatus] = useState<'pending' | 'done'>();
+  return (
+    <Button
+      variant="brand"
+      status={status}
+      pendingLabel="Saving…"
+      doneLabel="Saved"
+      onClick={() => {
+        onSave();
+        setStatus('pending');
+        setTimeout(() => setStatus('done'), 300);
+      }}
+    >
+      Save changes
+    </Button>
+  );
+};
+
+/** Pending ignores clicks and keeps its width; done goes back to idle after 1.5 s on its own. */
+export const Status: Story = {
+  tags: ['!autodocs'],
+  parameters: { singleTheme: true },
+  args: { onClick: fn() },
+  render: (args) => <SaveDemo onSave={args.onClick ?? (() => {})} />,
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Save changes' });
+    const width = button.getBoundingClientRect().width;
+
+    await userEvent.click(button);
+    await expect(button).toHaveAccessibleName('Saving…');
+    await expect(button).toHaveAttribute('aria-busy', 'true');
+    await expect(button.getBoundingClientRect().width).toBe(width);
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledOnce();
+
+    await waitFor(() => expect(button).toHaveAccessibleName('Saved'));
+    await waitFor(() => expect(button).toHaveAccessibleName('Save changes'), { timeout: 3000 });
   },
 };

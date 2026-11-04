@@ -45,6 +45,16 @@ export interface ButtonProps {
   fullwidth?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  /**
+   * While the action runs. pending: a spinner and `pendingLabel`, clicks ignored. done: a check
+   * and `doneLabel` for 1.5 s, then back to idle on its own (so `isSuccess` can stay true). The
+   * width holds across all three, so the layout doesn't jump. Not for `link`.
+   */
+  status?: 'pending' | 'done';
+  /** E.g. "Saving…" for "Save changes". Default: the label. */
+  pendingLabel?: string;
+  /** E.g. "Saved". Default: the label. */
+  doneLabel?: string;
 }
 
 export interface CardProps {
@@ -461,6 +471,86 @@ export interface EmptyStateProps {
   icon?: IconComponent;
   /** Under the text. Page: one or two Buttons. Widget: a link Button. */
   actions?: ReactNode;
+}
+
+/**
+ * A placeholder block in surface-muted with a 1.4 s shimmer (static under reduced motion), the
+ * size of the real thing it stands in for. Hidden from screen readers: the surrounding LoadState
+ * announces the load once.
+ */
+export interface SkeletonProps {
+  /**
+   * line: 14px text line · heading: 26px · circle: avatar · pill: badge or chip (28px) ·
+   * control: a Button (`size`) · input: 56px field · bar: progress bar · icon: 24px tile.
+   */
+  shape?: 'line' | 'heading' | 'circle' | 'pill' | 'control' | 'input' | 'bar' | 'icon';
+  /**
+   * Spec px (scaled like everything else) or a percentage. Circle and icon: the side. Defaults:
+   * full width; pill 96; circle 40; icon 24.
+   */
+  width?: number | `${number}%`;
+  /** Control: the Button size it stands in for. */
+  size?: ControlSize;
+  /** Line: a paragraph of this many lines, the last one shorter. */
+  lines?: number;
+}
+
+/**
+ * A ring that spins in the text colour. 16–24 sit inline (buttons, rows, save status); 40 is the
+ * page spinner and the only one in brand.
+ */
+export interface SpinnerProps {
+  size?: 16 | 20 | 24 | 40;
+  /** Shown beside the ring and announced politely, e.g. "Loading 20 more…". Without it the ring is decorative. */
+  label?: string;
+  /** Native only: the ring's colour (native has no colour inheritance). Default ink-muted; 40 uses brand. */
+  color?: string;
+}
+
+/** A 3px brand track. No `value`: indeterminate (e.g. under the top bar while a page loads). */
+export interface ProgressBarProps {
+  /** Accessible name, e.g. "Importing work items". */
+  label: string;
+  /** 0–100. */
+  value?: number;
+  /** Determinate: a % label beside the track, for imports and uploads. */
+  showValue?: boolean;
+}
+
+/** Inline save feedback next to what changed. Never a modal. */
+export interface SaveStatusProps {
+  state: 'saving' | 'saved' | 'error';
+  /** Saved: when, e.g. "just now" ("Saved · just now"). */
+  savedAt?: string;
+  /** Error: shows a Retry link. */
+  onRetry?: () => void;
+}
+
+/**
+ * Wraps the data part of a view while it loads (keep the chrome outside it real). It shows
+ * nothing for the first 300 ms, then `skeleton` for at least 500 ms; after 8 s a slow-load note,
+ * and after 30 s or on `failed` an error panel with Retry. The container is aria-busy and
+ * announces `label` once.
+ */
+export interface LoadStateProps {
+  loading: boolean;
+  /** Announced once, e.g. "Loading backlog…". */
+  label: string;
+  /** Placeholder shaped like the real content (Skeleton blocks at the real sizes). */
+  skeleton: ReactNode;
+  children?: ReactNode;
+  /** The load failed: shows the error panel once any skeleton has had its 500 ms. */
+  failed?: boolean;
+  /** Default "Still loading. This can take a few seconds." */
+  slowMessage?: string;
+  /** E.g. "Couldn't load the backlog". Default "Couldn't load this". */
+  errorTitle?: string;
+  /** Default "Check your connection and try again." Say what's kept, e.g. "Your filters are kept." */
+  errorDescription?: string;
+  /** Small print beside Retry, e.g. "Error 503 · ref 7f3k2". */
+  errorDetail?: string;
+  /** Retry from the error panel; also restarts the timers. */
+  onRetry?: () => void;
 }
 
 /**

@@ -213,3 +213,51 @@
     }
   }
 }
+/*
+ * Skeleton block: surface-muted with a soft 1.4s sweep left to right. The band is sized to the
+ * viewport and fixed to it, so every block on the page shimmers as one sweep, not out of step.
+ * Reduced motion: a static block.
+ */
+@utility skeleton {
+  background-color: var(--color-surface-muted);
+  background-image: linear-gradient(
+    100deg,
+    transparent 40%,
+    color-mix(in oklab, var(--color-ink) 7%, var(--color-surface-muted)) 50%,
+    transparent 60%
+  );
+  background-size: 200vw 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background-image: none;
+  }
+}
+@keyframes skeleton-sweep {
+  from {
+    background-position: -120vw 0;
+  }
+  to {
+    background-position: 20vw 0;
+  }
+}
+/* Indeterminate ProgressBar: a segment that runs along the track. Reduced motion: a still, dimmed track. */
+@utility progress-sweep {
+  width: 40%;
+  animation: progress-sweep 1.4s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    width: 100%;
+    opacity: 0.4;
+    animation: none;
+  }
+}
+@keyframes progress-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}

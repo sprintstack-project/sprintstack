@@ -73,3 +73,28 @@ export const States: Story = {
     </View>
   ),
 };
+
+export const Working: Story = {
+  render: () => (
+    <View className="gap-3">
+      <View className="flex-row flex-wrap gap-3">
+        <Button variant="brand">Save changes</Button>
+        <Button variant="brand" status="pending" pendingLabel="Saving…">
+          Save changes
+        </Button>
+        <Button variant="brand" status="done" doneLabel="Saved">
+          Save changes
+        </Button>
+      </View>
+      <View className="flex-row flex-wrap gap-3">
+        <Button>Start sprint</Button>
+        <Button status="pending" pendingLabel="Starting…">
+          Start sprint
+        </Button>
+        <Button status="done" doneLabel="Started">
+          Start sprint
+        </Button>
+      </View>
+    </View>
+  ),
+};

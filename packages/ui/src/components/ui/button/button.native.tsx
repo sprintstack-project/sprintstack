@@ -1,11 +1,14 @@
+import { useButtonStatus } from '@lib/loading';
 import { scaled, touchSlop } from '@lib/scale';
 import { twMerge } from '@lib/tw-merge';
 import { useTokenColor } from '@lib/use-token-color.native';
+import { Spinner } from '@ui/spinner';
 import { Text } from '@ui/text';
 import type { ButtonProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
-import { Pressable } from 'react-native';
+import { Check } from 'lucide-react-native';
+import { Pressable, View } from 'react-native';
 
 type Variant = NonNullable<ButtonProps['variant']>;
 
@@ -54,11 +57,17 @@ const Button = ({
   fullwidth,
   disabled,
   onClick,
+  status,
+  pendingLabel,
+  doneLabel,
 }: ButtonProps) => {
+  const shown = useButtonStatus(status);
   const isLink = variant === 'link';
+  const working = !isLink && shown !== 'idle';
   const style = isLink ? null : variants[variant];
   const iconColor = useTokenColor(disabled ? 'ink-disabled' : (style?.icon ?? 'brand-ink'));
   const label = typeof children === 'string' ? children : undefined;
+  const current = shown === 'pending' ? pendingLabel : shown === 'done' ? doneLabel : undefined;
   const iconProps = {
     size: scaled(24),
     strokeWidth: 2,
@@ -66,12 +75,25 @@ const Button = ({
     'aria-hidden': true,
   } as const;
 
+  const labelText = (text: ButtonProps['children']) => (
+    <Text
+      className={clsx(
+        'font-extrabold leading-5',
+        isLink ? 'text-[1rem] underline' : sizes[size].label,
+        disabled ? 'text-ink-disabled' : isLink ? 'text-brand-ink' : style?.label,
+      )}
+    >
+      {text}
+    </Text>
+  );
+
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={iconOnly ? label : undefined}
-      accessibilityState={{ disabled: Boolean(disabled) }}
-      disabled={disabled}
+      // The hidden labels that hold the width would otherwise be read too.
+      accessibilityLabel={isLink ? undefined : (current ?? label)}
+      accessibilityState={{ disabled: Boolean(disabled), busy: shown === 'pending' }}
+      disabled={disabled || working}
       onPress={() => {
         tapFeedback();
         onClick?.();
@@ -93,19 +115,45 @@ const Button = ({
         ),
       )}
     >
-      {IconStart && <IconStart {...iconProps} />}
-      {!iconOnly && (
-        <Text
-          className={clsx(
-            'font-extrabold leading-5',
-            isLink ? 'text-[1rem] underline' : sizes[size].label,
-            disabled ? 'text-ink-disabled' : isLink ? 'text-brand-ink' : style?.label,
+      {iconOnly || isLink ? (
+        <>
+          {iconOnly && shown === 'pending' ? (
+            <Spinner size={24} color={iconColor} />
+          ) : (
+            IconStart && <IconStart {...iconProps} />
           )}
-        >
-          {children}
-        </Text>
+          {!iconOnly && labelText(children)}
+          {IconEnd && !iconOnly && <IconEnd {...iconProps} />}
+        </>
+      ) : (
+        // All three labels stack in a column so the button is as wide as the widest; the
+        // inactive ones collapse to no height and stay hidden.
+        <View>
+          {(['idle', 'pending', 'done'] as const).map((layer) => (
+            <View
+              key={layer}
+              accessibilityElementsHidden={layer !== shown}
+              importantForAccessibility={layer === shown ? 'auto' : 'no-hide-descendants'}
+              className={clsx(
+                'flex-row items-center justify-center gap-2',
+                layer !== shown && 'h-0 overflow-hidden opacity-0',
+              )}
+            >
+              {layer === 'idle' && IconStart && <IconStart {...iconProps} />}
+              {layer === 'pending' && <Spinner size={20} color={iconColor} />}
+              {layer === 'done' && <Check {...iconProps} size={scaled(20)} strokeWidth={2.5} />}
+              {labelText(
+                layer === 'pending'
+                  ? (pendingLabel ?? children)
+                  : layer === 'done'
+                    ? (doneLabel ?? children)
+                    : children,
+              )}
+              {layer === 'idle' && IconEnd && <IconEnd {...iconProps} />}
+            </View>
+          ))}
+        </View>
       )}
-      {IconEnd && !iconOnly && <IconEnd {...iconProps} />}
     </Pressable>
   );
 };
