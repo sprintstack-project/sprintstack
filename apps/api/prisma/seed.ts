@@ -4,8 +4,8 @@
 //   SEED_ORG=<organization slug> yarn workspace api db:seed
 //
 // SEED_ORG can be left out when there's only one organization. Run it again whenever: the demo
-// people are upserted, and the Payments and iOS app projects (with their sprints, work items and
-// activity) and the demo people's time off are replaced. The organization's own members join both
+// people are upserted, and the Payments and iOS app projects (with their sprints, work items,
+// activity and attachments) and the demo people's time off are replaced. The organization's own members join both
 // projects, so the signed-in person sees them.
 
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -467,6 +467,84 @@ const ACTIVITY = [
   { item: 1498, actor: 'dev', action: 'created', data: {}, at: '2026-10-25T17:40:00Z' },
 ] as const;
 
+/**
+ * Files on work items. Only the rows are seeded, not the objects in storage, so download links
+ * for these 404 until a file is uploaded at the same key.
+ */
+const ATTACHMENTS: {
+  item: number;
+  uploadedBy: Person;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  at: string;
+}[] = [
+  {
+    item: 1482,
+    uploadedBy: 'mira',
+    fileName: 'safari-18-checkout-error.png',
+    mimeType: 'image/png',
+    sizeBytes: 248_316,
+    at: '2026-10-26T13:37:00Z',
+  },
+  {
+    item: 1482,
+    uploadedBy: 'tom',
+    fileName: 'har-checkout-saved-card.har',
+    mimeType: 'application/json',
+    sizeBytes: 1_204_882,
+    at: '2026-10-26T14:10:00Z',
+  },
+  {
+    item: 1477,
+    uploadedBy: 'lena',
+    fileName: 'apple-pay-button-specs.pdf',
+    mimeType: 'application/pdf',
+    sizeBytes: 812_450,
+    at: '2026-10-20T09:15:00Z',
+  },
+  {
+    item: 1477,
+    uploadedBy: 'jonas',
+    fileName: 'apple-pay-sheet.mov',
+    mimeType: 'video/quicktime',
+    sizeBytes: 2_980_114,
+    at: '2026-10-26T13:50:00Z',
+  },
+  {
+    item: 1479,
+    uploadedBy: 'jonas',
+    fileName: 'rounding-mismatches-oct.csv',
+    mimeType: 'text/csv',
+    sizeBytes: 18_904,
+    at: '2026-10-26T11:52:00Z',
+  },
+  {
+    item: 1486,
+    uploadedBy: 'lena',
+    fileName: 'order-history-refund-states.png',
+    mimeType: 'image/png',
+    sizeBytes: 391_027,
+    at: '2026-10-21T10:30:00Z',
+  },
+  {
+    item: 1471,
+    uploadedBy: 'mira',
+    fileName: 'psd2-sca-test-report.pdf',
+    mimeType: 'application/pdf',
+    sizeBytes: 547_300,
+    at: '2026-10-23T14:45:00Z',
+  },
+  {
+    item: 1488,
+    uploadedBy: 'lena',
+    fileName: 'receipt-email-v2.html',
+    mimeType: 'text/html',
+    sizeBytes: 12_480,
+    at: '2026-10-29T16:05:00Z',
+  },
+];
+
 // -----------------------------------------------------------------------------------------------
 
 /** Fractional-index ranks in order (a0, a1, … aZ, az), as generateNKeysBetween would give. */
@@ -625,6 +703,22 @@ const seedPayments = async (organizationId: string) => {
       data: { projectId: project.id, workItemId, actorId, action: entry.action, data, createdAt },
     });
   }
+
+  await prisma.attachment.createMany({
+    data: ATTACHMENTS.map((attachment) => {
+      const workItemId = itemIds.get(attachment.item);
+      if (!workItemId) throw new Error(`Attachment on PAY-${attachment.item}, which isn't seeded`);
+      return {
+        workItemId,
+        uploadedById: userId(attachment.uploadedBy),
+        fileName: attachment.fileName,
+        storageKey: `seed/${organizationId}/PAY-${attachment.item}/${attachment.fileName}`,
+        mimeType: attachment.mimeType,
+        sizeBytes: attachment.sizeBytes,
+        createdAt: at(attachment.at),
+      };
+    }),
+  });
 
   return project;
 };

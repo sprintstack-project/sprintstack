@@ -84,3 +84,60 @@ export class WorkItemModel {
   @Field(() => Date)
   updatedAt: Date;
 }
+
+@ObjectType('Comment')
+export class CommentModel {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => ID)
+  workItemId: string;
+
+  /** Stored as JSON; resolved to a JSON string by CommentsResolver. */
+  @Field(() => String, { description: 'Tiptap JSON document, JSON-encoded.' })
+  body: unknown;
+
+  /** Null once the author's account is deleted. */
+  @Field(() => String, { nullable: true })
+  authorId: string | null;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date, { nullable: true })
+  editedAt: Date | null;
+
+  @Field(() => Date)
+  updatedAt: Date;
+}
+
+@ObjectType('Attachment')
+export class AttachmentModel {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => ID)
+  workItemId: string;
+
+  /** Null once the uploader's account is deleted. */
+  @Field(() => ID, { nullable: true })
+  uploadedById: string | null;
+
+  @Field(() => String)
+  fileName: string;
+
+  @Field(() => String)
+  storageKey: string;
+
+  @Field(() => String)
+  mimeType: string;
+
+  @Field(() => String)
+  url: string;
+
+  @Field(() => Int)
+  sizeBytes: number;
+
+  @Field(() => Date)
+  createdAt: Date;
+}

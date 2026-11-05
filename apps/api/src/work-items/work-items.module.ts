@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { WorkItemsResolver } from './work-items.resolver.js';
+import { StorageService } from '../storage/storage.service.js';
+import { CommentsResolver, WorkItemsResolver } from './work-items.resolver.js';
 import { WorkItemsService } from './work-items.service.js';
 
 @Module({
-  providers: [WorkItemsService, WorkItemsResolver],
+  providers: [WorkItemsService, WorkItemsResolver, CommentsResolver, StorageService],
 })
 export class WorkItemsModule {}

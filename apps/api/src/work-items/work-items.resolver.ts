@@ -3,7 +3,7 @@ import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import type { Auth } from '../auth/auth';
 import { ZodValidationPipe } from '../zod-validation.pipe';
 import { CreateWorkItemInput } from './work-items.input';
-import { WorkItemModel } from './work-items.model';
+import { AttachmentModel, CommentModel, WorkItemModel } from './work-items.model';
 import { type CreateWorkItem, createWorkItemSchema } from './work-items.schema';
 import { WorkItemsService } from './work-items.service';
 
@@ -32,6 +32,34 @@ export class WorkItemsResolver {
     );
   }
 
+  @Query(() => [CommentModel], { description: 'Get all comments for a work item' })
+  commentsByWorkItemId(
+    @Session() session: UserSession<Auth>,
+    @Args('workItemId', { type: () => ID }) workItemId: string,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return [];
+    return this.workItemsService.getAllCommentsByWorkItemId(
+      activeOrganizationId,
+      session.user.id,
+      workItemId,
+    );
+  }
+
+  @Query(() => [AttachmentModel], { description: 'Get all attachments for a work item' })
+  attachmentsByWorkItemId(
+    @Session() session: UserSession<Auth>,
+    @Args('workItemId', { type: () => ID }) workItemId: string,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return [];
+    return this.workItemsService.getAllAttachmentsByWorkItemId(
+      activeOrganizationId,
+      session.user.id,
+      workItemId,
+    );
+  }
+
   @Mutation(() => WorkItemModel, {
     description: 'Create a new work item. The viewer is the reporter; it goes last in its group.',
   })
@@ -53,5 +81,14 @@ export class WorkItemsResolver {
   @ResolveField(() => String)
   criteria(@Parent() workItem: WorkItemModel) {
     return JSON.stringify(workItem.criteria);
+  }
+}
+
+/** Field resolvers attach to the type their class resolves, so Comment's need their own class. */
+@Resolver(() => CommentModel)
+export class CommentsResolver {
+  @ResolveField(() => String, { description: 'Tiptap JSON document, JSON-encoded.' })
+  body(@Parent() comment: CommentModel) {
+    return JSON.stringify(comment.body);
   }
 }

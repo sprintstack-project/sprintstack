@@ -2,6 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Attachment {
+  createdAt: DateTime!
+  fileName: String!
+  id: ID!
+  mimeType: String!
+  sizeBytes: Int!
+  storageKey: String!
+  uploadedById: ID
+  url: String!
+  workItemId: ID!
+}
+
+type Comment {
+  authorId: String
+
+  """Tiptap JSON document, JSON-encoded."""
+  body: String!
+  createdAt: DateTime!
+  editedAt: DateTime
+  id: ID!
+  updatedAt: DateTime!
+  workItemId: ID!
+}
+
 input CreateWorkItemInput {
   assigneeId: ID
   atRisk: Boolean
@@ -134,6 +158,12 @@ enum PushPlatform {
 }
 
 type Query {
+  """Get all attachments for a work item"""
+  attachmentsByWorkItemId(workItemId: ID!): [Attachment!]!
+
+  """Get all comments for a work item"""
+  commentsByWorkItemId(workItemId: ID!): [Comment!]!
+
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint!
   getUploadUrl(key: String!): UploadUrlModel!

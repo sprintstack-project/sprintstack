@@ -5,9 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { generateKeyBetween } from 'fractional-indexing';
-
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { StorageService } from '../storage/storage.service';
 import type { CreateWorkItem } from './work-items.schema';
 
 /** Two writers can race for the same next number; the unique index rejects one, which retries. */
@@ -19,7 +19,10 @@ const isUniqueViolation = (error: unknown) =>
 /** Work items in projects of the viewer's active organization that they're on. */
 @Injectable()
 export class WorkItemsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storageService: StorageService,
+  ) {}
 
   findById(organizationId: string, userId: string, id: string) {
     return this.prisma.workItem.findFirst({
@@ -32,6 +35,34 @@ export class WorkItemsService {
       where: { projectId, deletedAt: null, project: this.visibleProject(organizationId, userId) },
       orderBy: [{ sprintId: 'asc' }, { rank: 'asc' }],
     });
+  }
+
+  getAllCommentsByWorkItemId(organizationId: string, userId: string, workItemId: string) {
+    return this.prisma.comment.findMany({
+      where: { workItemId, deletedAt: null, project: this.visibleProject(organizationId, userId) },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  async getAllAttachmentsByWorkItemId(organizationId: string, userId: string, workItemId: string) {
+    const workItem = await this.prisma.workItem.findFirst({
+      where: {
+        id: workItemId,
+        deletedAt: null,
+        project: this.visibleProject(organizationId, userId),
+      },
+      select: { projectId: true },
+    });
+    if (!workItem) throw new NotFoundException('Work item not found.');
+
+    const attachments = await this.prisma.attachment.findMany({
+      where: { workItemId },
+      orderBy: { createdAt: 'asc' },
+    });
+    return attachments.map(async (attachment) => ({
+      ...attachment,
+      url: await this.storageService.getFileDownloadUrl(attachment.storageKey),
+    }));
   }
 
   async create(organizationId: string, userId: string, input: CreateWorkItem) {
