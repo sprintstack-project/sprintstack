@@ -1,5 +1,5 @@
 import { Args, ID, Query, Resolver } from '@nestjs/graphql';
-import { SprintModel } from './sprint.model';
+import { SprintModel } from './sprints.model';
 import { SprintsService } from './sprints.service';
 
 @Resolver(() => SprintModel)

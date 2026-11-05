@@ -22,4 +22,21 @@ export class ProjectsService {
     });
     return projects.map(({ _count, ...project }) => ({ ...project, memberCount: _count.members }));
   }
+
+  async getById(organizationId: string, projectId: string, userId: string) {
+    const project = await this.prisma.project.findFirst({
+      where: { id: projectId, organizationId, archivedAt: null, members: { some: { userId } } },
+      select: {
+        id: true,
+        key: true,
+        name: true,
+        description: true,
+        methodology: true,
+        _count: { select: { members: true } },
+      },
+    });
+    if (!project) return null;
+    const { _count, ...rest } = project;
+    return { ...rest, memberCount: _count.members };
+  }
 }

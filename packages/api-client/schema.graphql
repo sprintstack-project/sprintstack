@@ -34,6 +34,9 @@ type Mutation {
 
   """Stops pushes to this device. Call before signing out."""
   unregisterPushDevice(fid: String!): Boolean!
+
+  """Update the current user in the active organization"""
+  updateMe(email: String, image: String, name: String): UserSummary!
 }
 
 type Notification {
@@ -90,6 +93,10 @@ enum PushPlatform {
 type Query {
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint!
+  getUploadUrl(key: String!): UploadUrlModel!
+
+  """Get the current user in the active organization"""
+  me: UserSummary!
 
   """Newest first."""
   notifications(
@@ -97,6 +104,9 @@ type Query {
     after: ID
     first: Int! = 20
   ): [Notification!]!
+
+  """Get project by ID"""
+  projectById: Project!
 
   """
   The viewer’s projects in the active organization, for the project switcher.
@@ -114,6 +124,14 @@ type Query {
   People in the active organization, e.g. for @mentions. Matches name or email.
   """
   users(first: Int! = 20, search: String): [UserSummary!]!
+
+  """Members of a project in the active organization, by name."""
+  usersByProject(
+    """The last id already shown."""
+    after: ID
+    first: Int! = 20
+    projectId: ID!
+  ): [UserSummary!]!
   viewer: User!
 }
 
@@ -130,6 +148,16 @@ enum SprintState {
   active
   closed
   planned
+}
+
+type UploadUrlFieldModel {
+  name: String!
+  value: String!
+}
+
+type UploadUrlModel {
+  fields: [UploadUrlFieldModel!]!
+  url: String!
 }
 
 type User {

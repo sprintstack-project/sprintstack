@@ -22,6 +22,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { RedisModule } from './redis/redis.module';
 import { RobotsController } from './robots/robots.controller';
 import { SprintsModule } from './sprints/sprints.module.js';
+import { StorageModule } from './storage/storage.module.js';
+import { StorageService } from './storage/storage.service';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
 import { UsersModule } from './users/users.module';
 
@@ -64,6 +66,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     CsvParseModule,
     SprintsModule,
+    StorageModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [
