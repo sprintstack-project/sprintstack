@@ -10,4 +10,4 @@ export {
 } from './notifications';
 export { type Project, useProjects } from './projects';
 export { type Sprint, useGetAllSprints, useGetCurrentSprint, useGetSprintById } from './sprints';
-export { type UserSummary, useSearchMentions, useSearchUsers } from './users';
+export { type UserSummary, useGetMe, useSearchMentions, useSearchUsers } from './users';

@@ -1,17 +1,38 @@
 import { useCallback } from 'react';
 import { useClient } from 'urql';
 import { graphql, type ResultOf } from './graphql';
+import useRootQuery from './useRootQuery';
 
-const UsersQuery = graphql(`
+const UserFields = graphql(`
+    fragment UserFields on UserSummary @_unmask {
+        id
+        name
+        email
+        image
+    }
+`);
+
+const UsersQuery = graphql(
+  `
   query Users($search: String, $first: Int!) {
     users(search: $search, first: $first) {
-      id
-      name
-      email
-      image
+    ...UserFields
     }
   }
-`);
+`,
+  [UserFields],
+);
+
+const MeQuery = graphql(
+  `
+  query Me {
+    me {
+    ...UserFields
+    }
+  }
+`,
+  [UserFields],
+);
 
 export type UserSummary = ResultOf<typeof UsersQuery>['users'][number];
 
@@ -48,4 +69,8 @@ export const useSearchMentions = () => {
       })),
     [searchUsers],
   );
+};
+
+export const useGetMe = () => {
+  return useRootQuery({ query: MeQuery });
 };

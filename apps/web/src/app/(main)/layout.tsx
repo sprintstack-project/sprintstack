@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetMe } from '@sprintstack/api-client';
 import { initialsOf } from '@sprintstack/shared';
 import { useProjectSwitcher } from '@sprintstack/shared/hooks';
 import {
@@ -45,6 +46,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   };
   const [paletteOpen, setPaletteOpen] = useState(false);
 
+  const { data: me } = useGetMe();
   // Follows the system until switched. Not persisted yet, so a reload goes back to the system.
   const [theme, setTheme] = useState<Theme>();
   useEffect(() => {
@@ -140,7 +142,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                     name: session.user.name,
                     email: session.user.email,
                     // GitHub accounts bring a photo; everyone else gets their initials.
-                    avatar: session.user.image || initialsOf(session.user.name),
+                    avatar: me?.image || initialsOf(session.user.name),
                     options: account,
                     searchable: false,
                   }

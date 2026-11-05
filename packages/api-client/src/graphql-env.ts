@@ -199,6 +199,40 @@ const introspection = {
               }
             ],
             "isDeprecated": false
+          },
+          {
+            "name": "updateMe",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UserSummary"
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              },
+              {
+                "name": "image",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              },
+              {
+                "name": "name",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              }
+            ],
+            "isDeprecated": false
           }
         ],
         "interfaces": []
@@ -548,6 +582,41 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "getUploadUrl",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UploadUrlModel"
+              }
+            },
+            "args": [
+              {
+                "name": "key",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "me",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UserSummary"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "notifications",
             "type": {
               "kind": "NON_NULL",
@@ -582,6 +651,18 @@ const introspection = {
                 "defaultValue": "20"
               }
             ],
+            "isDeprecated": false
+          },
+          {
+            "name": "projectById",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Project"
+              }
+            },
+            "args": [],
             "isDeprecated": false
           },
           {
@@ -704,6 +785,53 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "usersByProject",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UserSummary"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "after",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID"
+                }
+              },
+              {
+                "name": "first",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int"
+                  }
+                },
+                "defaultValue": "20"
+              },
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "viewer",
             "type": {
               "kind": "NON_NULL",
@@ -812,6 +940,74 @@ const introspection = {
       {
         "kind": "SCALAR",
         "name": "String"
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UploadUrlFieldModel",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "value",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UploadUrlModel",
+        "fields": [
+          {
+            "name": "fields",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UploadUrlFieldModel"
+                  }
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "url",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "OBJECT",

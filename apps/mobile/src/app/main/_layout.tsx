@@ -1,3 +1,4 @@
+import { useGetMe } from '@sprintstack/api-client';
 import { useProjectSwitcher } from '@sprintstack/shared/hooks';
 import { type Option, Sidebar, type SidebarUser, Text, useSidebar } from '@sprintstack/ui';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
@@ -35,6 +36,7 @@ const Shell = ({ user }: { user: Person }) => {
   const canvas = useTokenColor('canvas');
   const { theme } = useUniwind();
   const dark = theme === 'dark';
+  const { data: me } = useGetMe();
 
   // Shared by the sidebar (tablets) and the header (phones).
   const { switcher } = useProjectSwitcher();
@@ -42,7 +44,7 @@ const Shell = ({ user }: { user: Person }) => {
   const account: SidebarUser = {
     name: user.name,
     email: user.email,
-    avatar: user.image ?? undefined,
+    avatar: me?.image ?? undefined,
     options: [
       // {
       //   value: 'theme',
