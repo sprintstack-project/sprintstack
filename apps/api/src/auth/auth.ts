@@ -57,7 +57,7 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
   // app isn't released, so email sign-in and sign-up there work against a development API only.
   const isNativeApp = (request: Request) => {
     const origin = request.headers.get('expo-origin') ?? request.headers.get('origin') ?? '';
-    return origin.startsWith(`${appScheme}://`) || origin.startsWith('exp://');
+    return origin.startsWith(`${appScheme}://`) || (isDev && origin.startsWith('exp://'));
   };
 
   // Passkeys and restore keys share a domain. Browsers report the web origin. Native apps report
@@ -213,7 +213,7 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
       {
         ...turnstile,
         onRequest: async (request, ctx) =>
-          isDev && isNativeApp(request) ? undefined : turnstile.onRequest(request, ctx),
+          isNativeApp(request) ? undefined : turnstile.onRequest(request, ctx),
       },
     ],
   });
