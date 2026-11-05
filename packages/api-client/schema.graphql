@@ -2,6 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateWorkItemInput {
+  assigneeId: ID
+  atRisk: Boolean
+
+  """
+  Acceptance criteria as a JSON-encoded array of { given, when, outcome }.
+  """
+  criteria: String
+
+  """Tiptap JSON document, JSON-encoded."""
+  description: String
+  parentId: ID
+  points: Int
+
+  """Defaults to medium."""
+  priority: Priority
+  projectId: ID!
+
+  """Leave empty to put the item in the backlog."""
+  sprintId: ID
+  startDate: DateTime
+
+  """Defaults to todo."""
+  status: WorkItemStatus
+  tags: [String!]
+  targetDate: DateTime
+  title: String!
+  type: WorkItemType!
+}
+
 type CsvImport {
   success: Boolean!
 }
@@ -17,6 +47,11 @@ enum Methodology {
 }
 
 type Mutation {
+  """
+  Create a new work item. The viewer is the reporter; it goes last in its group.
+  """
+  createWorkItem(input: CreateWorkItemInput!): WorkItem!
+
   """
   Imports work items from a CSV export into a project. AI matches the columns to fields; values are converted and checked before anything is written.
   """
@@ -73,6 +108,14 @@ type NotificationWorkItem {
   id: ID!
   key: String!
   title: String!
+}
+
+enum Priority {
+  high
+  highest
+  low
+  lowest
+  medium
 }
 
 type Project {
@@ -133,6 +176,12 @@ type Query {
     projectId: ID!
   ): [UserSummary!]!
   viewer: User!
+
+  """Get a single work item"""
+  workItemById(id: ID!): WorkItem
+
+  """Get all work items by project ID"""
+  workItemsByProjectId(projectId: ID!): [WorkItem!]!
 }
 
 type Sprint {
@@ -175,4 +224,51 @@ type UserSummary {
   id: ID!
   image: String
   name: String!
+}
+
+type WorkItem {
+  assigneeId: String
+  atRisk: Boolean!
+  completedAt: DateTime
+  createdAt: DateTime!
+
+  """JSON-encoded array of { given, when, outcome }."""
+  criteria: String!
+
+  """Tiptap JSON document, JSON-encoded."""
+  description: String!
+  id: ID!
+
+  """With the project key it makes the item key, e.g. PAY-1482."""
+  number: Int!
+  parentId: ID
+  points: Int
+  priority: Priority!
+  projectId: ID!
+  rank: String!
+  reporterId: String
+  sprintId: ID
+  startDate: DateTime
+  status: WorkItemStatus!
+  tags: [String!]!
+  targetDate: DateTime
+  title: String!
+  type: WorkItemType!
+  updatedAt: DateTime!
+}
+
+enum WorkItemStatus {
+  blocked
+  done
+  in_progress
+  in_review
+  todo
+}
+
+enum WorkItemType {
+  bug
+  epic
+  feature
+  story
+  task
 }
