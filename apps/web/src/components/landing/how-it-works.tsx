@@ -7,7 +7,7 @@ const steps = [
     body: 'Name it, pick a board style and you are ready. Import from your current tracker [if supported at launch].',
     rule: 'border-ink',
     marker: (
-      <span className="grid shrink-0 place-items-center rounded-full size-[3.25rem] font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none bg-ink text-on-ink">
+      <span className="grid shrink-0 place-items-center rounded-full size-13 font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none bg-ink text-on-ink">
         <Check aria-hidden strokeWidth={2} className="size-6 shrink-0" />
       </span>
     ),
@@ -17,7 +17,7 @@ const steps = [
     body: 'Bring in teammates by email or single sign-on and set who can see and change what.',
     rule: 'border-brand',
     marker: (
-      <span className="grid shrink-0 place-items-center rounded-full size-[3.25rem] font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none bg-brand text-on-brand">
+      <span className="grid shrink-0 place-items-center rounded-full size-13 font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none bg-brand text-on-brand">
         2
       </span>
     ),
@@ -27,7 +27,7 @@ const steps = [
     body: 'Drag issues from the backlog, set a goal and start. Progress updates itself as work moves.',
     rule: 'border-line',
     marker: (
-      <span className="grid shrink-0 place-items-center rounded-full size-[3.25rem] font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none box-border border-2 border-line-strong">
+      <span className="grid shrink-0 place-items-center rounded-full size-13 font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none box-border border-2 border-line-strong">
         3
       </span>
     ),
@@ -36,7 +36,7 @@ const steps = [
 
 export const HowItWorks = () => {
   return (
-    <section className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-12 py-24">
+    <section className="mx-auto w-full max-w-7xl px-6 flex flex-col gap-12 py-24">
       <div className="flex flex-col gap-3">
         <span className="eyebrow">How it works</span>
         <h2 className="headline text-[clamp(2.5rem,3.75vw,4rem)] leading-[0.95]">
@@ -50,7 +50,7 @@ export const HowItWorks = () => {
             <h3 className="font-display font-extrabold font-stretch-condensed text-[1.625rem] leading-[1.1]">
               {step.title}
             </h3>
-            <p className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-[1.625rem] text-ink-muted">
+            <p className="font-semibold font-stretch-semi-condensed text-[1.0625rem] leading-6.5 text-ink-muted">
               {step.body}
             </p>
           </li>

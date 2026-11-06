@@ -92,11 +92,7 @@ const IssueFields = () => {
             Due date
           </span>
           <div className="box-border h-12 rounded-lg border-[1.5px] border-line-strong flex items-center gap-2.5 px-3.5 text-[0.9375rem]">
-            <Calendar
-              aria-hidden
-              strokeWidth={2}
-              className="size-[1.125rem] shrink-0 text-ink-muted"
-            />
+            <Calendar aria-hidden strokeWidth={2} className="size-4.5 shrink-0 text-ink-muted" />
             30 Oct 2026
           </div>
         </div>
@@ -106,11 +102,11 @@ const IssueFields = () => {
           </span>
           <div className="box-border h-12 rounded-lg border-[1.5px] border-line-strong flex items-stretch overflow-hidden">
             <span className="grid w-11 place-items-center border-r-[1.5px] border-line-strong">
-              <Minus aria-hidden strokeWidth={2} className="size-[1.125rem] shrink-0" />
+              <Minus aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
             </span>
             <span className="grid flex-1 place-items-center text-[1.0625rem]">3</span>
             <span className="grid w-11 place-items-center border-l-[1.5px] border-line-strong">
-              <Plus aria-hidden strokeWidth={2} className="size-[1.125rem] shrink-0" />
+              <Plus aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
             </span>
           </div>
         </div>
@@ -142,8 +138,8 @@ const smallCards = [
 
 export const Features = () => {
   return (
-    <section id="features" className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-10 py-24">
-      <div className="flex max-w-[47.5rem] flex-col gap-3">
+    <section id="features" className="mx-auto w-full max-w-7xl px-6 flex flex-col gap-10 py-24">
+      <div className="flex max-w-190 flex-col gap-3">
         <span className="eyebrow">Features</span>
         <h2 className="headline text-[clamp(2.5rem,3.75vw,4rem)] leading-[0.95]">
           Everything in its right place.
@@ -156,7 +152,7 @@ export const Features = () => {
 
       <div className="flex flex-wrap gap-5">
         {/* Boards: brand tile */}
-        <div className="box-border flex rounded-2xl min-h-[21.25rem] flex-[2_1_35rem] flex-col justify-between gap-8 bg-brand p-10 text-on-brand">
+        <div className="box-border flex rounded-2xl min-h-85 flex-[2_1_35rem] flex-col justify-between gap-8 bg-brand p-10 text-on-brand">
           <span className="eyebrow text-inherit">Boards</span>
           <div className="flex flex-col gap-4">
             <h3 className="headline text-[clamp(2.75rem,3.75vw,4.5rem)] leading-[0.92]">
@@ -164,7 +160,7 @@ export const Features = () => {
               <br />
               Done.
             </h3>
-            <p className="font-semibold font-stretch-semi-condensed max-w-[30rem] text-lg leading-[1.625rem]">
+            <p className="font-semibold font-stretch-semi-condensed max-w-120 text-lg leading-6.5">
               Kanban and scrum boards with WIP limits, swimlanes and quick filters. [Confirm board
               types for v1.]
             </p>
@@ -172,7 +168,7 @@ export const Features = () => {
         </div>
 
         {/* Sprints: ink tile */}
-        <div className="box-border flex rounded-2xl min-h-[21.25rem] flex-[1_1_18.75rem] flex-col justify-between gap-8 bg-ink p-10 text-on-ink">
+        <div className="box-border flex rounded-2xl min-h-85 flex-[1_1_18.75rem] flex-col justify-between gap-8 bg-ink p-10 text-on-ink">
           <span className="eyebrow text-inherit">Sprints</span>
           <div className="flex flex-col gap-4">
             <h3 className="headline text-[2.75rem] leading-[0.95]">
@@ -209,8 +205,8 @@ export const Features = () => {
                 key={title}
                 className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0"
               >
-                <Icon aria-hidden strokeWidth={2} className={`size-[1.125rem] shrink-0 ${tint}`} />
-                <span className="font-bold font-stretch-semi-condensed flex-1 text-base leading-[1.375rem]">
+                <Icon aria-hidden strokeWidth={2} className={`size-4.5 shrink-0 ${tint}`} />
+                <span className="font-bold font-stretch-semi-condensed flex-1 text-base leading-5.5">
                   {title}
                 </span>
                 <span className="font-semibold font-stretch-semi-condensed text-sm leading-5 text-ink-muted tabular-nums">

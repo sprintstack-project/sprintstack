@@ -40,7 +40,7 @@ export const Faq = () => {
                 aria-expanded={expanded}
                 aria-controls={`${id}-${i}`}
                 onClick={() => setOpen(expanded ? -1 : i)}
-                className="font-display font-extrabold font-stretch-condensed flex min-h-18 w-full cursor-pointer items-center justify-between gap-4 rounded-[1.5rem] px-7 py-5 text-left text-[1.3125rem] leading-[1.2] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                className="font-display font-extrabold font-stretch-condensed flex min-h-18 w-full cursor-pointer items-center justify-between gap-4 rounded-3xl px-7 py-5 text-left text-[1.3125rem] leading-[1.2] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
               >
                 {q}
                 <Icon aria-hidden strokeWidth={2} className="size-6 shrink-0 text-brand-ink" />

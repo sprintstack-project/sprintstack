@@ -64,7 +64,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
   return (
     <div
       className={`flex flex-col gap-2 rounded-[0.875rem] bg-surface ${
-        active ? 'border-2 border-ink p-[0.6875rem]' : 'border border-line p-3'
+        active ? 'border-2 border-ink p-2.75' : 'border border-line p-3'
       }`}
     >
       <span className="font-semibold font-stretch-semi-condensed text-xs leading-4 text-ink-muted">

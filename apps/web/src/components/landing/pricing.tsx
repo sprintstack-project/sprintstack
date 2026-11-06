@@ -34,8 +34,8 @@ const plans = [
 export const Pricing = () => {
   return (
     <section id="pricing" className="border-t border-line">
-      <div className="mx-auto w-full max-w-[80rem] px-6 flex flex-col gap-10 py-24">
-        <div className="flex max-w-[45rem] flex-col gap-3">
+      <div className="mx-auto w-full max-w-7xl px-6 flex flex-col gap-10 py-24">
+        <div className="flex max-w-180 flex-col gap-3">
           <span className="eyebrow">Pricing</span>
           <h2 className="headline text-[clamp(2.5rem,3.75vw,4rem)] leading-[0.95]">
             Simple pricing.
@@ -49,7 +49,7 @@ export const Pricing = () => {
             <div
               key={plan.name}
               className={`flex flex-col gap-5 rounded-xl ${
-                plan.recommended ? 'border-2 border-ink p-[1.9375rem]' : 'border border-line p-8'
+                plan.recommended ? 'border-2 border-ink p-7.75' : 'border border-line p-8'
               }`}
             >
               <div className="flex items-center justify-between gap-3">

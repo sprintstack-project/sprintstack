@@ -42,22 +42,22 @@ const perks = [
 const PhoneScreenshot = () => {
   return (
     <figure aria-label="Screenshot: mobile app, My issues" className="flex justify-center">
-      <div className="box-border w-[21.25rem] max-w-full rounded-[3rem] bg-ink p-3">
-        <div className="box-border flex h-[41.25rem] flex-col gap-3.5 overflow-hidden rounded-[2.375rem] bg-canvas px-3.5 pt-4 pb-3.5 text-ink">
-          <div className="flex h-14 flex-none items-center gap-3 rounded-[1.25rem] bg-brand px-4 text-on-brand">
+      <div className="box-border w-85 max-w-full rounded-[3rem] bg-ink p-3">
+        <div className="box-border flex h-165 flex-col gap-3.5 overflow-hidden rounded-[2.375rem] bg-canvas px-3.5 pt-4 pb-3.5 text-ink">
+          <div className="flex h-14 flex-none items-center gap-3 rounded-xl bg-brand px-4 text-on-brand">
             <ChevronLeft aria-hidden strokeWidth={2} className="size-6" />
             <span className="font-display font-extrabold font-stretch-condensed text-[1.375rem] leading-none">
               My issues
             </span>
           </div>
           <div className="flex flex-none gap-2">
-            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 bg-ink text-on-ink h-[2.125rem]">
+            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 bg-ink text-on-ink h-8.5">
               Today
             </span>
-            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 border-[1.5px] border-line-strong h-[2.125rem]">
+            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 border-[1.5px] border-line-strong h-8.5">
               This week
             </span>
-            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 border-[1.5px] border-line-strong h-[2.125rem]">
+            <span className="font-bold font-stretch-semi-condensed inline-flex items-center rounded-full px-3.5 text-sm leading-5 border-[1.5px] border-line-strong h-8.5">
               Overdue
             </span>
           </div>
@@ -90,15 +90,15 @@ const PhoneScreenshot = () => {
               )}
             </div>
           ))}
-          <div className="mt-auto grid h-[4.5rem] flex-none grid-cols-4 items-center rounded-[1.625rem] bg-ink text-on-ink">
+          <div className="mt-auto grid h-18 flex-none grid-cols-4 items-center rounded-[1.625rem] bg-ink text-on-ink">
             {tabs.map(({ label, Icon }, i) => (
               <span
                 key={label}
-                className={`headline flex flex-col items-center gap-0.5 text-[0.6875rem] leading-[0.875rem] ${
+                className={`headline flex flex-col items-center gap-0.5 text-[0.6875rem] leading-3.5 ${
                   i === 0 ? 'text-brand-on-ink' : ''
                 }`}
               >
-                <Icon aria-hidden strokeWidth={2} className="size-[1.125rem] shrink-0" />
+                <Icon aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
                 {label}
               </span>
             ))}
@@ -112,7 +112,7 @@ const PhoneScreenshot = () => {
 export const Mobile = () => {
   return (
     <section id="mobile" className="bg-surface-muted">
-      <div className="mx-auto w-full max-w-[80rem] px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,26.25rem),1fr))] items-center gap-14 py-24">
+      <div className="mx-auto w-full max-w-7xl px-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,26.25rem),1fr))] items-center gap-14 py-24">
         <PhoneScreenshot />
         <div className="flex flex-col gap-6">
           <span className="eyebrow">Mobile</span>
@@ -121,7 +121,7 @@ export const Mobile = () => {
             <br />
             <span className="text-brand-ink">in your pocket.</span>
           </h2>
-          <p className="font-semibold font-stretch-semi-condensed text-[1.1875rem] leading-7 text-ink-muted max-w-[32.5rem]">
+          <p className="font-semibold font-stretch-semi-condensed text-[1.1875rem] leading-7 text-ink-muted max-w-130">
             The same boards, issues and updates on iOS and Android, designed for one-handed triage
             between meetings.
           </p>
@@ -132,7 +132,7 @@ export const Mobile = () => {
                 className="font-bold font-stretch-semi-condensed flex items-center gap-3 text-lg leading-6"
               >
                 <span className="grid shrink-0 place-items-center rounded-full size-8 bg-ink text-on-ink">
-                  <Check aria-hidden strokeWidth={2} className="size-[1.125rem] shrink-0" />
+                  <Check aria-hidden strokeWidth={2} className="size-4.5 shrink-0" />
                 </span>
                 {perk}
               </li>
