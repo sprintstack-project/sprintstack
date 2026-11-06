@@ -26,6 +26,7 @@ import { StorageModule } from './storage/storage.module.js';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
 import { UsersModule } from './users/users.module';
 import { WorkItemsModule } from './work-items/work-items.module.js';
+import { UserPreferenceModule } from './user-preference/user-preference.module.js';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { WorkItemsModule } from './work-items/work-items.module.js';
     SprintsModule,
     StorageModule,
     WorkItemsModule,
+    UserPreferenceModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [

@@ -1,6 +1,6 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
-import type { Auth } from '../auth/auth';
+import { Auth } from '@/auth/auth';
 import { ProjectModel } from './projects.model';
 import { ProjectsService } from './projects.service';
 

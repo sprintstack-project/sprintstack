@@ -26,6 +26,13 @@ type Comment {
   workItemId: ID!
 }
 
+input CreateUserPreferenceInput {
+  projectId: String!
+  theme: String
+  userId: String!
+  widgets: [String!]
+}
+
 input CreateWorkItemInput {
   assigneeId: ID
   atRisk: Boolean
@@ -71,6 +78,8 @@ enum Methodology {
 }
 
 type Mutation {
+  createUserPreferences(data: CreateUserPreferenceInput!, projectId: String!): UserPreference!
+
   """
   Create a new work item. The viewer is the reporter; it goes last in its group.
   """
@@ -96,6 +105,7 @@ type Mutation {
 
   """Update the current user in the active organization"""
   updateMe(email: String, image: String, name: String): UserSummary!
+  updateUserPreferences(data: UpdateUserPreferenceInput!, projectId: String!): UserPreference!
 }
 
 type Notification {
@@ -167,6 +177,7 @@ type Query {
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint!
   getUploadUrl(key: String!): UploadUrlModel!
+  getUserPreferences(projectId: String!): UserPreference!
 
   """Get the current user in the active organization"""
   me: UserSummary!
@@ -229,6 +240,11 @@ enum SprintState {
   planned
 }
 
+input UpdateUserPreferenceInput {
+  theme: String
+  widgets: [String!]
+}
+
 type UploadUrlFieldModel {
   name: String!
   value: String!
@@ -247,6 +263,15 @@ type User {
   image: String
   name: String!
   twoFactorEnabled: Boolean!
+}
+
+type UserPreference {
+  createdAt: DateTime!
+  id: ID!
+  theme: String!
+  updatedAt: DateTime!
+  userId: String!
+  widgets: [String!]!
 }
 
 type UserSummary {

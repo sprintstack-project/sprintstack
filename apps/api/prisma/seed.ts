@@ -5,7 +5,7 @@
 //
 // SEED_ORG can be left out when there's only one organization. Run it again whenever: the demo
 // people are upserted, and the Payments and iOS app projects (with their sprints, work items,
-// activity and attachments) and the demo people's time off are replaced. The organization's own members join both
+// activity, attachments and dashboard preferences) and the demo people's time off are replaced. The organization's own members join both
 // projects, so the signed-in person sees them.
 
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -545,6 +545,17 @@ const ATTACHMENTS: {
   },
 ];
 
+/**
+ * Dashboard layouts on Payments, as the keys in apps/web/.../dashboard/widgets. People left out
+ * get the defaults. Real members aren't seeded, so they start on the default layout too.
+ */
+const PREFERENCES: { person: Person; widgets: string[]; theme: 'light' | 'dark' }[] = [
+  { person: 'mira', widgets: ['burndown', 'status', 'activity', 'next-items'], theme: 'dark' },
+  { person: 'jonas', widgets: ['next-items', 'activity'], theme: 'dark' },
+  { person: 'dev', widgets: ['next-items', 'status', 'burndown'], theme: 'light' },
+  { person: 'tom', widgets: ['status', 'activity'], theme: 'light' },
+];
+
 // -----------------------------------------------------------------------------------------------
 
 /** Fractional-index ranks in order (a0, a1, … aZ, az), as generateNKeysBetween would give. */
@@ -718,6 +729,15 @@ const seedPayments = async (organizationId: string) => {
         createdAt: at(attachment.at),
       };
     }),
+  });
+
+  await prisma.userPreference.createMany({
+    data: PREFERENCES.map(({ person, widgets, theme }) => ({
+      userId: userId(person),
+      projectId: project.id,
+      widgets,
+      theme,
+    })),
   });
 
   return project;
