@@ -1,5 +1,21 @@
-import { Client, fetchExchange, mapExchange } from '@urql/core';
+import { Client, type Exchange, fetchExchange, mapExchange } from '@urql/core';
+import { filter, pipe } from 'wonka';
 import { createCache } from './cache';
+
+/**
+ * The server render's only exchange: it drops every operation, so queries stay loading. Running
+ * the real exchanges there would be wasted work, and in development urql stamps each exchange's
+ * debug events with `Date.now()`, which Next's prerender (cacheComponents) rejects.
+ */
+const serverExchange: Exchange =
+  ({ forward }) =>
+  (operations$) =>
+    forward(
+      pipe(
+        operations$,
+        filter(() => false),
+      ),
+    );
 
 export interface ApiClientOptions {
   /** The GraphQL endpoint: `/api/graphql` on web (rewritten to the API), the API's URL on native. */
@@ -26,17 +42,19 @@ export const createApiClient = ({
     fetch,
     // POST with a JSON body for queries too: the API's CSRF protection blocks plain GETs.
     preferGetMethod: false,
-    exchanges: [
-      mapExchange({
-        onError(error) {
-          const unauthenticated =
-            error.response?.status === 401 ||
-            error.graphQLErrors.some((e) => e.extensions?.code === 'UNAUTHENTICATED');
-          if (unauthenticated) onUnauthenticated?.();
-        },
-      }),
-      createCache(),
-      ...(serverRender ? [] : [fetchExchange]),
-    ],
+    exchanges: serverRender
+      ? [serverExchange]
+      : [
+          mapExchange({
+            onError(error) {
+              const unauthenticated =
+                error.response?.status === 401 ||
+                error.graphQLErrors.some((e) => e.extensions?.code === 'UNAUTHENTICATED');
+              if (unauthenticated) onUnauthenticated?.();
+            },
+          }),
+          createCache(),
+          fetchExchange,
+        ],
   });
 };
