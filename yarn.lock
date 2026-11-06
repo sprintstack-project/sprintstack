@@ -5722,10 +5722,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:^1.63.1":
+  version: 1.64.1
+  resolution: "@posthog/core@npm:1.64.1"
+  dependencies:
+    "@posthog/types": "npm:^1.421.0"
+  checksum: 10c0/079d03cc7203d3af70478dba428f563acc55208e45b7b22b844fab23c54f270f1a39084944c2b7c64dcdea65fa9000adce3b65d4cd89a93d12322f7cb8b7f943
+  languageName: node
+  linkType: hard
+
+"@posthog/react-native-plugin@npm:^2.13.0":
+  version: 2.13.0
+  resolution: "@posthog/react-native-plugin@npm:2.13.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/a98d067209df31a5e8359e8297280cbab96289ebdfa9c20fc51c258ecc14094fd3d8cc494bf358c893c5b80077fb20c5c1cfec612cfbb5d58602e8e93191683c
+  languageName: node
+  linkType: hard
+
 "@posthog/types@npm:^1.418.0, @posthog/types@npm:^1.419.0":
   version: 1.419.0
   resolution: "@posthog/types@npm:1.419.0"
   checksum: 10c0/335d7da35e46f2cbe1bebb8bfaadfe5a34d561cf816b97bb3b33b7216158c44a2242069ac09d49c24e431348168a5c7e34f07245d79c503d8161a414bfa98672
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:^1.421.0":
+  version: 1.421.1
+  resolution: "@posthog/types@npm:1.421.1"
+  checksum: 10c0/44315d63b9426b92c63fc137650a87025b2e3f06448d8213143935faa2d3f2cc8bd42df0fb30a894e9e0d9da9f618c5116ef5e758ee87dbdbbc69a6cb949e759
   languageName: node
   linkType: hard
 
@@ -12355,6 +12381,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-file-system@npm:~58.0.13":
+  version: 58.0.13
+  resolution: "expo-file-system@npm:58.0.13"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 10c0/e68fb7b8ee0b99c0683037f9754e90d176bcfae4ce823f3e2c1fcede9cebf4428a420e529c870b10af3e6b3a2160933b652b700ca68d57f08960512764868c66
+  languageName: node
+  linkType: hard
+
 "expo-font@npm:~58.0.9":
   version: 58.0.9
   resolution: "expo-font@npm:58.0.9"
@@ -12455,6 +12491,18 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/02ddf57e74383949a5f9c3ceaf11a72e25b071ac28a92392036bd8f51e6769585b060870fb87337e88c4e2df82d89f8d8d848a57a3713d626f7b9de835cbe581
+  languageName: node
+  linkType: hard
+
+"expo-localization@npm:~58.0.5":
+  version: 58.0.5
+  resolution: "expo-localization@npm:58.0.5"
+  dependencies:
+    rtl-detect: "npm:^1.0.2"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+  checksum: 10c0/ea82b918a84ad9a5fd3eb220b5bd0f08cfa6960c99dbfdc27a1ae9fde1e37466415bb37e887617c44ae4a1196076c51badb2389952642f7ff70ef5bed4eb93da
   languageName: node
   linkType: hard
 
@@ -15847,6 +15895,7 @@ __metadata:
     "@better-auth/expo": "npm:^1.7.12"
     "@expo-google-fonts/archivo": "npm:^0.4.2"
     "@expo/ui": "npm:~58.0.22"
+    "@posthog/react-native-plugin": "npm:^2.13.0"
     "@react-native-firebase/app": "npm:^27.1.0"
     "@react-native-firebase/crashlytics": "npm:^27.1.0"
     "@react-native-firebase/installations": "npm:^27.1.0"
@@ -15859,10 +15908,12 @@ __metadata:
     better-auth: "npm:^1.7.12"
     date-fns: "npm:^4.4.0"
     expo: "npm:~58.0.17"
+    expo-application: "npm:~58.1.2"
     expo-build-properties: "npm:~58.0.12"
     expo-clipboard: "npm:~58.0.4"
     expo-constants: "npm:~58.0.13"
     expo-device: "npm:~58.0.5"
+    expo-file-system: "npm:~58.0.13"
     expo-font: "npm:~58.0.9"
     expo-glass-effect: "npm:~58.0.4"
     expo-haptics: "npm:~58.0.7"
@@ -15870,6 +15921,7 @@ __metadata:
     expo-image-picker: "npm:~58.0.10"
     expo-linear-gradient: "npm:~58.0.3"
     expo-linking: "npm:~58.0.14"
+    expo-localization: "npm:~58.0.5"
     expo-network: "npm:~58.0.4"
     expo-notifications: "npm:~58.1.7"
     expo-restore-credentials: "npm:^0.1.1"
@@ -15881,7 +15933,7 @@ __metadata:
     expo-system-ui: "npm:~58.0.6"
     expo-web-browser: "npm:~58.0.6"
     lucide-react-native: "npm:^1.61.0"
-    posthog-react-native: "npm:^4.85.1"
+    posthog-react-native: "npm:^4.85.3"
     react: "npm:19.3.0"
     react-dom: "npm:19.3.0"
     react-native: "npm:0.88.0"
@@ -17143,11 +17195,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-react-native@npm:^4.85.1":
-  version: 4.85.1
-  resolution: "posthog-react-native@npm:4.85.1"
+"posthog-react-native@npm:^4.85.3":
+  version: 4.85.3
+  resolution: "posthog-react-native@npm:4.85.3"
   dependencies:
-    "@posthog/core": "npm:^1.62.0"
+    "@posthog/core": "npm:^1.63.1"
     "@posthog/types": "npm:^1.419.0"
   peerDependencies:
     "@posthog/react-native-plugin": ">= 2.12.7"
@@ -17195,7 +17247,7 @@ __metadata:
       optional: true
   bin:
     posthog-react-native-xcode: tooling/posthog-xcode.sh
-  checksum: 10c0/35ae536234d1ff98e0a77bde4adf3238419a0b1561c69175cb5e262fce180f88f686dc44891081ea02f0488e7840396638f5949cc62cb35280d629ea9b116a1f
+  checksum: 10c0/440eea801fb8569cb72e16555908e77d43a4d49797d81ae21bafb496be3ef7193c6a4d317efb98bcf886fe0526eff01ca7d71070b144e0f6859fe16ea053022f
   languageName: node
   linkType: hard
 
@@ -18503,6 +18555,13 @@ __metadata:
     parseurl: "npm:^1.3.3"
     path-to-regexp: "npm:^8.0.0"
   checksum: 10c0/3279de7450c8eae2f6e095e9edacbdeec0abb5cb7249c6e719faa0db2dba43574b4fff5892d9220631c9abaff52dd3cad648cfea2aaace845e1a071915ac8867
+  languageName: node
+  linkType: hard
+
+"rtl-detect@npm:^1.0.2":
+  version: 1.1.2
+  resolution: "rtl-detect@npm:1.1.2"
+  checksum: 10c0/1b92888aafca1593314f837e83fdf02eb208faae3e713ab87c176804728efd3b1980d53b64f65f1fa593348087e852c5cd729b7b9372950f6e9b7be489afc0ca
   languageName: node
   linkType: hard
 

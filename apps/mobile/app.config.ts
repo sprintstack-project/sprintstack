@@ -13,19 +13,22 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     posthogProjectToken: process.env.POSTHOG_PROJECT_TOKEN,
     posthogHost: process.env.POSTHOG_HOST,
+    eas: {
+      projectId: 'b32be819-55db-4421-994f-8291db7fb472',
+    },
   },
   ios: {
     icon: './assets/images/icon.png',
     bundleIdentifier: 'com.sprintstack.app',
     supportsTablet: true,
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Associated Domains)
-    // associatedDomains: ['webcredentials:sprintstack.io'],
+    associatedDomains: ['webcredentials:sprintstack.io'],
     // Pushes (src/lib/push.ts): Firebase console → Project settings → Your apps → the iOS app.
     googleServicesFile: './firebase/dev/GoogleService-Info.plist',
     // TODO: re-enable once on a paid Apple Developer account (free accounts can't sign Push
     // Notifications). Until then iOS gets no pushes; the bell refreshes when the app opens.
-    // entitlements: { 'aps-environment': 'production' },
-    // infoPlist: { UIBackgroundModes: ['remote-notification'] },
+    entitlements: { 'aps-environment': 'production' },
+    infoPlist: { UIBackgroundModes: ['remote-notification'], ITSAppUsesNonExemptEncryption: false },
   },
   android: {
     adaptiveIcon: {
@@ -80,6 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     '@react-native-firebase/crashlytics',
     // Firebase's Apple SDK ships as dynamic frameworks only.
     ['expo-build-properties', { ios: { useFrameworks: 'dynamic' } }],
+    'posthog-react-native/expo',
   ],
   experiments: {
     typedRoutes: true,
