@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Checkbox } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Checkbox from '@ui/checkbox';
 import { Copy, Download, Printer } from 'lucide-react';
 import { useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';

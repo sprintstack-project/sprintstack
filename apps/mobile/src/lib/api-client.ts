@@ -1,4 +1,4 @@
-import { createApiClient } from '@sprintstack/api-client';
+import { createApiClient } from '@sprintstack/api-client/client';
 import { authClient } from './auth-client';
 import { hostUrl } from './host-url';
 import { signOut } from './restore-key';

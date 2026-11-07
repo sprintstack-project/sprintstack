@@ -2,7 +2,7 @@ import { scaled, touchSlop } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { isImageUrl } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Text } from '@ui/text';
+import Text from '@ui/text';
 import type { HeaderNotification, HeaderNotifications } from '@ui/types';
 import { clsx } from 'clsx';
 import { Bell, BellOff, BellRing } from 'lucide-react-native';

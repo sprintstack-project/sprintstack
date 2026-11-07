@@ -2,15 +2,15 @@
 
 import { Dialog } from '@base-ui/react/dialog';
 import { PortalContainerProvider } from '@lib/portal-container';
-import { useAppForm } from '@sprintstack/forms';
+import { useAppForm } from '@sprintstack/forms/form';
 import {
   INVITE_ROLE_LABEL,
   INVITE_ROLES,
   type InviteInput,
   type InviteRole,
   inviteSchema,
-} from '@sprintstack/shared';
-import { Button } from '@ui/button';
+} from '@sprintstack/shared/schemas/organization';
+import Button from '@ui/button';
 import { clsx } from 'clsx';
 import { format } from 'date-fns';
 import { X } from 'lucide-react';

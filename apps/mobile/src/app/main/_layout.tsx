@@ -1,6 +1,8 @@
-import { useGetMe } from '@sprintstack/api-client';
-import { useProjectSwitcher } from '@sprintstack/shared/hooks';
-import { type Option, Sidebar, type SidebarUser, Text, useSidebar } from '@sprintstack/ui';
+import { useGetMe } from '@sprintstack/api-client/users';
+import { useProjectSwitcher } from '@sprintstack/shared/hooks/main/use-project-switcher';
+import Sidebar, { useSidebar } from '@ui/sidebar';
+import Text from '@ui/text';
+import type { Option, SidebarUser } from '@ui/types';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { LogOut } from 'lucide-react-native';

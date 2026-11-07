@@ -1,5 +1,5 @@
-import { Skeleton } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Skeleton from '@ui/skeleton';
 import type { ReactNode } from 'react';
 import { expect } from 'storybook/test';
 
@@ -14,7 +14,7 @@ const meta = {
 Blocks are hidden from screen readers. Put them in \`LoadState\`, which waits 300 ms before showing them and announces the load once.
 
 \`\`\`tsx
-import { Skeleton } from '@sprintstack/ui';
+import Skeleton from '@ui/skeleton';
 
 <Skeleton lines={3} />                 // a paragraph
 <Skeleton shape="heading" width={220} />

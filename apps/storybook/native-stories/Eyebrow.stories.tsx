@@ -1,5 +1,5 @@
-import { Eyebrow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Eyebrow from '@ui/eyebrow';
 
 const meta = {
   title: 'UI/Eyebrow',

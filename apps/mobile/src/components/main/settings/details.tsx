@@ -1,7 +1,15 @@
 import { scaled } from '@lib/scale';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { PROJECT_DESCRIPTION_MAX_LENGTH, projectDetailsSchema } from '@sprintstack/shared';
-import { Button, Field, Section, Text, useSidebar } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import {
+  PROJECT_DESCRIPTION_MAX_LENGTH,
+  projectDetailsSchema,
+} from '@sprintstack/shared/schemas/project';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Section from '@ui/section';
+import { useSidebar } from '@ui/sidebar';
+import Text from '@ui/text';
 import { Archive, ImageIcon } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';

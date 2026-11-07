@@ -1,5 +1,6 @@
-import { DatePicker, Field } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import DatePicker from '@ui/date-picker';
+import Field from '@ui/field';
 import { fn } from 'storybook/test';
 
 // Dates relative to today so the stories never go stale.

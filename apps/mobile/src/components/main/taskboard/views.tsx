@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { itemHref, type WorkItem } from './data';

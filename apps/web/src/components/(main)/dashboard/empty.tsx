@@ -1,6 +1,6 @@
-import { Button } from '@ui/button';
-import { Card } from '@ui/card';
-import { EmptyState } from '@ui/empty-state';
+import Button from '@ui/button';
+import Card from '@ui/card';
+import EmptyState from '@ui/empty-state';
 import { ChartNoAxesGantt, Check, ChevronRight, Clock, ListTodo } from 'lucide-react';
 import Link from 'next/link';
 import { SETUP_STEPS } from './data';

@@ -1,4 +1,4 @@
-import { Badge } from '@ui/badge';
+import Badge from '@ui/badge';
 import Link from 'next/link';
 import { itemHref, type WorkItem } from './data';
 import { Avatar, Points, PriorityIcon, stretchedLink, Tag, TypeIcon } from './parts';

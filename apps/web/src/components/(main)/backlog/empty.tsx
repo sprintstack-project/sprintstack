@@ -1,5 +1,5 @@
-import { Button } from '@ui/button';
-import { EmptyState } from '@ui/empty-state';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
 import { PlusIcon } from 'lucide-react';
 import type { ItemType } from '../taskboard/data';
 import { TypeIcon } from '../taskboard/parts';

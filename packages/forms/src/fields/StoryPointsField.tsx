@@ -1,4 +1,5 @@
-import { StoryPoints, type StoryPointsProps } from '@sprintstack/ui';
+import StoryPoints from '@ui/story-points';
+import type { StoryPointsProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

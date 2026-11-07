@@ -1,4 +1,4 @@
-import { useSidebar } from '@sprintstack/ui';
+import { useSidebar } from '@ui/sidebar';
 import { MainScreen } from '@/components/main/main-screen';
 import { Settings } from '@/components/main/settings';
 import { SettingsSection } from '@/components/main/settings/split';

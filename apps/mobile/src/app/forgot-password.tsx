@@ -1,6 +1,7 @@
-import { useAppForm } from '@sprintstack/forms';
-import { forgotPasswordSchema } from '@sprintstack/shared';
-import { Button, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { forgotPasswordSchema } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import Text from '@ui/text';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';

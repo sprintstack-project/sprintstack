@@ -1,5 +1,6 @@
-import { Field, InputPassword } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import InputPassword from '@ui/input-password';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,8 @@ const meta = {
         component: `A 56px password field with a show/hide toggle. Wrap it in \`Field\` like every other control.
 
 \`\`\`tsx
-import { Field, InputPassword } from '@sprintstack/ui';
+import Field from '@ui/field';
+import InputPassword from '@ui/input-password';
 
 <Field label="Password" error={errors.password}>
   <InputPassword value={password} onChange={setPassword} onBlur={validate} />

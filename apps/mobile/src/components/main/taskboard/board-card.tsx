@@ -1,4 +1,5 @@
-import { Badge, Text } from '@sprintstack/ui';
+import Badge from '@ui/badge';
+import Text from '@ui/text';
 import { View } from 'react-native';
 import type { WorkItem } from './data';
 import { Avatar, Points, PriorityIcon, Tag, TypeIcon } from './parts';

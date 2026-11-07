@@ -2,7 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card } from '@ui/card';
+import Card from '@ui/card';
 import { GripVertical, SquareArrowOutUpRight, X } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';

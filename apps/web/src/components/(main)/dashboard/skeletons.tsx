@@ -1,4 +1,4 @@
-import { Card } from '@ui/card';
+import Card from '@ui/card';
 
 // Suspense fallbacks for the dashboard, shaped like what they stand in for so nothing shifts when
 // the data streams in. No hooks, so they render in the server's first flush.

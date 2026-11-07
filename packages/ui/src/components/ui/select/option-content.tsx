@@ -1,5 +1,5 @@
 import { isImageUrl } from '@lib/status';
-import { Badge } from '@ui/badge';
+import Badge from '@ui/badge';
 import type { Option } from '@ui/types';
 
 /** What an option shows, in the menu and in the trigger: icon or avatar, then a badge or label. */

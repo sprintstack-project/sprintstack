@@ -1,5 +1,6 @@
-import { Section, ToggleRow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Section from '@ui/section';
+import ToggleRow from '@ui/toggle-row';
 import { View } from 'react-native';
 
 const meta = {

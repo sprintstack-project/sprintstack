@@ -1,4 +1,6 @@
-import { DatePicker, type DatePickerProps, Field, type FieldProps } from '@sprintstack/ui';
+import DatePicker from '@ui/date-picker';
+import Field from '@ui/field';
+import type { DatePickerProps, FieldProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

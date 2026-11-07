@@ -1,5 +1,7 @@
-import { Button, LoadState, Skeleton } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import LoadState from '@ui/load-state';
+import Skeleton from '@ui/skeleton';
 import { useRef, useState } from 'react';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 
@@ -18,7 +20,8 @@ const meta = {
 - **Announce once**: the container is \`aria-busy\`, \`label\` is announced politely when the skeleton appears, and the blocks are hidden.
 
 \`\`\`tsx
-import { LoadState, Skeleton } from '@sprintstack/ui';
+import LoadState from '@ui/load-state';
+import Skeleton from '@ui/skeleton';
 
 <LoadState
   loading={query.isPending}

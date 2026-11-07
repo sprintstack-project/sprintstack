@@ -1,5 +1,6 @@
-import { ProgressBar, Text } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import ProgressBar from '@ui/progress-bar';
+import Text from '@ui/text';
 import { View } from 'react-native';
 
 const meta = {

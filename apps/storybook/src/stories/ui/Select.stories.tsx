@@ -1,5 +1,6 @@
-import { Field, Select } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import Select from '@ui/select';
 import { Calendar, Clock, Equal, Flag, Trash2 } from 'lucide-react';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
 
@@ -34,7 +35,7 @@ const meta = {
         component: `A field-shaped trigger that opens a menu. Options can carry an \`icon\`, \`avatar\`, \`status\` (shown as a badge), \`description\`, \`disabled\`, \`danger\`, or an \`action\` that runs instead of selecting.
 
 \`\`\`tsx
-import { Select } from '@sprintstack/ui';
+import Select from '@ui/select';
 import { Clock, Trash2 } from 'lucide-react';
 
 <Select

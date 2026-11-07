@@ -1,4 +1,5 @@
-import { HeadlineInput, type HeadlineInputProps } from '@sprintstack/ui';
+import HeadlineInput from '@ui/headline-input';
+import type { HeadlineInputProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

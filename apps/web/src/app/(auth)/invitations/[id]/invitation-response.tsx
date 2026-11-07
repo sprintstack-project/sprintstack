@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@sprintstack/ui';
+import Button from '@ui/button';
 import { MailOpen } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

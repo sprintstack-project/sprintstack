@@ -1,4 +1,6 @@
-import { Field, type FieldProps, NumberInput, type NumberInputProps } from '@sprintstack/ui';
+import Field from '@ui/field';
+import NumberInput from '@ui/number-input';
+import type { FieldProps, NumberInputProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

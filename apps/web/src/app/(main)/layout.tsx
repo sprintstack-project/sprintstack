@@ -1,17 +1,12 @@
 'use client';
 
-import { useGetMe } from '@sprintstack/api-client';
-import { initialsOf } from '@sprintstack/shared';
-import { useProjectSwitcher } from '@sprintstack/shared/hooks';
-import {
-  type CommandGroup,
-  CommandPalette,
-  Header,
-  type Option,
-  Sidebar,
-  type SidebarSection,
-  type Theme,
-} from '@sprintstack/ui';
+import { useGetMe } from '@sprintstack/api-client/users';
+import { useProjectSwitcher } from '@sprintstack/shared/hooks/main/use-project-switcher';
+import { initialsOf } from '@sprintstack/shared/initials';
+import CommandPalette from '@ui/command-palette';
+import Header from '@ui/header';
+import Sidebar from '@ui/sidebar';
+import type { CommandGroup, Option, SidebarSection, Theme } from '@ui/types';
 import {
   ChartNoAxesGantt,
   LayoutDashboard,

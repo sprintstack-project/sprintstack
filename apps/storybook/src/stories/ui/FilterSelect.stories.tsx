@@ -1,5 +1,5 @@
-import { FilterSelect } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import FilterSelect from '@ui/filter-select';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const sprints = [
@@ -16,7 +16,7 @@ const meta = {
         component: `A toolbar filter: an outlined pill reading "Label Value ⌄" that opens the Select menu. Forms use Select.
 
 \`\`\`tsx
-import { FilterSelect } from '@sprintstack/ui';
+import FilterSelect from '@ui/filter-select';
 
 <FilterSelect label="Sprint" options={sprints} value={sprint} onValueChange={setSprint} />
 <FilterSelect label="Status" options={statuses} value={status} onValueChange={setStatus} count={3} />

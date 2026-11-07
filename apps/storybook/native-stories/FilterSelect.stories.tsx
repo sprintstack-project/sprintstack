@@ -1,5 +1,5 @@
-import { FilterSelect } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import FilterSelect from '@ui/filter-select';
 import { ScrollView, View } from 'react-native';
 import { fn } from 'storybook/test';
 

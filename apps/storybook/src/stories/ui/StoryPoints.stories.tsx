@@ -1,5 +1,5 @@
-import { StoryPoints } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import StoryPoints from '@ui/story-points';
 import { expect, fn, screen, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `Story points as a row of toggles on the usual scale; the rarer values (and "No estimate") sit behind "…". Picking the chosen value again clears it. In a form, use \`f.StoryPointsField\`.
 
 \`\`\`tsx
-import { StoryPoints } from '@sprintstack/ui';
+import StoryPoints from '@ui/story-points';
 
 <StoryPoints value={points} onValueChange={setPoints} />
 \`\`\``,

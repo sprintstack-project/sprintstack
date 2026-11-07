@@ -1,5 +1,5 @@
-import { HeadlineInput } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import HeadlineInput from '@ui/headline-input';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `A title written as the page's headline, e.g. a new work item's. One line that wraps; Enter doesn't break it (⌘↵ still bubbles, so a form can submit). The label is the accessible name only. In a form, use \`f.HeadlineField\`.
 
 \`\`\`tsx
-import { HeadlineInput } from '@sprintstack/ui';
+import HeadlineInput from '@ui/headline-input';
 
 <HeadlineInput label="Title" placeholder="What needs doing?" value={title} onChange={setTitle} />
 \`\`\``,

@@ -1,11 +1,16 @@
 'use client';
 
 import { twMerge } from '@lib/tw-merge';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { PROJECT_DESCRIPTION_MAX_LENGTH, projectDetailsSchema } from '@sprintstack/shared';
-import { Button, buttonClass } from '@ui/button';
-import { Field } from '@ui/field';
-import { Section } from '@ui/section';
+import { useAppForm } from '@sprintstack/forms/form';
+import {
+  PROJECT_DESCRIPTION_MAX_LENGTH,
+  projectDetailsSchema,
+} from '@sprintstack/shared/schemas/project';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
+import { buttonClass } from '@ui/button/button-class';
+import Field from '@ui/field';
+import Section from '@ui/section';
 import { Archive, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useId, useRef, useState } from 'react';

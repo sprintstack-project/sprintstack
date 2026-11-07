@@ -1,5 +1,6 @@
-import { Button, ButtonGroup } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import ButtonGroup from '@ui/button-group';
 
 const meta = {
   title: 'UI/ButtonGroup',

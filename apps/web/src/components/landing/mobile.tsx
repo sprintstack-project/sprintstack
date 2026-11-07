@@ -1,4 +1,6 @@
-import { Badge, buttonClass, type StatusTone } from '@sprintstack/ui';
+import Badge from '@ui/badge';
+import { buttonClass } from '@ui/button/button-class';
+import type { StatusTone } from '@ui/types';
 import {
   Check,
   ChevronLeft,

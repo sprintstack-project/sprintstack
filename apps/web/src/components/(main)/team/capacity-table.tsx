@@ -1,6 +1,6 @@
 'use client';
 
-import Select from '@ui/select/select';
+import { SelectWithTrigger as Select } from '@ui/select';
 import { clsx } from 'clsx';
 import { CalendarPlus, Ellipsis, Minus, Plus, RotateCcw } from 'lucide-react';
 import { Avatar } from '../taskboard/parts';

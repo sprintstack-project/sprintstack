@@ -1,5 +1,6 @@
-import { Field, TextArea } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import TextArea from '@ui/text-area';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,8 @@ const meta = {
         component: `The multi-line field. Grows with its content up to 320px. With \`maxLength\` it shows a counter; past the limit the counter turns red and the field is invalid, but the text is never cut off.
 
 \`\`\`tsx
-import { Field, TextArea } from '@sprintstack/ui';
+import Field from '@ui/field';
+import TextArea from '@ui/text-area';
 
 <Field label="Release note" description="Visible to customers">
   <TextArea value={note} onChange={setNote} maxLength={140} rows={4} />

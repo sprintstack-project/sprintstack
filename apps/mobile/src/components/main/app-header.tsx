@@ -1,11 +1,7 @@
-import {
-  type CommandGroup,
-  CommandPalette,
-  Header,
-  type SidebarProject,
-  type SidebarUser,
-  useSidebar,
-} from '@sprintstack/ui';
+import CommandPalette from '@ui/command-palette';
+import Header from '@ui/header';
+import { useSidebar } from '@ui/sidebar';
+import type { CommandGroup, SidebarProject, SidebarUser } from '@ui/types';
 import { type Href, router, useSegments } from 'expo-router';
 import { SunMoon } from 'lucide-react-native';
 import { useState } from 'react';

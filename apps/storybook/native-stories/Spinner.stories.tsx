@@ -1,5 +1,6 @@
-import { Spinner, Text } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Spinner from '@ui/spinner';
+import Text from '@ui/text';
 import { View } from 'react-native';
 
 const meta = {

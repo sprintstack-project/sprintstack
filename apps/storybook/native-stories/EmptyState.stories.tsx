@@ -1,5 +1,6 @@
-import { Button, EmptyState } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
 import { Check, Clock, Plus } from 'lucide-react-native';
 import { View } from 'react-native';
 

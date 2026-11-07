@@ -1,5 +1,7 @@
-import { Field, type MentionItem, type RichTextDoc, RichTextEditor } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import RichTextEditor from '@ui/rich-text-editor';
+import type { MentionItem, RichTextDoc } from '@ui/types';
 import { useState } from 'react';
 import { expect, fireEvent, fn, spyOn, userEvent, waitFor, within } from 'storybook/test';
 
@@ -54,7 +56,9 @@ const meta = {
         component: `Issue descriptions and comments. Stores Tiptap JSON on web (Tiptap) and native (10tap-editor). It keeps its own state while you type; a new \`value\` from outside (like \`form.reset\` after data loads) replaces the content, with no \`key\` needed.
 
 \`\`\`tsx
-import { Field, RichTextEditor, richTextToPlainText } from '@sprintstack/ui';
+import Field from '@ui/field';
+import RichTextEditor from '@ui/rich-text-editor';
+import { richTextToPlainText } from '@lib/rich-text';
 
 <Field label="Description">
   <RichTextEditor value={doc} onChange={setDoc} placeholder="Steps to reproduce" />

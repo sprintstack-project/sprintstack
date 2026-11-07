@@ -1,5 +1,5 @@
-import { Stepper } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Stepper from '@ui/stepper';
 
 const meta = {
   title: 'UI/Stepper',

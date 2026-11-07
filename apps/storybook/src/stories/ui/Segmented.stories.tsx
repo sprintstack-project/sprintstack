@@ -1,5 +1,5 @@
-import { Segmented } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Segmented from '@ui/segmented';
 import { Sparkles, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
@@ -13,7 +13,7 @@ const meta = {
         component: `One required choice from a few options, as a row of buttons in a grey track; the chosen one is filled with ink. For story points (which can be cleared and have an overflow menu) use \`StoryPoints\`.
 
 \`\`\`tsx
-import { Segmented } from '@sprintstack/ui';
+import Segmented from '@ui/segmented';
 
 <Segmented label="Scale" choices={scales} value={scale} onValueChange={setScale} />
 \`\`\``,

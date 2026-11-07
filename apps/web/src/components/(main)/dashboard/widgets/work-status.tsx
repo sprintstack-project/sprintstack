@@ -1,4 +1,4 @@
-import { Badge } from '@ui/badge';
+import Badge from '@ui/badge';
 import type { StatusTone } from '@ui/types';
 import { use } from 'react';
 import type { StatusSummary } from '../data';

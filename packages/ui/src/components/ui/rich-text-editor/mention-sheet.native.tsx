@@ -1,7 +1,7 @@
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import SearchBox from '@ui/select/search-box';
-import { Text } from '@ui/text';
+import Text from '@ui/text';
 import type { MentionItem, RichTextEditorProps } from '@ui/types';
 import { clsx } from 'clsx';
 import { type RefObject, useEffect, useRef, useState } from 'react';

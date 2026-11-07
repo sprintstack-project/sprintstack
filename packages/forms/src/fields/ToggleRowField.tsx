@@ -1,4 +1,5 @@
-import { ToggleRow, type ToggleRowProps } from '@sprintstack/ui';
+import ToggleRow from '@ui/toggle-row';
+import type { ToggleRowProps } from '@ui/types';
 import { useFieldContext } from '../context';
 
 type Bound = 'checked' | 'onCheckedChange';

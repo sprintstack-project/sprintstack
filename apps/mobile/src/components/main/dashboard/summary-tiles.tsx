@@ -1,5 +1,6 @@
 import { scaled } from '@lib/scale';
-import { Card, Text } from '@sprintstack/ui';
+import Card from '@ui/card';
+import Text from '@ui/text';
 import { format } from 'date-fns';
 import { type Href, router } from 'expo-router';
 import { ArrowRight } from 'lucide-react-native';

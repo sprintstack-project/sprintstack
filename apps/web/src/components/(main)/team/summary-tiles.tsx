@@ -1,4 +1,4 @@
-import { Card } from '@ui/card';
+import Card from '@ui/card';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { formatDays, type summaryOf, VELOCITY } from './data';

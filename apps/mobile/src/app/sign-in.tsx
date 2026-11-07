@@ -1,6 +1,8 @@
-import { useAppForm } from '@sprintstack/forms';
-import { type SignInInput, signInSchema } from '@sprintstack/shared';
-import { Button, GitHubIcon, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { type SignInInput, signInSchema } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import GitHubIcon from '@ui/github-icon';
+import Text from '@ui/text';
 import { router } from 'expo-router';
 import { KeyRound } from 'lucide-react-native';
 import { useState } from 'react';

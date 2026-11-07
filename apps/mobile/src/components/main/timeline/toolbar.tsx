@@ -1,6 +1,7 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { FilterSelect, Text } from '@sprintstack/ui';
-import Select from '@ui/select/select';
+import FilterSelect from '@ui/filter-select';
+import { SelectWithTrigger as Select } from '@ui/select';
+import Text from '@ui/text';
 import { Calendar, ChevronDown, Sparkles, Zap } from 'lucide-react-native';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';

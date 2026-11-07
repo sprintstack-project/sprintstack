@@ -1,5 +1,6 @@
-import { Field, NumberInput } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import NumberInput from '@ui/number-input';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,8 @@ const meta = {
         component: `A stepper: minus, the value, plus. Steppers stop at \`min\`/\`max\`; typed values outside the range stay as typed and are flagged, so put the range in the Field's error.
 
 \`\`\`tsx
-import { Field, NumberInput } from '@sprintstack/ui';
+import Field from '@ui/field';
+import NumberInput from '@ui/number-input';
 
 <Field label="Story points" error={points > 21 ? 'Story points go up to 21' : undefined}>
   <NumberInput value={points} onValueChange={setPoints} min={0} max={21} />

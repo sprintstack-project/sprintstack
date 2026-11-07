@@ -1,4 +1,4 @@
-import { Badge } from '@ui/badge';
+import Badge from '@ui/badge';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { itemHref, type WorkItem } from './data';

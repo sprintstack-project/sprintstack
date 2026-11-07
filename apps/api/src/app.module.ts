@@ -24,9 +24,9 @@ import { RobotsController } from './robots/robots.controller';
 import { SprintsModule } from './sprints/sprints.module.js';
 import { StorageModule } from './storage/storage.module.js';
 import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
+import { UserPreferenceModule } from './user-preference/user-preference.module.js';
 import { UsersModule } from './users/users.module';
 import { WorkItemsModule } from './work-items/work-items.module.js';
-import { UserPreferenceModule } from './user-preference/user-preference.module.js';
 
 @Module({
   imports: [

@@ -1,4 +1,6 @@
-import { Field, type FieldProps, MultiSelect, type MultiSelectProps } from '@sprintstack/ui';
+import Field from '@ui/field';
+import MultiSelect from '@ui/multi-select';
+import type { FieldProps, MultiSelectProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

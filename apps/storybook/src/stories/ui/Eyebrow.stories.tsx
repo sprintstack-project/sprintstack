@@ -1,5 +1,5 @@
-import { Eyebrow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Eyebrow from '@ui/eyebrow';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `A small uppercase overline. Set \`heading\` when it names the content under it, e.g. a group of settings.
 
 \`\`\`tsx
-import { Eyebrow } from '@sprintstack/ui';
+import Eyebrow from '@ui/eyebrow';
 
 <Eyebrow heading>Administration</Eyebrow>
 \`\`\``,

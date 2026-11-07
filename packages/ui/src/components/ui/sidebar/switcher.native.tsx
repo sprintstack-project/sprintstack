@@ -1,6 +1,6 @@
 import { isImageUrl } from '@lib/status';
-import Select from '@ui/select/select';
-import { Text } from '@ui/text';
+import { SelectWithTrigger as Select } from '@ui/select';
+import Text from '@ui/text';
 import type { SidebarSwitcher } from '@ui/types';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';

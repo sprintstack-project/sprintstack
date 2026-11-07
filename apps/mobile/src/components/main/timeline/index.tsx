@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Chart } from './chart';

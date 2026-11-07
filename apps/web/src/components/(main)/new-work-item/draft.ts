@@ -1,4 +1,4 @@
-import type { WorkItemInput } from '@sprintstack/shared';
+import type { WorkItemInput } from '@sprintstack/shared/schemas/work-item';
 import { emptyWorkItem } from './data';
 import type { Upload } from './use-uploads';
 

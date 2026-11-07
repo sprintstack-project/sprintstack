@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { View } from 'react-native';
 import { Avatar } from '../taskboard/parts';
 import {

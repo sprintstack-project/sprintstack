@@ -47,18 +47,14 @@ module.exports = function withAndroidSigning(config, props) {
   for (const cfg of configsToCheck) {
     for (const key of required) {
       if (!cfg[key]) {
-        throw new Error(
-          `withAndroidSigning: missing "${key}" in signing config`,
-        );
+        throw new Error(`withAndroidSigning: missing "${key}" in signing config`);
       }
     }
   }
 
   return withAppBuildGradle(config, (config) => {
     if (config.modResults.language !== 'groovy') {
-      throw new Error(
-        'withAndroidSigning: can only patch groovy build.gradle files',
-      );
+      throw new Error('withAndroidSigning: can only patch groovy build.gradle files');
     }
 
     const projectRoot = config.modRequest.projectRoot;
@@ -69,9 +65,7 @@ module.exports = function withAndroidSigning(config, props) {
       const abs = path.isAbsolute(p) ? p : path.resolve(projectRoot, p);
       if (!fs.existsSync(abs)) {
         // warn, don't fail — gradle will surface a clearer error at build time
-        console.warn(
-          `withAndroidSigning: ${label} keystore not found at ${abs}`,
-        );
+        console.warn(`withAndroidSigning: ${label} keystore not found at ${abs}`);
       }
       return abs.replace(/\\/g, '/');
     };
@@ -104,14 +98,9 @@ module.exports = function withAndroidSigning(config, props) {
     }`;
 
     if (!/signingConfigs\s*\{[\s\S]*?\n {4}\}/.test(contents)) {
-      throw new Error(
-        'withAndroidSigning: could not locate signingConfigs block in build.gradle',
-      );
+      throw new Error('withAndroidSigning: could not locate signingConfigs block in build.gradle');
     }
-    contents = contents.replace(
-      /signingConfigs\s*\{[\s\S]*?\n {4}\}/,
-      signingConfigsBlock,
-    );
+    contents = contents.replace(/signingConfigs\s*\{[\s\S]*?\n {4}\}/, signingConfigsBlock);
 
     // 2. Normalize the release buildType's signingConfig. Prod -> release key,
     //    non-prod -> debug key. Matches either current value so it is

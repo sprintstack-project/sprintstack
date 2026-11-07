@@ -1,5 +1,5 @@
-import { withForm } from '@sprintstack/forms';
-import { MORE_STORY_POINTS, STORY_POINTS } from '@sprintstack/shared';
+import { withForm } from '@sprintstack/forms/form';
+import { MORE_STORY_POINTS, STORY_POINTS } from '@sprintstack/shared/schemas/work-item';
 import { View } from 'react-native';
 import {
   ASSIGNEE_OPTIONS,

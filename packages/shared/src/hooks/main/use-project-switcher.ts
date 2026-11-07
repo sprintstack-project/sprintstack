@@ -1,5 +1,5 @@
-import type { Project } from '@sprintstack/api-client';
-import { useProjects } from '@sprintstack/api-client';
+import type { Project } from '@sprintstack/api-client/projects';
+import { useProjects } from '@sprintstack/api-client/projects';
 import { useMemo, useState } from 'react';
 
 const METHODOLOGY_LABEL: Record<Project['methodology'], string> = {

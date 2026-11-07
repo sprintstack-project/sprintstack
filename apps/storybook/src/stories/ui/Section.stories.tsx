@@ -1,5 +1,6 @@
-import { Section, ToggleRow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Section from '@ui/section';
+import ToggleRow from '@ui/toggle-row';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,7 @@ const meta = {
         component: `A titled part of a page, e.g. a settings section: its headline and what it's for, then its content. On native phones it drops its frame and headline, since the screen's header names it; \`phoneDescription\` keeps the description.
 
 \`\`\`tsx
-import { Section } from '@sprintstack/ui';
+import Section from '@ui/section';
 
 <Section title="Sprints" description="Applies from the next sprint.">
   {fields}

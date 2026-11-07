@@ -1,5 +1,5 @@
-import { ProgressBar } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import ProgressBar from '@ui/progress-bar';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `A 3px brand track. Without \`value\` it's indeterminate: put it under the top bar while a page loads. With \`value\` it's determinate, for imports and uploads; \`showValue\` adds the % beside it.
 
 \`\`\`tsx
-import { ProgressBar } from '@sprintstack/ui';
+import ProgressBar from '@ui/progress-bar';
 
 <ProgressBar label="Loading page" />
 <ProgressBar label="Importing work items" value={62} showValue />

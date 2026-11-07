@@ -1,5 +1,5 @@
-import { SaveStatus } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import SaveStatus from '@ui/save-status';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `Inline save feedback, next to what changed. Never a modal. The words are a polite status; on error a Retry link follows.
 
 \`\`\`tsx
-import { SaveStatus } from '@sprintstack/ui';
+import SaveStatus from '@ui/save-status';
 
 <SaveStatus state="saving" />
 <SaveStatus state="saved" savedAt="just now" />

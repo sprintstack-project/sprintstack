@@ -1,7 +1,12 @@
 'use client';
 
-import { CODE_LENGTH, SIGN_UP_STEPS } from '@sprintstack/shared';
-import { Badge, Button, Field, Input, InputPassword, Stepper } from '@sprintstack/ui';
+import { CODE_LENGTH, SIGN_UP_STEPS } from '@sprintstack/shared/schemas/auth';
+import Badge from '@ui/badge';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
+import InputPassword from '@ui/input-password';
+import Stepper from '@ui/stepper';
 import { Check, Copy, KeyRound, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';

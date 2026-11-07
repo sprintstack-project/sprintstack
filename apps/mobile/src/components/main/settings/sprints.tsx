@@ -1,6 +1,13 @@
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { SPRINT_LENGTH_MAX, SPRINT_LENGTH_MIN, sprintSettingsSchema } from '@sprintstack/shared';
-import { Section, Text, useSidebar } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import {
+  SPRINT_LENGTH_MAX,
+  SPRINT_LENGTH_MIN,
+  sprintSettingsSchema,
+} from '@sprintstack/shared/schemas/project';
+import { useSelector } from '@tanstack/react-form';
+import Section from '@ui/section';
+import { useSidebar } from '@ui/sidebar';
+import Text from '@ui/text';
 import { View } from 'react-native';
 import {
   CURRENT_SPRINT,

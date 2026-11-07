@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@ui/button';
+import Button from '@ui/button';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';

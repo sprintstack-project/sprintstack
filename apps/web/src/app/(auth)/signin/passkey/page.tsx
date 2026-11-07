@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@sprintstack/ui';
+import Button from '@ui/button';
 import { Check, KeyRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';

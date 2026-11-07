@@ -1,5 +1,5 @@
-import { ToggleRow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import ToggleRow from '@ui/toggle-row';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { fn } from 'storybook/test';

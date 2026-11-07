@@ -1,4 +1,6 @@
-import { Field, type FieldProps, Segmented, type SegmentedProps } from '@sprintstack/ui';
+import Field from '@ui/field';
+import Segmented from '@ui/segmented';
+import type { FieldProps, SegmentedProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

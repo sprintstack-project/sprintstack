@@ -1,5 +1,6 @@
-import { Button, buttonClass } from '@ui/button';
-import { EmptyState } from '@ui/empty-state';
+import Button from '@ui/button';
+import { buttonClass } from '@ui/button/button-class';
+import EmptyState from '@ui/empty-state';
 import { PlusIcon, SquareStack } from 'lucide-react';
 import Link from 'next/link';
 

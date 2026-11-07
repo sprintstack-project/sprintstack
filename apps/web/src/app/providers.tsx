@@ -1,8 +1,9 @@
 'use client';
 
-import { ApiProvider, createApiClient } from '@sprintstack/api-client';
+import { createApiClient } from '@sprintstack/api-client/client';
 import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
+import { Provider as ApiProvider } from 'urql';
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

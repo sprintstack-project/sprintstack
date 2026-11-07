@@ -1,5 +1,6 @@
-import { Button, Card } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import Card from '@ui/card';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,7 @@ const meta = {
         component: `A white sheet with a hairline edge (\`panel\`, the default), a board card (\`issue\`), or a solid poster \`tile\`. Keep one poster tile per screen.
 
 \`\`\`tsx
-import { Card } from '@sprintstack/ui';
+import Card from '@ui/card';
 
 <Card variant="issue" issueKey="PAY-1482" title="Checkout fails on saved cards"
   project="Payments · iOS" priority="highest" points={3} assignee="MO" onPress={open} />

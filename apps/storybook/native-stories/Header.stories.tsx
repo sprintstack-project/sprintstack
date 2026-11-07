@@ -1,5 +1,7 @@
-import { Header, type HeaderNotification, Sidebar } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Header from '@ui/header';
+import Sidebar from '@ui/sidebar';
+import type { HeaderNotification } from '@ui/types';
 import { CalendarClock, LogOut, Moon } from 'lucide-react-native';
 import { View } from 'react-native';
 import { fn } from 'storybook/test';

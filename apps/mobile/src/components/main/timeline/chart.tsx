@@ -1,6 +1,6 @@
 import { scaled } from '@lib/scale';
 import { STATUS_LABEL } from '@lib/status';
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { ChevronDown, Sparkles, Zap } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';

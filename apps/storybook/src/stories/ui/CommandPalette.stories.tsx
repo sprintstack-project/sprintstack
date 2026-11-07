@@ -1,5 +1,7 @@
-import { Button, type CommandGroup, CommandPalette } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import CommandPalette from '@ui/command-palette';
+import type { CommandGroup } from '@ui/types';
 import { Columns3, LayoutDashboard, Plus, Rows3, SunMoon, Users } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';

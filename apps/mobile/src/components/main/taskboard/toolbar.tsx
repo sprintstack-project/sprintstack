@@ -1,5 +1,7 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { FilterSelect, Input, Text } from '@sprintstack/ui';
+import FilterSelect from '@ui/filter-select';
+import Input from '@ui/input';
+import Text from '@ui/text';
 import { Funnel, List, Search, SquareKanban } from 'lucide-react-native';
 import { type ReactNode, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';

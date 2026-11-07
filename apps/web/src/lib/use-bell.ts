@@ -4,9 +4,9 @@ import {
   type BellNotification,
   useNotifications,
   useRegisterPushDevice,
-} from '@sprintstack/api-client';
-import { initialsOf } from '@sprintstack/shared';
-import type { HeaderNotification, HeaderNotifications } from '@sprintstack/ui';
+} from '@sprintstack/api-client/notifications';
+import { initialsOf } from '@sprintstack/shared/initials';
+import type { HeaderNotification, HeaderNotifications } from '@ui/types';
 import { CalendarClock } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useCallback, useEffect, useState } from 'react';

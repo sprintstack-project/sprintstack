@@ -1,5 +1,5 @@
 import { passkeyClient } from '@better-auth/passkey/client';
-import { organizationSlug } from '@sprintstack/shared';
+import { organizationSlug } from '@sprintstack/shared/schemas/auth';
 import { emailOTPClient, organizationClient, twoFactorClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 

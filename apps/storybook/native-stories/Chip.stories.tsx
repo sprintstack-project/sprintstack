@@ -1,5 +1,8 @@
-import { Badge, Button, Chip, Priority } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Badge from '@ui/badge';
+import Button from '@ui/button';
+import Chip from '@ui/chip';
+import Priority from '@ui/priority';
 import { ScrollView, View } from 'react-native';
 import { fn } from 'storybook/test';
 

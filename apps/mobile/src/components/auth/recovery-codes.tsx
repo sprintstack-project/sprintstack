@@ -1,4 +1,6 @@
-import { Button, Checkbox, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Checkbox from '@ui/checkbox';
+import Text from '@ui/text';
 import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
 import { Share, View } from 'react-native';

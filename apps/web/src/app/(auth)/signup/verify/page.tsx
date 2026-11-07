@@ -1,8 +1,9 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
-import { CODE_LENGTH, codeSchema, SIGN_UP_STEPS } from '@sprintstack/shared';
-import { Button, Stepper } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { CODE_LENGTH, codeSchema, SIGN_UP_STEPS } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import Stepper from '@ui/stepper';
 import { Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

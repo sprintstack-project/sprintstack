@@ -1,4 +1,5 @@
-import { Switch, type SwitchProps } from '@sprintstack/ui';
+import Switch from '@ui/switch';
+import type { SwitchProps } from '@ui/types';
 import { useFieldContext } from '../context';
 
 type Bound = 'checked' | 'defaultChecked' | 'onCheckedChange';

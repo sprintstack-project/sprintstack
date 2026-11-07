@@ -1,5 +1,5 @@
-import { ToggleRow } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import ToggleRow from '@ui/toggle-row';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
@@ -12,7 +12,7 @@ const meta = {
         component: `A setting that's on or off: its title and what it does, with a \`Switch\` on the right. Each row draws a divider above itself, so stack rows in a plain column.
 
 \`\`\`tsx
-import { ToggleRow } from '@sprintstack/ui';
+import ToggleRow from '@ui/toggle-row';
 
 <ToggleRow
   title="Carry over unfinished work"

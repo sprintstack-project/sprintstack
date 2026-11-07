@@ -1,4 +1,5 @@
-import { Checkbox, type CheckboxProps } from '@sprintstack/ui';
+import Checkbox from '@ui/checkbox';
+import type { CheckboxProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

@@ -1,5 +1,5 @@
-import { PageHeading } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import PageHeading from '@ui/page-heading';
 
 const meta = {
   title: 'UI/PageHeading',

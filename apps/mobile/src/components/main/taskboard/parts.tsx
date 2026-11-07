@@ -1,6 +1,6 @@
 import { scaled } from '@lib/scale';
 import { PRIORITY_LABEL } from '@lib/status';
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import type { Priority } from '@ui/types';
 import {
   Bookmark,

@@ -1,4 +1,6 @@
-import { Field, type FieldProps, InputPassword, type InputProps } from '@sprintstack/ui';
+import Field from '@ui/field';
+import InputPassword from '@ui/input-password';
+import type { FieldProps, InputProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

@@ -1,6 +1,6 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { Text } from '@sprintstack/ui';
-import Select from '@ui/select/select';
+import { SelectWithTrigger as Select } from '@ui/select';
+import Text from '@ui/text';
 import { CalendarDays, ChevronDown, Pencil, UsersRound } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';

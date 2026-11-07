@@ -1,4 +1,4 @@
-import { buttonClass } from '@sprintstack/ui';
+import { buttonClass } from '@ui/button/button-class';
 
 const plans = [
   {

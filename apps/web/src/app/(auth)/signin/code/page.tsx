@@ -1,8 +1,8 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
-import { CODE_LENGTH, codeSchema, recoveryCodeSchema } from '@sprintstack/shared';
-import { Button } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { CODE_LENGTH, codeSchema, recoveryCodeSchema } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
 import { Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

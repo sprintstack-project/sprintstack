@@ -1,5 +1,5 @@
-import { Stepper } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Stepper from '@ui/stepper';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `Progress through a multi-step flow. Earlier steps show a check, the current one is brand, later ones are outlined. \`compact\` swaps the circles for progress bars on small screens.
 
 \`\`\`tsx
-import { Stepper } from '@sprintstack/ui';
+import Stepper from '@ui/stepper';
 
 <Stepper label="Sign-up progress" steps={['Account', 'Verify', 'Secure']} current={1} />
 \`\`\``,

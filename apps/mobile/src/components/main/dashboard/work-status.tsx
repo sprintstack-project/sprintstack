@@ -1,5 +1,6 @@
 import { STATUS_LABEL } from '@lib/status';
-import { type StatusTone, Text } from '@sprintstack/ui';
+import Text from '@ui/text';
+import type { StatusTone } from '@ui/types';
 import { View } from 'react-native';
 import { SPRINT, STATUS_COUNTS } from './data';
 

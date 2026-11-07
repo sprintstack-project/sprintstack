@@ -1,5 +1,5 @@
-import { Checkbox } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Checkbox from '@ui/checkbox';
 import { fn } from 'storybook/test';
 
 const meta = {

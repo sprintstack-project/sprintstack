@@ -1,5 +1,5 @@
 import { scaled } from '@lib/scale';
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { Minus, Plus } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';

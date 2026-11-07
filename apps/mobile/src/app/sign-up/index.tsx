@@ -1,6 +1,7 @@
-import { useAppForm } from '@sprintstack/forms';
-import { SIGN_UP_STEPS, type SignUpInput, signUpSchema } from '@sprintstack/shared';
-import { Stepper, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { SIGN_UP_STEPS, type SignUpInput, signUpSchema } from '@sprintstack/shared/schemas/auth';
+import Stepper from '@ui/stepper';
+import Text from '@ui/text';
 import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useRef, useState } from 'react';

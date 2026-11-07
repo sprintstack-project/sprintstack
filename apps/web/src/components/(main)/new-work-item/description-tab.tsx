@@ -1,11 +1,11 @@
 'use client';
 
-import { useFieldContext } from '@sprintstack/forms';
-import { type Criterion, criterionSchema } from '@sprintstack/shared';
-import { richTextToPlainText } from '@sprintstack/ui';
-import { Button } from '@ui/button';
-import { Field } from '@ui/field';
-import { Input } from '@ui/input';
+import { richTextToPlainText } from '@lib/rich-text';
+import { useFieldContext } from '@sprintstack/forms/context';
+import { type Criterion, criterionSchema } from '@sprintstack/shared/schemas/work-item';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
 import type { RichTextDoc } from '@ui/types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Plus, X } from 'lucide-react';

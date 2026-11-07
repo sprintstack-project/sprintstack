@@ -1,5 +1,5 @@
-import { SaveStatus } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import SaveStatus from '@ui/save-status';
 import { View } from 'react-native';
 import { fn } from 'storybook/test';
 

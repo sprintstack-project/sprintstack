@@ -1,6 +1,7 @@
 import { scaled } from '@lib/scale';
 import { PRIORITY_LABEL } from '@lib/status';
-import { Badge, Text } from '@sprintstack/ui';
+import Badge from '@ui/badge';
+import Text from '@ui/text';
 import type { Priority } from '@ui/types';
 import { Bookmark, Bug, ChevronsUp, ChevronUp, Equal, SquareCheck } from 'lucide-react-native';
 import { View } from 'react-native';

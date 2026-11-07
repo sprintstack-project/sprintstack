@@ -1,6 +1,6 @@
 'use client';
 
-import { FilterSelect } from '@ui/filter-select';
+import FilterSelect from '@ui/filter-select';
 import { clsx } from 'clsx';
 import { List, Search, SquareKanban } from 'lucide-react';
 import {

@@ -3,10 +3,11 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { Tabs } from '@base-ui/react/tabs';
 import { PortalContainerProvider } from '@lib/portal-container';
-import { useSearchMentions } from '@sprintstack/api-client';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared';
-import { Button } from '@ui/button';
+import { useSearchMentions } from '@sprintstack/api-client/users';
+import { useAppForm } from '@sprintstack/forms/form';
+import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared/schemas/work-item';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
 import type { IconComponent } from '@ui/types';
 import { clsx } from 'clsx';
 import {

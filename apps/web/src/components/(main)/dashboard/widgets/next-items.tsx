@@ -1,5 +1,5 @@
 import { PRIORITY_LABEL } from '@lib/status';
-import { Badge } from '@ui/badge';
+import Badge from '@ui/badge';
 import type { Priority } from '@ui/types';
 import { differenceInCalendarDays, format } from 'date-fns';
 import { Bookmark, Bug, ChevronsUp, ChevronUp, Equal, SquareCheck } from 'lucide-react';

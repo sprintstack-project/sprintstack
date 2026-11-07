@@ -1,5 +1,8 @@
-import { Button, LoadState, Skeleton, Text } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import LoadState from '@ui/load-state';
+import Skeleton from '@ui/skeleton';
+import Text from '@ui/text';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 

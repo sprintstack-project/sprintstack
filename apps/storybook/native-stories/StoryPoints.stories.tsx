@@ -1,5 +1,5 @@
-import { StoryPoints } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import StoryPoints from '@ui/story-points';
 import { fn } from 'storybook/test';
 
 const meta = {

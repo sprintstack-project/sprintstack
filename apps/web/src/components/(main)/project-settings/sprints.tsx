@@ -1,8 +1,13 @@
 'use client';
 
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { SPRINT_LENGTH_MAX, SPRINT_LENGTH_MIN, sprintSettingsSchema } from '@sprintstack/shared';
-import { Section } from '@ui/section';
+import { useAppForm } from '@sprintstack/forms/form';
+import {
+  SPRINT_LENGTH_MAX,
+  SPRINT_LENGTH_MIN,
+  sprintSettingsSchema,
+} from '@sprintstack/shared/schemas/project';
+import { useSelector } from '@tanstack/react-form';
+import Section from '@ui/section';
 import { CURRENT_SPRINT, nextSprint, save, sprintsForm, useSaved, WEEKDAY_CHOICES } from './data';
 
 const Sprints = () => {

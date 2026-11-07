@@ -1,4 +1,4 @@
-import { PortalContainerProvider } from '@sprintstack/ui';
+import { PortalContainerProvider } from '@lib/portal-container';
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { type ReactNode, useState } from 'react';
 import './preview.css';

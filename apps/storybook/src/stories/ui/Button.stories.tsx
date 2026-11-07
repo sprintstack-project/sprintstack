@@ -1,5 +1,5 @@
-import { Button } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
 import { ArrowRight, Bookmark, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
@@ -13,7 +13,7 @@ const meta = {
         component: `Fat pills with heavy condensed labels. \`primary\` (ink) for the main action, \`brand\` (red) for the one action you want people to take (at most one per view), \`secondary\` and \`danger\` outlines, \`ghost\` for icon buttons in bars, \`link\` for inline text actions.
 
 \`\`\`tsx
-import { Button } from '@sprintstack/ui';
+import Button from '@ui/button';
 import { Plus, Bookmark } from 'lucide-react'; // lucide-react-native on mobile
 
 <Button variant="primary" icon={Plus} onClick={create}>Create issue</Button>

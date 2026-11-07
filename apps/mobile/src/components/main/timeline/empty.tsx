@@ -1,4 +1,6 @@
-import { Button, EmptyState, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
+import Text from '@ui/text';
 import { Plus } from 'lucide-react-native';
 import { View } from 'react-native';
 import type { Column } from './data';

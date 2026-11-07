@@ -1,8 +1,10 @@
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { timeOffSchema } from '@sprintstack/shared';
-import { Button, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { timeOffSchema } from '@sprintstack/shared/schemas/time-off';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
+import Text from '@ui/text';
 import { Check, Trash2, TriangleAlert } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';

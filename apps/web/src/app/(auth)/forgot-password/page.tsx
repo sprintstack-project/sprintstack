@@ -1,7 +1,7 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
-import { forgotPasswordSchema } from '@sprintstack/shared';
+import { useAppForm } from '@sprintstack/forms/form';
+import { forgotPasswordSchema } from '@sprintstack/shared/schemas/auth';
 import { useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';
 import { Notice } from '@/components/auth/notice';

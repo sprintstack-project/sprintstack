@@ -1,5 +1,6 @@
-import { Field, RangeCalendar } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import RangeCalendar from '@ui/range-calendar';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 // Stories use dates relative to today so they never go stale.
@@ -27,7 +28,8 @@ const meta = {
         component: `An inline calendar for a run of days: the first press sets the start, the next the end; an earlier day starts over. The range is a band with ink ends; today is ringed; markers (public holidays) carry a dot and their name for screen readers. Values are \`{ start, end }\` in ISO dates.
 
 \`\`\`tsx
-import { Field, RangeCalendar } from '@sprintstack/ui';
+import Field from '@ui/field';
+import RangeCalendar from '@ui/range-calendar';
 
 <Field label="Days off">
   <RangeCalendar value={range} onValueChange={setRange} markers={holidays} />

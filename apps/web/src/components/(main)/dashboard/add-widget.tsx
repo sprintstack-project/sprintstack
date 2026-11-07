@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@ui/button';
+import Button from '@ui/button';
 import { PlusIcon } from 'lucide-react';
 
 // A client component because Button takes the icon as a component, which can't cross from the

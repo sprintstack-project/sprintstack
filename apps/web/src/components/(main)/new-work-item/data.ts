@@ -1,15 +1,15 @@
+import { EMPTY_DOC } from '@lib/rich-text';
 import { PRIORITY_LABEL } from '@lib/status';
-import { formOptions } from '@sprintstack/forms';
+import { ISSUE_PRIORITIES } from '@sprintstack/shared/schemas/issue';
 import {
-  ISSUE_PRIORITIES,
   type NewWorkItem,
   WORK_ITEM_STATUSES,
   type WorkItemInput,
   type WorkItemLinkKind,
   type WorkItemStatus,
   workItemSchema,
-} from '@sprintstack/shared';
-import { EMPTY_DOC } from '@sprintstack/ui';
+} from '@sprintstack/shared/schemas/work-item';
+import { formOptions } from '@tanstack/react-form';
 import type { Option, StatusTone } from '@ui/types';
 import {
   ArrowLeft,

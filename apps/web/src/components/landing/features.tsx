@@ -1,4 +1,4 @@
-import { Badge } from '@sprintstack/ui';
+import Badge from '@ui/badge';
 import {
   AlignLeft,
   ArrowRight,

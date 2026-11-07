@@ -1,5 +1,5 @@
 import type { Sprint } from '@sprintstack/api-client/documents/sprints';
-import { Card } from '@ui/card';
+import Card from '@ui/card';
 import { differenceInDays, format } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';

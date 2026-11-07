@@ -1,5 +1,10 @@
 import { scaled } from '@lib/scale';
-import { Button, Eyebrow, PageHeading, Segmented, type SidebarItem, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Eyebrow from '@ui/eyebrow';
+import PageHeading from '@ui/page-heading';
+import Segmented from '@ui/segmented';
+import Text from '@ui/text';
+import type { SidebarItem } from '@ui/types';
 import { type Href, router } from 'expo-router';
 import { ChevronRight, LogOut, Moon, Sun } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';

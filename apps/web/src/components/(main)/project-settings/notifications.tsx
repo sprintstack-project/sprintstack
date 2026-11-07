@@ -1,10 +1,10 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
-import { notificationSettingsSchema } from '@sprintstack/shared';
-import { Eyebrow } from '@ui/eyebrow';
-import { Section } from '@ui/section';
-import { Segmented } from '@ui/segmented';
+import { useAppForm } from '@sprintstack/forms/form';
+import { notificationSettingsSchema } from '@sprintstack/shared/schemas/project';
+import Eyebrow from '@ui/eyebrow';
+import Section from '@ui/section';
+import Segmented from '@ui/segmented';
 import { CHANNEL_CHOICES, EVENTS, notificationsForm, ROLE_OPTIONS, save, useSaved } from './data';
 
 const Notifications = () => {

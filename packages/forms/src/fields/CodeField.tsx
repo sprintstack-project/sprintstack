@@ -1,4 +1,6 @@
-import { CodeInput, type CodeInputProps, Field, type FieldProps } from '@sprintstack/ui';
+import CodeInput from '@ui/code-input';
+import Field from '@ui/field';
+import type { CodeInputProps, FieldProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

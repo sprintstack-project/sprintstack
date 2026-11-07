@@ -1,5 +1,7 @@
-import { Field, type MentionItem, type RichTextDoc, RichTextEditor } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import RichTextEditor from '@ui/rich-text-editor';
+import type { MentionItem, RichTextDoc } from '@ui/types';
 import { fn } from 'storybook/test';
 
 const sampleDoc: RichTextDoc = {

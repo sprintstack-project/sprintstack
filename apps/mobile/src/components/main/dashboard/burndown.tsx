@@ -1,5 +1,5 @@
 import { fonts } from '@lib/fonts';
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { differenceInCalendarDays, format } from 'date-fns';
 import { useState } from 'react';
 import { View } from 'react-native';

@@ -7,7 +7,6 @@
     "**/*.css"
   ],
   "exports": {
-    ".": "./src/components/ui/index.ts",
     "./styles/*": "./src/styles/*",
     "./theme/tokens": "./src/theme/tokens.ts"
   },

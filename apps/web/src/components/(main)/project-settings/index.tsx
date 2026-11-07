@@ -1,6 +1,6 @@
 'use client';
 
-import { PageHeading } from '@ui/page-heading';
+import PageHeading from '@ui/page-heading';
 import { Bell, CalendarDays, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

@@ -1,5 +1,5 @@
-import { Button } from '@ui/button';
-import { EmptyState } from '@ui/empty-state';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
 import { clsx } from 'clsx';
 import { PlusIcon } from 'lucide-react';
 import { Gridlines, labelWidth } from './chart';

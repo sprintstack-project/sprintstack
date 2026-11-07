@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@ui/button';
+import Button from '@ui/button';
 import { TriangleAlert } from 'lucide-react';
 import { catchError, type ErrorInfo } from 'next/error';
 

@@ -1,7 +1,9 @@
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
 import { STATUS_LABEL } from '@lib/status';
-import { Badge, type StatusTone, Text } from '@sprintstack/ui';
+import Badge from '@ui/badge';
+import Text from '@ui/text';
+import type { StatusTone } from '@ui/types';
 import { Check } from 'lucide-react-native';
 import { useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';

@@ -2,15 +2,16 @@
 
 import { Menu } from '@base-ui/react/menu';
 import { usePortalContainer } from '@lib/portal-container';
-import { useFieldContext } from '@sprintstack/forms';
+import { useFieldContext } from '@sprintstack/forms/context';
 import {
   WORK_ITEM_LINK_KINDS,
   type WorkItemLink,
   type WorkItemLinkKind,
-} from '@sprintstack/shared';
-import { Button, buttonClass } from '@ui/button';
-import { Field } from '@ui/field';
-import { Select } from '@ui/select';
+} from '@sprintstack/shared/schemas/work-item';
+import Button from '@ui/button';
+import { buttonClass } from '@ui/button/button-class';
+import Field from '@ui/field';
+import Select from '@ui/select';
 import { popup, row } from '@ui/select/menu';
 import type { Option } from '@ui/types';
 import { ChevronDown, Plus, X, Zap } from 'lucide-react';

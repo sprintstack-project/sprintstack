@@ -1,5 +1,6 @@
-import { Field, MultiSelect } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Field from '@ui/field';
+import MultiSelect from '@ui/multi-select';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
 
 const labels = [
@@ -39,7 +40,7 @@ const meta = {
         component: `Collects choices as pills and opens a checkbox menu you can filter by typing. Rows are virtualized, so long lists stay fast. Supports \`creatable\`, \`max\`, async \`loadOptions\` and grey or outline pills.
 
 \`\`\`tsx
-import { MultiSelect } from '@sprintstack/ui';
+import MultiSelect from '@ui/multi-select';
 
 <MultiSelect value={labels} onValueChange={setLabels} options={labelOptions} creatable max={5} />
 

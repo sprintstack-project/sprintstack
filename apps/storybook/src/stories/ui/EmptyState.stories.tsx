@@ -1,5 +1,6 @@
-import { Button, EmptyState } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
 import { Check, Clock, PlusIcon } from 'lucide-react';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
@@ -14,7 +15,8 @@ const meta = {
 \`page\` (the default) is a poster title over three stacked bars; \`art\` picks the solid one. \`widget\` is an icon and a short title in a dashed box, for dashboard panels.
 
 \`\`\`tsx
-import { Button, EmptyState } from '@sprintstack/ui';
+import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
 
 <EmptyState
   eyebrow="Backlog"

@@ -1,4 +1,4 @@
-import { Button } from '@sprintstack/ui';
+import Button from '@ui/button';
 import { Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { MainScreen } from '@/components/main/main-screen';

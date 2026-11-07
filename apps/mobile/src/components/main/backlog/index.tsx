@@ -1,6 +1,7 @@
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
-import { Button, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Text from '@ui/text';
 import { format } from 'date-fns';
 import { Check, Plus } from 'lucide-react-native';
 import { type Dispatch, type SetStateAction, useRef, useState } from 'react';

@@ -1,5 +1,7 @@
-import { Button, Field, Input } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
 import { Eye, EyeOff, Mail, Search, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { fn } from 'storybook/test';

@@ -1,5 +1,6 @@
-import { Field, RangeCalendar } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import RangeCalendar from '@ui/range-calendar';
 import { fn } from 'storybook/test';
 
 // Dates relative to today so the stories never go stale.

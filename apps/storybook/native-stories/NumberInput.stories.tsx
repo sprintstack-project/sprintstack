@@ -1,5 +1,6 @@
-import { Field, NumberInput } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import NumberInput from '@ui/number-input';
 import { fn } from 'storybook/test';
 
 const meta = {

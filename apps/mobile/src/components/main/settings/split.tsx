@@ -1,5 +1,6 @@
 import { scaled } from '@lib/scale';
-import { Text, useSidebar } from '@sprintstack/ui';
+import { useSidebar } from '@ui/sidebar';
+import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';

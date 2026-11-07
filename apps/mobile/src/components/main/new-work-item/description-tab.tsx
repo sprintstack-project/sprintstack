@@ -1,7 +1,11 @@
+import { richTextToPlainText } from '@lib/rich-text';
 import { scaled, touchSlop } from '@lib/scale';
-import { useFieldContext } from '@sprintstack/forms';
-import { type Criterion, criterionSchema } from '@sprintstack/shared';
-import { Button, Field, Input, richTextToPlainText, Text } from '@sprintstack/ui';
+import { useFieldContext } from '@sprintstack/forms/context';
+import { type Criterion, criterionSchema } from '@sprintstack/shared/schemas/work-item';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
+import Text from '@ui/text';
 import type { RichTextDoc } from '@ui/types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Plus, X } from 'lucide-react-native';

@@ -1,5 +1,7 @@
-import { Button, Field, Input } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
 import { Eye, EyeOff, Mail, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
@@ -13,7 +15,8 @@ const meta = {
         component: `A 56px text field. \`slots\` put icons, units or actions on either side; \`pill\` makes the search-bar style.
 
 \`\`\`tsx
-import { Button, Input } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Input from '@ui/input';
 import { Search } from 'lucide-react';
 
 <Input value={query} onChange={setQuery} placeholder="E.g. checkout bug" />
@@ -27,7 +30,8 @@ import { Search } from 'lucide-react';
 Wrap it (and every other control) in \`Field\` for the bold label, helper text and red error. Base UI controls link to the label automatically, and the error replaces the helper text:
 
 \`\`\`tsx
-import { Field, Input } from '@sprintstack/ui';
+import Field from '@ui/field';
+import Input from '@ui/input';
 
 <Field label="Reporter email" required description="We'll let them know" error={errors.email}>
   <Input type="email" value={email} onChange={setEmail} onBlur={validate} />

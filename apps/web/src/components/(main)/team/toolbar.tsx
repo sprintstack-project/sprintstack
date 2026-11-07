@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@ui/button';
-import { Segmented } from '@ui/segmented';
-import Select from '@ui/select/select';
+import Button from '@ui/button';
+import Segmented from '@ui/segmented';
+import { SelectWithTrigger as Select } from '@ui/select';
 import {
   CalendarDays,
   ChevronDown,

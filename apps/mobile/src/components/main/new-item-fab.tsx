@@ -1,5 +1,5 @@
-import type { NewWorkItem as Created } from '@sprintstack/shared';
-import { Button } from '@sprintstack/ui';
+import type { NewWorkItem as Created } from '@sprintstack/shared/schemas/work-item';
+import Button from '@ui/button';
 import { Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { NewWorkItem } from './new-work-item';

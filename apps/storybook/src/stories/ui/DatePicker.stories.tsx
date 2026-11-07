@@ -1,5 +1,6 @@
-import { DatePicker, Field } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import DatePicker from '@ui/date-picker';
+import Field from '@ui/field';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
 
 // Stories use dates relative to today so they never go stale.
@@ -23,7 +24,7 @@ const meta = {
         component: `A field that opens a calendar: today ringed in ink, the selection filled red, and a month grid behind the title. Values are ISO dates (\`YYYY-MM-DD\`) and show as \`30 Oct 2026\`.
 
 \`\`\`tsx
-import { DatePicker } from '@sprintstack/ui';
+import DatePicker from '@ui/date-picker';
 
 <DatePicker value={due} onValueChange={setDue} min={sprintStart} dueStyle />
 \`\`\`

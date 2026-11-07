@@ -1,7 +1,7 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
-import { resetPasswordSchema } from '@sprintstack/shared';
+import { useAppForm } from '@sprintstack/forms/form';
+import { resetPasswordSchema } from '@sprintstack/shared/schemas/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { AuthHeading, AuthShell } from '@/components/auth/auth-shell';

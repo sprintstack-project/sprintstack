@@ -1,8 +1,5 @@
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_STRENGTH_LABEL,
-  passwordStrength,
-} from '@sprintstack/shared';
+import { PASSWORD_STRENGTH_LABEL, passwordStrength } from '@sprintstack/shared/password-strength';
+import { PASSWORD_MIN_LENGTH } from '@sprintstack/shared/schemas/auth';
 import { Check, Minus } from 'lucide-react';
 
 /**

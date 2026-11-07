@@ -1,10 +1,6 @@
-import {
-  type DateRange,
-  Field,
-  type FieldProps,
-  RangeCalendar,
-  type RangeCalendarProps,
-} from '@sprintstack/ui';
+import Field from '@ui/field';
+import RangeCalendar from '@ui/range-calendar';
+import type { DateRange, FieldProps, RangeCalendarProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

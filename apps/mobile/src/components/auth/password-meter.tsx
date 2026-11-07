@@ -1,9 +1,6 @@
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_STRENGTH_LABEL,
-  passwordStrength,
-} from '@sprintstack/shared';
-import { Text } from '@sprintstack/ui';
+import { PASSWORD_STRENGTH_LABEL, passwordStrength } from '@sprintstack/shared/password-strength';
+import { PASSWORD_MIN_LENGTH } from '@sprintstack/shared/schemas/auth';
+import Text from '@ui/text';
 import { View } from 'react-native';
 
 /** Four bars and a line of words (status as words, not colour). The API checks leaked passwords. */

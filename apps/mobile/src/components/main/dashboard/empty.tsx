@@ -1,5 +1,8 @@
 import { scaled } from '@lib/scale';
-import { Button, Card, EmptyState, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Card from '@ui/card';
+import EmptyState from '@ui/empty-state';
+import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
 import { ChartNoAxesGantt, Check, ChevronRight, Clock, ListTodo } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';

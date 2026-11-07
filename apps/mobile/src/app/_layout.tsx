@@ -8,7 +8,6 @@ import {
   Archivo_800ExtraBold,
   useFonts,
 } from '@expo-google-fonts/archivo';
-import { ApiProvider } from '@sprintstack/api-client';
 import { DEFAULT_LOCALE, MESSAGES } from '@sprintstack/shared/i18n';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -16,6 +15,7 @@ import { PostHogProvider } from 'posthog-react-native';
 import { useEffect } from 'react';
 import { GestureHandlerRootView as BaseGestureHandlerRootView } from 'react-native-gesture-handler';
 import { withUniwind } from 'uniwind';
+import { Provider as ApiProvider } from 'urql';
 import { IntlProvider } from 'use-intl';
 import { apiClient } from '@/lib/api-client';
 import { posthog } from '@/lib/posthog';
@@ -29,7 +29,7 @@ const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-  // The families @sprintstack/ui's Text picks per weight.
+  // The families @ui/text's Text picks per weight.
   const [fontsLoaded, fontError] = useFonts({
     Archivo_400Regular,
     Archivo_500Medium,

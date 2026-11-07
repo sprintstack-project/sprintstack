@@ -1,5 +1,5 @@
-import { Checkbox } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Checkbox from '@ui/checkbox';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `A checkbox with its label. Links inside the label stay clickable.
 
 \`\`\`tsx
-import { Checkbox } from '@sprintstack/ui';
+import Checkbox from '@ui/checkbox';
 
 <Checkbox checked={keep} onCheckedChange={setKeep}>Keep me signed in on this device</Checkbox>
 \`\`\``,

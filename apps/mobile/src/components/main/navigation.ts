@@ -1,4 +1,4 @@
-import type { IconComponent, SidebarItem, SidebarSection } from '@sprintstack/ui';
+import type { IconComponent, SidebarItem, SidebarSection } from '@ui/types';
 import {
   Bell,
   CalendarDays,

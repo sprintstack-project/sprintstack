@@ -1,5 +1,11 @@
-import { CODE_LENGTH, SIGN_UP_STEPS } from '@sprintstack/shared';
-import { Badge, Button, Field, Input, InputPassword, Stepper, Text } from '@sprintstack/ui';
+import { CODE_LENGTH, SIGN_UP_STEPS } from '@sprintstack/shared/schemas/auth';
+import Badge from '@ui/badge';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Input from '@ui/input';
+import InputPassword from '@ui/input-password';
+import Stepper from '@ui/stepper';
+import Text from '@ui/text';
 import * as Clipboard from 'expo-clipboard';
 import { Redirect, router } from 'expo-router';
 import { Check, Copy, KeyRound, Smartphone } from 'lucide-react-native';

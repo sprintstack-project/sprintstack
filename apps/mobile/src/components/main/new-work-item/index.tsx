@@ -1,8 +1,10 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { useSearchMentions } from '@sprintstack/api-client';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared';
-import { Button, Text } from '@sprintstack/ui';
+import { useSearchMentions } from '@sprintstack/api-client/users';
+import { useAppForm } from '@sprintstack/forms/form';
+import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared/schemas/work-item';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
+import Text from '@ui/text';
 import type { IconComponent } from '@ui/types';
 import {
   FileText,

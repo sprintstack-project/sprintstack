@@ -1,4 +1,5 @@
-import { Badge, type StatusTone } from '@sprintstack/ui';
+import Badge from '@ui/badge';
+import type { StatusTone } from '@ui/types';
 
 interface Issue {
   id: string;

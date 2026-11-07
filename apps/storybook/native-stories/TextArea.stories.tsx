@@ -1,5 +1,6 @@
-import { Field, TextArea } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import TextArea from '@ui/text-area';
 import { fn } from 'storybook/test';
 
 const meta = {

@@ -1,5 +1,6 @@
 import { scaled } from '@lib/scale';
-import { FilterSelect, Input } from '@sprintstack/ui';
+import FilterSelect from '@ui/filter-select';
+import Input from '@ui/input';
 import { Search } from 'lucide-react-native';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';

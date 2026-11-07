@@ -1,4 +1,5 @@
-import { Button, ButtonGroup } from '@sprintstack/ui';
+import Button from '@ui/button';
+import ButtonGroup from '@ui/button-group';
 import type { ReactNode } from 'react';
 import { SubmitButton } from './SubmitButton';
 

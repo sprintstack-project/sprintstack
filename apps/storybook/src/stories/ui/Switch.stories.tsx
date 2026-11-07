@@ -1,5 +1,5 @@
-import { Switch } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Switch from '@ui/switch';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `An on/off setting. It draws only the track; the row's title says what it does, so pass that as \`label\`.
 
 \`\`\`tsx
-import { Switch } from '@sprintstack/ui';
+import Switch from '@ui/switch';
 
 <Switch label="Carry over unfinished work" checked={carry} onCheckedChange={setCarry} />
 \`\`\``,

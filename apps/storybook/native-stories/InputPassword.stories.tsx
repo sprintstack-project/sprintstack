@@ -1,5 +1,6 @@
-import { Field, InputPassword } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import InputPassword from '@ui/input-password';
 import { fn } from 'storybook/test';
 
 const meta = {

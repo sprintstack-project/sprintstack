@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@ui/button';
+import Button from '@ui/button';
 import { Mail } from 'lucide-react';
 import { useState } from 'react';
 import CapacityTable from './capacity-table';

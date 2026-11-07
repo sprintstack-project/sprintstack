@@ -1,4 +1,3 @@
-import { formOptions } from '@sprintstack/forms';
 import {
   type NotificationEvent,
   type NotificationSettingsInput,
@@ -11,7 +10,8 @@ import {
   sprintSettingsSchema,
   WEEKDAYS,
   type Weekday,
-} from '@sprintstack/shared';
+} from '@sprintstack/shared/schemas/project';
+import { formOptions } from '@tanstack/react-form';
 import type { Option } from '@ui/types';
 import { addDays, eachDayOfInterval, format, getISODay, isSameMonth, isWeekend } from 'date-fns';
 import { useSyncExternalStore } from 'react';

@@ -1,5 +1,5 @@
-import { Segmented } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Segmented from '@ui/segmented';
 import { Moon, Sun } from 'lucide-react-native';
 import { useState } from 'react';
 import { fn } from 'storybook/test';

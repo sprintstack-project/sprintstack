@@ -15,7 +15,8 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Button, buttonClass } from '@ui/button';
+import Button from '@ui/button';
+import { buttonClass } from '@ui/button/button-class';
 import { clsx } from 'clsx';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';

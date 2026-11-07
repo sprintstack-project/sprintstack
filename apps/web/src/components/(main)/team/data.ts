@@ -1,13 +1,13 @@
 import { parseISODate, toISODate } from '@lib/date';
-import { formOptions } from '@sprintstack/forms';
+import type { DateRange } from '@sprintstack/shared/schemas/date-range';
 import {
-  type DateRange,
   type NewTimeOff,
   TIME_OFF_TYPES,
   type TimeOffInput,
   type TimeOffType,
   timeOffSchema,
-} from '@sprintstack/shared';
+} from '@sprintstack/shared/schemas/time-off';
+import { formOptions } from '@tanstack/react-form';
 import type { CalendarMarker, Option } from '@ui/types';
 import {
   eachDayOfInterval,

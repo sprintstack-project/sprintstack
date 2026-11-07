@@ -1,8 +1,8 @@
 import { scaled } from '@lib/scale';
 import { isImageUrl, STATUS_LABEL } from '@lib/status';
 import { useTokenColor } from '@lib/use-token-color.native';
-import { Badge } from '@ui/badge';
-import { Text } from '@ui/text';
+import Badge from '@ui/badge';
+import Text from '@ui/text';
 import type { Option } from '@ui/types';
 import { clsx } from 'clsx';
 import { Image, View } from 'react-native';

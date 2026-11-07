@@ -1,5 +1,7 @@
-import { Field, MultiSelect, Select } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Field from '@ui/field';
+import MultiSelect from '@ui/multi-select';
+import Select from '@ui/select';
 import { Calendar, Clock, Equal, Flag, Trash2 } from 'lucide-react-native';
 import { fn } from 'storybook/test';
 

@@ -1,5 +1,5 @@
-import { Button } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
 import { ArrowRight, Bookmark, Plus, Trash2 } from 'lucide-react-native';
 import { View } from 'react-native';
 import { fn } from 'storybook/test';

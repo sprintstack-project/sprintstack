@@ -1,5 +1,5 @@
-import { Spinner } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Spinner from '@ui/spinner';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -13,7 +13,7 @@ const meta = {
 With \`label\` it shows the words beside the ring and announces them politely; without, it's decorative.
 
 \`\`\`tsx
-import { Spinner } from '@sprintstack/ui';
+import Spinner from '@ui/spinner';
 
 <Spinner size={40} />
 <Spinner size={20} label="Loading 20 more…" />

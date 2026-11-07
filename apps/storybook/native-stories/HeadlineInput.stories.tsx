@@ -1,5 +1,5 @@
-import { HeadlineInput } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import HeadlineInput from '@ui/headline-input';
 import { fn } from 'storybook/test';
 
 const meta = {

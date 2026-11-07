@@ -1,5 +1,6 @@
-import { Button, ButtonGroup } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Button from '@ui/button';
+import ButtonGroup from '@ui/button-group';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,8 @@ const meta = {
         component: `A row of buttons with the standard gap; it wraps when there isn't room. In a form, \`form.FormActions\` lays out Save and Discard with it.
 
 \`\`\`tsx
-import { Button, ButtonGroup } from '@sprintstack/ui';
+import Button from '@ui/button';
+import ButtonGroup from '@ui/button-group';
 
 <ButtonGroup>
   <Button variant="brand" size="lg">Save changes</Button>

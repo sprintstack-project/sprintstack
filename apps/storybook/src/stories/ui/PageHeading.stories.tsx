@@ -1,5 +1,5 @@
-import { PageHeading } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import PageHeading from '@ui/page-heading';
 import { expect, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
         component: `The overline and headline at the top of a page. \`accent\` adds a last word in brand colour.
 
 \`\`\`tsx
-import { PageHeading } from '@sprintstack/ui';
+import PageHeading from '@ui/page-heading';
 
 <PageHeading eyebrow="Payments · PAY" title="Project" accent="settings" />
 \`\`\``,

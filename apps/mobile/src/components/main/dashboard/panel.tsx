@@ -1,4 +1,6 @@
-import { Button, Card, Text } from '@sprintstack/ui';
+import Button from '@ui/button';
+import Card from '@ui/card';
+import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';

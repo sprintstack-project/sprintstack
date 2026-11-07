@@ -1,5 +1,7 @@
-import { Button, type CommandGroup, CommandPalette } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import CommandPalette from '@ui/command-palette';
+import type { CommandGroup } from '@ui/types';
 import { Columns3, LayoutDashboard, Plus, Rows3, Users } from 'lucide-react-native';
 import { useState } from 'react';
 import { fn } from 'storybook/test';

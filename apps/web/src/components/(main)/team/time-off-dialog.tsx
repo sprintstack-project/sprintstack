@@ -2,9 +2,10 @@
 
 import { Dialog } from '@base-ui/react/dialog';
 import { PortalContainerProvider } from '@lib/portal-container';
-import { useAppForm, useSelector } from '@sprintstack/forms';
-import { timeOffSchema } from '@sprintstack/shared';
-import { Button } from '@ui/button';
+import { useAppForm } from '@sprintstack/forms/form';
+import { timeOffSchema } from '@sprintstack/shared/schemas/time-off';
+import { useSelector } from '@tanstack/react-form';
+import Button from '@ui/button';
 import { clsx } from 'clsx';
 import { Check, Trash2, TriangleAlert, X } from 'lucide-react';
 import { useState } from 'react';

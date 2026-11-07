@@ -1,5 +1,6 @@
-import { CodeInput, Field } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import CodeInput from '@ui/code-input';
+import Field from '@ui/field';
 import { expect, fn, userEvent, within } from 'storybook/test';
 
 const meta = {
@@ -11,7 +12,8 @@ const meta = {
         component: `A one-time code shown as one box per digit, built on Base UI's OTP field. Typing moves to the next box, Backspace to the previous one, and paste or the browser's one-time-code autofill fill every box. Wrap it in \`Field\` for its label.
 
 \`\`\`tsx
-import { CodeInput, Field } from '@sprintstack/ui';
+import CodeInput from '@ui/code-input';
+import Field from '@ui/field';
 
 <Field label="Authentication code" description="Codes refresh every 30 seconds.">
   <CodeInput value={code} onChange={setCode} onComplete={verify} />

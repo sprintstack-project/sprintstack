@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { Check, CircleAlert, Info } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';

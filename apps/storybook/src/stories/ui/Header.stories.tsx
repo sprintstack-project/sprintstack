@@ -1,5 +1,7 @@
-import { Header, type HeaderNotification, Sidebar } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Header from '@ui/header';
+import Sidebar from '@ui/sidebar';
+import type { HeaderNotification } from '@ui/types';
 import { CalendarClock } from 'lucide-react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 
@@ -37,7 +39,7 @@ const meta = {
         component: `The page header beside the sidebar: \`Sidebar.Toggle\`, breadcrumbs, a search button that opens \`CommandPalette\` (also ⌘K / Ctrl+K), a notifications dropdown and the theme switch. Every part is optional. Below \`sm\` only the current crumb shows; below \`md\` search shrinks to an icon button.
 
 \`\`\`tsx
-import { Header } from '@sprintstack/ui';
+import Header from '@ui/header';
 import Link from 'next/link';
 
 <Sidebar.Provider>

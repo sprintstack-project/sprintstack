@@ -1,12 +1,16 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { useAppForm } from '@sprintstack/forms';
+import { useAppForm } from '@sprintstack/forms/form';
 import {
   notificationSettingsSchema,
   PROJECT_ROLE_LABEL,
   type ProjectRole,
-} from '@sprintstack/shared';
-import { Chip, Section, Segmented, Text, useSidebar } from '@sprintstack/ui';
-import Select from '@ui/select/select';
+} from '@sprintstack/shared/schemas/project';
+import Chip from '@ui/chip';
+import Section from '@ui/section';
+import Segmented from '@ui/segmented';
+import { SelectWithTrigger as Select } from '@ui/select';
+import { useSidebar } from '@ui/sidebar';
+import Text from '@ui/text';
 import { Plus } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';

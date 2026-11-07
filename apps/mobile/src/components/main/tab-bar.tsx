@@ -1,5 +1,6 @@
 import { scaled } from '@lib/scale';
-import { type IconComponent, Text } from '@sprintstack/ui';
+import Text from '@ui/text';
+import type { IconComponent } from '@ui/types';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { Pressable, View } from 'react-native';
 import { SETTINGS_KEYS, TABS } from '@/components/main/navigation';

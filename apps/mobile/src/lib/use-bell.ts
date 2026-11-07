@@ -2,9 +2,9 @@ import {
   type BellNotification,
   useNotifications,
   useRegisterPushDevice,
-} from '@sprintstack/api-client';
-import { initialsOf } from '@sprintstack/shared';
-import type { HeaderNotification, HeaderNotifications } from '@sprintstack/ui';
+} from '@sprintstack/api-client/notifications';
+import { initialsOf } from '@sprintstack/shared/initials';
+import type { HeaderNotification, HeaderNotifications } from '@ui/types';
 import { formatDistanceStrict } from 'date-fns';
 import { CalendarClock } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';

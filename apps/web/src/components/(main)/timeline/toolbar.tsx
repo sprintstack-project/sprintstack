@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '@ui/button';
-import { FilterSelect } from '@ui/filter-select';
-import { Segmented } from '@ui/segmented';
-import Select from '@ui/select/select';
+import Button from '@ui/button';
+import FilterSelect from '@ui/filter-select';
+import Segmented from '@ui/segmented';
+import { SelectWithTrigger as Select } from '@ui/select';
 import type { SegmentedChoice } from '@ui/types';
 import { Calendar, ChevronDown, Sparkles, Zap } from 'lucide-react';
 import {

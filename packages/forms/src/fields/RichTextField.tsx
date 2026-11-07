@@ -1,10 +1,6 @@
-import {
-  Field,
-  type FieldProps,
-  type RichTextDoc,
-  RichTextEditor,
-  type RichTextEditorProps,
-} from '@sprintstack/ui';
+import Field from '@ui/field';
+import RichTextEditor from '@ui/rich-text-editor';
+import type { FieldProps, RichTextDoc, RichTextEditorProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

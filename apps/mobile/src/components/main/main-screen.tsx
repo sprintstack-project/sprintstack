@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import Animated, { type AnimatedRef } from 'react-native-reanimated';

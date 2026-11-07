@@ -1,13 +1,15 @@
 'use client';
 
-import { useAppForm } from '@sprintstack/forms';
+import { useAppForm } from '@sprintstack/forms/form';
 import {
   invitedSignUpSchema,
   SIGN_UP_STEPS,
   type SignUpInput,
   signUpSchema,
-} from '@sprintstack/shared';
-import { Button, GitHubIcon, Stepper } from '@sprintstack/ui';
+} from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import GitHubIcon from '@ui/github-icon';
+import Stepper from '@ui/stepper';
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';

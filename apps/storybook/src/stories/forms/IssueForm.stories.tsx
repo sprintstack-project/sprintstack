@@ -1,7 +1,8 @@
-import { useAppForm } from '@sprintstack/forms';
-import { type IssueInput, issueSchema } from '@sprintstack/shared';
-import { Card, EMPTY_DOC } from '@sprintstack/ui';
+import { EMPTY_DOC } from '@lib/rich-text';
+import { useAppForm } from '@sprintstack/forms/form';
+import { type IssueInput, issueSchema } from '@sprintstack/shared/schemas/issue';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Card from '@ui/card';
 import { BookOpen, Bug, CheckSquare } from 'lucide-react';
 import { useEffect } from 'react';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
@@ -135,8 +136,8 @@ const meta = {
         component: `Forms use \`@sprintstack/forms\` (TanStack Form) with a schema from \`@sprintstack/shared\` (Zod), shared with the API. Fields show errors after you leave them or press submit, and clear as soon as they're fixed.
 
 \`\`\`tsx
-import { useAppForm } from '@sprintstack/forms';
-import { issueSchema } from '@sprintstack/shared';
+import { useAppForm } from '@sprintstack/forms/form';
+import { issueSchema } from '@sprintstack/shared/schemas/issue';
 
 const form = useAppForm({
   defaultValues,

@@ -1,12 +1,14 @@
 import { scaled, touchSlop } from '@lib/scale';
-import { useFieldContext } from '@sprintstack/forms';
+import { useFieldContext } from '@sprintstack/forms/context';
 import {
   WORK_ITEM_LINK_KINDS,
   type WorkItemLink,
   type WorkItemLinkKind,
-} from '@sprintstack/shared';
-import { Button, Field, Select, Text } from '@sprintstack/ui';
-import SelectWithTrigger from '@ui/select/select';
+} from '@sprintstack/shared/schemas/work-item';
+import Button from '@ui/button';
+import Field from '@ui/field';
+import Select, { SelectWithTrigger } from '@ui/select';
+import Text from '@ui/text';
 import type { Option } from '@ui/types';
 import { ChevronDown, Plus, X, Zap } from 'lucide-react-native';
 import { useState } from 'react';

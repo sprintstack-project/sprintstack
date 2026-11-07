@@ -1,4 +1,5 @@
-import { Button, type ButtonProps } from '@sprintstack/ui';
+import Button from '@ui/button';
+import type { ButtonProps } from '@ui/types';
 import { useFormContext } from './context';
 
 export type SubmitButtonProps = Omit<ButtonProps, 'onClick' | 'disabled'>;

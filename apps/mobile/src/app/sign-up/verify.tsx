@@ -1,6 +1,8 @@
-import { useAppForm } from '@sprintstack/forms';
-import { CODE_LENGTH, codeSchema, SIGN_UP_STEPS } from '@sprintstack/shared';
-import { Button, Stepper, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { CODE_LENGTH, codeSchema, SIGN_UP_STEPS } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import Stepper from '@ui/stepper';
+import Text from '@ui/text';
 import { Redirect, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';

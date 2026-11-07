@@ -1,5 +1,7 @@
-import { type Option, Sidebar, type SidebarSection, Text } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Sidebar from '@ui/sidebar';
+import Text from '@ui/text';
+import type { Option, SidebarSection } from '@ui/types';
 import {
   Columns3,
   LayoutDashboard,

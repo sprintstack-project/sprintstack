@@ -1,5 +1,7 @@
-import { Button, Card, Text } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-native';
+import Button from '@ui/button';
+import Card from '@ui/card';
+import Text from '@ui/text';
 import { fn } from 'storybook/test';
 
 const meta = {

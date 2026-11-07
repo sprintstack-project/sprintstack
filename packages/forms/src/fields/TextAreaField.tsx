@@ -1,4 +1,6 @@
-import { Field, type FieldProps, TextArea, type TextAreaProps } from '@sprintstack/ui';
+import Field from '@ui/field';
+import TextArea from '@ui/text-area';
+import type { FieldProps, TextAreaProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 

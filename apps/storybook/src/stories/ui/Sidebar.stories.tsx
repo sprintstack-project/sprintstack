@@ -1,5 +1,6 @@
-import { type Option, Sidebar, type SidebarSection } from '@sprintstack/ui';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import Sidebar from '@ui/sidebar';
+import type { Option, SidebarSection } from '@ui/types';
 import {
   Columns3,
   LayoutDashboard,
@@ -69,7 +70,8 @@ const meta = {
 The project and account rows are switchers. Give one \`options\` and it opens a combobox, the same menu as \`Select searchable\` (search plus virtualized rows). \`searchable: false\` makes it a short menu, and \`action\` rows (such as "Sign out") run instead of selecting. Without \`options\`, a row is a button that calls \`onPress\`.
 
 \`\`\`tsx
-import { Sidebar, type Option, type SidebarSection } from '@sprintstack/ui';
+import Sidebar from '@ui/sidebar';
+import type { Option, SidebarSection } from '@ui/types';
 import { Columns3, LayoutDashboard, LogOut, ShieldCheck, UserRound } from 'lucide-react';
 import Link from 'next/link';
 

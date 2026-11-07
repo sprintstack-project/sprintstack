@@ -1,4 +1,4 @@
-import { Text } from '@sprintstack/ui';
+import Text from '@ui/text';
 import { format, isSameDay, isWeekend, isWithinInterval } from 'date-fns';
 import { Pressable, View } from 'react-native';
 import { Avatar } from '../taskboard/parts';

@@ -1,6 +1,6 @@
-import { useAppForm } from '@sprintstack/forms';
-import { type IssueInput, issueSchema } from '@sprintstack/shared';
-import { EMPTY_DOC } from '@sprintstack/ui';
+import { EMPTY_DOC } from '@lib/rich-text';
+import { useAppForm } from '@sprintstack/forms/form';
+import { type IssueInput, issueSchema } from '@sprintstack/shared/schemas/issue';
 import type { Meta, StoryObj } from '@storybook/react-native';
 import { BookOpen, Bug, CheckSquare } from 'lucide-react-native';
 import { View } from 'react-native';

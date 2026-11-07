@@ -1,5 +1,5 @@
-import { Button } from '@sprintstack/ui';
 import type { Decorator, Preview } from '@storybook/react-native';
+import Button from '@ui/button';
 import { ScrollView, View } from 'react-native';
 import { Uniwind, useUniwind } from 'uniwind';
 

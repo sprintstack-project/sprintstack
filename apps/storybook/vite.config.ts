@@ -16,7 +16,7 @@ const dirname =
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   // packages/ui's internal aliases (see its tsconfig.web.json); Vite compiles that source directly.
-  // Pre-bundle what @sprintstack/ui imports. Otherwise Vite discovers them mid-test-run and
+  // Pre-bundle what packages/ui imports. Otherwise Vite discovers them mid-test-run and
   // reloads the browser, failing that run.
   optimizeDeps: {
     include: [

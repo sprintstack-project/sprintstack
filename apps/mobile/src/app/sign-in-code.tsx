@@ -1,6 +1,7 @@
-import { useAppForm } from '@sprintstack/forms';
-import { codeSchema, recoveryCodeSchema } from '@sprintstack/shared';
-import { Button, Text } from '@sprintstack/ui';
+import { useAppForm } from '@sprintstack/forms/form';
+import { codeSchema, recoveryCodeSchema } from '@sprintstack/shared/schemas/auth';
+import Button from '@ui/button';
+import Text from '@ui/text';
 import { router } from 'expo-router';
 import { Smartphone } from 'lucide-react-native';
 import { useState } from 'react';
