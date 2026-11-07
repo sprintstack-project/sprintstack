@@ -21,6 +21,8 @@ export const SPRINT_DAYS_LEFT = differenceInCalendarDays(SPRINT.end, TODAY);
 
 export const ASSIGNED = { total: 7, dueToday: 1, dueThisWeek: 2 };
 
+export type Assigned = typeof ASSIGNED;
+
 export const AWAITING_REVIEW = 3;
 
 export type ItemType = 'bug' | 'story' | 'task';
@@ -89,7 +91,12 @@ export interface Activity {
   time: string;
 }
 
-export const ACTIVITY: { title: string; items: Activity[] }[] = [
+export interface ActivityGroup {
+  title: string;
+  items: Activity[];
+}
+
+export const ACTIVITY: ActivityGroup[] = [
   {
     title: 'Today',
     items: [
@@ -163,7 +170,24 @@ export const BURNDOWN_TICKS = BURNDOWN.filter(
   (_, i) => (i % 3 === 0 && last - i > 1) || i === last,
 ).map((point) => point.label);
 
-export const STATUS_COUNTS: { tone: StatusTone; count: number }[] = [
+export interface Burndown {
+  sprint: typeof SPRINT;
+  points: typeof BURNDOWN;
+  ticks: string[];
+}
+
+export interface StatusCount {
+  tone: StatusTone;
+  count: number;
+}
+
+/** The work-status widget's data: the sprint it covers and its items per status. */
+export interface StatusSummary {
+  sprintName: string;
+  counts: StatusCount[];
+}
+
+export const STATUS_COUNTS: StatusCount[] = [
   { tone: 'neutral', count: 12 },
   { tone: 'info', count: 9 },
   { tone: 'review', count: 5 },

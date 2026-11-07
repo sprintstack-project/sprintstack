@@ -20,9 +20,7 @@ export class SprintsResolver {
     return this.sprintsService.findById(id);
   }
 
-  @Query(() => SprintModel, {
-    description: 'Get the current sprint',
-  })
+  @Query(() => SprintModel, { nullable: true, description: 'Get the current sprint' })
   currentSprint(@Args('projectId', { type: () => ID }) projectId: string) {
     return this.sprintsService.findCurrentByProjectId(projectId);
   }

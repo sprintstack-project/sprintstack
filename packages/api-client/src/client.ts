@@ -1,6 +1,7 @@
 import { Client, type Exchange, fetchExchange, mapExchange } from '@urql/core';
 import { filter, pipe } from 'wonka';
 import { createCache } from './cache';
+import { isUnauthenticated } from './errors';
 
 /**
  * The server render's only exchange: it drops every operation, so queries stay loading. Running
@@ -47,10 +48,7 @@ export const createApiClient = ({
       : [
           mapExchange({
             onError(error) {
-              const unauthenticated =
-                error.response?.status === 401 ||
-                error.graphQLErrors.some((e) => e.extensions?.code === 'UNAUTHENTICATED');
-              if (unauthenticated) onUnauthenticated?.();
+              if (isUnauthenticated(error)) onUnauthenticated?.();
             },
           }),
           createCache(),

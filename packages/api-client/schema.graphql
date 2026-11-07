@@ -175,7 +175,7 @@ type Query {
   commentsByWorkItemId(workItemId: ID!): [Comment!]!
 
   """Get the current sprint"""
-  currentSprint(projectId: ID!): Sprint!
+  currentSprint(projectId: ID!): Sprint
   getUploadUrl(key: String!): UploadUrlModel!
   getUserPreferences(projectId: String!): UserPreference!
 

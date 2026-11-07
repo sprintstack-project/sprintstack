@@ -21705,6 +21705,7 @@ __metadata:
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     "@types/react-is": "npm:^19"
+    "@urql/core": "npm:^6.0.1"
     babel-plugin-react-compiler: "npm:1.0.0"
     better-auth: "npm:^1.7.12"
     date-fns: "npm:^4.4.0"

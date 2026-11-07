@@ -1,115 +1,128 @@
-'use client';
-
+import type { Sprint } from '@sprintstack/api-client/documents/sprints';
+import type { UserSummary } from '@sprintstack/api-client/documents/users';
+import { Suspense } from 'react';
+import DashboardProvider from '@/providers/(main)/dashboard';
+import AddWidget from './add-widget';
+import type {
+  ActivityGroup,
+  Assigned,
+  Burndown as BurndownData,
+  StatusSummary,
+  WorkItem,
+} from './data';
+import FirstName from './first-name';
+import Section from './section';
 import {
-  closestCenter,
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-import { Button } from '@ui/button';
-import { format } from 'date-fns';
-import { PlusIcon } from 'lucide-react';
-import { type ReactNode, Suspense, useId, useState, useSyncExternalStore } from 'react';
-import { authClient } from '@/lib/auth-client';
-import Burndown from './burndown';
-import { SPRINT } from './data';
-import NextItems from './next-items';
-import RecentActivity from './recent-activity';
-import SummaryTiles from './summary-tiles';
-import Widget from './widget';
-import WorkStatus from './work-status';
+  ActivitySkeleton,
+  BurndownSkeleton,
+  NameSkeleton,
+  NextItemsSkeleton,
+  SprintTileSkeleton,
+  StatTileSkeleton,
+  WorkStatusSkeleton,
+} from './skeletons';
+import SummaryTiles, { AssignedTile, ReviewTile, SprintTile } from './summary-tiles';
+import Today from './today';
+import Widgets from './widgets';
+import Burndown from './widgets/burndown';
+import NextItems from './widgets/next-items';
+import RecentActivity from './widgets/recent-activity';
+import WorkStatus from './widgets/work-status';
 
-type WidgetKey = 'next-items' | 'activity' | 'burndown' | 'status';
+/** The dashboard's data, as promises the route starts without awaiting. */
+interface DashboardProps {
+  viewer: Promise<UserSummary>;
+  sprint: Promise<Sprint | null>;
+  assigned: Promise<Assigned>;
+  awaitingReview: Promise<number>;
+  nextItems: Promise<WorkItem[]>;
+  activity: Promise<ActivityGroup[]>;
+  burndown: Promise<BurndownData>;
+  status: Promise<StatusSummary>;
+}
 
-const WIDGETS: Record<WidgetKey, { title: string; href: string; content: ReactNode }> = {
-  'next-items': { title: 'Your next items', href: '/backlog', content: <NextItems /> },
-  activity: { title: 'Recent activity', href: '/team', content: <RecentActivity /> },
-  burndown: { title: `Burndown · ${SPRINT.name}`, href: '/timeline', content: <Burndown /> },
-  status: { title: 'Work item status', href: '/taskboard', content: <WorkStatus /> },
-};
-
-const DEFAULT_WIDGETS = Object.keys(WIDGETS) as WidgetKey[];
-
-const Dashboard = () => {
-  // Layout isn't saved yet: a reload brings back the default widgets in the default order.
-  const [widgets, setWidgets] = useState<WidgetKey[]>(DEFAULT_WIDGETS);
-  const removed = DEFAULT_WIDGETS.filter((key) => !widgets.includes(key));
-  // A stable id keeps dnd-kit's generated aria ids the same on the server and the client.
-  const dndId = useId();
-  const { data: session } = authClient.useSession();
-
-  const today = useSyncExternalStore(
-    () => () => {},
-    () => format(new Date(), 'eeee, d MMMM'),
-    () => null,
-  );
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
-
-  const onDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return;
-    setWidgets((all) =>
-      arrayMove(all, all.indexOf(active.id as WidgetKey), all.indexOf(over.id as WidgetKey)),
-    );
-  };
-
-  return (
+/**
+ * The layout renders straight away; each section shows its skeleton until its own promise
+ * resolves, and an error in its place if it fails.
+ */
+const Dashboard = ({
+  viewer,
+  sprint,
+  assigned,
+  awaitingReview,
+  nextItems,
+  activity,
+  burndown,
+  status,
+}: DashboardProps) => (
+  <DashboardProvider>
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <Suspense>
-            <p className="eyebrow">{today}</p>
-          </Suspense>
+          <Today />
           <h1 className="headline text-7xl leading-none">
-            Hello, <span className="text-brand-ink">{session?.user?.name?.split(' ')?.[0]}.</span>
+            Hello,{' '}
+            <span className="text-brand-ink">
+              {
+                <Suspense fallback={<NameSkeleton />}>
+                  <FirstName viewer={viewer} />
+                </Suspense>
+              }
+              .
+            </span>
           </h1>
         </div>
-        {/* Brings back a removed widget; a picker can replace this once there are more. */}
-        <Button
-          icon={PlusIcon}
-          disabled={removed.length === 0}
-          onClick={() => setWidgets((all) => [...all, removed[0]])}
-        >
-          Add widget
-        </Button>
+        <AddWidget />
       </div>
-      <SummaryTiles />
-      <DndContext
-        id={dndId}
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-      >
-        <SortableContext items={widgets} strategy={rectSortingStrategy}>
-          <div className="grid gap-4 xl:grid-cols-2">
-            {widgets.map((key) => (
-              <Widget
-                key={key}
-                id={key}
-                title={WIDGETS[key].title}
-                href={WIDGETS[key].href}
-                onRemove={() => setWidgets((all) => all.filter((k) => k !== key))}
-              >
-                {WIDGETS[key].content}
-              </Widget>
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      <SummaryTiles
+        sprint={
+          <Section label="the current sprint" fallback={<SprintTileSkeleton />}>
+            <SprintTile sprint={sprint} />
+          </Section>
+        }
+        assigned={
+          <Section
+            label="your assigned items"
+            fallback={<StatTileSkeleton label="your assigned items" />}
+          >
+            <AssignedTile assigned={assigned} />
+          </Section>
+        }
+        review={
+          <Section
+            label="your review queue"
+            fallback={<StatTileSkeleton label="your review queue" />}
+          >
+            <ReviewTile awaitingReview={awaitingReview} />
+          </Section>
+        }
+      />
+      <Widgets
+        content={{
+          'next-items': (
+            <Section label="your next items" fallback={<NextItemsSkeleton />}>
+              <NextItems items={nextItems} />
+            </Section>
+          ),
+          activity: (
+            <Section label="recent activity" fallback={<ActivitySkeleton />}>
+              <RecentActivity activity={activity} />
+            </Section>
+          ),
+          burndown: (
+            <Section label="the burndown" fallback={<BurndownSkeleton />}>
+              <Burndown burndown={burndown} />
+            </Section>
+          ),
+          status: (
+            <Section label="work item status" fallback={<WorkStatusSkeleton />}>
+              <WorkStatus status={status} />
+            </Section>
+          ),
+        }}
+      />
     </div>
-  );
-};
+  </DashboardProvider>
+);
 
 export default Dashboard;

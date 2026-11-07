@@ -1,40 +1,7 @@
 import { useCallback } from 'react';
 import { useClient } from 'urql';
-import { graphql, type ResultOf } from './graphql';
+import { MeQuery, UsersQuery } from './documents/users';
 import useRootQuery from './useRootQuery';
-
-const UserFields = graphql(`
-    fragment UserFields on UserSummary @_unmask {
-        id
-        name
-        email
-        image
-    }
-`);
-
-const UsersQuery = graphql(
-  `
-  query Users($search: String, $first: Int!) {
-    users(search: $search, first: $first) {
-    ...UserFields
-    }
-  }
-`,
-  [UserFields],
-);
-
-const MeQuery = graphql(
-  `
-  query Me {
-    me {
-    ...UserFields
-    }
-  }
-`,
-  [UserFields],
-);
-
-export type UserSummary = ResultOf<typeof UsersQuery>['users'][number];
 
 /**
  * Searches people in the viewer's active organization by name or email. Repeated searches come

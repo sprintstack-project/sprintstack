@@ -19,6 +19,7 @@
     "@sprintstack/forms": "workspace:^",
     "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",
+    "@urql/core": "^6.0.1",
     "better-auth": "^1.7.12",
     "date-fns": "^4.4.0",
     "firebase": "^13.1.0",
