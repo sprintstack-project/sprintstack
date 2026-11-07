@@ -4,6 +4,7 @@ import LoadState from '@ui/load-state';
 import Skeleton from '@ui/skeleton';
 import { useRef, useState } from 'react';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/LoadState',
@@ -125,10 +126,93 @@ const Demo = () => {
   );
 };
 
-export const Playground: Story = { render: () => <Demo /> };
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import LoadState from '@ui/load-state';
+          import Skeleton from '@ui/skeleton';
+
+          const BacklogSkeleton = () => (
+            <div className="flex flex-col gap-4">
+              {[70, 50, 60].map((width) => (
+                <div key={width} className="flex items-center gap-4 border-b border-line pb-4">
+                  <Skeleton shape="icon" />
+                  <Skeleton width={64} />
+                  <Skeleton width={\`\${width}%\`} />
+                  <Skeleton shape="pill" width={80} />
+                </div>
+              ))}
+            </div>
+          );
+
+          // Keep the chrome (title, toolbar) outside; only the data part is a skeleton.
+          const BacklogPage = () => {
+            const query = useBacklog();
+            return (
+              <>
+                <h2 className="headline text-title text-ink">Backlog</h2>
+                <LoadState
+                  loading={query.isPending}
+                  failed={query.isError}
+                  label="Loading backlog…"
+                  skeleton={<BacklogSkeleton />}
+                  slowMessage="Still loading. Large backlogs can take a few seconds."
+                  errorTitle="Couldn’t load the backlog"
+                  errorDescription="Check your connection and try again. Your filters are kept."
+                  errorDetail="Error 503 · ref 7f3k2"
+                  onRetry={query.refetch}
+                >
+                  <Backlog items={query.data} />
+                </LoadState>
+              </>
+            );
+          };
+        `,
+      },
+    },
+  },
+  render: () => <Demo />,
+};
 
 /** Skeleton held open (loading never ends) — after 8 s the slow note appears. */
 export const Skeletons: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import LoadState from '@ui/load-state';
+          import Skeleton from '@ui/skeleton';
+
+          const BacklogSkeleton = () => (
+            <div className="flex flex-col gap-4">
+              {[70, 50, 60].map((width) => (
+                <div key={width} className="flex items-center gap-4 border-b border-line pb-4">
+                  <Skeleton shape="icon" />
+                  <Skeleton width={64} />
+                  <Skeleton width={\`\${width}%\`} />
+                  <Skeleton shape="pill" width={80} />
+                </div>
+              ))}
+            </div>
+          );
+
+          // Shown after 300 ms; after 8 s the slow note joins the skeleton.
+          <LoadState
+            loading
+            label="Loading backlog…"
+            skeleton={<BacklogSkeleton />}
+            slowMessage="Still loading. Large backlogs can take a few seconds."
+            errorTitle="Couldn’t load the backlog"
+            errorDescription="Check your connection and try again. Your filters are kept."
+          >
+            <Backlog items={items} />
+          </LoadState>
+        `,
+      },
+    },
+  },
   args: {
     skeleton: <BacklogSkeleton />,
     slowMessage: 'Still loading. Large backlogs can take a few seconds.',
@@ -136,6 +220,30 @@ export const Skeletons: Story = {
 };
 
 export const Failed: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import LoadState from '@ui/load-state';
+          import Skeleton from '@ui/skeleton';
+
+          // failed (or 30 s of loading) shows the error panel with Retry.
+          <LoadState
+            loading={false}
+            failed
+            label="Loading backlog…"
+            skeleton={<Skeleton lines={3} />}
+            errorTitle="Couldn’t load the backlog"
+            errorDescription="Check your connection and try again. Your filters are kept."
+            errorDetail="Error 503 · ref 7f3k2"
+            onRetry={query.refetch}
+          >
+            <Backlog items={items} />
+          </LoadState>
+        `,
+      },
+    },
+  },
   args: {
     loading: false,
     failed: true,

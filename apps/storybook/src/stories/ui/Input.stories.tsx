@@ -5,6 +5,7 @@ import Input from '@ui/input';
 import { Eye, EyeOff, Mail, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Input',
@@ -48,10 +49,65 @@ In forms, \`@sprintstack/forms\` renders the Field for you: \`<f.TextField label
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import Input from '@ui/input';
+          import { useState } from 'react';
+
+          const Summary = () => {
+            const [summary, setSummary] = useState('');
+            return (
+              <Field label="Summary">
+                <Input value={summary} onChange={setSummary} placeholder="E.g. checkout bug" />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/Input.html. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import Field from '@ui/field';
+          import Input from '@ui/input';
+          import { Search } from 'lucide-react';
+
+          // Search bar
+          <Input
+            pill
+            placeholder="E.g. checkout bug"
+            slots={{
+              left: <Search />,
+              right: (
+                <Button variant="brand" size="sm" onClick={search}>
+                  Search
+                </Button>
+              ),
+            }}
+          />
+
+          <Field label="Title">
+            <Input placeholder="What needs to be done?" />
+          </Field>
+
+          <Field label="Project key" description="Set when the project was created">
+            <Input defaultValue="PAY" disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex max-w-3xl flex-col gap-5">
       <Input
@@ -122,6 +178,82 @@ const ClearableInput = () => {
 
 /** Left and right slots take icons, text or actions. */
 export const Slots: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import Field from '@ui/field';
+          import Input from '@ui/input';
+          import { Eye, EyeOff, Mail, Search, X } from 'lucide-react';
+          import { useState } from 'react';
+
+          // Icon on the left
+          <Field label="Reporter email">
+            <Input type="email" placeholder="E.g. sam@example.com" slots={{ left: <Mail /> }} />
+          </Field>
+
+          // Action on the right (prefer InputPassword for real password fields)
+          const PasswordInput = () => {
+            const [visible, setVisible] = useState(false);
+            return (
+              <Input
+                type={visible ? 'text' : 'password'}
+                slots={{
+                  right: (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      iconOnly
+                      icon={visible ? EyeOff : Eye}
+                      onClick={() => setVisible(!visible)}
+                    >
+                      {visible ? 'Hide password' : 'Show password'}
+                    </Button>
+                  ),
+                }}
+              />
+            );
+          };
+
+          // Clear button that only shows with a value
+          const SearchIssues = () => {
+            const [query, setQuery] = useState('');
+            return (
+              <Field label="Search issues">
+                <Input
+                  type="search"
+                  value={query}
+                  onChange={setQuery}
+                  slots={{
+                    left: <Search />,
+                    right: query ? (
+                      <Button variant="ghost" size="sm" iconOnly icon={X} onClick={() => setQuery('')}>
+                        Clear search
+                      </Button>
+                    ) : null,
+                  }}
+                />
+              </Field>
+            );
+          };
+
+          // Unit on the right
+          <Field label="Budget">
+            <Input defaultValue="1200" slots={{ right: <span className="text-body">EUR</span> }} />
+          </Field>
+
+          // Error and disabled
+          <Field label="Reporter email" error="Enter a valid email address">
+            <Input type="email" defaultValue="not-an-email" slots={{ left: <Mail /> }} />
+          </Field>
+          <Field label="Reporter email" description="Synced from your profile">
+            <Input type="email" defaultValue="sam@example.com" disabled slots={{ left: <Mail /> }} />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Reporter email">

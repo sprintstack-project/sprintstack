@@ -1,25 +1,22 @@
-import Field from '@ui/field';
 import Segmented from '@ui/segmented';
-import type { FieldProps, SegmentedProps } from '@ui/types';
+import type { SegmentedProps } from '@ui/types';
 import { useFieldContext } from '../context';
 import { useFieldError } from '../use-field-error';
 
-type Bound = 'label' | 'value' | 'onValueChange' | 'onBlur';
-export type SegmentedFieldProps = Omit<FieldProps, 'children' | 'error' | 'htmlFor'> &
-  Omit<SegmentedProps<string>, Bound>;
+type Bound = 'value' | 'defaultValue' | 'onValueChange' | 'onBlur' | 'error';
+export type SegmentedFieldProps = Omit<SegmentedProps, Bound>;
 
-export const SegmentedField = ({ label, description, required, choices }: SegmentedFieldProps) => {
-  const field = useFieldContext<string>();
+/** Story points. A group with its own legend and error, so it isn't wrapped in `Field`. */
+export const SegmentedField = (props: SegmentedFieldProps) => {
+  const field = useFieldContext<number | null>();
   const error = useFieldError();
   return (
-    <Field label={label} description={description} required={required} error={error}>
-      <Segmented
-        label={label}
-        choices={choices}
-        value={field.state.value}
-        onValueChange={field.handleChange}
-        onBlur={field.handleBlur}
-      />
-    </Field>
+    <Segmented
+      {...props}
+      value={field.state.value ?? null}
+      onValueChange={field.handleChange}
+      onBlur={field.handleBlur}
+      error={error}
+    />
   );
 };

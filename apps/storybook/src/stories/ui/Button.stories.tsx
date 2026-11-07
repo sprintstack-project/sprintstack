@@ -3,6 +3,7 @@ import Button from '@ui/button';
 import { ArrowRight, Bookmark, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Button',
@@ -46,10 +47,53 @@ import { Plus, Bookmark } from 'lucide-react'; // lucide-react-native on mobile
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = { args: { variant: 'primary' } };
+export const Playground: Story = {
+  args: { variant: 'primary' },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+
+          <Button variant="primary" onClick={createIssue}>
+            Create issue
+          </Button>
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/Button.html. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import { ArrowRight, Bookmark, Plus } from 'lucide-react';
+
+          // Variants
+          <Button variant="primary">Create issue</Button>
+          <Button variant="brand">Start sprint</Button>
+          <Button>Cancel</Button>
+          <Button variant="danger">Delete</Button>
+          <Button variant="link">View details</Button>
+          <Button disabled>Disabled</Button>
+
+          // Sizes
+          <Button variant="primary" size="sm">Small</Button>
+          <Button variant="primary">Medium</Button>
+          <Button variant="primary" size="lg">Large</Button>
+
+          // Icon only: children become the accessible name
+          <Button variant="brand" iconOnly icon={ArrowRight}>Next</Button>
+          <Button variant="primary" iconOnly icon={Plus}>Add</Button>
+          <Button variant="ghost" iconOnly icon={Bookmark}>Watch</Button>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center gap-3">
@@ -83,6 +127,21 @@ export const States: Story = {
 };
 
 export const WithIcons: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import { ArrowRight, Plus, Trash2 } from 'lucide-react';
+
+          <Button variant="primary" icon={Plus}>Create issue</Button>
+          <Button variant="brand" iconEnd={ArrowRight}>Start sprint</Button>
+          <Button variant="danger" icon={Trash2}>Delete</Button>
+          <Button variant="link" iconEnd={ArrowRight}>See all</Button>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
       <Button variant="primary" icon={Plus}>
@@ -170,6 +229,37 @@ export const Labels: Story = {
 
 /** Working states keep the button's width; only the label changes. Done goes back to idle after 1.5 s (re-render to replay). */
 export const Working: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+
+          // Drive status from the mutation: pending keeps the width and ignores clicks,
+          // done shows for 1.5 s, then the button goes back to idle on its own.
+          const SaveButton = () => {
+            const save = useSaveIssue();
+            return (
+              <Button
+                variant="brand"
+                status={save.isPending ? 'pending' : save.isSuccess ? 'done' : undefined}
+                pendingLabel="Saving…"
+                doneLabel="Saved"
+                onClick={() => save.mutate()}
+              >
+                Save changes
+              </Button>
+            );
+          };
+
+          // Each state on its own
+          <Button variant="brand">Save changes</Button>
+          <Button variant="brand" status="pending" pendingLabel="Saving…">Save changes</Button>
+          <Button variant="brand" status="done" doneLabel="Saved">Save changes</Button>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid w-fit grid-cols-3 gap-3">
       <Button variant="brand">Save changes</Button>

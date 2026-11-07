@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Stepper from '@ui/stepper';
 import { expect, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Stepper',
@@ -24,9 +25,39 @@ import Stepper from '@ui/stepper';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Stepper from '@ui/stepper';
+
+          <Stepper label="Sign-up progress" steps={['Account', 'Verify', 'Secure']} current={step} />
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Stepper from '@ui/stepper';
+
+          const steps = ['Account', 'Verify', 'Secure'];
+
+          <Stepper label="Sign-up progress" steps={steps} current={0} />
+          <Stepper label="Sign-up progress" steps={steps} current={1} />
+          <Stepper label="Sign-up progress" steps={steps} current={2} />
+
+          // Progress bars instead of circles, for small screens
+          <Stepper label="Sign-up progress" steps={steps} current={1} compact />
+        `,
+      },
+    },
+  },
   render: (args) => (
     <div className="grid max-w-xl gap-8">
       <Stepper {...args} current={0} />

@@ -54,7 +54,7 @@ export const Properties = withForm({
         </View>
       </View>
       <form.AppField name="points">
-        {(f) => <f.StoryPointsField scale={STORY_POINTS} more={MORE_STORY_POINTS} />}
+        {(f) => <f.SegmentedField scale={STORY_POINTS} more={MORE_STORY_POINTS} />}
       </form.AppField>
       <form.AppField name="tags">
         {(f) => (

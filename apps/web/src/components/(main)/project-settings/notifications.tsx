@@ -4,7 +4,7 @@ import { useAppForm } from '@sprintstack/forms/form';
 import { notificationSettingsSchema } from '@sprintstack/shared/schemas/project';
 import Eyebrow from '@ui/eyebrow';
 import Section from '@ui/section';
-import Segmented from '@ui/segmented';
+import Tabs from '@ui/tabs';
 import { CHANNEL_CHOICES, EVENTS, notificationsForm, ROLE_OPTIONS, save, useSaved } from './data';
 
 const Notifications = () => {
@@ -30,7 +30,7 @@ const Notifications = () => {
             <Eyebrow>Event</Eyebrow>
             <form.AppField name="channel">
               {(f) => (
-                <Segmented
+                <Tabs
                   label="Send as"
                   choices={CHANNEL_CHOICES}
                   value={f.state.value}

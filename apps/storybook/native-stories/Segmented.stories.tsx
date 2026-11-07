@@ -1,50 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 import Segmented from '@ui/segmented';
-import { Moon, Sun } from 'lucide-react-native';
-import { useState } from 'react';
 import { fn } from 'storybook/test';
 
 const meta = {
   title: 'UI/Segmented',
   component: Segmented,
-  args: {
-    label: 'Send as',
-    choices: [
-      { value: 'email', label: 'In-app & email' },
-      { value: 'in-app', label: 'In-app only' },
-    ],
-    value: 'email',
-    onValueChange: fn(),
-  },
+  args: { onValueChange: fn() },
 } satisfies Meta<typeof Segmented>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
-  render: (args) => {
-    const [value, setValue] = useState(args.value);
-    return (
-      <Segmented
-        {...args}
-        value={value}
-        onValueChange={(next) => {
-          setValue(next);
-          args.onValueChange(next);
-        }}
-      />
-    );
-  },
-};
+export const Playground: Story = {};
 
-export const WithIcons: Story = {
-  ...Playground,
-  args: {
-    label: 'Theme',
-    choices: [
-      { value: 'dark', label: 'Dark', icon: Moon },
-      { value: 'light', label: 'Light', icon: Sun },
-    ],
-    value: 'light',
-  },
+export const States: Story = {
+  render: (args) => (
+    <>
+      <Segmented {...args} defaultValue={5} />
+      <Segmented {...args} defaultValue={21} />
+      <Segmented {...args} error="Story points go up to 34. Split anything bigger." />
+      <Segmented {...args} defaultValue={3} disabled />
+    </>
+  ),
 };

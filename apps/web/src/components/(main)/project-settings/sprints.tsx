@@ -44,7 +44,7 @@ const Sprints = () => {
           </form.AppField>
         </div>
         <form.AppField name="startDay">
-          {(f) => <f.SegmentedField label="Sprints start on" choices={WEEKDAY_CHOICES} />}
+          {(f) => <f.TabsField label="Sprints start on" choices={WEEKDAY_CHOICES} />}
         </form.AppField>
         <div className="flex flex-col">
           <form.AppField name="autoStart">

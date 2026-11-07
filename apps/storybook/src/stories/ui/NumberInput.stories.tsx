@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Field from '@ui/field';
 import NumberInput from '@ui/number-input';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/NumberInput',
@@ -28,10 +29,62 @@ import NumberInput from '@ui/number-input';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import NumberInput from '@ui/number-input';
+          import { useState } from 'react';
+
+          // Steppers stop at min/max; typed values outside stay as typed, so flag them in the error.
+          const StoryPoints = () => {
+            const [points, setPoints] = useState<number | null>(3);
+            return (
+              <Field
+                label="Story points"
+                error={points !== null && points > 21 ? 'Story points go up to 21' : undefined}
+              >
+                <NumberInput value={points} onValueChange={setPoints} min={0} max={21} />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/NumberInput.html, plus bounds and disabled. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import NumberInput from '@ui/number-input';
+
+          <Field label="Story points">
+            <NumberInput defaultValue={3} min={0} max={21} />
+          </Field>
+
+          <Field label="Capacity" error="Must be 100% or less">
+            <NumberInput defaultValue={120} unit="%" invalid />
+          </Field>
+
+          // At the minimum, minus is disabled
+          <Field label="Sprint length" description="At the minimum, minus is disabled">
+            <NumberInput defaultValue={1} min={1} max={4} unit="weeks" />
+          </Field>
+
+          <Field label="Estimate" description="Locked after planning">
+            <NumberInput defaultValue={5} disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Story points">

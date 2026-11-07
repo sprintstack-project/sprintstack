@@ -2,7 +2,7 @@ import { scaled } from '@lib/scale';
 import Button from '@ui/button';
 import Eyebrow from '@ui/eyebrow';
 import PageHeading from '@ui/page-heading';
-import Segmented from '@ui/segmented';
+import Tabs from '@ui/tabs';
 import Text from '@ui/text';
 import type { SidebarItem } from '@ui/types';
 import { type Href, router } from 'expo-router';
@@ -102,7 +102,7 @@ export const Settings = () => {
       />
       <View className="gap-3">
         <Eyebrow heading>Appearance</Eyebrow>
-        <Segmented
+        <Tabs
           label="Theme"
           choices={themes}
           value={theme === 'dark' ? 'dark' : 'light'}

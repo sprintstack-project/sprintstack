@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import DatePicker from '@ui/date-picker';
 import Field from '@ui/field';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 // Stories use dates relative to today so they never go stale.
 const iso = (offsetDays: number) => {
@@ -39,12 +40,57 @@ import DatePicker from '@ui/date-picker';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import DatePicker from '@ui/date-picker';
+          import Field from '@ui/field';
+          import { useState } from 'react';
+
+          // Values are ISO dates (YYYY-MM-DD); null when cleared.
+          const DueDate = () => {
+            const [due, setDue] = useState<string | null>(null);
+            return (
+              <Field label="Due date">
+                <DatePicker value={due} onValueChange={setDue} />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/DatePicker.html (calendar open on the first). */
 export const States: Story = {
   // Opens a menu on load: give it its own frame on the docs page so the popup has room.
-  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import DatePicker from '@ui/date-picker';
+          import Field from '@ui/field';
+
+          <Field label="Due date">
+            <DatePicker defaultValue="2026-11-14" defaultOpen />
+          </Field>
+
+          <Field label="Start date">
+            <DatePicker />
+          </Field>
+
+          // dueStyle adds "· Overdue" in red to past dates
+          <Field label="Due date" description="Past due dates say so in red">
+            <DatePicker defaultValue="2026-11-03" dueStyle />
+          </Field>
+        `,
+      },
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-[440px] md:grid-cols-2">
       <Field label="Due date">
@@ -64,7 +110,30 @@ export const States: Story = {
 
 export const More: Story = {
   // Opens a menu on load: give it its own frame on the docs page so the popup has room.
-  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import DatePicker from '@ui/date-picker';
+          import Field from '@ui/field';
+
+          // Opens on the month grid instead of the days
+          <Field label="Release month" description="Opens on the month grid">
+            <DatePicker defaultValue="2026-12-17" defaultView="months" />
+          </Field>
+
+          <Field label="Due date" error="Pick a date after the sprint starts">
+            <DatePicker value={due} onValueChange={setDue} min={sprintStart} invalid />
+          </Field>
+
+          <Field label="Sprint start" description="Locked once the sprint begins">
+            <DatePicker defaultValue="2026-11-05" disabled />
+          </Field>
+        `,
+      },
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-80 md:grid-cols-2">
       <Field label="Release month" description="Opens on the month grid">

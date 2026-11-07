@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Button from '@ui/button';
 import Card from '@ui/card';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Card',
@@ -30,10 +31,92 @@ import Card from '@ui/card';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Card from '@ui/card';
+
+          <Card title="Sprint summary">12 issues, 3 blocked. Ends Friday.</Card>
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/Card.html, plus a panel and a muted tile. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import Card from '@ui/card';
+
+          // Board card: the whole card opens the issue
+          <Card
+            variant="issue"
+            issueKey="PAY-1482"
+            title="Checkout fails on saved cards"
+            project="Payments · iOS"
+            priority="highest"
+            points={3}
+            due="2 days overdue"
+            overdue
+            assignee="MO"
+            age="Updated 2h ago"
+            onPress={() => openIssue('PAY-1482')}
+          />
+
+          // Board card with a status and subtask progress
+          <Card
+            variant="issue"
+            status="review"
+            issueKey="PAY-1477"
+            project="Payments"
+            title="Add Apple Pay to checkout"
+            updated="Updated 2d ago"
+            progress={60}
+            selected
+            onPress={() => openIssue('PAY-1477')}
+          />
+
+          // Poster tiles: keep one per screen
+          <Card variant="tile" tone="ink">
+            <p className="headline text-poster">
+              Ship it.
+              <br />
+              <em>Sprint 24.</em>
+            </p>
+          </Card>
+          <Card variant="tile" tone="brand" eyebrow="Release notes">
+            <p className="headline text-headline">v4.2</p>
+          </Card>
+          <Card variant="tile" tone="muted" eyebrow="Career toolkit">
+            <p className="headline text-headline">Reviews</p>
+          </Card>
+
+          // Panel with header actions and a footer
+          <Card
+            title="Sprint summary"
+            actions={<Button variant="link">Edit</Button>}
+            footer={
+              <>
+                <span className="text-meta font-semibold text-ink-muted">Ends 30 Oct 2026</span>
+                <span className="flex-1" />
+                <Button variant="primary" size="sm" onClick={closeSprint}>
+                  Close sprint
+                </Button>
+              </>
+            }
+          >
+            12 issues, 3 blocked. Velocity is up 8% on last sprint.
+          </Card>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-5">
       <div>

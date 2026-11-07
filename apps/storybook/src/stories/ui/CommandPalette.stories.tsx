@@ -5,6 +5,7 @@ import type { CommandGroup } from '@ui/types';
 import { Columns3, LayoutDashboard, Plus, Rows3, SunMoon, Users } from 'lucide-react';
 import { useState } from 'react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const groups: CommandGroup[] = [
   {
@@ -100,9 +101,116 @@ const [open, setOpen] = useState(false);
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import CommandPalette from '@ui/command-palette';
+          import { Columns3, LayoutDashboard, Plus, Rows3, SunMoon, Users } from 'lucide-react';
+          import { useState } from 'react';
+
+          const Search = () => {
+            const [open, setOpen] = useState(false);
+            return (
+              <>
+                {/* In the app, Header's search.onOpen opens it (and binds ⌘K / Ctrl+K). */}
+                <Button size="sm" onClick={() => setOpen(true)}>
+                  Open palette
+                </Button>
+                <CommandPalette
+                  open={open}
+                  onOpenChange={setOpen}
+                  groups={[
+                    {
+                      title: 'Pages',
+                      items: [
+                        { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, onSelect: () => router.push('/dashboard') },
+                        { key: 'taskboard', label: 'Taskboard', icon: Columns3, onSelect: () => router.push('/taskboard') },
+                        { key: 'backlog', label: 'Backlog', icon: Rows3, keywords: ['issues', 'stories'], onSelect: () => router.push('/backlog') },
+                        { key: 'team', label: 'Team', icon: Users, keywords: ['people'], onSelect: () => router.push('/team') },
+                      ],
+                    },
+                    {
+                      title: 'Issues',
+                      items: [
+                        { key: 'PAY-142', label: 'Retry failed card payouts', description: 'PAY-142', onSelect: () => openIssue('PAY-142') },
+                        { key: 'PAY-118', label: 'Payout webhooks', description: 'PAY-118', onSelect: () => openIssue('PAY-118') },
+                      ],
+                    },
+                    {
+                      title: 'Actions',
+                      items: [
+                        { key: 'new-issue', label: 'Create issue', icon: Plus, keywords: ['add'], onSelect: createIssue },
+                        { key: 'theme', label: 'Switch theme', icon: SunMoon, keywords: ['dark', 'light'], onSelect: toggleTheme },
+                      ],
+                    },
+                  ]}
+                />
+              </>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const Open: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import CommandPalette from '@ui/command-palette';
+          import { Columns3, LayoutDashboard, Plus, Rows3, SunMoon, Users } from 'lucide-react';
+          import { useState } from 'react';
+
+          const Search = () => {
+            const [open, setOpen] = useState(true);
+            return (
+              <>
+                {/* In the app, Header's search.onOpen opens it (and binds ⌘K / Ctrl+K). */}
+                <Button size="sm" onClick={() => setOpen(true)}>
+                  Open palette
+                </Button>
+                <CommandPalette
+                  open={open}
+                  onOpenChange={setOpen}
+                  groups={[
+                    {
+                      title: 'Pages',
+                      items: [
+                        { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, onSelect: () => router.push('/dashboard') },
+                        { key: 'taskboard', label: 'Taskboard', icon: Columns3, onSelect: () => router.push('/taskboard') },
+                        { key: 'backlog', label: 'Backlog', icon: Rows3, keywords: ['issues', 'stories'], onSelect: () => router.push('/backlog') },
+                        { key: 'team', label: 'Team', icon: Users, keywords: ['people'], onSelect: () => router.push('/team') },
+                      ],
+                    },
+                    {
+                      title: 'Issues',
+                      items: [
+                        { key: 'PAY-142', label: 'Retry failed card payouts', description: 'PAY-142', onSelect: () => openIssue('PAY-142') },
+                        { key: 'PAY-118', label: 'Payout webhooks', description: 'PAY-118', onSelect: () => openIssue('PAY-118') },
+                      ],
+                    },
+                    {
+                      title: 'Actions',
+                      items: [
+                        { key: 'new-issue', label: 'Create issue', icon: Plus, keywords: ['add'], onSelect: createIssue },
+                        { key: 'theme', label: 'Switch theme', icon: SunMoon, keywords: ['dark', 'light'], onSelect: toggleTheme },
+                      ],
+                    },
+                  ]}
+                />
+              </>
+            );
+          };
+        `,
+      },
+    },
+  },
   args: { open: true },
 };
 

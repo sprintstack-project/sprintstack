@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Checkbox from '@ui/checkbox';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Checkbox',
@@ -24,9 +25,53 @@ import Checkbox from '@ui/checkbox';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Checkbox from '@ui/checkbox';
+          import { useState } from 'react';
+
+          const KeepSignedIn = () => {
+            const [keep, setKeep] = useState(false);
+            return (
+              <Checkbox checked={keep} onCheckedChange={setKeep}>
+                Keep me signed in on this device
+              </Checkbox>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Checkbox from '@ui/checkbox';
+
+          <Checkbox>Keep me signed in on this device</Checkbox>
+          <Checkbox defaultChecked>Don’t ask again on this device for 30 days</Checkbox>
+
+          // Links inside the label stay clickable
+          <Checkbox error="Agree to the Terms to continue">
+            I agree to the{' '}
+            <a href="/terms" className="link">
+              Terms
+            </a>
+          </Checkbox>
+
+          <Checkbox disabled defaultChecked>
+            Managed by your organisation
+          </Checkbox>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-md gap-4">
       <Checkbox>Keep me signed in on this device</Checkbox>

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import SaveStatus from '@ui/save-status';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/SaveStatus',
@@ -27,9 +28,39 @@ import SaveStatus from '@ui/save-status';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import SaveStatus from '@ui/save-status';
+
+          // Next to what changed, driven by the save mutation
+          <SaveStatus
+            state={save.isPending ? 'saving' : save.isError ? 'error' : 'saved'}
+            savedAt="just now"
+            onRetry={() => save.mutate()}
+          />
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import SaveStatus from '@ui/save-status';
+
+          <SaveStatus state="saving" />
+          <SaveStatus state="saved" savedAt="just now" />
+          <SaveStatus state="error" onRetry={save} />
+        `,
+      },
+    },
+  },
   render: (args) => (
     <div className="flex flex-col items-start gap-4">
       <SaveStatus state="saving" />

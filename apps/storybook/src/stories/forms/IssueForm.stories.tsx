@@ -6,6 +6,7 @@ import Card from '@ui/card';
 import { BookOpen, Bug, CheckSquare } from 'lucide-react';
 import { useEffect } from 'react';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 import { sampleDoc } from '../ui/RichTextEditor.stories';
 
 const empty: IssueInput = {
@@ -161,7 +162,96 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Create: Story = {
-  parameters: { singleTheme: true },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import { EMPTY_DOC } from '@lib/rich-text';
+          import { useAppForm } from '@sprintstack/forms/form';
+          import { type IssueInput, issueSchema } from '@sprintstack/shared/schemas/issue';
+          import Card from '@ui/card';
+          import { BookOpen, Bug, CheckSquare } from 'lucide-react';
+
+          const empty: IssueInput = {
+            summary: '',
+            type: null,
+            priority: null,
+            description: EMPTY_DOC,
+            points: null,
+            labels: [],
+            dueDate: null,
+          };
+
+          const typeOptions = [
+            { value: 'bug', label: 'Bug', icon: Bug },
+            { value: 'story', label: 'Story', icon: BookOpen },
+            { value: 'task', label: 'Task', icon: CheckSquare },
+          ];
+          const priorityOptions = ['highest', 'high', 'medium', 'low', 'lowest'].map((value) => ({
+            value,
+            label: value[0].toUpperCase() + value.slice(1),
+          }));
+          const labelOptions = ['payments', 'ios', 'web', 'tech-debt', 'flaky'].map((value) => ({
+            value,
+            label: value,
+          }));
+
+          const CreateIssueForm = () => {
+            const form = useAppForm({
+              defaultValues: empty,
+              // Validate on every change; fields show errors once left or after a submit attempt.
+              validators: { onChange: issueSchema },
+              onSubmit: ({ value }) => api.createIssue(issueSchema.parse(value)),
+            });
+
+            return (
+              <Card title="Create issue">
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="md:col-span-2">
+                    <form.AppField name="summary">
+                      {(f) => <f.TextField label="Summary" required placeholder="E.g. checkout fails on saved cards" />}
+                    </form.AppField>
+                  </div>
+                  <form.AppField name="type">
+                    {(f) => <f.SelectField label="Type" required placeholder="E.g. Bug" options={typeOptions} />}
+                  </form.AppField>
+                  <form.AppField name="priority">
+                    {(f) => <f.SelectField label="Priority" required placeholder="E.g. High" options={priorityOptions} />}
+                  </form.AppField>
+                  <div className="md:col-span-2">
+                    <form.AppField name="description">
+                      {(f) => (
+                        <f.RichTextField
+                          label="Description"
+                          required
+                          placeholder="Steps to reproduce, expected and actual result"
+                        />
+                      )}
+                    </form.AppField>
+                  </div>
+                  <form.AppField name="points">
+                    {(f) => <f.NumberField label="Story points" min={0} max={21} />}
+                  </form.AppField>
+                  <form.AppField name="dueDate">{(f) => <f.DateField label="Due date" />}</form.AppField>
+                  <div className="md:col-span-2">
+                    <form.AppField name="labels">
+                      {(f) => <f.MultiSelectField label="Labels" placeholder="Add labels" options={labelOptions} creatable />}
+                    </form.AppField>
+                  </div>
+                </div>
+                <div className="mt-6 flex justify-end">
+                  <form.AppForm>
+                    <form.SubmitButton>Create issue</form.SubmitButton>
+                  </form.AppForm>
+                </div>
+              </Card>
+            );
+          };
+        `,
+      },
+    },
+    singleTheme: true,
+  },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     const summary = canvas.getByRole('textbox', { name: 'Summary' });
@@ -209,7 +299,102 @@ const loadSaved = () => new Promise<IssueInput>((resolve) => setTimeout(() => re
 
 /** The issue loads after the first render: every field, including the rich text, fills in. */
 export const Edit: Story = {
-  parameters: { singleTheme: true },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import { EMPTY_DOC } from '@lib/rich-text';
+          import { useAppForm } from '@sprintstack/forms/form';
+          import { type IssueInput, issueSchema } from '@sprintstack/shared/schemas/issue';
+          import Card from '@ui/card';
+          import { BookOpen, Bug, CheckSquare } from 'lucide-react';
+          import { useEffect } from 'react';
+
+          const empty: IssueInput = {
+            summary: '',
+            type: null,
+            priority: null,
+            description: EMPTY_DOC,
+            points: null,
+            labels: [],
+            dueDate: null,
+          };
+
+          const typeOptions = [
+            { value: 'bug', label: 'Bug', icon: Bug },
+            { value: 'story', label: 'Story', icon: BookOpen },
+            { value: 'task', label: 'Task', icon: CheckSquare },
+          ];
+          const priorityOptions = ['highest', 'high', 'medium', 'low', 'lowest'].map((value) => ({
+            value,
+            label: value[0].toUpperCase() + value.slice(1),
+          }));
+          const labelOptions = ['payments', 'ios', 'web', 'tech-debt', 'flaky'].map((value) => ({
+            value,
+            label: value,
+          }));
+
+          const EditIssueForm = ({ issueKey }: { issueKey: string }) => {
+            const form = useAppForm({
+              defaultValues: empty,
+              validators: { onChange: issueSchema },
+              onSubmit: ({ value }) => api.updateIssue(issueKey, issueSchema.parse(value)),
+            });
+
+            // Data that arrives late goes in through reset; every field, rich text included,
+            // fills in without a remount.
+            useEffect(() => {
+              api.getIssue(issueKey).then((issue) => form.reset(issue));
+            }, [form, issueKey]);
+
+            return (
+              <Card title="Edit issue">
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="md:col-span-2">
+                    <form.AppField name="summary">
+                      {(f) => <f.TextField label="Summary" required placeholder="E.g. checkout fails on saved cards" />}
+                    </form.AppField>
+                  </div>
+                  <form.AppField name="type">
+                    {(f) => <f.SelectField label="Type" required placeholder="E.g. Bug" options={typeOptions} />}
+                  </form.AppField>
+                  <form.AppField name="priority">
+                    {(f) => <f.SelectField label="Priority" required placeholder="E.g. High" options={priorityOptions} />}
+                  </form.AppField>
+                  <div className="md:col-span-2">
+                    <form.AppField name="description">
+                      {(f) => (
+                        <f.RichTextField
+                          label="Description"
+                          required
+                          placeholder="Steps to reproduce, expected and actual result"
+                        />
+                      )}
+                    </form.AppField>
+                  </div>
+                  <form.AppField name="points">
+                    {(f) => <f.NumberField label="Story points" min={0} max={21} />}
+                  </form.AppField>
+                  <form.AppField name="dueDate">{(f) => <f.DateField label="Due date" />}</form.AppField>
+                  <div className="md:col-span-2">
+                    <form.AppField name="labels">
+                      {(f) => <f.MultiSelectField label="Labels" placeholder="Add labels" options={labelOptions} creatable />}
+                    </form.AppField>
+                  </div>
+                </div>
+                <div className="mt-6 flex justify-end">
+                  <form.AppForm>
+                    <form.SubmitButton>Save changes</form.SubmitButton>
+                  </form.AppForm>
+                </div>
+              </Card>
+            );
+          };
+        `,
+      },
+    },
+    singleTheme: true,
+  },
   args: { load: loadSaved },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);

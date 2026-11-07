@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Field from '@ui/field';
 import TextArea from '@ui/text-area';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/TextArea',
@@ -28,10 +29,66 @@ import TextArea from '@ui/text-area';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import TextArea from '@ui/text-area';
+          import { useState } from 'react';
+
+          const Description = () => {
+            const [description, setDescription] = useState('');
+            return (
+              <Field label="Description">
+                <TextArea
+                  value={description}
+                  onChange={setDescription}
+                  placeholder="Steps to reproduce, expected and actual result"
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/TextArea.html, plus over-limit and disabled. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import TextArea from '@ui/text-area';
+
+          <Field label="Description">
+            <TextArea placeholder="Steps to reproduce, expected and actual result" />
+          </Field>
+
+          // maxLength shows a counter
+          <Field label="Release note" description="Visible to customers">
+            <TextArea
+              maxLength={140}
+              defaultValue="Expired saved cards now prompt for an update instead of failing at checkout."
+            />
+          </Field>
+
+          // Past the limit the counter turns red, but the text is never cut off
+          <Field label="Summary" error="Keep it to 40 characters or fewer">
+            <TextArea maxLength={40} rows={2} defaultValue="Checkout fails for every saved card on iOS" />
+          </Field>
+
+          <Field label="Resolution" description="Locked once the issue is closed">
+            <TextArea rows={2} defaultValue="Fixed in 4.12" disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Description">

@@ -15,6 +15,7 @@ import {
   Users,
 } from 'lucide-react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 // Long enough to search: the project switcher is a combobox.
 const projects: Option[] = [
@@ -182,11 +183,143 @@ const account: Option[] = [
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Sidebar from '@ui/sidebar';
+          import type { Option, SidebarSection } from '@ui/types';
+          import {
+            Columns3,
+            LayoutDashboard,
+            ListTree,
+            LogOut,
+            Network,
+            Rows3,
+            Settings,
+            ShieldCheck,
+            SlidersVertical,
+            UserRound,
+            Users,
+          } from 'lucide-react';
+          import Link from 'next/link';
+
+          const sections: SidebarSection[] = [
+            {
+              items: [
+                { key: 'home', label: 'Dashboard', icon: LayoutDashboard, href: '/' },
+                { key: 'taskboard', label: 'Taskboard', icon: Columns3, href: '/taskboard' },
+                { key: 'backlog', label: 'Backlog', icon: Rows3, href: '/backlog' },
+                { key: 'timeline', label: 'Timeline', icon: ListTree, href: '/timeline' },
+                { key: 'team', label: 'Team', icon: Users, href: '/team' },
+                { key: 'settings', label: 'Project settings', icon: SlidersVertical, href: '/settings' },
+              ],
+            },
+            {
+              title: 'Administration',
+              items: [
+                { key: 'workflows', label: 'Workflows', icon: Network, href: '/workflows' },
+                { key: 'users', label: 'Users & permissions', icon: ShieldCheck, href: '/users' },
+              ],
+            },
+          ];
+
+          // The project switcher: a searchable combobox
+          const projects: Option[] = [
+            { value: 'pay', label: 'Payments', avatar: 'PAY', description: 'Scrum' },
+            { value: 'ios', label: 'iOS app', avatar: 'IOS', description: 'Kanban' },
+            { value: 'web', label: 'Web platform', avatar: 'WEB', description: 'Scrum' },
+          ];
+
+          // The account menu: action rows run instead of selecting
+          const account: Option[] = [
+            { value: 'profile', label: 'Profile', icon: UserRound, action: openProfile },
+            { value: 'preferences', label: 'Preferences', icon: Settings, action: openPreferences },
+            { value: 'sign-out', label: 'Sign out', icon: LogOut, danger: true, action: signOut },
+          ];
+
+          <Sidebar.Provider>
+            <div className="flex min-h-dvh">
+              <Sidebar.Root
+                logo={
+                  <span className="headline text-[2rem] leading-none">
+                    Strata<span className="text-brand-ink">.</span>
+                  </span>
+                }
+                logoCollapsed={
+                  <span className="headline text-[2rem] leading-none">
+                    S<span className="text-brand-ink">.</span>
+                  </span>
+                }
+                project={{
+                  code: 'PAY',
+                  name: 'Payments',
+                  meta: 'Scrum · 5 members',
+                  options: projects,
+                  value: projectId,
+                  onValueChange: switchProject,
+                }}
+                sections={sections}
+                active="taskboard"
+                user={{
+                  name: 'Mira Okafor',
+                  email: 'mira@company.com',
+                  avatar: 'MO',
+                  options: account,
+                  searchable: false,
+                }}
+                linkComponent={Link}
+              />
+              <div className="min-w-0 flex-1">
+                <header className="flex h-16 items-center gap-3 border-b border-line px-6">
+                  <Sidebar.Toggle />
+                  <span className="text-meta text-ink-muted">Payments / Taskboard</span>
+                </header>
+                {children}
+              </div>
+            </div>
+          </Sidebar.Provider>
+        `,
+      },
+    },
+  },
+};
 
 /** Starts collapsed to the rail on every width from `md`; labels move into tooltips. */
 export const Collapsed: Story = {
-  parameters: { defaultCollapsed: true },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Sidebar from '@ui/sidebar';
+
+          // Start collapsed to the icon rail from md up; labels move into tooltips.
+          // Sidebar.Toggle expands it again and pins the choice.
+          <Sidebar.Provider defaultCollapsed>
+            <div className="flex min-h-dvh">
+              <Sidebar.Root
+                logo={<Logo />}
+                logoCollapsed={<Monogram />}
+                project={{ code: 'PAY', name: 'Payments', meta: 'Scrum · 5 members', options: projects, value: projectId, onValueChange: switchProject }}
+                sections={sections}
+                active="taskboard"
+                user={{ name: 'Mira Okafor', email: 'mira@company.com', avatar: 'MO', options: account, searchable: false }}
+                linkComponent={Link}
+              />
+              <div className="min-w-0 flex-1">
+                <header className="flex h-16 items-center gap-3 border-b border-line px-6">
+                  <Sidebar.Toggle />
+                </header>
+                {children}
+              </div>
+            </div>
+          </Sidebar.Provider>
+        `,
+      },
+    },
+    defaultCollapsed: true,
+  },
 };
 
 /**

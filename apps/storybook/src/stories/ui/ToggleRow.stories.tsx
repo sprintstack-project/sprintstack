@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import ToggleRow from '@ui/toggle-row';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/ToggleRow',
@@ -36,6 +37,28 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import ToggleRow from '@ui/toggle-row';
+          import { useState } from 'react';
+
+          const CarryOver = () => {
+            const [carry, setCarry] = useState(false);
+            return (
+              <ToggleRow
+                title="Carry over unfinished work"
+                description="Open items move to the next sprint instead of back to the backlog."
+                checked={carry}
+                onCheckedChange={setCarry}
+              />
+            );
+          };
+        `,
+      },
+    },
+  },
   render: (args) => {
     const [checked, setChecked] = useState(args.checked);
     return (
@@ -54,6 +77,31 @@ export const Playground: Story = {
 };
 
 export const Stacked: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import ToggleRow from '@ui/toggle-row';
+
+          // Each row draws a divider above itself, so stack rows in a plain column.
+          <div className="flex flex-col">
+            <ToggleRow
+              title="Start the next sprint automatically"
+              description="When a sprint ends, the planned one starts at 09:00 on its start day."
+              checked={settings.autoStart}
+              onCheckedChange={(autoStart) => update({ autoStart })}
+            />
+            <ToggleRow
+              title="Carry over unfinished work"
+              description="Open items move to the next sprint instead of back to the backlog."
+              checked={settings.carryOver}
+              onCheckedChange={(carryOver) => update({ carryOver })}
+            />
+          </div>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex max-w-xl flex-col">
       <ToggleRow

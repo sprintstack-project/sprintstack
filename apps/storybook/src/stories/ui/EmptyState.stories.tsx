@@ -3,6 +3,7 @@ import Button from '@ui/button';
 import EmptyState from '@ui/empty-state';
 import { Check, Clock, PlusIcon } from 'lucide-react';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/EmptyState',
@@ -43,6 +44,34 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import EmptyState from '@ui/empty-state';
+          import { PlusIcon } from 'lucide-react';
+
+          <EmptyState
+            eyebrow="Taskboard"
+            title="No sprint"
+            highlight="is running"
+            description="The taskboard shows the work in the active sprint. Plan one from the backlog, then start it to see items here."
+            actions={
+              <>
+                <Button variant="brand" size="lg" onClick={planSprint}>
+                  Plan a sprint
+                </Button>
+                <Button size="lg" icon={PlusIcon} onClick={createWorkItem}>
+                  Create a work item
+                </Button>
+              </>
+            }
+          />
+        `,
+      },
+    },
+  },
   args: {
     actions: (
       <>
@@ -58,6 +87,20 @@ export const Playground: Story = {
 };
 
 export const Art: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import EmptyState from '@ui/empty-state';
+
+          // It draws no box of its own: put it in the card or panel it stands in for.
+          <EmptyState art="top" eyebrow="Backlog" title="Nothing" highlight="here yet" />
+          <EmptyState art="middle" eyebrow="Backlog" title="Nothing" highlight="here yet" />
+          <EmptyState art="bottom" eyebrow="Backlog" title="Nothing" highlight="here yet" />
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid gap-4 lg:grid-cols-3">
       {(['top', 'middle', 'bottom'] as const).map((art) => (
@@ -70,6 +113,36 @@ export const Art: Story = {
 };
 
 export const Widgets: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import EmptyState from '@ui/empty-state';
+          import { Check, Clock } from 'lucide-react';
+
+          <EmptyState
+            variant="widget"
+            icon={Check}
+            title="Nothing assigned"
+            description="Items assigned to you show up here, soonest due first."
+            actions={
+              <Button variant="link" onClick={createWorkItem}>
+                Create a work item
+              </Button>
+            }
+          />
+
+          <EmptyState
+            variant="widget"
+            icon={Clock}
+            title="All quiet"
+            description="Changes, comments and status moves from your team appear here as they happen."
+          />
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-4xl gap-4 md:grid-cols-2">
       <EmptyState

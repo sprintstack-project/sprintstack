@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import HeadlineInput from '@ui/headline-input';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/HeadlineInput',
@@ -24,9 +25,50 @@ import HeadlineInput from '@ui/headline-input';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import HeadlineInput from '@ui/headline-input';
+          import { useState } from 'react';
+
+          const Title = () => {
+            const [title, setTitle] = useState('');
+            return (
+              <HeadlineInput label="Title" placeholder="What needs doing?" value={title} onChange={setTitle} />
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import HeadlineInput from '@ui/headline-input';
+
+          <HeadlineInput
+            label="Title"
+            placeholder="What needs doing?"
+            defaultValue="Let customers download invoices as PDF"
+          />
+
+          <HeadlineInput
+            label="Title"
+            placeholder="What needs doing?"
+            error="Add a title. It’s what people scan on the board."
+          />
+
+          <HeadlineInput label="Title" defaultValue="Archived item" disabled />
+        `,
+      },
+    },
+  },
   render: (args) => (
     <div className="grid max-w-3xl gap-10 pl-6">
       <HeadlineInput {...args} defaultValue="Let customers download invoices as PDF" />

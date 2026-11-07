@@ -2,9 +2,9 @@
 
 import Button from '@ui/button';
 import FilterSelect from '@ui/filter-select';
-import Segmented from '@ui/segmented';
 import { SelectWithTrigger as Select } from '@ui/select';
-import type { SegmentedChoice } from '@ui/types';
+import Tabs from '@ui/tabs';
+import type { TabsChoice } from '@ui/types';
 import { Calendar, ChevronDown, Sparkles, Zap } from 'lucide-react';
 import {
   findRange,
@@ -16,12 +16,12 @@ import {
   type StatusFilter,
 } from './data';
 
-const levels: SegmentedChoice<Level>[] = [
+const levels: TabsChoice<Level>[] = [
   { value: 'epics', label: 'Epics', icon: Zap },
   { value: 'features', label: 'Features', icon: Sparkles },
 ];
 
-const scales: SegmentedChoice<Scale>[] = [
+const scales: TabsChoice<Scale>[] = [
   { value: 'weeks', label: 'Weeks' },
   { value: 'months', label: 'Months' },
   { value: 'quarters', label: 'Quarters' },
@@ -53,7 +53,7 @@ const Toolbar = ({
   onToday,
 }: ToolbarProps) => (
   <div className="flex flex-wrap items-center gap-3">
-    <Segmented label="Show" choices={levels} value={level} onValueChange={onLevelChange} />
+    <Tabs label="Show" choices={levels} value={level} onValueChange={onLevelChange} />
     <FilterSelect<StatusFilter>
       label="Status"
       options={STATUS_OPTIONS}
@@ -86,7 +86,7 @@ const Toolbar = ({
       Today
     </Button>
     <div className="xl:ml-auto">
-      <Segmented label="Scale" choices={scales} value={scale} onValueChange={onScaleChange} />
+      <Tabs label="Scale" choices={scales} value={scale} onValueChange={onScaleChange} />
     </div>
   </div>
 );

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Skeleton from '@ui/skeleton';
 import type { ReactNode } from 'react';
 import { expect } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Skeleton',
@@ -38,7 +39,20 @@ import Skeleton from '@ui/skeleton';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = { args: { width: 320 } };
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Skeleton from '@ui/skeleton';
+
+          <Skeleton shape="line" width={320} />
+        `,
+      },
+    },
+  },
+  args: { width: 320 },
+};
 
 const Labelled = ({ label, children }: { label: string; children: ReactNode }) => (
   <div className="flex flex-col gap-3">
@@ -48,6 +62,41 @@ const Labelled = ({ label, children }: { label: string; children: ReactNode }) =
 );
 
 export const BuildingBlocks: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Skeleton from '@ui/skeleton';
+
+          // Text line · 14px, radius 8
+          <Skeleton lines={3} />
+
+          // Heading · 26px
+          <Skeleton shape="heading" width={220} />
+
+          // Avatar · circle
+          <Skeleton shape="circle" width={32} />
+          <Skeleton shape="circle" width={48} />
+
+          // Badge / chip · pill
+          <Skeleton shape="pill" width={110} />
+          <Skeleton shape="pill" width={80} />
+
+          // Control · 40–56px pill
+          <Skeleton shape="control" />
+
+          // Input · 56px, radius 16
+          <Skeleton shape="input" />
+
+          // Bar / progress
+          <Skeleton shape="bar" />
+
+          // Icon tile · 24px, radius 8
+          <Skeleton shape="icon" />
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-5xl gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
       <Labelled label="Text line · 14px, radius 8">
@@ -86,6 +135,52 @@ export const BuildingBlocks: Story = {
 
 /** Composed at the real sizes: a board card, and table rows under real column headers. */
 export const Composed: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Skeleton from '@ui/skeleton';
+
+          // Build skeletons at the real component's sizes, so nothing jumps when data lands.
+          const WorkItemCardSkeleton = () => (
+            <div className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5">
+              <div className="flex items-center gap-3">
+                <Skeleton shape="icon" />
+                <Skeleton width={80} />
+              </div>
+              <Skeleton lines={2} />
+              <div className="flex items-center justify-between">
+                <Skeleton shape="pill" width={80} />
+                <Skeleton shape="circle" width={32} />
+              </div>
+            </div>
+          );
+
+          // Keep the column headers real; only the cells are skeletons.
+          const TableRowsSkeleton = () => (
+            <div className="rounded-xl border border-line bg-surface px-5">
+              <div className="grid grid-cols-[1.5rem_5rem_1fr_7rem_2rem] gap-4 border-b border-line py-3 text-eyebrow text-ink-muted uppercase">
+                <span />
+                <span>Key</span>
+                <span>Title</span>
+                <span>Status</span>
+                <span />
+              </div>
+              {[70, 55].map((width) => (
+                <div key={width} className="grid grid-cols-[1.5rem_5rem_1fr_7rem_2rem] items-center gap-4 py-4">
+                  <Skeleton shape="icon" />
+                  <Skeleton />
+                  <Skeleton width={\`\${width}%\`} />
+                  <Skeleton shape="pill" width={110} />
+                  <Skeleton shape="circle" width={32} />
+                </div>
+              ))}
+            </div>
+          );
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-5xl gap-8 lg:grid-cols-[2fr_3fr]">
       <Labelled label="Work item card">

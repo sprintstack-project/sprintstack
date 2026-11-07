@@ -3,6 +3,7 @@ import Field from '@ui/field';
 import Select from '@ui/select';
 import { Calendar, Clock, Equal, Flag, Trash2 } from 'lucide-react';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const sortOptions = (onClear?: () => void) => [
   { value: 'recent', label: 'Most recent', icon: Clock },
@@ -62,12 +63,82 @@ Long lists (people, projects): add \`searchable\` for a search box and virtualiz
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import Select from '@ui/select';
+          import { Calendar, Clock, Equal, Flag, Trash2 } from 'lucide-react';
+          import { useState } from 'react';
+
+          const SortBy = ({ clearView }: { clearView: () => void }) => {
+            const [sort, setSort] = useState<string | null>(null);
+            return (
+              <Field label="Sort by">
+                <Select
+                  value={sort}
+                  onValueChange={setSort}
+                  placeholder="Choose an order"
+                  options={[
+                    { value: 'recent', label: 'Most recent', icon: Clock },
+                    { value: 'rel', label: 'Relevance', icon: Equal },
+                    { value: 'prio', label: 'Highest priority', icon: Flag },
+                    { value: 'due', label: 'Due date', icon: Calendar, disabled: true },
+                    // An action row runs instead of selecting
+                    { value: 'clear', label: 'Clear this view', icon: Trash2, danger: true, action: clearView },
+                  ]}
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/Select.html (menu open on the first). */
 export const States: Story = {
   // Opens a menu on load: give it its own frame on the docs page so the popup has room.
-  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import Select from '@ui/select';
+          import { Clock, Equal, Flag } from 'lucide-react';
+
+          <Field label="Sort by">
+            <Select
+              defaultValue="recent"
+              options={[
+                { value: 'recent', label: 'Most recent', icon: Clock },
+                { value: 'rel', label: 'Relevance', icon: Equal },
+                { value: 'prio', label: 'Highest priority', icon: Flag },
+              ]}
+            />
+          </Field>
+
+          // Status-only options show as a badge with the status word
+          <Field label="Status">
+            <Select
+              defaultValue="review"
+              options={[
+                { value: 'todo', status: 'neutral' },
+                { value: 'progress', status: 'info' },
+                { value: 'review', status: 'review' },
+                { value: 'done', status: 'success' },
+                { value: 'blocked', status: 'danger' },
+              ]}
+            />
+          </Field>
+        `,
+      },
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-80 md:grid-cols-2">
       <Field label="Sort by">
@@ -81,6 +152,35 @@ export const States: Story = {
 };
 
 export const More: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import Select from '@ui/select';
+
+          const people = [
+            { value: 'sam', label: 'Sam Park', avatar: 'SP', description: '4 issues' },
+            { value: 'ana', label: 'Ana Lopez', avatar: 'AL', description: '7 issues' },
+            { value: 'kim', label: 'Kim Jansen', avatar: 'KJ', description: '2 issues' },
+          ];
+
+          // Avatar and description
+          <Field label="Assignee">
+            <Select placeholder="Unassigned" options={people} />
+          </Field>
+
+          <Field label="Sprint" error="Choose a sprint before starting">
+            <Select placeholder="Choose a sprint" options={[{ value: 's24', label: 'Sprint 24' }]} invalid />
+          </Field>
+
+          <Field label="Project" description="Can't change after creation">
+            <Select defaultValue="pay" options={[{ value: 'pay', label: 'Payments' }]} disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Assignee">
@@ -188,6 +288,33 @@ const directory = Array.from({ length: 1000 }, (_, i) => {
 });
 
 export const Searchable: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import Select from '@ui/select';
+          import { useState } from 'react';
+
+          // Long lists (people, projects): searchable adds a search box and virtualizes the rows.
+          const Assignee = ({ members }: { members: { value: string; label: string; avatar: string }[] }) => {
+            const [assignee, setAssignee] = useState<string | null>(null);
+            return (
+              <Field label="Assignee" description="Type to search">
+                <Select
+                  searchable
+                  value={assignee}
+                  onValueChange={setAssignee}
+                  placeholder="Unassigned"
+                  options={members}
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-[28rem] md:grid-cols-2">
       <Field label="Assignee" description="1,000 people; type to search">

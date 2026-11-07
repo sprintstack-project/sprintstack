@@ -85,7 +85,7 @@ const Body = ({ initial, timeOff, adjust, onSave, onRemove, onClose }: BodyProps
             },
           }}
         >
-          {(f) => <f.SegmentedField label="Type" choices={types} />}
+          {(f) => <f.TabsField label="Type" choices={types} />}
         </form.AppField>
         <form.AppField
           name="dates"

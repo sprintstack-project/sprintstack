@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import CodeInput from '@ui/code-input';
 import Field from '@ui/field';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/CodeInput',
@@ -35,9 +36,56 @@ import Field from '@ui/field';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import CodeInput from '@ui/code-input';
+          import Field from '@ui/field';
+          import { useState } from 'react';
+
+          const TwoFactorCode = ({ verify }: { verify: (code: string) => void }) => {
+            const [code, setCode] = useState('');
+            return (
+              <Field label="Authentication code" description="Codes refresh every 30 seconds.">
+                <CodeInput value={code} onChange={setCode} onComplete={verify} />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import CodeInput from '@ui/code-input';
+          import Field from '@ui/field';
+
+          <Field label="Empty">
+            <CodeInput />
+          </Field>
+
+          <Field label="Partly filled">
+            <CodeInput defaultValue="482" />
+          </Field>
+
+          <Field label="Wrong code" error="That code didn’t work. Try the next one.">
+            <CodeInput defaultValue="482913" />
+          </Field>
+
+          <Field label="Disabled">
+            <CodeInput defaultValue="482913" disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-md gap-6">
       <Field label="Empty">

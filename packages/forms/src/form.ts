@@ -12,8 +12,8 @@ import { RangeCalendarField } from './fields/RangeCalendarField';
 import { RichTextField } from './fields/RichTextField';
 import { SegmentedField } from './fields/SegmentedField';
 import { SelectField } from './fields/SelectField';
-import { StoryPointsField } from './fields/StoryPointsField';
 import { SwitchField } from './fields/SwitchField';
+import { TabsField } from './fields/TabsField';
 import { TextAreaField } from './fields/TextAreaField';
 import { TextField } from './fields/TextField';
 import { ToggleRowField } from './fields/ToggleRowField';
@@ -43,8 +43,8 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     RangeCalendarField,
     RichTextField,
     HeadlineField,
-    StoryPointsField,
     SegmentedField,
+    TabsField,
     SwitchField,
     ToggleRowField,
   },

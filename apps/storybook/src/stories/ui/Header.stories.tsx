@@ -4,6 +4,7 @@ import Sidebar from '@ui/sidebar';
 import type { HeaderNotification } from '@ui/types';
 import { CalendarClock } from 'lucide-react';
 import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const notifications: HeaderNotification[] = [
   {
@@ -84,15 +85,111 @@ import Link from 'next/link';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Header from '@ui/header';
+          import Sidebar from '@ui/sidebar';
+          import type { HeaderNotification } from '@ui/types';
+          import { CalendarClock } from 'lucide-react';
+          import Link from 'next/link';
+
+          const notifications: HeaderNotification[] = [
+            {
+              id: '1',
+              title: 'Mira Okafor assigned you PAY-142',
+              description: 'Retry failed card payouts',
+              time: '5m ago',
+              avatar: 'MO',
+              unread: true,
+            },
+            {
+              id: '2',
+              title: 'Jon Reyes commented on PAY-118',
+              description: '“Can we ship this behind a flag?”',
+              time: '1h ago',
+              avatar: 'JR',
+              unread: true,
+            },
+            { id: '3', title: 'Sprint 14 starts tomorrow', time: 'Yesterday', icon: CalendarClock },
+          ];
+
+          // Inside the Sidebar.Provider that wraps the app shell (it drives the toggle).
+          <Sidebar.Provider>
+            <Header
+              breadcrumbs={[{ label: 'Payments', href: '/payments' }, { label: 'Home' }]}
+              linkComponent={Link}
+              search={{ onOpen: () => setPaletteOpen(true) }}
+              notifications={{
+                items: notifications,
+                onSelect: (notification) => openNotification(notification.id),
+                onMarkAllRead: markAllRead,
+                onViewAll: () => router.push('/notifications'),
+              }}
+              theme={theme}
+              onThemeChange={setTheme}
+            />
+          </Sidebar.Provider>
+        `,
+      },
+    },
+  },
+};
 
 /** Nothing to show: no dot, and an empty dropdown. */
 export const NoUnread: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Header from '@ui/header';
+          import Sidebar from '@ui/sidebar';
+
+          // No unread items: no dot on the bell, and an empty dropdown.
+          <Sidebar.Provider>
+            <Header
+              breadcrumbs={[{ label: 'Payments', href: '/payments' }, { label: 'Home' }]}
+              search={{ onOpen: () => setPaletteOpen(true) }}
+              notifications={{ items: [], onViewAll: () => router.push('/notifications') }}
+              theme={theme}
+              onThemeChange={setTheme}
+            />
+          </Sidebar.Provider>
+        `,
+      },
+    },
+  },
   args: { notifications: { items: [], onViewAll: fn() } },
 };
 
 /** Just the trail, e.g. for a page without search. */
 export const BreadcrumbsOnly: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Header from '@ui/header';
+          import Sidebar from '@ui/sidebar';
+          import Link from 'next/link';
+
+          // Every part is optional: leave out search, notifications and the theme switch.
+          <Sidebar.Provider>
+            <Header
+              toggle={false}
+              linkComponent={Link}
+              breadcrumbs={[
+                { label: 'Payments', href: '/payments' },
+                { label: 'Backlog', href: '/payments/backlog' },
+                { label: 'PAY-142' },
+              ]}
+            />
+          </Sidebar.Provider>
+        `,
+      },
+    },
+  },
   args: {
     toggle: false,
     search: undefined,

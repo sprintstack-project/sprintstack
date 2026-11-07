@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Field from '@ui/field';
 import InputPassword from '@ui/input-password';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/InputPassword',
@@ -28,9 +29,60 @@ import InputPassword from '@ui/input-password';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import InputPassword from '@ui/input-password';
+          import { useState } from 'react';
+
+          const Password = () => {
+            const [password, setPassword] = useState('');
+            return (
+              <Field label="Password">
+                <InputPassword
+                  value={password}
+                  onChange={setPassword}
+                  placeholder="At least 12 characters"
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import InputPassword from '@ui/input-password';
+
+          <Field label="Password">
+            <InputPassword placeholder="At least 12 characters" />
+          </Field>
+
+          <Field label="Current password" description="The one you use to sign in today">
+            <InputPassword defaultValue="hunter22" />
+          </Field>
+
+          <Field label="New password" error="Use at least 12 characters">
+            <InputPassword defaultValue="short" />
+          </Field>
+
+          <Field label="Password" description="Managed by your organisation's sign-on">
+            <InputPassword defaultValue="hunter22" disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Password">

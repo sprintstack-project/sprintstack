@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Field from '@ui/field';
 import RangeCalendar from '@ui/range-calendar';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 // Stories use dates relative to today so they never go stale.
 const day = (offsetDays: number) => {
@@ -53,9 +54,67 @@ In forms, use \`f.RangeCalendarField\` from \`@sprintstack/forms\` with \`dateRa
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import RangeCalendar from '@ui/range-calendar';
+          import type { DateRange } from '@ui/types';
+          import { useState } from 'react';
+
+          // Values are { start, end } ISO dates. The first press sets the start, the next the end.
+          const DaysOff = () => {
+            const [range, setRange] = useState<DateRange | null>(null);
+            return (
+              <Field label="Days off">
+                <RangeCalendar
+                  value={range}
+                  onValueChange={setRange}
+                  markers={[{ date: '2026-12-25', label: 'Christmas Day' }]}
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import RangeCalendar from '@ui/range-calendar';
+
+          // Markers (public holidays) carry a dot and their name for screen readers
+          <Field label="Days off" description="Holidays carry a dot">
+            <RangeCalendar
+              defaultValue={{ start: '2026-11-09', end: '2026-11-12' }}
+              markers={[{ date: '2026-11-14', label: 'Company holiday' }]}
+            />
+          </Field>
+
+          // One day only
+          <Field label="Half day" description="One day only">
+            <RangeCalendar defaultValue={{ start: '2026-11-10', end: '2026-11-10' }} single />
+          </Field>
+
+          <Field label="Days off" error="Pick at least one working day">
+            <RangeCalendar invalid />
+          </Field>
+
+          <Field label="Days off" description="Locked once approved">
+            <RangeCalendar defaultValue={{ start: '2026-11-05', end: '2026-11-07' }} disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-4xl gap-10 md:grid-cols-2">
       <Field label="Days off" description="Holidays carry a dot">

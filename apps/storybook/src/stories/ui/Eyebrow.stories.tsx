@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Eyebrow from '@ui/eyebrow';
 import { expect, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Eyebrow',
@@ -24,7 +25,22 @@ import Eyebrow from '@ui/eyebrow';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Eyebrow from '@ui/eyebrow';
+
+          <Eyebrow>Event</Eyebrow>
+
+          // Announced as a heading when it names the content under it
+          <Eyebrow heading>Administration</Eyebrow>
+        `,
+      },
+    },
+  },
+};
 
 /** With `heading`, it's announced as a heading. */
 export const AsHeading: Story = {

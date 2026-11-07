@@ -1,8 +1,8 @@
 'use client';
 
 import Button from '@ui/button';
-import Segmented from '@ui/segmented';
 import { SelectWithTrigger as Select } from '@ui/select';
+import Tabs from '@ui/tabs';
 import {
   CalendarDays,
   ChevronDown,
@@ -34,7 +34,7 @@ const Toolbar = ({ view, onViewChange, sprint, onSprintChange, onAddTimeOff }: T
   const at = SPRINTS.indexOf(sprint);
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <Segmented label="View" choices={views} value={view} onValueChange={onViewChange} />
+      <Tabs label="View" choices={views} value={view} onValueChange={onViewChange} />
       <div className="flex items-center gap-1 sm:ml-3">
         <button
           type="button"

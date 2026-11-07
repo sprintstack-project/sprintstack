@@ -53,7 +53,7 @@ export const Sprints = () => {
         </form.AppField>
         <form.AppField name="startDay">
           {(f) => (
-            <f.SegmentedField
+            <f.TabsField
               label="Sprints start on"
               description={WEEKDAY_LABEL[values.startDay].name}
               choices={WEEKDAY_CHOICES}

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Button from '@ui/button';
 import ButtonGroup from '@ui/button-group';
 import { expect, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/ButtonGroup',
@@ -40,7 +41,27 @@ import ButtonGroup from '@ui/button-group';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Button from '@ui/button';
+          import ButtonGroup from '@ui/button-group';
+
+          <ButtonGroup>
+            <Button variant="brand" size="lg" onClick={save}>
+              Save changes
+            </Button>
+            <Button variant="ghost" size="lg" onClick={discard}>
+              Discard
+            </Button>
+          </ButtonGroup>
+        `,
+      },
+    },
+  },
+};
 
 /** It renders every button it's given. */
 export const Buttons: Story = {

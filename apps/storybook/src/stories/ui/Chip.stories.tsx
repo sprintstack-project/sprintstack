@@ -5,6 +5,7 @@ import Chip from '@ui/chip';
 import Priority from '@ui/priority';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/Chip',
@@ -33,10 +34,66 @@ import Priority from '@ui/priority';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Chip from '@ui/chip';
+
+          <Chip>Payments</Chip>
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/Chip.html. */
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Badge from '@ui/badge';
+          import Button from '@ui/button';
+          import Chip from '@ui/chip';
+          import Priority from '@ui/priority';
+
+          // Filter pills, with "Clear" as a link at the end
+          <Chip toggle pressed={bugsOnly} onPressedChange={setBugsOnly}>Bugs</Chip>
+          <Chip toggle defaultPressed>Assigned to me</Chip>
+          <Chip toggle count={3}>Blocked</Chip>
+          <Button variant="link" onClick={clearFilters}>Clear</Button>
+
+          // Value pills
+          <Chip>Payments</Chip>
+          <Chip tone="ink">Sprint 24</Chip>
+          <Chip tone="outline">iOS</Chip>
+          <Chip onRemove={() => removeLabel('tech-debt')}>Tech debt</Chip>
+          <Chip tone="ink" avatar="SP" onRemove={() => removeAssignee('sam')}>
+            Sam Park
+          </Chip>
+          <Chip tone="accent">Overdue</Chip>
+          <Chip tone="key">PAY-1482</Chip>
+
+          // Status badges: no children shows the status word
+          <Badge tone="danger">New</Badge>
+          <Badge tone="neutral" />
+          <Badge tone="info" />
+          <Badge tone="review" />
+          <Badge tone="success" />
+          <Badge tone="danger" />
+          <Badge tone="warning" />
+
+          // Priority marks
+          <Priority level="highest" />
+          <Priority level="high" />
+          <Priority level="medium" />
+          <Priority level="low" />
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-6">
       {/* Filter pills scroll sideways above lists, with "Clear" as a red link at the end. */}

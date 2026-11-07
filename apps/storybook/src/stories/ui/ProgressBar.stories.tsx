@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProgressBar from '@ui/progress-bar';
 import { expect, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const meta = {
   title: 'UI/ProgressBar',
@@ -26,11 +27,37 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import ProgressBar from '@ui/progress-bar';
+
+          <ProgressBar label="Importing work items" value={progress} showValue />
+        `,
+      },
+    },
+  },
   args: { value: 45, showValue: true },
   argTypes: { value: { control: { type: 'range', min: 0, max: 100 } } },
 };
 
 export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import ProgressBar from '@ui/progress-bar';
+
+          // Indeterminate: under the top bar while a page loads
+          <ProgressBar label="Loading page" />
+
+          // Determinate: imports and uploads, with a % label beside
+          <ProgressBar label="Importing work items" value={45} showValue />
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-lg gap-8">
       <div className="grid gap-3">

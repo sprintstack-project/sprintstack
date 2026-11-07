@@ -156,7 +156,7 @@ export interface HeadlineInputProps extends Blurrable {
  * Story points as one row of toggles on the usual scale, the rarer values behind "…". Picking the
  * chosen value again clears it, as does "No estimate" behind "…".
  */
-export interface StoryPointsProps extends Blurrable {
+export interface SegmentedProps extends Blurrable {
   /** The group's visible name. Default "Story points". */
   label?: string;
   value?: number | null;
@@ -170,8 +170,8 @@ export interface StoryPointsProps extends Blurrable {
   disabled?: boolean;
 }
 
-/** One option of a `Segmented` control. */
-export interface SegmentedChoice<V extends string = string> {
+/** One option of a `Tabs` control. */
+export interface TabsChoice<V extends string = string> {
   value: V;
   label: string;
   /** Read out instead of `label` when the label is abbreviated, e.g. "Monday" for "M". */
@@ -182,12 +182,12 @@ export interface SegmentedChoice<V extends string = string> {
 /**
  * A single required choice from a few options, as a row of buttons in a grey track, the chosen
  * one filled with ink, e.g. a timeline's scale or a settings toggle like "Send as". For story
- * points (nullable, with an overflow menu) use `StoryPoints`.
+ * points (nullable, with an overflow menu) use `Segmented`.
  */
-export interface SegmentedProps<V extends string = string> extends Blurrable {
+export interface TabsProps<V extends string = string> extends Blurrable {
   /** The group's accessible name, e.g. "Scale". Inside a `Field`, the field's label names it. */
   label: string;
-  choices: readonly SegmentedChoice<V>[];
+  choices: readonly TabsChoice<V>[];
   value: V;
   onValueChange: (value: V) => void;
 }

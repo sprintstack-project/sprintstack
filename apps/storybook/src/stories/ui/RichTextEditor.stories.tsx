@@ -4,6 +4,7 @@ import RichTextEditor from '@ui/rich-text-editor';
 import type { MentionItem, RichTextDoc } from '@ui/types';
 import { useState } from 'react';
 import { expect, fireEvent, fn, spyOn, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 export const sampleDoc: RichTextDoc = {
   type: 'doc',
@@ -87,9 +88,85 @@ Pass \`searchMentions\` to turn on \`@\` mentions (web only for now). Each one i
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import { richTextToPlainText } from '@lib/rich-text';
+          import Field from '@ui/field';
+          import RichTextEditor from '@ui/rich-text-editor';
+          import type { RichTextDoc } from '@ui/types';
+          import { useState } from 'react';
+
+          // Stores Tiptap JSON. A new value from outside (e.g. form.reset) replaces the content.
+          const Description = () => {
+            const [doc, setDoc] = useState<RichTextDoc | null>(null);
+            const preview = doc ? richTextToPlainText(doc) : ''; // for search and notifications
+            return (
+              <Field label="Description">
+                <RichTextEditor
+                  value={doc}
+                  onChange={setDoc}
+                  placeholder="Steps to reproduce, expected and actual result"
+                  // Optional: store pasted/dropped images; without it they're embedded as data URLs.
+                  uploadImage={async (image) => (await api.uploads.create(image)).url}
+                  // Optional (web only): turns on @ mentions.
+                  searchMentions={(query) => api.members.search(projectId, query)}
+                />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import RichTextEditor from '@ui/rich-text-editor';
+          import type { RichTextDoc } from '@ui/types';
+
+          const savedDoc: RichTextDoc = {
+            type: 'doc',
+            content: [
+              { type: 'paragraph', content: [{ type: 'text', text: 'Saved cards fail at checkout on iOS 18.' }] },
+              {
+                type: 'blockquote',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', marks: [{ type: 'bold' }], text: 'Blocks the 4.2 release.' }],
+                  },
+                ],
+              },
+            ],
+          };
+
+          <Field label="Description">
+            <RichTextEditor placeholder="Steps to reproduce, expected and actual result" />
+          </Field>
+
+          <Field label="Description" description="Visible to everyone on the project">
+            <RichTextEditor defaultValue={savedDoc} />
+          </Field>
+
+          <Field label="Description" error="Describe the issue">
+            <RichTextEditor minRows={3} invalid />
+          </Field>
+
+          <Field label="Resolution" description="Locked once the issue is closed">
+            <RichTextEditor minRows={3} defaultValue={savedDoc} disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-4xl gap-5 md:grid-cols-2">
       <Field label="Description">

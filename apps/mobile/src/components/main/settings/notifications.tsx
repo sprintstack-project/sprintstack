@@ -7,9 +7,9 @@ import {
 } from '@sprintstack/shared/schemas/project';
 import Chip from '@ui/chip';
 import Section from '@ui/section';
-import Segmented from '@ui/segmented';
 import { SelectWithTrigger as Select } from '@ui/select';
 import { useSidebar } from '@ui/sidebar';
+import Tabs from '@ui/tabs';
 import Text from '@ui/text';
 import { Plus } from 'lucide-react-native';
 import { View } from 'react-native';
@@ -80,7 +80,7 @@ export const Notifications = () => {
       >
         <form.AppField name="channel">
           {(f) => (
-            <Segmented
+            <Tabs
               label="Send as"
               choices={CHANNEL_CHOICES}
               value={f.state.value}

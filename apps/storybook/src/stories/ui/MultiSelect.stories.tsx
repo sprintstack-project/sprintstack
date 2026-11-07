@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import Field from '@ui/field';
 import MultiSelect from '@ui/multi-select';
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test';
+import { code } from '../../lib/code';
 
 const labels = [
   { value: 'payments', label: 'Payments' },
@@ -56,12 +57,67 @@ import MultiSelect from '@ui/multi-select';
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import MultiSelect from '@ui/multi-select';
+          import { useState } from 'react';
+
+          const labels = [
+            { value: 'payments', label: 'Payments' },
+            { value: 'ios', label: 'iOS' },
+            { value: 'web', label: 'Web' },
+            { value: 'debt', label: 'Tech debt' },
+          ];
+
+          const Labels = () => {
+            const [value, setValue] = useState<string[]>([]);
+            return (
+              <Field label="Labels">
+                <MultiSelect value={value} onValueChange={setValue} options={labels} placeholder="Add labels" />
+              </Field>
+            );
+          };
+        `,
+      },
+    },
+  },
+};
 
 /** Same states as design-system/reference/previews/MultiSelect.html (menu open on the first). */
 export const States: Story = {
   // Opens a menu on load: give it its own frame on the docs page so the popup has room.
-  parameters: { docs: { story: { inline: false, iframeHeight: 560 } } },
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import MultiSelect from '@ui/multi-select';
+
+          <Field label="Labels">
+            <MultiSelect defaultValue={['payments']} options={labels} />
+          </Field>
+
+          // Options with an avatar
+          <Field label="Assignees">
+            <MultiSelect
+              defaultValue={['mo', 'jl']}
+              placeholder="Add people"
+              options={[
+                { value: 'mo', label: 'Mira Okafor', avatar: 'MO' },
+                { value: 'jl', label: 'Jonas Lehmann', avatar: 'JL' },
+                { value: 'ar', label: 'Aiko Raines', avatar: 'AR' },
+              ]}
+            />
+          </Field>
+        `,
+      },
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 pb-72 md:grid-cols-2">
       <Field label="Labels">
@@ -80,6 +136,45 @@ const searchComponents = async (query: string) => {
 };
 
 export const More: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: code`
+          import Field from '@ui/field';
+          import MultiSelect from '@ui/multi-select';
+
+          // Many values collapse after two rows until focused
+          <Field label="Components" description="Collapses after two rows until focused">
+            <MultiSelect defaultValue={selectedComponents} options={components} />
+          </Field>
+
+          // Grey pills; type to create a new option
+          <Field label="Labels" description="Grey pills; type to create a new label">
+            <MultiSelect chipTone="neutral" creatable defaultValue={['ios']} options={labels} placeholder="Add labels" />
+          </Field>
+
+          // Async: loadOptions runs as you type (options can start empty)
+          const searchComponents = async (query: string) => {
+            const res = await fetch(\`/api/components?q=\${encodeURIComponent(query)}\`);
+            return (await res.json()) as { value: string; label: string }[];
+          };
+
+          <Field label="Components" description="Searched as you type">
+            <MultiSelect loadOptions={searchComponents} options={[]} placeholder="Search components" />
+          </Field>
+
+          // Limit how many can be picked
+          <Field label="Reviewers" error="Pick at most 2 reviewers">
+            <MultiSelect max={2} defaultValue={['mo', 'jl']} options={people} invalid />
+          </Field>
+
+          <Field label="Labels" description="Locked while the sprint runs">
+            <MultiSelect chipTone="outline" defaultValue={['web']} options={labels} disabled />
+          </Field>
+        `,
+      },
+    },
+  },
   render: () => (
     <div className="grid max-w-3xl gap-5 md:grid-cols-2">
       <Field label="Components" description="Collapses after two rows until focused">
