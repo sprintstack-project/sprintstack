@@ -9,10 +9,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/images/icon.png',
   scheme: 'sprintstack',
   userInterfaceStyle: 'automatic',
-  // PostHog error tracking (src/lib/posthog.ts).
   extra: {
-    posthogProjectToken: process.env.POSTHOG_PROJECT_TOKEN,
-    posthogHost: process.env.POSTHOG_HOST,
     eas: {
       projectId: 'b32be819-55db-4421-994f-8291db7fb472',
     },
@@ -83,7 +80,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     '@react-native-firebase/crashlytics',
     // Firebase's Apple SDK ships as dynamic frameworks only.
     ['expo-build-properties', { ios: { useFrameworks: 'dynamic' } }],
-    'posthog-react-native/expo',
+    // Uploads source maps and native debug symbols to Sentry during native builds, so its stack
+    // traces show the original code. Needs SENTRY_AUTH_TOKEN in the build environment.
+    [
+      '@sentry/react-native/expo',
+      { url: 'https://sentry.io/', organization: 'sprintstack', project: 'sprintstack-mobile' },
+    ],
     'expo-font',
     'expo-image',
     'expo-web-browser',

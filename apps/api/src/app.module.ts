@@ -15,7 +15,6 @@ import { CsvParseModule } from './csv-parse/csv-parse.module';
 import { ErrorReportingFilter } from './error-reporting.filter';
 import { HealthController } from './health/health.controller';
 import { NotificationsModule } from './notifications/notifications.module';
-import { PostHogService } from './posthog.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { ProjectsModule } from './projects/projects.module';
@@ -75,7 +74,6 @@ import { WorkItemsModule } from './work-items/work-items.module.js';
   providers: [
     AppService,
     ViewerResolver,
-    PostHogService,
     { provide: APP_GUARD, useClass: ClientThrottlerGuard },
     { provide: APP_FILTER, useClass: ErrorReportingFilter },
   ],

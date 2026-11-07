@@ -6,7 +6,7 @@ import { trackError } from '@/lib/monitoring';
 
 /**
  * Replaces the root layout when it fails to render, so it brings its own <html> and <body>. Errors
- * further down are caught by PostHog's exception autocapture (src/instrumentation-client.ts).
+ * further down are caught by Sentry (src/instrumentation.ts and src/instrumentation-client.ts).
  */
 const GlobalErrorPage = ({ error }: { error: unknown; retry: () => void }) => {
   useEffect(() => {

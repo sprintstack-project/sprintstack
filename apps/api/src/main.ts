@@ -1,3 +1,5 @@
+// Sentry has to start before anything else loads.
+import './instrument';
 import { NestFactory } from '@nestjs/core';
 import type { NextFunction, Request, Response } from 'express';
 import { AppModule } from './app.module';

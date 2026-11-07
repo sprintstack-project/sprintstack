@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { withSentryConfig } from '@sentry/nextjs/config';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
@@ -51,4 +52,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+// Uploads source maps to Sentry at build time, so its stack traces show the original code. Needs
+// SENTRY_AUTH_TOKEN in the build environment; without it the build still works, unmapped.
+export default withSentryConfig(withNextIntl(nextConfig), {
+  org: 'sprintstack',
+  project: 'sprintstack-web',
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+});

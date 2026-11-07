@@ -1,7 +1,8 @@
-const { getDefaultConfig } = require('expo/metro-config');
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 const { withUniwindConfig } = require('uniwind/metro');
 
-const config = getDefaultConfig(__dirname);
+// Expo's default config, plus Debug IDs on the bundle and source maps so Sentry can match them.
+const config = getSentryExpoConfig(__dirname);
 
 // withUniwindConfig must be the outermost wrapper
 module.exports = withUniwindConfig(config, {

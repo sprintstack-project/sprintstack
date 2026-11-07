@@ -69,9 +69,8 @@ export default defineRailway(() => {
       MAIL_FROM_NAME: preserve(),
       PASSKEY_ORIGINS: preserve(),
       PORT: preserve(),
-      POSTHOG_HOST: preserve(),
-      POSTHOG_PROJECT_TOKEN: preserve(),
       REDIS_URL: Redis.env.REDIS_URL,
+      SENTRY_DSN: preserve(),
       TURNSTILE_SECRET: preserve(),
       WEB_ORIGIN: preserve(),
       RAILWAY_STORAGE_BUCKET_NAME: preserve(),
@@ -99,8 +98,8 @@ export default defineRailway(() => {
       NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: preserve(),
       NEXT_PUBLIC_FIREBASE_PROJECT_ID: preserve(),
       NEXT_PUBLIC_FIREBASE_VAPID_KEY: preserve(),
-      NEXT_PUBLIC_POSTHOG_HOST: preserve(),
-      NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: preserve(),
+      NEXT_PUBLIC_SENTRY_DSN: preserve(),
+      SENTRY_AUTH_TOKEN: preserve(),
     },
   });
 
