@@ -13,7 +13,7 @@ const poster = 'text-[4.5rem] leading-[4.25rem] font-extrabold uppercase';
 const SprintTile = () => {
   const progress = (SPRINT.pointsDone / SPRINT.pointsTotal) * 100;
   return (
-    <Card variant="tile" tone="ink">
+    <Card variant="ink">
       <View className="gap-5">
         <View className="flex-row items-center justify-between gap-3">
           <Text className="text-eyebrow font-bold uppercase text-on-ink">
@@ -55,7 +55,9 @@ const SprintTile = () => {
 
 const AssignedTile = () => {
   return (
-    <Card variant="tile" tone="muted" eyebrow="Assigned to you">
+    <Card variant="muted">
+      <Text className="text-eyebrow font-bold uppercase text-ink">Assigned to you</Text>
+      <View className="flex-1" />
       <Text className={`${poster} text-ink`}>{ASSIGNED.total}</Text>
       <Text className="text-body-strong text-danger">{ASSIGNED.dueToday} due today</Text>
     </Card>
@@ -65,7 +67,9 @@ const AssignedTile = () => {
 const ReviewTile = () => {
   const onBrand = useTokenColor('on-brand');
   return (
-    <Card variant="tile" tone="brand" eyebrow="To review">
+    <Card variant="brand">
+      <Text className="text-eyebrow font-bold uppercase text-on-brand">To review</Text>
+      <View className="flex-1" />
       <Text className={`${poster} text-on-brand`}>{AWAITING_REVIEW}</Text>
       <Pressable
         accessibilityRole="link"

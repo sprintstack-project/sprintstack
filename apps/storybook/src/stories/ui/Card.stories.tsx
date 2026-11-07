@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Button from '@ui/button';
 import Card from '@ui/card';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, within } from 'storybook/test';
 import { code } from '../../lib/code';
 
 const meta = {
@@ -10,22 +10,27 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: `A white sheet with a hairline edge (\`panel\`, the default), a board card (\`issue\`), or a solid poster \`tile\`. Keep one poster tile per screen.
+        component: `A surface and nothing else: a white sheet with a hairline edge (\`panel\`, the default) or a solid poster tile (\`brand\`, \`ink\`, \`muted\`). Titles, eyebrows, actions and footers are the caller's children. Tiles are a column with a 1rem gap; push content down with a \`flex-1\` spacer. Keep one poster tile per screen.
 
 \`\`\`tsx
 import Card from '@ui/card';
 
-<Card variant="issue" issueKey="PAY-1482" title="Checkout fails on saved cards"
-  project="Payments · iOS" priority="highest" points={3} assignee="MO" onPress={open} />
+<Card>
+  <h3 className="headline text-title">Sprint summary</h3>
+  <p className="mt-3 text-ink-muted">12 issues, 3 blocked.</p>
+</Card>
 
-<Card variant="tile" tone="ink">
+<Card variant="ink">
   <p className="headline text-poster">Ship it.<br /><em>Sprint 24.</em></p>
 </Card>
 \`\`\``,
       },
     },
   },
-  args: { title: 'Sprint summary', children: '12 issues, 3 blocked. Ends Friday.' },
+  args: {
+    variant: 'panel',
+    children: '12 issues, 3 blocked. Ends Friday.',
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;
@@ -38,223 +43,109 @@ export const Playground: Story = {
         code: code`
           import Card from '@ui/card';
 
-          <Card title="Sprint summary">12 issues, 3 blocked. Ends Friday.</Card>
+          <Card>12 issues, 3 blocked. Ends Friday.</Card>
         `,
       },
     },
   },
 };
 
-/** Same states as design-system/reference/previews/Card.html, plus a panel and a muted tile. */
+const panelSource = code`
+  import Button from '@ui/button';
+  import Card from '@ui/card';
+
+  // Panel with a header action and a footer
+  <Card>
+    <header className="flex items-start gap-3">
+      <h3 className="headline flex-1 text-title">Sprint summary</h3>
+      <Button variant="link">Edit</Button>
+    </header>
+    <p className="mt-3 text-[1.0625rem] leading-6 font-semibold text-ink-muted">
+      12 issues, 3 blocked. Velocity is up 8% on last sprint.
+    </p>
+    <footer className="mt-4 flex items-center gap-3 border-t border-line-strong pt-4">
+      <span className="text-meta font-semibold text-ink-muted">Ends 30 Oct 2026</span>
+      <span className="flex-1" />
+      <Button variant="primary" size="sm" onClick={closeSprint}>
+        Close sprint
+      </Button>
+    </footer>
+  </Card>
+
+  // Poster tiles: keep one per screen
+  <Card variant="ink">
+    <span className="flex-1" />
+    <p className="headline text-poster">
+      Ship it.
+      <br />
+      <em>Sprint 24.</em>
+    </p>
+  </Card>
+  <Card variant="brand">
+    <span className="eyebrow text-current">Release notes</span>
+    <span className="flex-1" />
+    <p className="headline text-headline">v4.2</p>
+  </Card>
+  <Card variant="muted">
+    <span className="eyebrow text-current">Career toolkit</span>
+    <span className="flex-1" />
+    <p className="headline text-headline">Reviews</p>
+  </Card>
+`;
+
 export const States: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: code`
-          import Button from '@ui/button';
-          import Card from '@ui/card';
-
-          // Board card: the whole card opens the issue
-          <Card
-            variant="issue"
-            issueKey="PAY-1482"
-            title="Checkout fails on saved cards"
-            project="Payments · iOS"
-            priority="highest"
-            points={3}
-            due="2 days overdue"
-            overdue
-            assignee="MO"
-            age="Updated 2h ago"
-            onPress={() => openIssue('PAY-1482')}
-          />
-
-          // Board card with a status and subtask progress
-          <Card
-            variant="issue"
-            status="review"
-            issueKey="PAY-1477"
-            project="Payments"
-            title="Add Apple Pay to checkout"
-            updated="Updated 2d ago"
-            progress={60}
-            selected
-            onPress={() => openIssue('PAY-1477')}
-          />
-
-          // Poster tiles: keep one per screen
-          <Card variant="tile" tone="ink">
-            <p className="headline text-poster">
-              Ship it.
-              <br />
-              <em>Sprint 24.</em>
-            </p>
-          </Card>
-          <Card variant="tile" tone="brand" eyebrow="Release notes">
-            <p className="headline text-headline">v4.2</p>
-          </Card>
-          <Card variant="tile" tone="muted" eyebrow="Career toolkit">
-            <p className="headline text-headline">Reviews</p>
-          </Card>
-
-          // Panel with header actions and a footer
-          <Card
-            title="Sprint summary"
-            actions={<Button variant="link">Edit</Button>}
-            footer={
-              <>
-                <span className="text-meta font-semibold text-ink-muted">Ends 30 Oct 2026</span>
-                <span className="flex-1" />
-                <Button variant="primary" size="sm" onClick={closeSprint}>
-                  Close sprint
-                </Button>
-              </>
-            }
-          >
-            12 issues, 3 blocked. Velocity is up 8% on last sprint.
-          </Card>
-        `,
-      },
-    },
-  },
+  parameters: { docs: { source: { code: panelSource } } },
   render: () => (
     <div className="flex flex-col gap-5">
-      <div>
-        <div className="eyebrow">Sprint 24</div>
-        <div className="mt-1 flex items-center justify-between">
-          <h2 className="headline text-headline">Board (12)</h2>
-          <Button variant="link">See all</Button>
-        </div>
-      </div>
-      <div className="grid gap-5 md:grid-cols-2">
-        <Card
-          variant="issue"
-          issueKey="PAY-1482"
-          title="Checkout fails on saved cards"
-          project="Payments · iOS"
-          priority="highest"
-          points={3}
-          due="2 days overdue"
-          overdue
-          assignee="MO"
-          age="Updated 2h ago"
-          onPress={() => {}}
-        />
-        <Card
-          variant="issue"
-          status="review"
-          issueKey="PAY-1477"
-          project="Payments"
-          title="Add Apple Pay to checkout"
-          updated="Updated 2d ago"
-          progress={60}
-          selected
-          onPress={() => {}}
-        />
-      </div>
+      <Card>
+        <header className="flex items-start gap-3">
+          <h3 className="headline flex-1 text-title">Sprint summary</h3>
+          <Button variant="link">Edit</Button>
+        </header>
+        <p className="mt-3 text-[1.0625rem] leading-6 font-semibold text-ink-muted font-stretch-semi-condensed">
+          12 issues, 3 blocked. Velocity is up 8% on last sprint.
+        </p>
+        <footer className="mt-4 flex items-center gap-3 border-t border-line-strong pt-4">
+          <span className="text-meta font-semibold text-ink-muted">Ends 30 Oct 2026</span>
+          <span className="flex-1" />
+          <Button variant="primary" size="sm">
+            Close sprint
+          </Button>
+        </footer>
+      </Card>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5">
-        <Card variant="tile" tone="ink">
+        <Card variant="ink">
+          <span className="flex-1" />
           <p className="headline text-poster">
             Ship it.
             <br />
             <em>Sprint 24.</em>
           </p>
         </Card>
-        <Card variant="tile" tone="brand" eyebrow="Release notes">
+        <Card variant="brand">
+          <span className="eyebrow text-current">Release notes</span>
+          <span className="flex-1" />
           <p className="headline text-headline">v4.2</p>
         </Card>
-        <Card variant="tile" tone="muted" eyebrow="Career toolkit">
+        <Card variant="muted">
+          <span className="eyebrow text-current">Career toolkit</span>
+          <span className="flex-1" />
           <p className="headline text-headline">Reviews</p>
         </Card>
       </div>
-      <Card
-        title="Sprint summary"
-        actions={<Button variant="link">Edit</Button>}
-        footer={
-          <>
-            <span className="text-meta font-semibold text-ink-muted">Ends 30 Oct 2026</span>
-            <span className="flex-1" />
-            <Button variant="primary" size="sm">
-              Close sprint
-            </Button>
-          </>
-        }
-      >
-        12 issues, 3 blocked. Velocity is up 8% on last sprint.
-      </Card>
     </div>
   ),
 };
 
-export const Keyboard: Story = {
+/** className merges over the variant's classes, so callers can override them. */
+export const ClassName: Story = {
   tags: ['!autodocs'],
   parameters: { singleTheme: true },
-  args: { onPress: fn() },
-  render: (args) => (
-    <div className="max-w-md">
-      <Card
-        variant="issue"
-        issueKey="PAY-1482"
-        title="Checkout fails on saved cards"
-        project="Payments · iOS"
-        assignee="MO"
-        age="Updated 2h ago"
-        onPress={args.onPress}
-      />
-    </div>
-  ),
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement);
-    const card = canvas.getByRole('article', { name: 'Checkout fails on saved cards' });
-
-    // The card is one stop; Enter and Space open it.
-    await userEvent.tab();
-    await expect(card).toHaveFocus();
-    await userEvent.keyboard('{Enter}');
-    await userEvent.keyboard(' ');
-    await expect(args.onPress).toHaveBeenCalledTimes(2);
-
-    // Watch toggles without opening the card.
-    await userEvent.tab();
-    const watch = canvas.getByRole('button', { name: 'Watch' });
-    await expect(watch).toHaveFocus();
-    await userEvent.keyboard('{Enter}');
-    await expect(watch).toHaveAttribute('aria-pressed', 'true');
-    await expect(args.onPress).toHaveBeenCalledTimes(2);
-
-    // The footer link opens it too.
-    await userEvent.tab();
-    await expect(canvas.getByRole('button', { name: 'View issue' })).toHaveFocus();
-    await userEvent.keyboard('{Enter}');
-    await expect(args.onPress).toHaveBeenCalledTimes(3);
-  },
-};
-
-export const Labels: Story = {
-  tags: ['!autodocs'],
-  parameters: { singleTheme: true },
-  render: () => (
-    <div className="max-w-md">
-      <Card
-        variant="issue"
-        status="review"
-        issueKey="PAY-1477"
-        title="Add Apple Pay"
-        project="Payments"
-        progress={60}
-        updated="Updated 2d ago"
-      />
-    </div>
-  ),
+  args: { variant: 'muted', className: 'min-h-0 p-4', children: 'Compact tile' },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.getByRole('article', { name: 'Add Apple Pay' })).toBeInTheDocument();
-    // Status in words; progress is announced with its value.
-    await expect(canvas.getByText('In review')).toBeInTheDocument();
-    await expect(canvas.getByRole('progressbar', { name: 'Subtasks done' })).toHaveAttribute(
-      'aria-valuenow',
-      '60',
-    );
-    await expect(canvas.getByText('PAY-1477 · Payments')).toBeInTheDocument();
+    const card = within(canvasElement).getByText('Compact tile');
+    await expect(card).toHaveClass('min-h-0', 'p-4');
+    await expect(card).not.toHaveClass('p-8');
+    await expect(card).not.toHaveClass('min-h-50');
   },
 };

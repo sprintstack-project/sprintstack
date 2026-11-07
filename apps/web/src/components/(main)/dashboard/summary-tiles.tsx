@@ -3,7 +3,7 @@ import Card from '@ui/card';
 import { differenceInDays, format } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { type ReactNode, use } from 'react';
+import { use } from 'react';
 import { type Assigned, SPRINT } from './data';
 
 export const SprintTile = ({ sprint: sprintPromise }: { sprint: Promise<Sprint | null> }) => {
@@ -11,8 +11,8 @@ export const SprintTile = ({ sprint: sprintPromise }: { sprint: Promise<Sprint |
   // TODO: points still come from the placeholder sprint.
   const progress = (SPRINT.pointsDone / SPRINT.pointsTotal) * 100;
   return (
-    <Card variant="tile" tone="ink">
-      <div className="flex h-full flex-col gap-6">
+    <Card variant="ink">
+      <div className="flex flex-1 flex-col gap-6">
         <div className="flex items-center justify-between gap-3">
           {sprint && (
             <span className="eyebrow text-current">
@@ -59,7 +59,9 @@ export const SprintTile = ({ sprint: sprintPromise }: { sprint: Promise<Sprint |
 export const AssignedTile = ({ assigned: assignedPromise }: { assigned: Promise<Assigned> }) => {
   const assigned = use(assignedPromise);
   return (
-    <Card variant="tile" tone="muted" eyebrow="Assigned to you">
+    <Card variant="muted">
+      <span className="eyebrow text-current">Assigned to you</span>
+      <span className="flex-1" />
       <p className="headline text-[4.5rem] leading-[0.92] tabular-nums">{assigned.total}</p>
       <p className="text-body-strong font-stretch-semi-condensed">
         <span className="text-danger">{assigned.dueToday} due today</span> · {assigned.dueThisWeek}{' '}
@@ -76,7 +78,9 @@ export const ReviewTile = ({
 }) => {
   const awaitingReview = use(countPromise);
   return (
-    <Card variant="tile" tone="brand" eyebrow="Waiting on your review">
+    <Card variant="brand">
+      <span className="eyebrow text-current">Waiting on your review</span>
+      <span className="flex-1" />
       <p className="headline text-[4.5rem] leading-[0.92] tabular-nums">{awaitingReview}</p>
       <Link
         href="/taskboard"
@@ -88,20 +92,3 @@ export const ReviewTile = ({
     </Card>
   );
 };
-
-interface SummaryTilesProps {
-  sprint: ReactNode;
-  assigned: ReactNode;
-  review: ReactNode;
-}
-
-/** Lays out the three tiles. The route fills each slot, with its own Suspense boundary. */
-const SummaryTiles = ({ sprint, assigned, review }: SummaryTilesProps) => (
-  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr]">
-    <div className="grid md:col-span-2 xl:col-span-1">{sprint}</div>
-    {assigned}
-    {review}
-  </div>
-);
-
-export default SummaryTiles;

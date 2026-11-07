@@ -38,35 +38,34 @@ const Widget = ({ id, title, href, onRemove, children }: WidgetProps) => {
       // A grid so the card fills the row's height.
       className={`grid ${isDragging ? 'relative z-10 opacity-85 shadow-popover' : ''}`}
     >
-      <Card
-        actions={
-          <div className="-my-2 flex flex-1 items-center gap-1">
-            <button
-              ref={setActivatorNodeRef}
-              type="button"
-              aria-label={`Move ${title}`}
-              className={`${iconButton} -ml-3 cursor-grab touch-none active:cursor-grabbing`}
-              {...attributes}
-              {...listeners}
-            >
-              <GripVertical aria-hidden strokeWidth={2} className="size-5" />
-            </button>
-            <h2 className="headline flex-1 truncate text-title text-ink">{title}</h2>
-            <Link href={href} aria-label={`Open ${title}`} className={iconButton}>
-              <SquareArrowOutUpRight aria-hidden strokeWidth={2} className="size-5" />
-            </Link>
-            <button
-              type="button"
-              aria-label={`Remove ${title}`}
-              onClick={onRemove}
-              className={`${iconButton} -mr-2`}
-            >
-              <X aria-hidden strokeWidth={2} className="size-5" />
-            </button>
-          </div>
-        }
-      >
-        {children}
+      <Card>
+        <header className="-my-2 flex items-center gap-1">
+          <button
+            ref={setActivatorNodeRef}
+            type="button"
+            aria-label={`Move ${title}`}
+            className={`${iconButton} -ml-3 cursor-grab touch-none active:cursor-grabbing`}
+            {...attributes}
+            {...listeners}
+          >
+            <GripVertical aria-hidden strokeWidth={2} className="size-5" />
+          </button>
+          <h2 className="headline flex-1 truncate text-title text-ink">{title}</h2>
+          <Link href={href} aria-label={`Open ${title}`} className={iconButton}>
+            <SquareArrowOutUpRight aria-hidden strokeWidth={2} className="size-5" />
+          </Link>
+          <button
+            type="button"
+            aria-label={`Remove ${title}`}
+            onClick={onRemove}
+            className={`${iconButton} -mr-2`}
+          >
+            <X aria-hidden strokeWidth={2} className="size-5" />
+          </button>
+        </header>
+        <div className="mt-3 text-[1.0625rem] leading-6 font-semibold text-ink-muted font-stretch-semi-condensed">
+          {children}
+        </div>
       </Card>
     </div>
   );

@@ -6,6 +6,7 @@ import {
 } from '@lib/loading';
 import { useShimmer } from '@lib/motion.native';
 import { scaled } from '@lib/scale';
+import { twMerge } from '@lib/tw-merge';
 import { useTokenColor } from '@lib/use-token-color.native';
 import type { SkeletonProps } from '@ui/types';
 import { clsx } from 'clsx';
@@ -66,15 +67,18 @@ const Shine = () => {
 
 const Block = ({
   className,
+  tint,
   width,
   height,
 }: {
   className: string;
+  /** Overrides the fill and radius, e.g. 'rounded-lg bg-on-ink/15' on an ink tile. */
+  tint?: string;
   width?: DimensionValue;
   height?: DimensionValue;
 }) => (
   <View
-    className={clsx('overflow-hidden bg-surface-muted', className)}
+    className={twMerge('overflow-hidden bg-surface-muted', className, tint)}
     // Only the dimensions that are set: an undefined `height` in style overrides the class height.
     style={{ width, ...(height !== undefined && { height }) }}
   >
@@ -82,7 +86,7 @@ const Block = ({
   </View>
 );
 
-const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) => {
+const Skeleton = ({ shape = 'line', width, size = 'md', lines, tint }: SkeletonProps) => {
   const w = toDimension(width ?? SKELETON_DEFAULT_WIDTH[shape]);
 
   return (
@@ -94,8 +98,13 @@ const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) 
     >
       {shape === 'line' && lines && lines > 1 ? (
         skeletonLineWidths(lines).map((lineWidth, i) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: the lines are identical placeholders.
-          <Block key={i} className={SKELETON_SHAPES.line} width={lineWidth as DimensionValue} />
+          <Block
+            // biome-ignore lint/suspicious/noArrayIndexKey: the lines are identical placeholders.
+            key={i}
+            className={SKELETON_SHAPES.line}
+            tint={tint}
+            width={lineWidth as DimensionValue}
+          />
         ))
       ) : (
         <Block
@@ -103,6 +112,7 @@ const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) 
             SKELETON_SHAPES[shape],
             shape === 'control' && SKELETON_CONTROL_HEIGHTS[size],
           )}
+          tint={tint}
           width="100%"
           height={shape === 'circle' || shape === 'icon' ? w : undefined}
         />

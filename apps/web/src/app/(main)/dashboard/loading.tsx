@@ -1,12 +1,8 @@
 import AddWidget from '@/components/(main)/dashboard/add-widget';
 import {
-  ActivitySkeleton,
-  BurndownSkeleton,
   NameSkeleton,
-  NextItemsSkeleton,
   SprintTileSkeleton,
   StatTileSkeleton,
-  WorkStatusSkeleton,
 } from '@/components/(main)/dashboard/skeletons';
 import SummaryTiles from '@/components/(main)/dashboard/summary-tiles';
 import Today from '@/components/(main)/dashboard/today';
@@ -27,19 +23,19 @@ const DashboardLoading = () => (
       </div>
       <AddWidget />
     </div>
-    <SummaryTiles
+    {/* <SummaryTiles
       sprint={<SprintTileSkeleton />}
       assigned={<StatTileSkeleton label="your assigned items" />}
       review={<StatTileSkeleton label="your review queue" />}
-    />
-    <Widgets
-      content={{
-        'next-items': <NextItemsSkeleton />,
-        activity: <ActivitySkeleton />,
-        burndown: <BurndownSkeleton />,
-        status: <WorkStatusSkeleton />,
-      }}
-    />
+    /> */}
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="grid md:col-span-2 xl:col-span-1">
+        <SprintTileSkeleton />
+      </div>
+      <StatTileSkeleton label="your assigned items" />
+      <StatTileSkeleton label="your review queue" />
+    </div>
+    <Widgets />
   </div>
 );
 

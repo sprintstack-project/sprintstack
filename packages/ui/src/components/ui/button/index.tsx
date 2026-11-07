@@ -1,8 +1,8 @@
 'use client';
 
 import { Button as BaseButton } from '@base-ui/react/button';
-import { useButtonStatus } from '@lib/loading';
 import { twMerge } from '@lib/tw-merge';
+import { useButtonStatus } from '@lib/use-button-status';
 import { buttonClass } from '@ui/button/button-class';
 import Spinner from '@ui/spinner';
 import type { ButtonProps } from '@ui/types';

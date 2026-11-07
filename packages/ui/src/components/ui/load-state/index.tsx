@@ -1,6 +1,6 @@
 'use client';
 
-import { useLoadPhase } from '@lib/loading';
+import { useLoadPhase } from '@lib/use-load-phase';
 import Button from '@ui/button';
 import Spinner from '@ui/spinner';
 import type { LoadStateProps } from '@ui/types';

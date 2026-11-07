@@ -11,23 +11,11 @@ import type {
   WorkItem,
 } from './data';
 import FirstName from './first-name';
-import Section from './section';
-import {
-  ActivitySkeleton,
-  BurndownSkeleton,
-  NameSkeleton,
-  NextItemsSkeleton,
-  SprintTileSkeleton,
-  StatTileSkeleton,
-  WorkStatusSkeleton,
-} from './skeletons';
-import SummaryTiles, { AssignedTile, ReviewTile, SprintTile } from './summary-tiles';
+import { NameSkeleton, SprintTileSkeleton, StatTileSkeleton } from './skeletons';
+import { AssignedTile, ReviewTile, SprintTile } from './summary-tiles';
 import Today from './today';
+import WidgetError from './widget-error';
 import Widgets from './widgets';
-import Burndown from './widgets/burndown';
-import NextItems from './widgets/next-items';
-import RecentActivity from './widgets/recent-activity';
-import WorkStatus from './widgets/work-status';
 
 /** The dashboard's data, as promises the route starts without awaiting. */
 interface DashboardProps {
@@ -74,31 +62,27 @@ const Dashboard = ({
         </div>
         <AddWidget />
       </div>
-      <SummaryTiles
-        sprint={
-          <Section label="the current sprint" fallback={<SprintTileSkeleton />}>
-            <SprintTile sprint={sprint} />
-          </Section>
-        }
-        assigned={
-          <Section
-            label="your assigned items"
-            fallback={<StatTileSkeleton label="your assigned items" />}
-          >
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid md:col-span-2 xl:col-span-1">
+          <WidgetError label="the current sprint">
+            <Suspense fallback={<SprintTileSkeleton />}>
+              <SprintTile sprint={sprint} />
+            </Suspense>
+          </WidgetError>
+        </div>
+        <WidgetError label="your assigned items">
+          <Suspense fallback={<StatTileSkeleton label="your assigned items" />}>
             <AssignedTile assigned={assigned} />
-          </Section>
-        }
-        review={
-          <Section
-            label="your review queue"
-            fallback={<StatTileSkeleton label="your review queue" />}
-          >
+          </Suspense>
+        </WidgetError>
+        <WidgetError label="your review queue">
+          <Suspense fallback={<StatTileSkeleton label="your review queue" />}>
             <ReviewTile awaitingReview={awaitingReview} />
-          </Section>
-        }
-      />
-      <Widgets
-        content={{
+          </Suspense>
+        </WidgetError>
+      </div>
+      <Widgets nextItems={nextItems} activity={activity} burndown={burndown} status={status} />
+      {/* content={{
           'next-items': (
             <Section label="your next items" fallback={<NextItemsSkeleton />}>
               <NextItems items={nextItems} />
@@ -120,7 +104,7 @@ const Dashboard = ({
             </Section>
           ),
         }}
-      />
+      /> */}
     </div>
   </DashboardProvider>
 );

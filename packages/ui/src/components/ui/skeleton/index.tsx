@@ -11,7 +11,7 @@ import { clsx } from 'clsx';
 const toCss = (width: SkeletonProps['width']) =>
   typeof width === 'number' ? `${width / 16}rem` : width;
 
-const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) => {
+const Skeleton = ({ shape = 'line', width, size = 'md', lines, tint }: SkeletonProps) => {
   const w = toCss(width ?? SKELETON_DEFAULT_WIDTH[shape]);
 
   if (shape === 'line' && lines && lines > 1) {
@@ -23,6 +23,7 @@ const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) 
             key={i}
             className={clsx('skeleton block', SKELETON_SHAPES.line)}
             style={{ width: lineWidth }}
+            data-tint={tint}
           />
         ))}
       </span>
@@ -38,6 +39,7 @@ const Skeleton = ({ shape = 'line', width, size = 'md', lines }: SkeletonProps) 
         SKELETON_SHAPES[shape],
         shape === 'control' && SKELETON_CONTROL_HEIGHTS[size],
         !w && 'w-full',
+        tint,
       )}
       style={square ? { width: w, height: w } : { width: w }}
     />

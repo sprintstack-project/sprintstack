@@ -57,38 +57,15 @@ export interface ButtonProps {
   doneLabel?: string;
 }
 
+/**
+ * A surface and nothing else: the content (titles, eyebrows, footers, actions) is the caller's.
+ * panel = white sheet with a hairline edge; brand, ink (inverts in Night) and muted are solid
+ * poster tiles laid out as a column. Keep one poster tile per screen.
+ */
 export interface CardProps {
-  /** "panel" (default), "issue" (board card) or "tile" (solid poster tile). */
-  variant?: 'panel' | 'issue' | 'tile';
-  title?: string;
-  actions?: ReactNode;
+  variant?: 'panel' | 'brand' | 'ink' | 'muted';
+  className?: string;
   children?: ReactNode;
-  footer?: ReactNode;
-  /** Tile: brand, ink (inverts in Night) or muted (grey). */
-  tone?: 'brand' | 'ink' | 'muted';
-  /** Tile: uppercase overline. */
-  eyebrow?: string;
-  issueKey?: string;
-  /** Issue: shows a status badge in place of the key. */
-  status?: StatusTone;
-  /** Issue: subline after the key, e.g. "Payments · iOS". */
-  project?: string;
-  priority?: Priority;
-  points?: number;
-  /** Issue: e.g. "Due 30 Oct", "2 days overdue". */
-  due?: string;
-  overdue?: boolean;
-  /** Issue: 0–100; replaces the meta row and footer with a progress bar. */
-  progress?: number;
-  assignee?: string;
-  /** Issue: e.g. "Updated 2h ago". Shown top-right when status is set; in the footer otherwise. */
-  updated?: string;
-  age?: string;
-  watched?: boolean;
-  selected?: boolean;
-  /** Issue: footer link text (default "View issue"). */
-  linkLabel?: string;
-  onPress?: () => void;
 }
 
 export interface FieldProps {
@@ -493,6 +470,9 @@ export interface SkeletonProps {
   size?: ControlSize;
   /** Line: a paragraph of this many lines, the last one shorter. */
   lines?: number;
+
+  /** Tint for the skeleton block, e.g. 'skeleton' or 'rounded-lg bg-on-ink/15'. */
+  tint?: string;
 }
 
 /**

@@ -1,6 +1,6 @@
-import { useButtonStatus } from '@lib/loading';
 import { scaled, touchSlop } from '@lib/scale';
 import { twMerge } from '@lib/tw-merge';
+import { useButtonStatus } from '@lib/use-button-status';
 import { useTokenColor } from '@lib/use-token-color.native';
 import Spinner from '@ui/spinner';
 import Text from '@ui/text';

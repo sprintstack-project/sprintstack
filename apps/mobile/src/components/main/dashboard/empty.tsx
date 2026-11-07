@@ -19,7 +19,7 @@ const SetupTile = () => {
   const onBrand = useTokenColor('on-brand');
   const done = SETUP_STEPS.filter((step) => step.done).length;
   return (
-    <Card variant="tile" tone="ink">
+    <Card variant="ink">
       <View className="gap-5">
         <View className="flex-row items-end justify-between gap-4">
           <Text accessibilityRole="header" className={`${poster} text-on-ink`}>
@@ -70,7 +70,7 @@ const SetupTile = () => {
 };
 
 const ImportTile = ({ onImport }: { onImport?: () => void }) => (
-  <Card variant="tile" tone="muted">
+  <Card variant="muted">
     <View className="gap-4">
       <Text className="text-eyebrow font-bold uppercase text-ink-muted">
         Moving from another tool?

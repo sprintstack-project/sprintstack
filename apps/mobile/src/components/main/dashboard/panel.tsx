@@ -15,24 +15,21 @@ interface PanelProps {
 /** A dashboard panel: a Card with an uppercase title and an optional link to the full page. */
 export const Panel = ({ title, link, children }: PanelProps) => {
   return (
-    <Card
-      actions={
-        <View className="flex-1 flex-row items-center gap-3">
-          <Text
-            accessibilityRole="header"
-            className="flex-1 text-title font-extrabold uppercase text-ink"
-          >
-            {title}
-          </Text>
-          {link && (
-            <Button variant="link" onClick={() => router.navigate(link.href as Href)}>
-              {link.label}
-            </Button>
-          )}
-        </View>
-      }
-    >
-      {children}
+    <Card>
+      <View className="flex-row items-center gap-3">
+        <Text
+          accessibilityRole="header"
+          className="flex-1 text-title font-extrabold uppercase text-ink"
+        >
+          {title}
+        </Text>
+        {link && (
+          <Button variant="link" onClick={() => router.navigate(link.href as Href)}>
+            {link.label}
+          </Button>
+        )}
+      </View>
+      <View className="mt-3">{children}</View>
     </Card>
   );
 };

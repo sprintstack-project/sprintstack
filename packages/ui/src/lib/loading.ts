@@ -1,71 +1,12 @@
-import type { ButtonProps, SkeletonProps } from '@ui/types';
-import { useEffect, useRef, useState } from 'react';
+import type { SkeletonProps } from '@ui/types';
 
-// The loading rules from the design. Shared by web and native.
-const SHOW_AFTER = 300;
-const MIN_HOLD = 500;
-const SLOW_AFTER = 8_000;
-const TIMEOUT_AFTER = 30_000;
-const DONE_FOR = 1_500;
-
-/** waiting: nothing yet · skeleton · slow: skeleton and the note · timeout: give up · done. */
-export type LoadPhase = 'waiting' | 'skeleton' | 'slow' | 'timeout' | 'done';
-
-/**
- * Where a load is on the timeline. A skeleton that has appeared stays for MIN_HOLD even if the
- * data lands sooner, so it doesn't blink. `restart` reruns the timers when a retry keeps `loading`
- * true throughout (e.g. a refetch after a timeout).
- */
-export const useLoadPhase = (loading: boolean) => {
-  const [phase, setPhase] = useState<LoadPhase>(loading ? 'waiting' : 'done');
-  const [attempt, setAttempt] = useState(0);
-  const shownAt = useRef<number | null>(null);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: `attempt` only restarts the timers.
-  useEffect(() => {
-    if (loading) {
-      shownAt.current = null;
-      setPhase('waiting');
-      const timers = [
-        setTimeout(() => {
-          shownAt.current = Date.now();
-          setPhase('skeleton');
-        }, SHOW_AFTER),
-        setTimeout(() => setPhase('slow'), SLOW_AFTER),
-        setTimeout(() => setPhase('timeout'), TIMEOUT_AFTER),
-      ];
-      return () => timers.forEach(clearTimeout);
-    }
-    const shown = shownAt.current;
-    const hold = shown === null ? 0 : Math.max(0, shown + MIN_HOLD - Date.now());
-    if (hold === 0) {
-      setPhase('done');
-      return;
-    }
-    const timer = setTimeout(() => setPhase('done'), hold);
-    return () => clearTimeout(timer);
-  }, [loading, attempt]);
-
-  return { phase, restart: () => setAttempt((n) => n + 1) };
-};
-
-/** What a Button shows: `done` lasts DONE_FOR, then it's idle until `status` changes again. */
-export const useButtonStatus = (status: ButtonProps['status']) => {
-  const [flash, setFlash] = useState(status === 'done');
-
-  useEffect(() => {
-    if (status !== 'done') {
-      setFlash(false);
-      return;
-    }
-    setFlash(true);
-    const timer = setTimeout(() => setFlash(false), DONE_FOR);
-    return () => clearTimeout(timer);
-  }, [status]);
-
-  if (status === 'pending') return 'pending';
-  return status === 'done' && flash ? 'done' : 'idle';
-};
+// The loading rules from the design. Shared by web and native, and free of hooks so server
+// components can import it (the hooks live in use-load-phase and use-button-status).
+export const SHOW_AFTER = 300;
+export const MIN_HOLD = 500;
+export const SLOW_AFTER = 8_000;
+export const TIMEOUT_AFTER = 30_000;
+export const DONE_FOR = 1_500;
 
 type Shape = NonNullable<SkeletonProps['shape']>;
 

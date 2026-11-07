@@ -1,12 +1,5 @@
 import Card from '@ui/card';
-
-// Suspense fallbacks for the dashboard, shaped like what they stand in for so nothing shifts when
-// the data streams in. No hooks, so they render in the server's first flush.
-
-/** A placeholder block. `skeleton` is the shared shimmer (surface-muted); tiles pass a tint. */
-const Bone = ({ className = '', tint = 'skeleton' }: { className?: string; tint?: string }) => (
-  <span aria-hidden className={`block shrink-0 ${tint} ${className}`} />
-);
+import Skeleton from '@ui/skeleton';
 
 /** Says once what's loading; the bones themselves are hidden from screen readers. */
 const Loading = ({ label }: { label: string }) => <span className="sr-only">Loading {label}</span>;
@@ -20,40 +13,38 @@ export const NameSkeleton = () => (
 );
 
 // Tiles: the ink tile inverts in Night, so its bones are tinted from its own text colour.
-
 export const SprintTileSkeleton = () => {
   const tint = 'rounded-lg bg-on-ink/15';
   return (
-    <Card variant="tile" tone="ink">
-      <div className="flex h-full flex-col gap-6">
+    <Card variant="ink">
+      <div className="flex flex-1 flex-col gap-6">
         <Loading label="the current sprint" />
-        <Bone tint={tint} className="h-3.5 w-48" />
+        <Skeleton lines={1} tint={tint} />
         <div className="flex flex-1 flex-col justify-end gap-4">
-          <Bone tint={tint} className="h-15 w-3/5" />
-          <Bone tint={tint} className="h-15 w-[46%]" />
+          <Skeleton shape="input" tint={tint} width={128} />
+          <Skeleton shape="bar" tint={tint} width={128} />
         </div>
-        <Bone tint="rounded-full bg-on-ink/15" className="h-2 w-full" />
+        <Skeleton shape="bar" tint={tint} />
       </div>
     </Card>
   );
 };
 
 export const StatTileSkeleton = ({ label }: { label: string }) => {
-  const tint = 'rounded-lg bg-ink/6';
   return (
-    <Card variant="tile" tone="muted">
+    <Card variant="panel" className="flex flex-col justify-between">
       <Loading label={label} />
-      <Bone tint={tint} className="size-5" />
-      <Bone tint={tint} className="size-22 rounded-xl" />
-      <Bone tint={tint} className="size-5" />
+      <Skeleton lines={1} />
+      <Skeleton shape="icon" width={64} />
+      <Skeleton shape="bar" />
     </Card>
   );
 };
 
 // Widget bodies: the widget's card and title stay; only its content is a skeleton.
 
-const titleWidths = ['w-1/2', 'w-2/5', 'w-3/5', 'w-1/3', 'w-[45%]'];
-const activityWidths = ['w-4/5', 'w-2/3', 'w-11/12', 'w-3/5', 'w-3/4'];
+const titleWidths = ['50%', '40%', '60%', '33%', '45%'] as const;
+const activityWidths = ['80%', '67%', '92%', '60%', '75%'] as const;
 
 export const NextItemsSkeleton = () => (
   <>
@@ -61,13 +52,15 @@ export const NextItemsSkeleton = () => (
     <ul className="divide-y divide-line">
       {rows(5).map((i) => (
         <li key={i} className="flex items-center gap-4 py-4">
-          <Bone className="size-8 rounded-md" />
+          <Skeleton shape="icon" width={32} />
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <Bone className="h-3 w-16 rounded-[0.5rem]" />
-            <Bone className={`h-3.5 rounded-[0.5rem] ${titleWidths[i]}`} />
+            <Skeleton width={64} />
+            <Skeleton width={titleWidths[i]} />
           </div>
-          <Bone className="hidden h-7 w-24 rounded-full sm:block" />
-          <Bone className="h-3 w-16 rounded-[0.5rem]" />
+          <span className="hidden sm:block">
+            <Skeleton shape="pill" />
+          </span>
+          <Skeleton width={64} />
         </li>
       ))}
     </ul>
@@ -77,13 +70,13 @@ export const NextItemsSkeleton = () => (
 export const ActivitySkeleton = () => (
   <>
     <Loading label="recent activity" />
-    <ul className="flex flex-col gap-5">
+    <ul className="flex flex-col gap-5 mt-4">
       {rows(5).map((i) => (
         <li key={i} className="flex items-center gap-4">
-          <Bone className="size-10 rounded-full" />
+          <Skeleton shape="circle" />
           <div className="flex min-w-0 flex-1 flex-col gap-2.5">
-            <Bone className={`h-3.5 rounded-[0.5rem] ${activityWidths[i]}`} />
-            <Bone className="h-3 w-2/5 rounded-[0.5rem]" />
+            <Skeleton width={activityWidths[i]} />
+            <Skeleton width="40%" />
           </div>
         </li>
       ))}
@@ -92,11 +85,11 @@ export const ActivitySkeleton = () => (
 );
 
 export const BurndownSkeleton = () => (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-col gap-4 mt-4">
     <Loading label="the burndown" />
     <div className="flex gap-3">
-      <Bone className="h-3 w-24 rounded-[0.5rem]" />
-      <Bone className="h-3 w-16 rounded-[0.5rem]" />
+      <Skeleton width={96} />
+      <Skeleton width={64} />
     </div>
     <div className="relative h-64">
       {/* The chart's gridlines, then a falling area where the line will be. */}
@@ -105,24 +98,28 @@ export const BurndownSkeleton = () => (
           <span key={i} className="block border-t border-line" />
         ))}
       </div>
-      <Bone className="absolute inset-x-2 top-1/4 bottom-0 [clip-path:polygon(0_0,50%_40%,100%_100%,0_100%)]" />
+      {/* No Skeleton shape for a chart area, so this one uses the shimmer class directly. */}
+      <span
+        aria-hidden
+        className="skeleton absolute inset-x-2 top-1/4 bottom-0 [clip-path:polygon(0_0,50%_40%,100%_100%,0_100%)]"
+      />
     </div>
   </div>
 );
 
 export const WorkStatusSkeleton = () => (
-  <div className="flex flex-col gap-5">
+  <div className="flex flex-col gap-5 mt-4">
     <Loading label="work item status" />
-    <Bone className="h-14 w-24 rounded-lg" />
-    <Bone className="h-3 w-full rounded-full" />
+    <Skeleton shape="input" width={96} />
+    <Skeleton shape="bar" />
     <ul className="divide-y divide-line">
       {rows(5).map((i) => (
         <li key={i} className="flex items-center gap-4 py-3">
-          <Bone className="size-3 rounded-xs" />
+          <Skeleton shape="icon" width={12} />
           <span className="flex-1">
-            <Bone className="h-7 w-24 rounded-full" />
+            <Skeleton shape="pill" />
           </span>
-          <Bone className="h-6 w-8 rounded-[0.5rem]" />
+          <Skeleton shape="heading" width={32} />
         </li>
       ))}
     </ul>

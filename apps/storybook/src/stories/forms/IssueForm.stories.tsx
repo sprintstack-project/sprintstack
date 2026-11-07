@@ -63,8 +63,11 @@ const IssueForm = ({ onSubmit, load }: IssueFormProps) => {
   }, [form, load]);
 
   return (
-    <Card title={load ? 'Edit issue' : 'Create issue'}>
-      <div className="grid gap-5 md:grid-cols-2">
+    <Card>
+      <h3 className="font-display text-title font-extrabold font-stretch-condensed">
+        {load ? 'Edit issue' : 'Create issue'}
+      </h3>
+      <div className="mt-3 grid gap-5 md:grid-cols-2">
         <div className="md:col-span-2">
           <form.AppField name="summary">
             {(f) => (
@@ -205,8 +208,9 @@ export const Create: Story = {
             });
 
             return (
-              <Card title="Create issue">
-                <div className="grid gap-5 md:grid-cols-2">
+              <Card>
+                <h3 className="font-display text-title font-extrabold font-stretch-condensed">Create issue</h3>
+                <div className="mt-3 grid gap-5 md:grid-cols-2">
                   <div className="md:col-span-2">
                     <form.AppField name="summary">
                       {(f) => <f.TextField label="Summary" required placeholder="E.g. checkout fails on saved cards" />}
@@ -348,8 +352,9 @@ export const Edit: Story = {
             }, [form, issueKey]);
 
             return (
-              <Card title="Edit issue">
-                <div className="grid gap-5 md:grid-cols-2">
+              <Card>
+                <h3 className="font-display text-title font-extrabold font-stretch-condensed">Edit issue</h3>
+                <div className="mt-3 grid gap-5 md:grid-cols-2">
                   <div className="md:col-span-2">
                     <form.AppField name="summary">
                       {(f) => <f.TextField label="Summary" required placeholder="E.g. checkout fails on saved cards" />}

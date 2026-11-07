@@ -15,7 +15,9 @@ const Velocity = () => {
   const last = VELOCITY.at(-1)?.sprint;
   const points = VELOCITY.map((v) => v.points).join(', ');
   return (
-    <Card variant="tile" tone="muted" eyebrow="Velocity · last 3 sprints">
+    <Card variant="muted">
+      <span className="eyebrow text-current">Velocity · last 3 sprints</span>
+      <span className="flex-1" />
       <div className="flex items-end justify-between gap-4">
         <p className={poster}>{average}</p>
         <div
@@ -52,7 +54,9 @@ const SummaryTiles = ({ summary, overload }: SummaryTilesProps) => {
   const over = summary.committed - summary.capacity;
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <Card variant="tile" tone="ink" eyebrow="Team availability">
+      <Card variant="ink">
+        <span className="eyebrow text-current">Team availability</span>
+        <span className="flex-1" />
         <p className={poster}>
           {formatDays(summary.available)} <em className="text-brand-ink">days</em>
         </p>

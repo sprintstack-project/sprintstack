@@ -13,8 +13,8 @@ const textLink = 'link kbd-focus rounded-xs text-[1rem] leading-5';
 const SetupTile = () => {
   const done = SETUP_STEPS.filter((step) => step.done).length;
   return (
-    <Card variant="tile" tone="ink">
-      <div className="flex h-full flex-col gap-6">
+    <Card variant="ink">
+      <div className="flex flex-1 flex-col gap-6">
         <div className="flex items-start justify-between gap-4">
           <h2 className="headline text-[3.5rem] leading-[0.92]">
             Get set up
@@ -65,8 +65,8 @@ const SetupTile = () => {
 };
 
 const ImportTile = ({ onImport }: { onImport?: () => void }) => (
-  <Card variant="tile" tone="muted">
-    <div className="flex h-full flex-col gap-4">
+  <Card variant="muted">
+    <div className="flex flex-1 flex-col gap-4">
       <span className="eyebrow text-current">Moving from another tool?</span>
       <h2 className="headline text-[3.5rem] leading-[0.92]">Bring your backlog with you</h2>
       <p className="text-body-strong text-ink-muted font-stretch-semi-condensed">

@@ -1,5 +1,5 @@
-import { useLoadPhase } from '@lib/loading';
 import { scaled } from '@lib/scale';
+import { useLoadPhase } from '@lib/use-load-phase';
 import { useTokenColor } from '@lib/use-token-color.native';
 import Button from '@ui/button';
 import Spinner from '@ui/spinner';
