@@ -15,6 +15,7 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
+import type { WidgetKey } from '@sprintstack/shared/dashboard-widgets';
 import { type ReactNode, Suspense, useId } from 'react';
 import { useDashboardContext } from '@/providers/(main)/dashboard';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
@@ -31,8 +32,6 @@ import DraggableWidget from './draggable-widget';
 import NextItems from './next-items';
 import RecentActivity from './recent-activity';
 import WorkStatus from './work-status';
-
-export type WidgetKey = 'next-items' | 'activity' | 'burndown' | 'status';
 
 const WIDGETS: Record<WidgetKey, { title: string; href: string }> = {
   'next-items': { title: 'Your next items', href: '/backlog' },

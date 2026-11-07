@@ -5,15 +5,15 @@ import { type Href, router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-interface PanelProps {
+interface WidgetProps {
   title: string;
-  /** The page the panel summarises, behind its "See all" link. */
+  /** The page the widget summarises, behind its "See all" link. */
   link?: { label: string; href: string };
   children: ReactNode;
 }
 
-/** A dashboard panel: a Card with an uppercase title and an optional link to the full page. */
-export const Panel = ({ title, link, children }: PanelProps) => {
+/** A dashboard widget: a Card with an uppercase title and an optional link to the full page. */
+export const Widget = ({ title, link, children }: WidgetProps) => {
   return (
     <Card>
       <View className="flex-row items-center gap-3">

@@ -1,5 +1,6 @@
 import { useGetMe } from '@sprintstack/api-client/users';
 import { useProjectSwitcher } from '@sprintstack/shared/hooks/main/use-project-switcher';
+import ProjectProvider, { useProjectContext } from '@sprintstack/shared/providers/project';
 import Sidebar, { useSidebar } from '@ui/sidebar';
 import Text from '@ui/text';
 import type { Option, SidebarUser } from '@ui/types';
@@ -41,7 +42,8 @@ const Shell = ({ user }: { user: Person }) => {
   const { data: me } = useGetMe();
 
   // Shared by the sidebar (tablets) and the header (phones).
-  const { switcher } = useProjectSwitcher();
+  const { projectId, setProjectId } = useProjectContext();
+  const { switcher } = useProjectSwitcher({ selectedId: projectId, onSelect: setProjectId });
 
   const account: SidebarUser = {
     name: user.name,
@@ -119,9 +121,11 @@ const MainLayout = () => {
   if (!session) return <Redirect href="/sign-in" />;
 
   return (
-    <Sidebar.Provider>
-      <Shell user={session.user} />
-    </Sidebar.Provider>
+    <ProjectProvider>
+      <Sidebar.Provider>
+        <Shell user={session.user} />
+      </Sidebar.Provider>
+    </ProjectProvider>
   );
 };
 

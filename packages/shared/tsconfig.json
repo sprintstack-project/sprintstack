@@ -9,7 +9,8 @@
     "noEmit": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }

@@ -1,21 +1,10 @@
 'use client';
 
-import type { Project } from '@sprintstack/api-client/documents/projects';
-import { useProjects } from '@sprintstack/api-client/projects';
+import ProjectProvider from '@sprintstack/shared/providers/project';
 import { useRouter } from 'next/navigation';
-import React, { useSyncExternalStore } from 'react';
-import { PROJECT_COOKIE, PROJECT_COOKIE_MAX_AGE, pickProject } from '@/lib/selected-project';
-
-type IProjectContext = {
-  /** The viewer's projects; undefined while they load. */
-  projects: Project[] | undefined;
-  /** The selected project; undefined while loading or when the viewer has none. */
-  project: Project | undefined;
-  /** Shorthand for project?.id, for query variables. */
-  projectId: string | undefined;
-  /** Remembers the choice in the cookie and re-renders the server components for it. */
-  setProjectId: (id: string) => void;
-};
+import type React from 'react';
+import { useSyncExternalStore } from 'react';
+import { PROJECT_COOKIE, PROJECT_COOKIE_MAX_AGE } from '@/lib/selected-project';
 
 // The cookie as an external store. Same-tab writes notify through `listeners`; another tab's
 // switch is picked up on this tab's next render or reload.
@@ -45,31 +34,20 @@ const writeCookie = (id: string) => {
   for (const listener of listeners) listener();
 };
 
-const ProjectContext = React.createContext<IProjectContext | undefined>(undefined);
-
-const ProjectProvider = ({ children }: { children: React.ReactNode }) => {
+/**
+ * The shared ProjectProvider, with the pick kept in the cookie the server also reads. A switch
+ * re-renders the server components for the new project.
+ */
+const CookieProjectProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { data: projects } = useProjects();
   const selectedId = useSyncExternalStore(subscribe, readCookie, readServerSnapshot);
-  const project = projects ? pickProject(projects, selectedId) : undefined;
 
-  const setProjectId = (id: string) => {
-    if (id === project?.id) return;
+  const onSelect = (id: string) => {
     writeCookie(id);
-    // Server Components read the cookie, so re-render them for the new project.
     router.refresh();
   };
 
-  const value: IProjectContext = { projects, project, projectId: project?.id, setProjectId };
-  return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
+  return <ProjectProvider selection={{ selectedId, onSelect }}>{children}</ProjectProvider>;
 };
 
-export const useProjectContext = () => {
-  const context = React.useContext(ProjectContext);
-  if (!context) {
-    throw new Error('useProjectContext must be used within a ProjectProvider');
-  }
-  return context;
-};
-
-export default ProjectProvider;
+export default CookieProjectProvider;

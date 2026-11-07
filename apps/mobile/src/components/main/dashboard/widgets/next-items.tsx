@@ -6,7 +6,7 @@ import type { Priority } from '@ui/types';
 import { Bookmark, Bug, ChevronsUp, ChevronUp, Equal, SquareCheck } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
-import { dueLabel, type ItemType, NEXT_ITEMS } from './data';
+import { dueLabel, type ItemType, type WorkItem } from '../data';
 
 const types = {
   bug: { icon: Bug, label: 'Bug', box: 'bg-danger', color: 'on-danger' },
@@ -46,10 +46,10 @@ const PriorityIcon = ({ level }: { level: Priority }) => {
   );
 };
 
-export const NextItems = () => {
+export const NextItems = ({ items }: { items: WorkItem[] }) => {
   return (
     <View>
-      {NEXT_ITEMS.map((item, i) => {
+      {items.map((item, i) => {
         const due = dueLabel(item.due);
         return (
           <View

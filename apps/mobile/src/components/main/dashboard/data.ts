@@ -20,6 +20,8 @@ export const SPRINT_DAYS_LEFT = differenceInCalendarDays(SPRINT.end, TODAY);
 
 export const ASSIGNED = { total: 7, dueToday: 1 };
 
+export type Assigned = typeof ASSIGNED;
+
 export const AWAITING_REVIEW = 3;
 
 export type ItemType = 'bug' | 'story' | 'task';
@@ -124,7 +126,33 @@ export const IDEAL = SPRINT_DAYS.map(
   (_, i) => SPRINT.pointsTotal - (SPRINT.pointsTotal * i) / (SPRINT_DAYS.length - 1),
 );
 
-export const STATUS_COUNTS: { tone: StatusTone; count: number }[] = [
+/** The burndown widget's data: the sprint, its days, and the points left on each. */
+export interface Burndown {
+  sprint: typeof SPRINT;
+  days: Date[];
+  remaining: number[];
+  ideal: number[];
+}
+
+export const BURNDOWN: Burndown = {
+  sprint: SPRINT,
+  days: SPRINT_DAYS,
+  remaining: REMAINING,
+  ideal: IDEAL,
+};
+
+export interface StatusCount {
+  tone: StatusTone;
+  count: number;
+}
+
+/** The work-status widget's data: the sprint it covers and its items per status. */
+export interface StatusSummary {
+  sprintName: string;
+  counts: StatusCount[];
+}
+
+export const STATUS_COUNTS: StatusCount[] = [
   { tone: 'neutral', count: 12 },
   { tone: 'info', count: 9 },
   { tone: 'review', count: 5 },

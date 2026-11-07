@@ -13,8 +13,10 @@ export const useGetSprintById = (id: string) =>
     variables: { id },
   });
 
-export const useGetCurrentSprint = (projectId: string) =>
+/** The project's active sprint (null when none). Waits (paused, no request) until there's a project. */
+export const useGetCurrentSprint = (projectId: string | undefined) =>
   useRootQuery({
     query: CurrentSprintQuery,
-    variables: { projectId },
+    variables: { projectId: projectId ?? '' },
+    pause: !projectId,
   });

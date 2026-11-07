@@ -1,10 +1,9 @@
 'use client';
 
 import { useGetUserPreferences, useUpdateUserPreferences } from '@sprintstack/api-client/users';
+import { type WidgetKey, widgetOrder } from '@sprintstack/shared/dashboard-widgets';
+import { useProjectContext } from '@sprintstack/shared/providers/project';
 import React, { useEffect, useState } from 'react';
-import { useProjectContext } from '../project';
-
-export type WidgetKey = 'next-items' | 'activity' | 'burndown' | 'status';
 
 type IDashboardContext = {
   widgets: WidgetKey[];
@@ -18,14 +17,10 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: userPreferences } = useGetUserPreferences(projectId);
   const [, updateUserPreferences] = useUpdateUserPreferences();
 
-  const [widgets, setWidgets] = useState<WidgetKey[]>(
-    (userPreferences?.widgets as WidgetKey[]) ?? ['next-items', 'activity', 'burndown', 'status'],
-  );
+  const [widgets, setWidgets] = useState<WidgetKey[]>(widgetOrder(userPreferences?.widgets));
 
   useEffect(() => {
-    setWidgets(
-      (userPreferences?.widgets as WidgetKey[]) ?? ['next-items', 'activity', 'burndown', 'status'],
-    );
+    setWidgets(widgetOrder(userPreferences?.widgets));
   }, [userPreferences?.widgets]);
 
   const rearrangeWidgets = (newWidgets: WidgetKey[]) => {

@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./i18n": "./src/i18n/index.ts",
+    "./providers/*": "./src/providers/*.tsx",
     "./*": "./src/*.ts"
   },
   "scripts": {

@@ -1,11 +1,11 @@
 import Text from '@ui/text';
 import { View } from 'react-native';
-import { ACTIVITY } from './data';
+import type { Activity } from '../data';
 
-export const RecentActivity = () => {
+export const RecentActivity = ({ activity }: { activity: Activity[] }) => {
   return (
     <View className="gap-5">
-      {ACTIVITY.map((item) => (
+      {activity.map((item) => (
         <View key={item.id} className="flex-row items-start gap-4">
           <View
             accessibilityElementsHidden

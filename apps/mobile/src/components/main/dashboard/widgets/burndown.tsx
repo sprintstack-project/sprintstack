@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useTokenColor } from '@/lib/use-token-color';
-import { IDEAL, REMAINING, SPRINT, SPRINT_DAYS, TODAY } from './data';
+import { type Burndown as BurndownData, TODAY } from '../data';
 
 const HEIGHT = 150;
 const Y_AXIS_WIDTH = 24;
@@ -15,9 +15,6 @@ const END = 16;
 const OVERFLOW_TOP = 24;
 const PLOT_TOP = OVERFLOW_TOP + 10;
 const POINT = 10;
-
-const todayIndex = differenceInCalendarDays(TODAY, SPRINT.start);
-const labelled = [0, todayIndex, SPRINT_DAYS.length - 1];
 
 /** A hollow point on the remaining line. */
 const Point = () => (
@@ -34,13 +31,16 @@ const LegendLine = ({ dashed }: { dashed?: boolean }) =>
     <View className="h-0.5 w-5 rounded-full bg-brand-ink" />
   );
 
-export const Burndown = () => {
+export const Burndown = ({ burndown }: { burndown: BurndownData }) => {
+  const { sprint, days, remaining, ideal } = burndown;
+  const todayIndex = differenceInCalendarDays(TODAY, sprint.start);
+  const labelled = [0, todayIndex, days.length - 1];
   const [width, setWidth] = useState(0);
   const muted = useTokenColor('ink-muted');
   const accent = useTokenColor('brand-ink');
   const line = useTokenColor('line');
 
-  const spacing = (width - Y_AXIS_WIDTH - START - END) / (SPRINT_DAYS.length - 1);
+  const spacing = (width - Y_AXIS_WIDTH - START - END) / (days.length - 1);
   /** Where day `i` falls, from the left of the chart. */
   const xOf = (i: number) => Y_AXIS_WIDTH + START + i * spacing;
 
@@ -59,7 +59,7 @@ export const Burndown = () => {
       <View
         accessible
         accessibilityRole="image"
-        accessibilityLabel={`Burndown for ${SPRINT.name}: ${REMAINING.at(-1)} of ${SPRINT.pointsTotal} points remaining`}
+        accessibilityLabel={`Burndown for ${sprint.name}: ${remaining.at(-1)} of ${sprint.pointsTotal} points remaining`}
         onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
         style={{ height: PLOT_TOP + HEIGHT + 24 }}
       >
@@ -67,12 +67,12 @@ export const Burndown = () => {
           <>
             <LineChart
               // The ideal line is the full sprint; remaining stops at today.
-              data={IDEAL.map((value) => ({ value }))}
-              data2={REMAINING.map((value) => ({ value, customDataPoint: Point }))}
+              data={ideal.map((value) => ({ value }))}
+              data2={remaining.map((value) => ({ value, customDataPoint: Point }))}
               height={HEIGHT}
               width={width - Y_AXIS_WIDTH}
               overflowTop={OVERFLOW_TOP}
-              maxValue={SPRINT.pointsTotal}
+              maxValue={sprint.pointsTotal}
               noOfSections={4}
               spacing={spacing}
               initialSpacing={START}
@@ -118,7 +118,7 @@ export const Burndown = () => {
                 // The last label keeps inside the card rather than centring on its day.
                 style={{ left: Math.min(xOf(i) - 24, width - 48), top: PLOT_TOP + HEIGHT + 6 }}
               >
-                {format(SPRINT_DAYS[i], 'd MMM')}
+                {format(days[i], 'd MMM')}
               </Text>
             ))}
           </>
