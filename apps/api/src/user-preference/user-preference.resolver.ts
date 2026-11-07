@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import type { Auth } from '@/auth/auth';
 import {
@@ -15,25 +15,18 @@ export class UserPreferenceResolver {
   @Query(() => UserPreference)
   async getUserPreferences(
     @Session() session: UserSession<Auth>,
-    @Args('projectId') projectId: string,
+    @Args('projectId', { type: () => ID }) projectId: string,
   ) {
     const { activeOrganizationId, userId } = session.session;
     if (!activeOrganizationId) throw new Error('No active organization');
 
-    console.log(
-      'Fetching user preferences for user:',
-      userId,
-      'project:',
-      projectId,
-      activeOrganizationId,
-    );
     return this.userPreferenceService.getUserPreferences(userId, projectId);
   }
 
   @Mutation(() => UserPreference)
   createUserPreferences(
     @Session() session: UserSession<Auth>,
-    @Args('projectId') projectId: string,
+    @Args('projectId', { type: () => ID }) projectId: string,
     @Args('data', { type: () => CreateUserPreferenceInput }) data: CreateUserPreferenceInput,
   ) {
     const { activeOrganizationId, userId } = session.session;
@@ -45,7 +38,7 @@ export class UserPreferenceResolver {
   @Mutation(() => UserPreference)
   updateUserPreferences(
     @Session() session: UserSession<Auth>,
-    @Args('projectId') projectId: string,
+    @Args('projectId', { type: () => ID }) projectId: string,
     @Args('data', { type: () => UpdateUserPreferenceInput }) data: UpdateUserPreferenceInput,
   ) {
     const { activeOrganizationId, userId } = session.session;

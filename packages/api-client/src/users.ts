@@ -1,6 +1,11 @@
 import { useCallback } from 'react';
-import { useClient } from 'urql';
-import { MeQuery, UsersQuery } from './documents/users';
+import { useClient, useMutation } from 'urql';
+import {
+  MeQuery,
+  UpdateUserPreferencesMutation,
+  UserPreferencesQuery,
+  UsersQuery,
+} from './documents/users';
 import useRootQuery from './useRootQuery';
 
 /**
@@ -38,6 +43,14 @@ export const useSearchMentions = () => {
   );
 };
 
-export const useGetMe = () => {
-  return useRootQuery({ query: MeQuery });
-};
+export const useGetMe = () => useRootQuery({ query: MeQuery });
+
+/** The viewer's preferences for a project. Waits (paused, no request) until there's a project. */
+export const useGetUserPreferences = (projectId: string | undefined) =>
+  useRootQuery({
+    query: UserPreferencesQuery,
+    variables: { projectId: projectId ?? '' },
+    pause: !projectId,
+  });
+
+export const useUpdateUserPreferences = () => useMutation(UpdateUserPreferencesMutation);

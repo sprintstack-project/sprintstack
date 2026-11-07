@@ -78,7 +78,7 @@ enum Methodology {
 }
 
 type Mutation {
-  createUserPreferences(data: CreateUserPreferenceInput!, projectId: String!): UserPreference!
+  createUserPreferences(data: CreateUserPreferenceInput!, projectId: ID!): UserPreference!
 
   """
   Create a new work item. The viewer is the reporter; it goes last in its group.
@@ -105,7 +105,7 @@ type Mutation {
 
   """Update the current user in the active organization"""
   updateMe(email: String, image: String, name: String): UserSummary!
-  updateUserPreferences(data: UpdateUserPreferenceInput!, projectId: String!): UserPreference!
+  updateUserPreferences(data: UpdateUserPreferenceInput!, projectId: ID!): UserPreference!
 }
 
 type Notification {
@@ -177,7 +177,7 @@ type Query {
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint
   getUploadUrl(key: String!): UploadUrlModel!
-  getUserPreferences(projectId: String!): UserPreference!
+  getUserPreferences(projectId: ID!): UserPreference!
 
   """Get the current user in the active organization"""
   me: UserSummary!

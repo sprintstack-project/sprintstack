@@ -15,18 +15,19 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { type ReactNode, Suspense, useId, useState } from 'react';
+import { type ReactNode, Suspense, useId } from 'react';
+import { useDashboardContext } from '@/providers/(main)/dashboard';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
 import { type ActivityGroup, SPRINT, type WorkItem } from '../data';
+import ErrorWrapper from '../error-wrapper';
 import {
   ActivitySkeleton,
   BurndownSkeleton,
   NextItemsSkeleton,
   WorkStatusSkeleton,
 } from '../skeletons';
-import Widget from '../widget';
-import WidgetError from '../widget-error';
 import Burndown from './burndown';
+import DraggableWidget from './draggable-widget';
 import NextItems from './next-items';
 import RecentActivity from './recent-activity';
 import WorkStatus from './work-status';
@@ -39,8 +40,6 @@ const WIDGETS: Record<WidgetKey, { title: string; href: string }> = {
   burndown: { title: `Burndown · ${SPRINT.name}`, href: '/timeline' },
   status: { title: 'Work item status', href: '/taskboard' },
 };
-
-const DEFAULT_WIDGETS = Object.keys(WIDGETS) as WidgetKey[];
 
 /**
  * Each widget's data as a promise the route starts without awaiting. Leave them all out (as
@@ -56,14 +55,16 @@ interface WidgetsProps {
 /** The skeleton alone without data; otherwise the widget, behind its own error and Suspense. */
 const body = (label: string, skeleton: ReactNode, widget: ReactNode) =>
   widget ? (
-    <WidgetError label={label}>
+    <ErrorWrapper label={label}>
       <Suspense fallback={skeleton}>{widget}</Suspense>
-    </WidgetError>
+    </ErrorWrapper>
   ) : (
     skeleton
   );
 
 const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
+  const { widgets, rearrangeWidgets } = useDashboardContext();
+
   const content: Record<WidgetKey, ReactNode> = {
     'next-items': body(
       'your next items',
@@ -87,7 +88,6 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
     ),
   };
 
-  const [widgets, setWidgets] = useState<WidgetKey[]>(DEFAULT_WIDGETS);
   const dndId = useId();
 
   const sensors = useSensors(
@@ -97,8 +97,12 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) return;
-    setWidgets((all) =>
-      arrayMove(all, all.indexOf(active.id as WidgetKey), all.indexOf(over.id as WidgetKey)),
+    rearrangeWidgets(
+      arrayMove(
+        widgets,
+        widgets.indexOf(active.id as WidgetKey),
+        widgets.indexOf(over.id as WidgetKey),
+      ),
     );
   };
 
@@ -112,15 +116,15 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
       <SortableContext items={widgets} strategy={rectSortingStrategy}>
         <div className="grid gap-4 xl:grid-cols-2">
           {widgets.map((key) => (
-            <Widget
+            <DraggableWidget
               key={key}
               id={key}
               title={WIDGETS[key].title}
               href={WIDGETS[key].href}
-              onRemove={() => setWidgets((all) => all.filter((k) => k !== key))}
+              onRemove={() => rearrangeWidgets(widgets.filter((k) => k !== key))}
             >
               {content[key]}
-            </Widget>
+            </DraggableWidget>
           ))}
         </div>
       </SortableContext>

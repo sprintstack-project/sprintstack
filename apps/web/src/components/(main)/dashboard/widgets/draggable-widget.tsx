@@ -20,7 +20,7 @@ interface WidgetProps {
 }
 
 /** A dashboard panel: dragged by its handle to reorder, removed with the close button. */
-const Widget = ({ id, title, href, onRemove, children }: WidgetProps) => {
+const DraggableWidget = ({ id, title, href, onRemove, children }: WidgetProps) => {
   const {
     attributes,
     listeners,
@@ -71,4 +71,4 @@ const Widget = ({ id, title, href, onRemove, children }: WidgetProps) => {
   );
 };
 
-export default Widget;
+export default DraggableWidget;

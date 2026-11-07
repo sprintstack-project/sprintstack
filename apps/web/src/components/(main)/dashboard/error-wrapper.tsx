@@ -8,7 +8,7 @@ import { catchError, type ErrorInfo } from 'next/error';
  * Catches a failed tile or widget so the rest of the dashboard still shows. Retry re-renders it
  * on the server, which fetches again.
  */
-const WidgetError = catchError(({ label }: { label: string }, { retry }: ErrorInfo) => (
+const ErrorWrapper = catchError(({ label }: { label: string }, { retry }: ErrorInfo) => (
   <div
     role="alert"
     className="flex min-h-50 flex-col items-start justify-center gap-4 rounded-2xl border-[1.5px] border-danger p-6"
@@ -28,4 +28,4 @@ const WidgetError = catchError(({ label }: { label: string }, { retry }: ErrorIn
   </div>
 ));
 
-export default WidgetError;
+export default ErrorWrapper;

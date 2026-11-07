@@ -32,4 +32,26 @@ export const MeQuery = graphql(
   [UserFields],
 );
 
+export const UserPreferencesQuery = graphql(`query GetUserPreferences($projectId: ID!) {
+    getUserPreferences(projectId: $projectId) {
+        createdAt
+        theme
+        updatedAt
+        userId
+        widgets
+    }
+}`);
+
+export const UpdateUserPreferencesMutation =
+  graphql(`mutation UpdateUserPreferences($projectId: ID!, $widgets: [String!], $theme: String) {
+    updateUserPreferences(data: { widgets: $widgets, theme: $theme }, projectId: $projectId) {
+        createdAt
+        id
+        theme
+        updatedAt
+        userId
+        widgets
+    }
+}`);
+
 export type UserSummary = ResultOf<typeof UsersQuery>['users'][number];

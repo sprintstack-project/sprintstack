@@ -27,8 +27,9 @@ import { useEffect, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { disablePush } from '@/lib/push';
 import { useBell } from '@/lib/use-bell';
+import ProjectProvider, { useProjectContext } from '@/providers/(main)/project';
 
-const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
+const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const openProfile = () => {};
   const router = useRouter();
@@ -110,7 +111,11 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     },
   ];
 
-  const { project, switcher } = useProjectSwitcher();
+  const { projectId, setProjectId } = useProjectContext();
+  const { project, switcher } = useProjectSwitcher({
+    selectedId: projectId,
+    onSelect: setProjectId,
+  });
 
   const account: Option[] = [
     { value: 'profile', label: 'Profile', icon: UserRound, action: openProfile },
@@ -165,5 +170,12 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     </div>
   );
 };
+
+// The selected project is shared with every page under (main), so the provider sits above the shell.
+const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <ProjectProvider>
+    <Shell>{children}</Shell>
+  </ProjectProvider>
+);
 
 export default MainLayout;

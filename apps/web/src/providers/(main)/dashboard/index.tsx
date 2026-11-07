@@ -1,13 +1,42 @@
 'use client';
 
-import React from 'react';
+import { useGetUserPreferences, useUpdateUserPreferences } from '@sprintstack/api-client/users';
+import React, { useEffect, useState } from 'react';
+import { useProjectContext } from '../project';
 
-type IDashboardContext = {};
+export type WidgetKey = 'next-items' | 'activity' | 'burndown' | 'status';
+
+type IDashboardContext = {
+  widgets: WidgetKey[];
+  rearrangeWidgets: (newWidgets: WidgetKey[]) => void;
+};
 
 const DashboardContext = React.createContext<IDashboardContext | undefined>(undefined);
 
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
-  const value = {}; // Add your context value here
+  const { projectId } = useProjectContext();
+  const { data: userPreferences } = useGetUserPreferences(projectId);
+  const [, updateUserPreferences] = useUpdateUserPreferences();
+
+  const [widgets, setWidgets] = useState<WidgetKey[]>(
+    (userPreferences?.widgets as WidgetKey[]) ?? ['next-items', 'activity', 'burndown', 'status'],
+  );
+
+  useEffect(() => {
+    setWidgets(
+      (userPreferences?.widgets as WidgetKey[]) ?? ['next-items', 'activity', 'burndown', 'status'],
+    );
+  }, [userPreferences?.widgets]);
+
+  const rearrangeWidgets = (newWidgets: WidgetKey[]) => {
+    setWidgets(newWidgets);
+    projectId && updateUserPreferences({ projectId, widgets: newWidgets });
+  };
+
+  const value: IDashboardContext = {
+    widgets,
+    rearrangeWidgets,
+  };
   return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 };
 
