@@ -84,6 +84,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Firebase's Apple SDK ships as dynamic frameworks only.
     ['expo-build-properties', { ios: { useFrameworks: 'dynamic' } }],
     'posthog-react-native/expo',
+    'expo-font',
+    'expo-image',
+    'expo-web-browser',
   ],
   experiments: {
     typedRoutes: true,
