@@ -1,5 +1,6 @@
 import Card from '@ui/card';
 import Skeleton from '@ui/skeleton';
+import type { ReactNode } from 'react';
 
 /** Says once what's loading; the bones themselves are hidden from screen readers. */
 const Loading = ({ label }: { label: string }) => <span className="sr-only">Loading {label}</span>;
@@ -123,5 +124,23 @@ export const WorkStatusSkeleton = () => (
         </li>
       ))}
     </ul>
+  </div>
+);
+
+/** A widget's card and title, without the drag, open and remove controls the loaded one has. */
+export const WidgetFrameSkeleton = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) => (
+  <div className="grid">
+    <Card>
+      <header className="-my-2 flex h-10 items-center">
+        <h2 className="headline flex-1 truncate text-title text-ink">{title}</h2>
+      </header>
+      <div className="mt-3">{children}</div>
+    </Card>
   </div>
 );

@@ -41,51 +41,29 @@ const WIDGETS: Record<WidgetKey, { title: string; href: string }> = {
   status: { title: 'Work item status', href: '/taskboard' },
 };
 
-/**
- * Each widget's data as a promise the route starts without awaiting. Leave them all out (as
- * loading.tsx does) and every widget shows its skeleton.
- */
+/** Each widget's data, as a promise the route starts without awaiting. */
 interface WidgetsProps {
-  nextItems?: Promise<WorkItem[]>;
-  activity?: Promise<ActivityGroup[]>;
-  burndown?: Promise<BurndownData>;
-  status?: Promise<StatusSummary>;
+  nextItems: Promise<WorkItem[]>;
+  activity: Promise<ActivityGroup[]>;
+  burndown: Promise<BurndownData>;
+  status: Promise<StatusSummary>;
 }
 
-/** The skeleton alone without data; otherwise the widget, behind its own error and Suspense. */
-const body = (label: string, skeleton: ReactNode, widget: ReactNode) =>
-  widget ? (
-    <ErrorWrapper label={label}>
-      <Suspense fallback={skeleton}>{widget}</Suspense>
-    </ErrorWrapper>
-  ) : (
-    skeleton
-  );
+/** The widget behind its own error boundary, with its skeleton until its data lands. */
+const body = (label: string, skeleton: ReactNode, widget: ReactNode) => (
+  <ErrorWrapper label={label}>
+    <Suspense fallback={skeleton}>{widget}</Suspense>
+  </ErrorWrapper>
+);
 
 const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
   const { widgets, rearrangeWidgets } = useDashboardContext();
 
   const content: Record<WidgetKey, ReactNode> = {
-    'next-items': body(
-      'your next items',
-      <NextItemsSkeleton />,
-      nextItems && <NextItems items={nextItems} />,
-    ),
-    activity: body(
-      'recent activity',
-      <ActivitySkeleton />,
-      activity && <RecentActivity activity={activity} />,
-    ),
-    burndown: body(
-      'the burndown',
-      <BurndownSkeleton />,
-      burndown && <Burndown burndown={burndown} />,
-    ),
-    status: body(
-      'work item status',
-      <WorkStatusSkeleton />,
-      status && <WorkStatus status={status} />,
-    ),
+    'next-items': body('your next items', <NextItemsSkeleton />, <NextItems items={nextItems} />),
+    activity: body('recent activity', <ActivitySkeleton />, <RecentActivity activity={activity} />),
+    burndown: body('the burndown', <BurndownSkeleton />, <Burndown burndown={burndown} />),
+    status: body('work item status', <WorkStatusSkeleton />, <WorkStatus status={status} />),
   };
 
   const dndId = useId();

@@ -1,12 +1,15 @@
 import AddWidget from '@/components/(main)/dashboard/add-widget';
 import {
+  ActivitySkeleton,
+  BurndownSkeleton,
   NameSkeleton,
+  NextItemsSkeleton,
   SprintTileSkeleton,
   StatTileSkeleton,
+  WidgetFrameSkeleton,
+  WorkStatusSkeleton,
 } from '@/components/(main)/dashboard/skeletons';
-import SummaryTiles from '@/components/(main)/dashboard/summary-tiles';
 import Today from '@/components/(main)/dashboard/today';
-import Widgets from '@/components/(main)/dashboard/widgets';
 
 /** Shows while navigating here, before the page arrives. */
 const DashboardLoading = () => (
@@ -23,11 +26,6 @@ const DashboardLoading = () => (
       </div>
       <AddWidget />
     </div>
-    {/* <SummaryTiles
-      sprint={<SprintTileSkeleton />}
-      assigned={<StatTileSkeleton label="your assigned items" />}
-      review={<StatTileSkeleton label="your review queue" />}
-    /> */}
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr]">
       <div className="grid md:col-span-2 xl:col-span-1">
         <SprintTileSkeleton />
@@ -35,7 +33,21 @@ const DashboardLoading = () => (
       <StatTileSkeleton label="your assigned items" />
       <StatTileSkeleton label="your review queue" />
     </div>
-    <Widgets />
+    {/* The person's own widget order isn't known yet, so this is the default one. */}
+    <div className="grid gap-4 xl:grid-cols-2">
+      <WidgetFrameSkeleton title="Your next items">
+        <NextItemsSkeleton />
+      </WidgetFrameSkeleton>
+      <WidgetFrameSkeleton title="Recent activity">
+        <ActivitySkeleton />
+      </WidgetFrameSkeleton>
+      <WidgetFrameSkeleton title="Burndown">
+        <BurndownSkeleton />
+      </WidgetFrameSkeleton>
+      <WidgetFrameSkeleton title="Work item status">
+        <WorkStatusSkeleton />
+      </WidgetFrameSkeleton>
+    </div>
   </div>
 );
 
