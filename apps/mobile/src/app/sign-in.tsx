@@ -9,7 +9,7 @@ import { AuthHeading, TextLink } from '@/components/auth/auth-heading';
 import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice, OrDivider } from '@/components/auth/notice';
 import { authClient, errorMessage, refreshSession } from '@/lib/auth-client';
-import { signInWithPasskey } from '@/lib/passkey';
+import { passkeyErrorMessage, signInWithPasskey } from '@/lib/passkey';
 
 const defaultValues: SignInInput = { email: '', password: '', rememberMe: true };
 
@@ -53,10 +53,7 @@ const SignInPage = () => {
     } catch (cause) {
       setError({
         title: 'Passkey not used',
-        message:
-          cause instanceof Error && cause.message
-            ? cause.message
-            : 'The prompt was closed before you approved it.',
+        message: passkeyErrorMessage(cause, 'The prompt was closed before you approved it.'),
       });
     }
   };

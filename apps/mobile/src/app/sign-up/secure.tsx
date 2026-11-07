@@ -10,7 +10,7 @@ import { AuthScreen } from '@/components/auth/auth-screen';
 import { Notice } from '@/components/auth/notice';
 import { RecoveryCodes } from '@/components/auth/recovery-codes';
 import { authClient, errorMessage } from '@/lib/auth-client';
-import { addPasskey, isPasskeySupported } from '@/lib/passkey';
+import { addPasskey, isPasskeySupported, passkeyErrorMessage } from '@/lib/passkey';
 import { useTokenColor } from '@/lib/use-token-color';
 
 interface Totp {
@@ -80,11 +80,7 @@ const SignUpSecurePage = () => {
       if (error) throw new Error(error.message);
       setPasskeyAdded(true);
     } catch (cause) {
-      setPasskeyError(
-        cause instanceof Error && cause.message
-          ? cause.message
-          : 'The passkey wasn’t saved. Try again.',
-      );
+      setPasskeyError(passkeyErrorMessage(cause, 'The passkey wasn’t saved. Try again.'));
     }
   };
 

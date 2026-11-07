@@ -8,6 +8,23 @@ import { authClient } from './auth-client';
 
 export const isPasskeySupported = () => Passkey.isSupported();
 
+/**
+ * A readable message for a failed passkey ceremony. react-native-passkey throws plain
+ * `{ error, message }` objects (not Error instances) whose message is iOS's/Android's own reason,
+ * e.g. "Application with identifier … is not associated with domain …". A genuine cancel gets the
+ * fallback; anything else shows the native reason and its code so it can be diagnosed.
+ */
+export const passkeyErrorMessage = (cause: unknown, fallback: string) => {
+  if (cause instanceof Error) return cause.message || fallback;
+  if (typeof cause === 'object' && cause !== null && 'error' in cause) {
+    const { error, message } = cause as { error?: unknown; message?: unknown };
+    if (error === 'UserCancelled') return fallback;
+    const text = typeof message === 'string' && message ? message : fallback;
+    return typeof error === 'string' ? `${text} (${error})` : text;
+  }
+  return fallback;
+};
+
 /** Signs in with a passkey saved on this device or in the user's password manager. */
 export const signInWithPasskey = async () => {
   const options = await authClient.$fetch<PasskeyGetRequest>(
