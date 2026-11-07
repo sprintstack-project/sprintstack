@@ -74,6 +74,11 @@ export default defineRailway(() => {
       REDIS_URL: Redis.env.REDIS_URL,
       TURNSTILE_SECRET: preserve(),
       WEB_ORIGIN: preserve(),
+      RAILWAY_STORAGE_BUCKET_NAME: preserve(),
+      RAILWAY_STORAGE_BUCKET_ENDPOINT: preserve(),
+      RAILWAY_STORAGE_BUCKET_REGION: preserve(),
+      RAILWAY_STORAGE_ACCESS_KEY_ID: preserve(),
+      RAILWAY_STORAGE_SECRET_ACCESS_KEY: preserve(),
     },
   });
   const web = service('web', {
