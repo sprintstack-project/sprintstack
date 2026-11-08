@@ -6,7 +6,6 @@ import {
   columnsOf,
   DEFAULT_RANGE,
   EPICS,
-  findRange,
   type Level,
   rangeMonths,
   type Scale,
@@ -17,11 +16,10 @@ import { Toolbar } from './toolbar';
 export const Timeline = () => {
   const [level, setLevel] = useState<Level>('epics');
   const [status, setStatus] = useState<StatusFilter>('all');
-  const [rangeValue, setRangeValue] = useState(DEFAULT_RANGE);
+  const [range, setRange] = useState(DEFAULT_RANGE);
   const [scale, setScale] = useState<Scale>('months');
   const [expanded, setExpanded] = useState(['PAY-E12']);
 
-  const range = findRange(rangeValue);
   const matches = (item: { status: StatusFilter }) => status === 'all' || item.status === status;
 
   return (
@@ -40,8 +38,8 @@ export const Timeline = () => {
         onLevelChange={setLevel}
         status={status}
         onStatusChange={setStatus}
-        range={rangeValue}
-        onRangeChange={setRangeValue}
+        range={range}
+        onRangeChange={setRange}
         scale={scale}
         onScaleChange={setScale}
       />

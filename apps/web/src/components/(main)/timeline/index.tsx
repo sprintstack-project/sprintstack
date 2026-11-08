@@ -5,31 +5,30 @@ import { PlusIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Chart from './chart';
 import {
+  centredOn,
   columnsOf,
   contains,
   DEFAULT_RANGE,
   EPICS,
-  findRange,
   type Level,
   offsetOf,
-  RANGES,
   rangeMonths,
   type Scale,
   type StatusFilter,
   TODAY,
 } from './data';
+import { EmptyTimeline } from './empty';
 import Toolbar from './toolbar';
 
 const Timeline = () => {
   const [level, setLevel] = useState<Level>('epics');
   const [status, setStatus] = useState<StatusFilter>('all');
-  const [rangeValue, setRangeValue] = useState(DEFAULT_RANGE);
+  const [range, setRange] = useState(DEFAULT_RANGE);
   const [scale, setScale] = useState<Scale>('months');
   const [expanded, setExpanded] = useState(['PAY-E12']);
   const scrollRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
 
-  const range = findRange(rangeValue);
   const matches = (item: { status: StatusFilter }) => status === 'all' || item.status === status;
   const epics = EPICS.filter(matches);
   const features = EPICS.flatMap((e) => e.features).filter(matches);
@@ -47,14 +46,16 @@ const Timeline = () => {
     });
   };
 
-  // Out of range, today first brings in the range that holds it.
+  // Out of range, today first moves the range to hold it.
   const goToToday = () => {
     if (contains(range, TODAY)) return scrollToToday();
-    const next = RANGES.find((r) => contains(r, TODAY));
-    if (!next) return;
-    setRangeValue(next.value);
+    const next = centredOn(range, TODAY);
+    setRange(next);
     requestAnimationFrame(() => scrollToToday(next));
   };
+
+  // TODO: swap for `epics.length === 0` once epics come from the API; true previews the empty state.
+  const isEmpty = true as boolean;
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
@@ -72,11 +73,12 @@ const Timeline = () => {
         onLevelChange={setLevel}
         status={status}
         onStatusChange={setStatus}
-        range={rangeValue}
-        onRangeChange={setRangeValue}
+        range={range}
+        onRangeChange={setRange}
         scale={scale}
         onScaleChange={setScale}
         onToday={goToToday}
+        empty={isEmpty}
       />
       <Chart
         level={level}

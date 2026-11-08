@@ -221,21 +221,12 @@ export const STATUS_OPTIONS: Option<StatusFilter>[] = [
 ];
 
 export interface Range {
-  value: string;
   start: Date;
   /** The last day, inclusive. */
   end: Date;
 }
 
-export const RANGES: Range[] = [
-  { value: '2026-h2', start: new Date(2026, 6, 1), end: new Date(2026, 11, 31) },
-  { value: 'oct-mar', start: new Date(2026, 9, 1), end: new Date(2027, 2, 31) },
-  { value: '2027-h1', start: new Date(2027, 0, 1), end: new Date(2027, 5, 30) },
-  { value: '2026', start: new Date(2026, 0, 1), end: new Date(2026, 11, 31) },
-  { value: '2027', start: new Date(2027, 0, 1), end: new Date(2027, 11, 31) },
-];
-
-export const DEFAULT_RANGE = 'oct-mar';
+export const DEFAULT_RANGE: Range = { start: new Date(2026, 9, 1), end: new Date(2027, 2, 31) };
 
 /** "1 Oct 2026 – 31 Mar 2027". */
 export const rangeLabel = ({ start, end }: Range) =>
@@ -244,17 +235,6 @@ export const rangeLabel = ({ start, end }: Range) =>
 /** "Oct 2026 – Mar 2027", for the eyebrow. */
 export const rangeMonths = ({ start, end }: Range) =>
   `${format(start, 'MMM yyyy')} – ${format(end, 'MMM yyyy')}`;
-
-/** "Oct – Mar", for the range pill; the eyebrow names the years. */
-export const rangeShort = ({ start, end }: Range) =>
-  `${format(start, 'MMM')} – ${format(end, 'MMM')}`;
-
-export const RANGE_OPTIONS: Option[] = RANGES.map((range) => ({
-  value: range.value,
-  label: rangeLabel(range),
-}));
-
-export const findRange = (value: string) => RANGES.find((r) => r.value === value) ?? RANGES[0];
 
 export const contains = (range: Range, date: Date) => date >= range.start && date <= range.end;
 

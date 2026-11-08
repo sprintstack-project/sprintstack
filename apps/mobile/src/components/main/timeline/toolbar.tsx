@@ -1,20 +1,12 @@
-import { scaled, touchSlop } from '@lib/scale';
+import { scaled } from '@lib/scale';
 import FilterSelect from '@ui/filter-select';
-import { SelectWithTrigger as Select } from '@ui/select';
 import Text from '@ui/text';
-import { Calendar, ChevronDown, Sparkles, Zap } from 'lucide-react-native';
+import { Sparkles, Zap } from 'lucide-react-native';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
 import { TogglePill } from '../taskboard/toolbar';
-import {
-  findRange,
-  type Level,
-  RANGE_OPTIONS,
-  rangeShort,
-  type Scale,
-  STATUS_OPTIONS,
-  type StatusFilter,
-} from './data';
+import { type Level, type Range, type Scale, STATUS_OPTIONS, type StatusFilter } from './data';
+import { RangePicker } from './range-picker';
 
 const levels: { value: Level; label: string; icon: typeof Zap }[] = [
   { value: 'epics', label: 'Epics', icon: Zap },
@@ -62,8 +54,8 @@ interface ToolbarProps {
   onLevelChange: (level: Level) => void;
   status: StatusFilter;
   onStatusChange: (status: StatusFilter) => void;
-  range: string;
-  onRangeChange: (range: string) => void;
+  range: Range;
+  onRangeChange: (range: Range) => void;
   scale: Scale;
   onScaleChange: (scale: Scale) => void;
 }
@@ -77,74 +69,52 @@ export const Toolbar = ({
   onRangeChange,
   scale,
   onScaleChange,
-}: ToolbarProps) => {
-  const muted = useTokenColor('ink-muted');
-  return (
-    <View className="gap-4">
-      <View
-        accessibilityRole="radiogroup"
-        accessibilityLabel="Show"
-        className="flex-row rounded-full bg-surface-muted p-1"
-      >
-        {levels.map((option) => (
-          <LevelOption
-            key={option.value}
-            label={option.label}
-            icon={option.icon}
-            selected={level === option.value}
-            onPress={() => onLevelChange(option.value)}
-          />
-        ))}
-      </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="-mx-6"
-        contentContainerClassName="gap-3 px-6"
-      >
-        <Select
-          options={RANGE_OPTIONS}
-          value={range}
-          onValueChange={(next) => next && onRangeChange(next)}
-          trigger={{
-            label: 'Date range',
-            hitSlop: touchSlop(48),
-            className:
-              'h-12 flex-row items-center gap-2 rounded-full border-[1.5px] border-line-strong px-5 active:bg-surface-pressed',
-            children: (
-              <>
-                <Calendar aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />
-                <Text className="text-[1.0625rem] leading-5 font-bold text-ink">
-                  {rangeShort(findRange(range))}
-                </Text>
-                <ChevronDown aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />
-              </>
-            ),
-          }}
+}: ToolbarProps) => (
+  <View className="gap-4">
+    <View
+      accessibilityRole="radiogroup"
+      accessibilityLabel="Show"
+      className="flex-row rounded-full bg-surface-muted p-1"
+    >
+      {levels.map((option) => (
+        <LevelOption
+          key={option.value}
+          label={option.label}
+          icon={option.icon}
+          selected={level === option.value}
+          onPress={() => onLevelChange(option.value)}
         />
-        {scales.map((option) => (
-          <TogglePill
-            key={option.value}
-            label={`Scale: ${option.label}`}
-            pressed={scale === option.value}
-            onPress={() => onScaleChange(option.value)}
-          >
-            {() => (
-              <Text
-                className={`text-[1.0625rem] leading-5 font-extrabold ${scale === option.value ? 'text-on-ink' : 'text-ink'}`}
-              >
-                {option.label}
-              </Text>
-            )}
-          </TogglePill>
-        ))}
-        <FilterSelect<StatusFilter>
-          label="Status"
-          options={STATUS_OPTIONS}
-          value={status}
-          onValueChange={(next) => onStatusChange(next ?? 'all')}
-        />
-      </ScrollView>
+      ))}
     </View>
-  );
-};
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      className="-mx-6"
+      contentContainerClassName="gap-3 px-6"
+    >
+      <RangePicker value={range} onValueChange={onRangeChange} />
+      {scales.map((option) => (
+        <TogglePill
+          key={option.value}
+          label={`Scale: ${option.label}`}
+          pressed={scale === option.value}
+          onPress={() => onScaleChange(option.value)}
+        >
+          {() => (
+            <Text
+              className={`text-[1.0625rem] leading-5 font-extrabold ${scale === option.value ? 'text-on-ink' : 'text-ink'}`}
+            >
+              {option.label}
+            </Text>
+          )}
+        </TogglePill>
+      ))}
+      <FilterSelect<StatusFilter>
+        label="Status"
+        options={STATUS_OPTIONS}
+        value={status}
+        onValueChange={(next) => onStatusChange(next ?? 'all')}
+      />
+    </ScrollView>
+  </View>
+);
