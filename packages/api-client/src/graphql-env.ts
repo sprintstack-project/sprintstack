@@ -145,6 +145,55 @@ const introspection = {
         "interfaces": []
       },
       {
+        "kind": "OBJECT",
+        "name": "AvatarUpload",
+        "fields": [
+          {
+            "name": "fields",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UploadUrlFieldModel"
+                  }
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "key",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "url",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "SCALAR",
         "name": "Boolean"
       },
@@ -439,6 +488,79 @@ const introspection = {
         "name": "Int"
       },
       {
+        "kind": "OBJECT",
+        "name": "Me",
+        "fields": [
+          {
+            "name": "email",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "emailVerified",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "image",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "jobTitle",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "ENUM",
         "name": "Methodology",
         "enumValues": [
@@ -456,6 +578,29 @@ const introspection = {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "createAvatarUpload",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "AvatarUpload"
+              }
+            },
+            "args": [
+              {
+                "name": "contentType",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
           {
             "name": "createUserPreferences",
             "type": {
@@ -633,19 +778,19 @@ const introspection = {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "UserSummary"
+                "name": "Me"
               }
             },
             "args": [
               {
-                "name": "email",
+                "name": "image",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String"
                 }
               },
               {
-                "name": "image",
+                "name": "jobTitle",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String"
@@ -1123,29 +1268,6 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "getUploadUrl",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "UploadUrlModel"
-              }
-            },
-            "args": [
-              {
-                "name": "key",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String"
-                  }
-                }
-              }
-            ],
-            "isDeprecated": false
-          },
-          {
             "name": "getUserPreferences",
             "type": {
               "kind": "NON_NULL",
@@ -1174,7 +1296,7 @@ const introspection = {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "UserSummary"
+                "name": "Me"
               }
             },
             "args": [],

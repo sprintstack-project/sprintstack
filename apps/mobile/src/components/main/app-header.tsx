@@ -7,7 +7,7 @@ import { SunMoon } from 'lucide-react-native';
 import { useState } from 'react';
 import { SafeAreaView as BaseSafeAreaView } from 'react-native-safe-area-context';
 import { Uniwind, useUniwind, withUniwind } from 'uniwind';
-import { PROJECT_SETTINGS, SECTIONS, SETTINGS_KEYS } from '@/components/main/navigation';
+import { PROFILE, PROJECT_SETTINGS, SECTIONS, SETTINGS_KEYS } from '@/components/main/navigation';
 import { useBell } from '@/lib/use-bell';
 
 // Uniwind only reads `className` on React Native's own components; third-party ones need wrapping.
@@ -25,7 +25,7 @@ export const AppHeader = ({ project, user }: { project?: SidebarProject; user: S
   const { theme } = useUniwind();
   const dark = theme === 'dark';
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const page = PAGES.find((item) => item.key === segments[1]);
+  const page = [...PAGES, PROFILE].find((item) => item.key === segments[1]);
   // Settings' own pages are routes like "settings/details", under Project settings.
   const route = segments.slice(1).join('/');
   const subpage = PROJECT_SETTINGS.find((item) => item.key === route);
@@ -70,9 +70,13 @@ export const AppHeader = ({ project, user }: { project?: SidebarProject; user: S
         user={user}
         // Phones reach these pages from the Settings tab, so they lead back to it.
         back={
-          drawer && SETTINGS_KEYS.includes(route)
-            ? { label: 'Settings', onPress: () => router.navigate('/main/settings' as Href) }
-            : undefined
+          !drawer
+            ? undefined
+            : route === PROFILE.key
+              ? { label: 'previous page', onPress: () => router.back() }
+              : SETTINGS_KEYS.includes(route)
+                ? { label: 'Settings', onPress: () => router.navigate('/main/settings' as Href) }
+                : undefined
         }
         search={{ onOpen: () => setPaletteOpen(true) }}
         notifications={notifications}

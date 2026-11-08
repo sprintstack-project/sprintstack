@@ -34,11 +34,13 @@ export class StorageService {
     return presignedUrl;
   }
 
-  async getFileUploadUrl(key: string): Promise<UploadUrlModel> {
+  /** With `contentType`, S3 refuses the upload unless it's sent with exactly that type. */
+  async getFileUploadUrl(key: string, contentType?: string): Promise<UploadUrlModel> {
     const { url, fields } = await createPresignedPost(this.s3Client, {
       Bucket: this.bucketName,
       Key: key,
       Expires: 600,
+      ...(contentType && { Fields: { 'Content-Type': contentType } }),
       Conditions: [['content-length-range', 1, MAX_UPLOAD_BYTES]],
     });
     return {

@@ -21,16 +21,51 @@ export const UsersQuery = graphql(
   [UserFields],
 );
 
+export const MeFields = graphql(`
+    fragment MeFields on Me @_unmask {
+        id
+        name
+        email
+        image
+        emailVerified
+        jobTitle
+    }
+`);
+
 export const MeQuery = graphql(
   `
   query Me {
     me {
-    ...UserFields
+    ...MeFields
     }
   }
 `,
-  [UserFields],
+  [MeFields],
 );
+
+export const UpdateMeMutation = graphql(
+  `
+  mutation UpdateMe($name: String, $jobTitle: String, $image: String) {
+    updateMe(name: $name, jobTitle: $jobTitle, image: $image) {
+    ...MeFields
+    }
+  }
+`,
+  [MeFields],
+);
+
+export const CreateAvatarUploadMutation = graphql(`
+  mutation CreateAvatarUpload($contentType: String!) {
+    createAvatarUpload(contentType: $contentType) {
+      key
+      url
+      fields {
+        name
+        value
+      }
+    }
+  }
+`);
 
 export const UserPreferencesQuery = graphql(`query GetUserPreferences($projectId: ID!) {
     getUserPreferences(projectId: $projectId) {

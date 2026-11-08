@@ -5,12 +5,12 @@ import Text from '@ui/text';
 import type { Option, SidebarUser } from '@ui/types';
 import { type Href, Redirect, router, Tabs, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { LogOut } from 'lucide-react-native';
+import { LogOut, UserRound } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { Image, View } from 'react-native';
 import { useUniwind } from 'uniwind';
 import { AppHeader } from '@/components/main/app-header';
-import { PROJECT_SETTINGS, SECTIONS } from '@/components/main/navigation';
+import { PROFILE, PROJECT_SETTINGS, SECTIONS } from '@/components/main/navigation';
 import { TabBar } from '@/components/main/tab-bar';
 import { authClient } from '@/lib/auth-client';
 import { signOut, syncRestoreKey } from '@/lib/restore-key';
@@ -46,7 +46,8 @@ const Shell = ({ user }: { user: Person }) => {
   const { switcher } = useProjectSwitcher({ selectedId: projectId, onSelect: setProjectId });
 
   const account: SidebarUser = {
-    name: user.name,
+    // me follows profile edits; the session keeps the name from sign-in.
+    name: me?.name ?? user.name,
     email: user.email,
     avatar: me?.image ?? undefined,
     options: [
@@ -56,6 +57,12 @@ const Shell = ({ user }: { user: Person }) => {
       //   icon: dark ? Sun : Moon,
       //   action: () => Uniwind.setTheme(dark ? 'light' : 'dark'),
       // },
+      {
+        value: 'profile',
+        label: 'Profile',
+        icon: UserRound,
+        action: () => router.navigate('/main/profile' as Href),
+      },
       signOutOption,
     ],
     searchable: false,
@@ -98,10 +105,12 @@ const Shell = ({ user }: { user: Person }) => {
           screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: canvas } }}
           tabBar={(props) => (drawer ? <TabBar {...props} /> : null)}
         >
-          {/* Only declared screens render: every sidebar item (Dashboard first), then Settings' pages. */}
-          {[...SECTIONS.flatMap((section) => section.items), ...PROJECT_SETTINGS].map((item) => (
-            <Tabs.Screen key={item.key} name={item.key} />
-          ))}
+          {/* Only declared screens render: every sidebar item (Dashboard first), then Settings' pages and Profile. */}
+          {[...SECTIONS.flatMap((section) => section.items), ...PROJECT_SETTINGS, PROFILE].map(
+            (item) => (
+              <Tabs.Screen key={item.key} name={item.key} />
+            ),
+          )}
         </Tabs>
       </View>
     </View>

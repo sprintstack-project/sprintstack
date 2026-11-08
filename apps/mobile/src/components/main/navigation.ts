@@ -10,6 +10,7 @@ import {
   SquareStack,
   UserCog,
   UserGroup,
+  UserRound,
   Workflow,
 } from 'lucide-react-native';
 
@@ -59,6 +60,14 @@ export const PROJECT_SETTINGS: SidebarItem[] = [
     href: '/main/settings/notifications',
   },
 ];
+
+/** The signed-in person's profile, opened from the account menu. */
+export const PROFILE: SidebarItem = {
+  key: 'profile',
+  label: 'Profile',
+  icon: UserRound,
+  href: '/main/profile',
+};
 
 /** The sidebar's items that have no tab; on phones the Settings screen lists them. */
 export const ADMIN_ITEMS: SidebarItem[] = SECTIONS.flatMap((section) => section.items).filter(

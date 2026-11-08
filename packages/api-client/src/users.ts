@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import { useClient, useMutation } from 'urql';
 import {
+  CreateAvatarUploadMutation,
   MeQuery,
+  UpdateMeMutation,
   UpdateUserPreferencesMutation,
   UserPreferencesQuery,
   UsersQuery,
@@ -44,6 +46,10 @@ export const useSearchMentions = () => {
 };
 
 export const useGetMe = () => useRootQuery({ query: MeQuery });
+
+export const useUpdateMe = () => useMutation(UpdateMeMutation);
+
+export const useCreateAvatarUpload = () => useMutation(CreateAvatarUploadMutation);
 
 /** The viewer's preferences for a project. Waits (paused, no request) until there's a project. */
 export const useGetUserPreferences = (projectId: string | undefined) =>

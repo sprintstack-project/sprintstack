@@ -21,7 +21,7 @@ export const useField = () => {
   return useContext(FieldContext);
 };
 
-const Field = ({ label, description, error, required, children }: FieldProps) => {
+const Field = ({ label, labelAside, description, error, required, children }: FieldProps) => {
   const labelId = useId();
   const errorColor = useTokenColor('brand-ink');
   const invalid = Boolean(error);
@@ -29,14 +29,17 @@ const Field = ({ label, description, error, required, children }: FieldProps) =>
   return (
     <FieldContext.Provider value={{ labelId, label, hint: error ?? description, invalid }}>
       <View className="min-w-0 gap-2">
-        <Text nativeID={labelId} className="text-[1.0625rem] leading-5.5 font-bold text-ink">
-          {label}
-          {required && (
-            <Text aria-hidden className="text-brand-ink">
-              {' *'}
-            </Text>
-          )}
-        </Text>
+        <View className="flex-row items-center gap-2">
+          <Text nativeID={labelId} className="text-[1.0625rem] leading-5.5 font-bold text-ink">
+            {label}
+            {required && (
+              <Text aria-hidden className="text-brand-ink">
+                {' *'}
+              </Text>
+            )}
+          </Text>
+          {labelAside}
+        </View>
         {children}
         {/* The error replaces the helper text rather than stacking under it. */}
         {invalid ? (

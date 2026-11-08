@@ -14,6 +14,12 @@ type Attachment {
   workItemId: ID!
 }
 
+type AvatarUpload {
+  fields: [UploadUrlFieldModel!]!
+  key: String!
+  url: String!
+}
+
 type Comment {
   authorId: String
 
@@ -72,12 +78,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Me {
+  email: String!
+  emailVerified: Boolean!
+  id: ID!
+  image: String
+  jobTitle: String
+  name: String!
+}
+
 enum Methodology {
   kanban
   scrum
 }
 
 type Mutation {
+  """Starts a profile photo upload for the current user"""
+  createAvatarUpload(contentType: String!): AvatarUpload!
   createUserPreferences(data: CreateUserPreferenceInput!, projectId: ID!): UserPreference!
 
   """
@@ -103,8 +120,15 @@ type Mutation {
   """Stops pushes to this device. Call before signing out."""
   unregisterPushDevice(fid: String!): Boolean!
 
-  """Update the current user in the active organization"""
-  updateMe(email: String, image: String, name: String): UserSummary!
+  """
+  Update the current user in the active organization. Leave a field out to keep it; a null image or jobTitle clears it.
+  """
+  updateMe(
+    """From createAvatarUpload."""
+    image: String
+    jobTitle: String
+    name: String
+  ): Me!
   updateUserPreferences(data: UpdateUserPreferenceInput!, projectId: ID!): UserPreference!
 }
 
@@ -176,11 +200,10 @@ type Query {
 
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint
-  getUploadUrl(key: String!): UploadUrlModel!
   getUserPreferences(projectId: ID!): UserPreference!
 
   """Get the current user in the active organization"""
-  me: UserSummary!
+  me: Me!
 
   """Newest first."""
   notifications(
@@ -248,11 +271,6 @@ input UpdateUserPreferenceInput {
 type UploadUrlFieldModel {
   name: String!
   value: String!
-}
-
-type UploadUrlModel {
-  fields: [UploadUrlFieldModel!]!
-  url: String!
 }
 
 type User {

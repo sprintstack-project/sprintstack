@@ -89,6 +89,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-font',
     'expo-image',
     'expo-web-browser',
+    // Choosing a profile photo; the camera isn't used.
+    [
+      'expo-image-picker',
+      {
+        photosPermission: 'Allow SprintStack to use a photo for your profile.',
+        cameraPermission: false,
+        microphonePermission: false,
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,

@@ -31,8 +31,8 @@ import ProjectProvider, { useProjectContext } from '@/providers/(main)/project';
 
 const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
-  const openProfile = () => {};
   const router = useRouter();
+  const openProfile = () => router.push('/account/profile');
   const { data: session } = authClient.useSession();
   const signOut = async () => {
     // While the session still exists: this browser stops getting the person's pushes.
@@ -139,10 +139,11 @@ const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
             user={
               session
                 ? {
-                    name: session.user.name,
+                    // me follows profile edits; the session keeps the name from sign-in.
+                    name: me?.name ?? session.user.name,
                     email: session.user.email,
                     // GitHub accounts bring a photo; everyone else gets their initials.
-                    avatar: me?.image || initialsOf(session.user.name),
+                    avatar: me?.image || initialsOf(me?.name ?? session.user.name),
                     options: account,
                     searchable: false,
                   }
@@ -152,10 +153,14 @@ const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
           />
           <div className="min-w-0 flex-1">
             <Header
-              breadcrumbs={[
-                ...(project ? [{ label: project.name, href: '/dashboard' }] : []),
-                { label: currentLabel ?? 'Home' },
-              ]}
+              breadcrumbs={
+                active === 'account'
+                  ? [{ label: me?.name ?? session?.user.name ?? '' }, { label: 'Account settings' }]
+                  : [
+                      ...(project ? [{ label: project.name, href: '/dashboard' }] : []),
+                      { label: currentLabel ?? 'Home' },
+                    ]
+              }
               linkComponent={Link}
               search={{ onOpen: () => setPaletteOpen(true) }}
               notifications={notifications}

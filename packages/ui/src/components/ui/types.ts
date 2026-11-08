@@ -70,6 +70,8 @@ export interface CardProps {
 
 export interface FieldProps {
   label: string;
+  /** Beside the label, e.g. a "Verified" Badge. */
+  labelAside?: ReactNode;
   htmlFor?: string;
   description?: string;
   error?: string;

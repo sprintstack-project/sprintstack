@@ -22,7 +22,15 @@ export const useField = () => {
   return useContext(FieldContext);
 };
 
-const Field = ({ label, htmlFor, description, error, required, children }: FieldProps) => {
+const Field = ({
+  label,
+  labelAside,
+  htmlFor,
+  description,
+  error,
+  required,
+  children,
+}: FieldProps) => {
   const invalid = Boolean(error);
   const labelId = useId();
   const hintId = useId();
@@ -31,19 +39,22 @@ const Field = ({ label, htmlFor, description, error, required, children }: Field
   return (
     <BaseField.Root invalid={invalid} className="flex min-w-0 flex-col gap-2">
       <FieldContext.Provider value={{ labelId, hintId: hasHint ? hintId : undefined, invalid }}>
-        <BaseField.Label
-          id={labelId}
-          // An explicit undefined would override the id Base UI wires up.
-          {...(htmlFor && { htmlFor })}
-          className="text-[1.0625rem] leading-5.5 font-bold font-stretch-semi-condensed text-ink"
-        >
-          {label}
-          {required && (
-            <span aria-hidden className="ml-0.5 text-brand-ink">
-              *
-            </span>
-          )}
-        </BaseField.Label>
+        <div className="flex items-center gap-2">
+          <BaseField.Label
+            id={labelId}
+            // An explicit undefined would override the id Base UI wires up.
+            {...(htmlFor && { htmlFor })}
+            className="text-[1.0625rem] leading-5.5 font-bold font-stretch-semi-condensed text-ink"
+          >
+            {label}
+            {required && (
+              <span aria-hidden className="ml-0.5 text-brand-ink">
+                *
+              </span>
+            )}
+          </BaseField.Label>
+          {labelAside}
+        </div>
         {children}
       </FieldContext.Provider>
       {/* The error replaces the helper text rather than stacking under it. */}
