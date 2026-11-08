@@ -1,9 +1,12 @@
 'use client';
 
+import { useGetWorkItemsByProjectId } from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
+import Eyebrow from '@ui/eyebrow';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useProjectContext } from '@/providers/(main)/project';
 import { NewWorkItem } from '../new-work-item';
 import { toPlannedItem } from '../new-work-item/data';
 import {
@@ -15,6 +18,7 @@ import {
   type View,
   WORK_ITEMS,
 } from './data';
+import { NoSprint } from './empty';
 import KanbanView from './kanban-view';
 import ListView from './list-view';
 import Toolbar from './toolbar';
@@ -29,6 +33,43 @@ const Taskboard = () => {
   const [creating, setCreating] = useState(false);
   const items = filterItems(allItems, filters);
   const points = items.reduce((sum, item) => sum + item.points, 0);
+
+  const { projectId } = useProjectContext();
+  const { data: workItems } = useGetWorkItemsByProjectId(projectId);
+
+  if (!workItems || workItems.length === 0) {
+    return (
+      <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
+        <div className="flex flex-wrap gap-4 justify-between items-end">
+          <div className="flex flex-col gap-2">
+            <Eyebrow>No active sprint</Eyebrow>
+            <h1 className="headline text-7xl leading-none">Taskboard</h1>
+          </div>
+          <div className="hidden md:block">
+            <Button variant="secondary" size="lg" icon={PlusIcon} onClick={() => setCreating(true)}>
+              New work item
+            </Button>
+          </div>
+        </div>
+        <div className="flex flex-col gap-6">
+          <NoSprint />
+        </div>
+        <NewWorkItem
+          open={creating}
+          onOpenChange={setCreating}
+          onCreate={(item) =>
+            setAllItems((all) => [
+              toPlannedItem(
+                item,
+                all.map((i) => i.key),
+              ),
+              ...all,
+            ])
+          }
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
