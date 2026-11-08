@@ -14,7 +14,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { GestureHandlerRootView as BaseGestureHandlerRootView } from 'react-native-gesture-handler';
-import { withUniwind } from 'uniwind';
+import { useUniwind, withUniwind } from 'uniwind';
 import { Provider as ApiProvider } from 'urql';
 import { IntlProvider } from 'use-intl';
 import { apiClient } from '@/lib/api-client';
@@ -28,6 +28,7 @@ const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
+  const { theme } = useUniwind();
   // The families @ui/text's Text picks per weight.
   const [fontsLoaded, fontError] = useFonts({
     Archivo_400Regular,
@@ -49,7 +50,13 @@ const RootLayout = () => {
       {/* English only for now, matching the web app (apps/web/src/i18n/request.ts). */}
       <IntlProvider locale={DEFAULT_LOCALE} messages={MESSAGES[DEFAULT_LOCALE]} timeZone={timeZone}>
         <ApiProvider value={apiClient}>
-          <Stack screenOptions={{ headerShown: false }} />
+          {/* iOS takes the status bar style from the screens, not from <StatusBar>. */}
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              statusBarStyle: theme === 'dark' ? 'light' : 'dark',
+            }}
+          />
           {/* Where @ui/dialog renders, above every screen and inside the providers. */}
           <PortalHost />
         </ApiProvider>

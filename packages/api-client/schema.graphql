@@ -32,6 +32,22 @@ type Comment {
   workItemId: ID!
 }
 
+input CreateProjectInput {
+  description: String
+
+  """Prefix of item keys, e.g. "PAY" in PAY-1482."""
+  key: String!
+  name: String!
+}
+
+input CreateProjectInput {
+  description: String
+
+  """Prefix of item keys, e.g. "PAY" in PAY-1482."""
+  key: String!
+  name: String!
+}
+
 input CreateUserPreferenceInput {
   projectId: String!
   theme: String
@@ -95,6 +111,16 @@ enum Methodology {
 type Mutation {
   """Starts a profile photo upload for the current user"""
   createAvatarUpload(contentType: String!): AvatarUpload!
+
+  """
+  Creates a project in the active organization, with the viewer as its admin.
+  """
+  createProject(input: CreateProjectInput!): Project!
+
+  """
+  Creates a project in the active organization, with the viewer as its admin.
+  """
+  createProject(input: CreateProjectInput!): Project!
   createUserPreferences(data: CreateUserPreferenceInput!, projectId: ID!): UserPreference!
 
   """

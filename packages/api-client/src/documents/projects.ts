@@ -14,4 +14,17 @@ export const ProjectsQuery = graphql(`
   }
 `);
 
+export const CreateProjectMutation = graphql(`
+  mutation CreateProject($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      id
+      key
+      name
+      description
+      methodology
+      memberCount
+    }
+  }
+`);
+
 export type Project = ResultOf<typeof ProjectsQuery>['projects'][number];

@@ -3,15 +3,18 @@ import Card from '@ui/card';
 import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
 import { Check, ChevronRight } from 'lucide-react-native';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
 import { SETUP_STEPS } from '../data';
+import CreateProject from './create-project';
 
 const poster = 'text-[2.5rem] leading-[2.375rem] font-extrabold uppercase';
 
 const SetupTile = () => {
   const onInk = useTokenColor('on-ink');
   const onBrand = useTokenColor('on-brand');
+  const [creating, setCreating] = useState(false);
   const done = SETUP_STEPS.filter((step) => step.done).length;
   return (
     <Card variant="ink">
@@ -46,8 +49,8 @@ const SetupTile = () => {
             ) : (
               <Pressable
                 key={step.label}
-                accessibilityRole="link"
-                onPress={() => router.navigate(step.href as Href)}
+                accessibilityRole={step.href ? 'link' : 'button'}
+                onPress={() => (step.href ? router.navigate(step.href as Href) : setCreating(true))}
                 className={`min-h-14 flex-row items-center gap-4 active:opacity-70 ${i < SETUP_STEPS.length - 1 ? 'border-b border-on-ink/20' : ''}`}
               >
                 <View className="size-8 items-center justify-center rounded-full border-2 border-on-ink">
@@ -60,6 +63,7 @@ const SetupTile = () => {
           )}
         </View>
       </View>
+      <CreateProject open={creating} onClose={() => setCreating(false)} />
     </Card>
   );
 };

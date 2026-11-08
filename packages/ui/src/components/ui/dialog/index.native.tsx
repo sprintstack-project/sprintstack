@@ -51,10 +51,12 @@ const Panel = ({ title, children }: Omit<DialogProps, 'open' | 'onOpenChange'>) 
         {/* The backdrop: a press outside the panel closes it. */}
         <Primitive.Overlay asChild>
           <Pressable
-            className="flex-1 items-center justify-center bg-scrim px-4"
+            className="flex-1 items-center justify-center bg-scrim"
             style={{
               paddingTop: insets.top + scaled(16),
               paddingBottom: insets.bottom + scaled(16),
+              paddingLeft: insets.left + scaled(16),
+              paddingRight: insets.right + scaled(16),
             }}
           >
             <Animated.View
@@ -67,8 +69,8 @@ const Panel = ({ title, children }: Omit<DialogProps, 'open' | 'onOpenChange'>) 
             >
               {/* Content claims touches, so presses inside it don't reach the backdrop. */}
               <Primitive.Content asChild>
-                <View className="max-h-full w-full max-w-[36rem] rounded-xl border border-line bg-surface p-6 shadow-popover">
-                  <View className="-my-2 flex-row items-center gap-1">
+                <View className="max-h-full w-full max-w-xl rounded-xl border border-line bg-surface p-6 shadow-popover">
+                  <View className="-my-2 flex-row items-center gap-2 justify-between">
                     <Primitive.Title asChild>
                       <Text className="flex-1 text-title font-extrabold uppercase text-ink">
                         {title}
@@ -81,7 +83,7 @@ const Panel = ({ title, children }: Omit<DialogProps, 'open' | 'onOpenChange'>) 
                         hitSlop={touchSlop(40)}
                         className="-mr-2 size-10 items-center justify-center rounded-full active:bg-surface-pressed"
                       >
-                        <X aria-hidden size={scaled(20)} strokeWidth={2} color={muted} />
+                        <X aria-hidden size={scaled(28)} strokeWidth={2} color={muted} />
                       </Pressable>
                     </Primitive.Close>
                   </View>

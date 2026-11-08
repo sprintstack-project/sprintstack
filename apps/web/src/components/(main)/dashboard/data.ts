@@ -197,13 +197,15 @@ export const STATUS_COUNTS: StatusCount[] = [
 
 export interface SetupStep {
   label: string;
-  href: string;
+  /** Null for the step that happens in a dialog on the dashboard. */
+  href: string | null;
   done: boolean;
 }
 
 /** The first-run checklist an empty dashboard leads with. */
 export const SETUP_STEPS: SetupStep[] = [
-  { label: 'Create the Payments project', href: '/project-settings', done: true },
+  // Only shown to someone with no project, so this step is never done.
+  { label: 'Create your first project', href: null, done: false },
   { label: 'Invite your team', href: '/team', done: false },
   { label: 'Create your first work item', href: '/backlog', done: false },
   { label: 'Plan and start a sprint', href: '/backlog', done: false },

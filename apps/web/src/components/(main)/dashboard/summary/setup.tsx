@@ -2,6 +2,19 @@ import Card from '@ui/card';
 import { Check, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { SETUP_STEPS } from '../data';
+import CreateProject from './create-project';
+
+const STEP_CLASS = 'kbd-focus flex items-center gap-4 rounded-xs py-4 hover:opacity-85';
+
+const StepContent = ({ number, label }: { number: number; label: string }) => (
+  <>
+    <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-current text-meta font-extrabold tabular-nums">
+      {number}
+    </span>
+    <span className="flex-1 text-body-strong font-stretch-semi-condensed text-lg">{label}</span>
+    <ChevronRight aria-hidden strokeWidth={2.5} className="size-5" />
+  </>
+);
 
 const Setup = () => {
   const done = SETUP_STEPS.filter((step) => step.done).length;
@@ -36,18 +49,15 @@ const Setup = () => {
               </li>
             ) : (
               <li key={step.label}>
-                <Link
-                  href={step.href}
-                  className="kbd-focus flex items-center gap-4 rounded-xs py-4 hover:opacity-85"
-                >
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-current text-meta font-extrabold tabular-nums">
-                    {i + 1}
-                  </span>
-                  <span className="flex-1 text-body-strong font-stretch-semi-condensed text-lg">
-                    {step.label}
-                  </span>
-                  <ChevronRight aria-hidden strokeWidth={2.5} className="size-5" />
-                </Link>
+                {step.href ? (
+                  <Link href={step.href} className={STEP_CLASS}>
+                    <StepContent number={i + 1} label={step.label} />
+                  </Link>
+                ) : (
+                  <CreateProject className={STEP_CLASS}>
+                    <StepContent number={i + 1} label={step.label} />
+                  </CreateProject>
+                )}
               </li>
             ),
           )}

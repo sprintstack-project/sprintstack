@@ -61,6 +61,6 @@ export const createCache = () =>
     // Types without an `id` field need a key here (or `() => null` to embed them in their parent).
     keys: {},
     updates: {
-      Mutation: { markNotificationsRead },
+      Mutation: { markNotificationsRead, createProject: refetchList('projects') },
     },
   });
