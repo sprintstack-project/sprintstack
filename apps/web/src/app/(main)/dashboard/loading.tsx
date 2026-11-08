@@ -1,4 +1,3 @@
-import AddWidget from '@/components/(main)/dashboard/add-widget';
 import {
   ActivitySkeleton,
   BurndownSkeleton,
@@ -10,6 +9,7 @@ import {
   WorkStatusSkeleton,
 } from '@/components/(main)/dashboard/skeletons';
 import Today from '@/components/(main)/dashboard/today';
+import AddWidget from '@/components/(main)/dashboard/widgets/add-widget';
 
 /** Shows while navigating here, before the page arrives. */
 const DashboardLoading = () => (

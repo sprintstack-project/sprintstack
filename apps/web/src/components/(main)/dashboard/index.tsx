@@ -2,7 +2,6 @@ import type { Sprint } from '@sprintstack/api-client/documents/sprints';
 import type { UserSummary } from '@sprintstack/api-client/documents/users';
 import DashboardProvider from '@sprintstack/shared/providers/main/dashboard';
 import { Suspense } from 'react';
-import AddWidget from './add-widget';
 import type {
   ActivityGroup,
   Assigned,
@@ -15,6 +14,7 @@ import { NameSkeleton } from './skeletons';
 import Summary from './summary';
 import Today from './today';
 import Widgets from './widgets';
+import AddWidget from './widgets/add-widget';
 
 /** The dashboard's data, as promises the route starts without awaiting. */
 interface DashboardProps {

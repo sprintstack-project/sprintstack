@@ -1,4 +1,3 @@
-import type { Sprint } from '@sprintstack/api-client/documents/sprints';
 import { useGetCurrentSprint } from '@sprintstack/api-client/sprints';
 import DashboardProvider from '@sprintstack/shared/providers/main/dashboard';
 import Text from '@ui/text';
