@@ -31,7 +31,7 @@ const LegendLine = ({ dashed }: { dashed?: boolean }) =>
     <View className="h-0.5 w-5 rounded-full bg-brand-ink" />
   );
 
-export const Burndown = ({ burndown }: { burndown: BurndownData }) => {
+const Burndown = ({ burndown }: { burndown: BurndownData }) => {
   const { sprint, days, remaining, ideal } = burndown;
   const todayIndex = differenceInCalendarDays(TODAY, sprint.start);
   const labelled = [0, todayIndex, days.length - 1];
@@ -127,3 +127,5 @@ export const Burndown = ({ burndown }: { burndown: BurndownData }) => {
     </View>
   );
 };
+
+export default Burndown;

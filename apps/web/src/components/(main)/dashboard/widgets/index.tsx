@@ -17,7 +17,8 @@ import {
 } from '@dnd-kit/sortable';
 import type { WidgetKey } from '@sprintstack/shared/dashboard-widgets';
 import { useDashboardContext } from '@sprintstack/shared/providers/main/dashboard';
-import { type ReactNode, Suspense, useId } from 'react';
+import { type ComponentType, type ReactNode, Suspense, useId } from 'react';
+import { useProjectContext } from '@/providers/(main)/project';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
 import { type ActivityGroup, SPRINT, type WorkItem } from '../data';
 import ErrorWrapper from '../error-wrapper';
@@ -30,6 +31,10 @@ import {
 import Burndown from './burndown';
 import DraggableWidget from './draggable-widget';
 import NextItems from './next-items';
+import NoBurndown from './no-burndown';
+import NoNextItems from './no-next-items';
+import NoRecentActivity from './no-recent-activity';
+import NoWorkStatus from './no-work-status';
 import RecentActivity from './recent-activity';
 import WorkStatus from './work-status';
 
@@ -38,6 +43,13 @@ const WIDGETS: Record<WidgetKey, { title: string; href: string }> = {
   activity: { title: 'Recent activity', href: '/team' },
   burndown: { title: `Burndown · ${SPRINT.name}`, href: '/timeline' },
   status: { title: 'Work item status', href: '/taskboard' },
+};
+
+const EMPTY_WIDGETS: Record<WidgetKey, ComponentType> = {
+  'next-items': NoNextItems,
+  activity: NoRecentActivity,
+  burndown: NoBurndown,
+  status: NoWorkStatus,
 };
 
 /** Each widget's data, as a promise the route starts without awaiting. */
@@ -57,6 +69,7 @@ const body = (label: string, skeleton: ReactNode, widget: ReactNode) => (
 
 const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
   const { widgets, rearrangeWidgets } = useDashboardContext();
+  const { projects, projectId } = useProjectContext();
 
   const content: Record<WidgetKey, ReactNode> = {
     'next-items': body('your next items', <NextItemsSkeleton />, <NextItems items={nextItems} />),
@@ -82,6 +95,17 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
       ),
     );
   };
+
+  if (projects && !projectId) {
+    return (
+      <div className="grid gap-4 xl:grid-cols-2">
+        {widgets.map((key) => {
+          const Empty = EMPTY_WIDGETS[key];
+          return <Empty key={key} />;
+        })}
+      </div>
+    );
+  }
 
   return (
     <DndContext

@@ -13,7 +13,7 @@ interface WidgetProps {
 }
 
 /** A dashboard widget: a Card with an uppercase title and an optional link to the full page. */
-export const Widget = ({ title, link, children }: WidgetProps) => {
+const Widget = ({ title, link, children }: WidgetProps) => {
   return (
     <Card>
       <View className="flex-row items-center gap-3">
@@ -33,3 +33,5 @@ export const Widget = ({ title, link, children }: WidgetProps) => {
     </Card>
   );
 };
+
+export default Widget;

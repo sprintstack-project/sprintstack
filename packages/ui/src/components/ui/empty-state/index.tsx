@@ -38,7 +38,7 @@ const EmptyState = ({
 }: EmptyStateProps) => {
   if (variant === 'widget') {
     return (
-      <div className="flex min-h-56 flex-col items-center justify-center rounded-xl border-[1.5px] border-dashed border-line-strong px-6 py-10 text-center">
+      <div className="flex min-h-56 grow flex-col items-center justify-center rounded-xl border-[1.5px] border border-line-strong px-6 py-10 text-center">
         {Icon && (
           <span className="mb-4 grid size-14 place-items-center rounded-full bg-surface-muted text-ink-muted">
             <Icon aria-hidden strokeWidth={2} className="size-6" />

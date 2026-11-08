@@ -31,11 +31,11 @@ const Art = ({ solid }: { solid: 'top' | 'middle' | 'bottom' }) => (
   </View>
 );
 
-/** A panel's empty state: on a phone the icon sits beside the text, in a dashed row. */
+/** A panel's empty state: on a phone the icon sits beside the text, in an outlined row. */
 const Widget = ({ title, description, icon: Icon, actions }: EmptyStateProps) => {
   const muted = useTokenColor('ink-muted');
   return (
-    <View className="flex-row items-center gap-4 rounded-xl border-[1.5px] border-dashed border-line-strong p-4">
+    <View className="flex-row items-center gap-4 rounded-xl border-[1.5px] border-line-strong p-4">
       {Icon && (
         <View
           accessibilityElementsHidden

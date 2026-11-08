@@ -64,7 +64,12 @@ const Dashboard = ({
         </div>
         <AddWidget />
       </div>
-      <Summary sprint={sprint} assigned={assigned} awaitingReview={awaitingReview} />
+      <Summary
+        projectId={projectId}
+        sprint={sprint}
+        assigned={assigned}
+        awaitingReview={awaitingReview}
+      />
       <Widgets nextItems={nextItems} activity={activity} burndown={burndown} status={status} />
     </div>
   </DashboardProvider>

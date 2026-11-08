@@ -1,6 +1,6 @@
 import { useGetUserPreferences } from '@sprintstack/api-client/users';
 import { type WidgetKey, widgetOrder } from '@sprintstack/shared/dashboard-widgets';
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import { useProjectContext } from '@/providers/main/project';
 import { ACTIVITY, BURNDOWN, NEXT_ITEMS, SPRINT, STATUS_COUNTS } from '../data';
 import { Loadable, placeholder, type QueryState } from '../loadable';
@@ -10,11 +10,15 @@ import {
   NextItemsSkeleton,
   WorkStatusSkeleton,
 } from '../skeletons';
-import { Burndown } from './burndown';
-import { NextItems } from './next-items';
-import { RecentActivity } from './recent-activity';
-import { Widget } from './widget';
-import { WorkStatus } from './work-status';
+import Burndown from './burndown';
+import NextItems from './next-items';
+import NoBurndown from './no-burndown';
+import NoNextItems from './no-next-items';
+import NoRecentActivity from './no-recent-activity';
+import NoWorkStatus from './no-work-status';
+import RecentActivity from './recent-activity';
+import Widget from './widget';
+import WorkStatus from './work-status';
 
 // Placeholders until the API serves these; each slots into its panel like a finished query.
 const nextItems = placeholder(NEXT_ITEMS);
@@ -82,16 +86,30 @@ const WIDGETS: Record<
   },
 };
 
+const EMPTY_WIDGETS: Record<WidgetKey, ComponentType> = {
+  'next-items': NoNextItems,
+  activity: NoRecentActivity,
+  burndown: NoBurndown,
+  status: NoWorkStatus,
+};
+
 /**
  * The panels in the order the person saved on the web, without the ones they removed. Until that
  * order is known the panels show their skeletons in the default order; if it can't be loaded they
  * stay in the default order rather than failing.
  */
-export const Widgets = () => {
+const Widgets = () => {
   const { projects, projectId } = useProjectContext();
   const { data: preferences, fetching, error } = useGetUserPreferences(projectId);
   const waiting = !projects || fetching;
   const widgets = error ? widgetOrder(null) : widgetOrder(preferences?.widgets);
+
+  if (projects && !projectId) {
+    return widgets.map((key) => {
+      const Empty = EMPTY_WIDGETS[key];
+      return <Empty key={key} />;
+    });
+  }
 
   return widgets.map((key) => (
     <Widget key={key} title={WIDGETS[key].title} link={WIDGETS[key].link}>
@@ -99,3 +117,5 @@ export const Widgets = () => {
     </Widget>
   ));
 };
+
+export default Widgets;

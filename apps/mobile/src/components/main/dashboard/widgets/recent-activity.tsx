@@ -2,7 +2,7 @@ import Text from '@ui/text';
 import { View } from 'react-native';
 import type { Activity } from '../data';
 
-export const RecentActivity = ({ activity }: { activity: Activity[] }) => {
+const RecentActivity = ({ activity }: { activity: Activity[] }) => {
   return (
     <View className="gap-5">
       {activity.map((item) => (
@@ -33,3 +33,5 @@ export const RecentActivity = ({ activity }: { activity: Activity[] }) => {
     </View>
   );
 };
+
+export default RecentActivity;

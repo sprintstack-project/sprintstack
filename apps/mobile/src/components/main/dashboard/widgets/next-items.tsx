@@ -46,7 +46,7 @@ const PriorityIcon = ({ level }: { level: Priority }) => {
   );
 };
 
-export const NextItems = ({ items }: { items: WorkItem[] }) => {
+const NextItems = ({ items }: { items: WorkItem[] }) => {
   return (
     <View>
       {items.map((item, i) => {
@@ -80,3 +80,5 @@ export const NextItems = ({ items }: { items: WorkItem[] }) => {
     </View>
   );
 };
+
+export default NextItems;

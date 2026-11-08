@@ -14,7 +14,7 @@ const fills: Record<StatusTone, string> = {
   warning: 'bg-warning',
 };
 
-export const WorkStatus = ({ status: { sprintName, counts } }: { status: StatusSummary }) => {
+const WorkStatus = ({ status: { sprintName, counts } }: { status: StatusSummary }) => {
   const total = counts.reduce((sum, status) => sum + status.count, 0);
   return (
     <View className="gap-5">
@@ -46,3 +46,5 @@ export const WorkStatus = ({ status: { sprintName, counts } }: { status: StatusS
     </View>
   );
 };
+
+export default WorkStatus;

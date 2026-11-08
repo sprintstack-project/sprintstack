@@ -1,9 +1,13 @@
 import type { Sprint } from '@sprintstack/api-client/documents/sprints';
 import { View } from 'react-native';
+import { useProjectContext } from '@/providers/main/project';
 import type { Assigned } from '../data';
-import { Loadable, type QueryState } from '../loadable';
-import { SprintTileSkeleton, StatTileSkeleton } from '../skeletons';
-import { AssignedTile, ReviewTile, SprintTile } from '../summary-tiles';
+import type { QueryState } from '../loadable';
+import AssignedTile from './assigned';
+import ImportTile from './import';
+import ReviewTile from './review';
+import SetupTile from './setup';
+import SprintTile from './sprint';
 
 interface SummaryProps {
   sprint: QueryState<Sprint | null>;
@@ -12,28 +16,31 @@ interface SummaryProps {
 }
 
 /** Each tile loads, and fails, on its own. */
-export const Summary = ({ sprint, assigned, awaitingReview }: SummaryProps) => {
+const Summary = ({ sprint, assigned, awaitingReview }: SummaryProps) => {
+  const { projects, projectId } = useProjectContext();
+
+  if (projects && !projectId) {
+    return (
+      <View className="gap-4">
+        <SetupTile />
+        <ImportTile />
+      </View>
+    );
+  }
+
   return (
     <View className="gap-4">
-      <Loadable query={sprint} label="the current sprint" skeleton={<SprintTileSkeleton />}>
-        {(data) => <SprintTile sprint={data} />}
-      </Loadable>
+      <SprintTile sprint={sprint} />
       <View className="flex-row gap-4">
         <View className="flex-1">
-          <Loadable query={assigned} label="your assigned items" skeleton={<StatTileSkeleton />}>
-            {(data) => <AssignedTile assigned={data} />}
-          </Loadable>
+          <AssignedTile assigned={assigned} />
         </View>
         <View className="flex-1">
-          <Loadable
-            query={awaitingReview}
-            label="your review queue"
-            skeleton={<StatTileSkeleton />}
-          >
-            {(data) => <ReviewTile awaitingReview={data} />}
-          </Loadable>
+          <ReviewTile awaitingReview={awaitingReview} />
         </View>
       </View>
     </View>
   );
 };
+
+export default Summary;
