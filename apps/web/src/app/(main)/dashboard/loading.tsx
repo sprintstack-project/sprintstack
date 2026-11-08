@@ -9,7 +9,6 @@ import {
   WorkStatusSkeleton,
 } from '@/components/(main)/dashboard/skeletons';
 import Today from '@/components/(main)/dashboard/today';
-import AddWidget from '@/components/(main)/dashboard/widgets/add-widget';
 
 /** Shows while navigating here, before the page arrives. */
 const DashboardLoading = () => (
@@ -24,7 +23,6 @@ const DashboardLoading = () => (
           </span>
         </h1>
       </div>
-      <AddWidget />
     </div>
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr]">
       <div className="grid md:col-span-2 xl:col-span-1">
