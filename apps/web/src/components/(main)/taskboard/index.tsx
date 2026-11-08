@@ -2,9 +2,12 @@
 
 import { useGetWorkItemsByProjectId } from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
+import { buttonClass } from '@ui/button/button-class';
+import EmptyState from '@ui/empty-state';
 import Eyebrow from '@ui/eyebrow';
 import { format } from 'date-fns';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, SquareStack } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
 import { NewWorkItem } from '../new-work-item';
@@ -18,7 +21,6 @@ import {
   type View,
   WORK_ITEMS,
 } from './data';
-import { NoSprint } from './empty';
 import KanbanView from './kanban-view';
 import ListView from './list-view';
 import Toolbar from './toolbar';
@@ -33,6 +35,8 @@ const Taskboard = () => {
   const [creating, setCreating] = useState(false);
   const items = filterItems(allItems, filters);
   const points = items.reduce((sum, item) => sum + item.points, 0);
+
+  const onCreate = () => {};
 
   const { projectId } = useProjectContext();
   const { data: workItems } = useGetWorkItemsByProjectId(projectId);
@@ -52,7 +56,28 @@ const Taskboard = () => {
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          <NoSprint />
+          <section
+            aria-label="Taskboard"
+            className="rounded-2xl border border-line bg-surface py-16"
+          >
+            <EmptyState
+              eyebrow="Taskboard"
+              title="No sprint"
+              highlight="is running"
+              description="The taskboard shows the work in the active sprint. Plan one from the backlog, then start it to see items here."
+              actions={
+                <>
+                  <Link href="/backlog" className={buttonClass('brand', 'lg')}>
+                    <SquareStack aria-hidden strokeWidth={2} className="size-6 shrink-0" />
+                    Plan a sprint
+                  </Link>
+                  <Button size="lg" icon={PlusIcon} onClick={onCreate}>
+                    Create a work item
+                  </Button>
+                </>
+              }
+            />
+          </section>
         </div>
         <NewWorkItem
           open={creating}

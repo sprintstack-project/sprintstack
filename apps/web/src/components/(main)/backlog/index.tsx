@@ -15,13 +15,18 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { useGetAllSprints } from '@sprintstack/api-client/sprints';
+import { useGetWorkItemsByProjectId } from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
 import { buttonClass } from '@ui/button/button-class';
+import EmptyState from '@ui/empty-state';
+import Eyebrow from '@ui/eyebrow';
 import { clsx } from 'clsx';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useId, useState } from 'react';
+import { useProjectContext } from '@/providers/(main)/project';
 import { NewWorkItem } from '../new-work-item';
 import { toPlannedItem } from '../new-work-item/data';
 import {
@@ -107,6 +112,16 @@ const Backlog = () => {
   const backlogHidden = backlog.length - backlogShown.length;
   const unplanned = allItems.filter((i) => i.group === BACKLOG).length;
   const active = allItems.find((i) => i.key === activeKey);
+
+  const { projectId } = useProjectContext();
+  const { data: sprints } = useGetAllSprints(projectId);
+  const { data: workItems } = useGetWorkItemsByProjectId(projectId);
+
+  const onCreate = () => {};
+
+  const onImport = () => {};
+
+  console.log(sprints);
 
   const collapse = (group: string) => ({
     collapsed: collapsed.includes(group),
@@ -194,6 +209,38 @@ const Backlog = () => {
       />
     );
   };
+
+  if (!sprints || sprints.length === 0) {
+    return (
+      <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
+        <div className="flex flex-wrap gap-4 justify-between items-end">
+          <div className="flex flex-col gap-2">
+            <Eyebrow>{`${workItems?.length ?? 0} items · ${sprints?.length ?? 0} sprint(s)`}</Eyebrow>
+            <h1 className="headline text-7xl leading-none">Backlog</h1>
+          </div>
+        </div>
+        <div className="rounded-2xl border border-line bg-surface py-16">
+          <EmptyState
+            art="bottom"
+            eyebrow="Backlog"
+            title="Your backlog"
+            highlight="is empty"
+            description="Capture everything the team might work on. Rank it here, then drag the top items into a sprint."
+            actions={
+              <>
+                <Button variant="brand" size="lg" icon={PlusIcon} onClick={() => onCreate?.()}>
+                  Create a work item
+                </Button>
+                <Button size="lg" onClick={onImport}>
+                  Import from CSV
+                </Button>
+              </>
+            }
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">

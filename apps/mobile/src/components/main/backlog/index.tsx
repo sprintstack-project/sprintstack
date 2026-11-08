@@ -1,6 +1,10 @@
 import { scaled } from '@lib/scale';
 import { Sheet, type SheetRef } from '@lib/sheet.native';
+import { useGetAllSprints } from '@sprintstack/api-client/sprints';
+import { useGetWorkItemsByProjectId } from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
+import EmptyState from '@ui/empty-state';
+import Eyebrow from '@ui/eyebrow/';
 import Text from '@ui/text';
 import { format } from 'date-fns';
 import { Check, Plus } from 'lucide-react-native';
@@ -10,6 +14,7 @@ import type Animated from 'react-native-reanimated';
 import type { AnimatedRef } from 'react-native-reanimated';
 import Sortable from 'react-native-sortables';
 import { useTokenColor } from '@/lib/use-token-color';
+import { useProjectContext } from '@/providers/main/project';
 import type { WorkItem } from '../taskboard/data';
 import {
   BACKLOG,
@@ -110,6 +115,14 @@ export const Backlog = ({
   const collapse = (group: string) => (next: boolean) =>
     setCollapsed((all) => (next ? [...all, group] : all.filter((g) => g !== group)));
 
+  const { projectId } = useProjectContext();
+  const { data: sprints } = useGetAllSprints(projectId);
+  const { data: workItems } = useGetWorkItemsByProjectId(projectId);
+
+  const onCreate = () => {};
+
+  const onImport = () => {};
+
   const entries: Entry[] = GROUP_IDS.flatMap((group) => [
     { key: `header:${group}`, kind: 'header' as const, group },
     ...(isCollapsed(group)
@@ -209,6 +222,36 @@ export const Backlog = ({
     setAllItems(
       moveTo(key, group, group === BACKLOG && backlogHidden > 0 ? backlog[BACKLOG_PAGE].key : null),
     );
+
+  if (!sprints || sprints.length === 0) {
+    return (
+      <>
+        <View className="flex flex-col gap-1">
+          <Eyebrow>{`${workItems?.length ?? 0} items · ${sprints?.length ?? 0} sprint(s)`}</Eyebrow>
+          <Text className="text-4xl leading-14 font-extrabold uppercase text-ink">Backlog</Text>
+        </View>
+        <View className="rounded-2xl border border-line bg-surface">
+          <EmptyState
+            art="bottom"
+            eyebrow="Backlog"
+            title="Your backlog"
+            highlight="is empty"
+            description="Capture everything the team might work on, rank it, then drag the top items into a sprint."
+            actions={
+              <>
+                <Button variant="brand" size="lg" icon={Plus} fullwidth onClick={onCreate}>
+                  Create a work item
+                </Button>
+                <Button size="lg" fullwidth onClick={onImport}>
+                  Import from CSV
+                </Button>
+              </>
+            }
+          />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>
