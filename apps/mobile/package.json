@@ -11,6 +11,8 @@
     "@react-native-firebase/crashlytics": "^27.1.0",
     "@react-native-firebase/installations": "^27.1.0",
     "@react-native-firebase/messaging": "^27.1.0",
+    "@rn-primitives/dialog": "^1.5.2",
+    "@rn-primitives/portal": "^1.5.3",
     "@sentry/react-native": "~8.28.0",
     "@sprintstack/api-client": "workspace:^",
     "@sprintstack/forms": "workspace:^",

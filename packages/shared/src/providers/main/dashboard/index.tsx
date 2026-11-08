@@ -2,7 +2,6 @@
 
 import { useGetUserPreferences, useUpdateUserPreferences } from '@sprintstack/api-client/users';
 import { type WidgetKey, widgetOrder } from '@sprintstack/shared/dashboard-widgets';
-import { useProjectContext } from '@sprintstack/shared/providers/project';
 import React, { useEffect, useState } from 'react';
 
 type IDashboardContext = {
@@ -12,8 +11,14 @@ type IDashboardContext = {
 
 const DashboardContext = React.createContext<IDashboardContext | undefined>(undefined);
 
-const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
-  const { projectId } = useProjectContext();
+const DashboardProvider = ({
+  children,
+  projectId,
+}: {
+  children: React.ReactNode;
+  /** The selected project; undefined when the viewer has none (nothing is loaded or saved). */
+  projectId: string | undefined;
+}) => {
   const { data: userPreferences } = useGetUserPreferences(projectId);
   const [, updateUserPreferences] = useUpdateUserPreferences();
 

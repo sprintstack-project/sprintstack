@@ -751,6 +751,21 @@ export interface CommandPaletteProps {
 }
 
 /**
+ * A modal panel drawn like a dashboard widget: an uppercase headline with a close button over
+ * your content. Closes on Esc, a backdrop press, the close button (and Android's back button);
+ * each calls `onOpenChange(false)`. Native needs `<PortalHost />` from `@rn-primitives/portal`
+ * once at the app's root.
+ */
+export interface DialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  /** The headline (drawn uppercase) and the dialog's accessible name. */
+  title: string;
+  /** Everything under the header. Scrolls when taller than the screen; the header stays put. */
+  children: ReactNode;
+}
+
+/**
  * The page header: the sidebar toggle, breadcrumbs, a search button that opens your command
  * palette (⌘K / Ctrl+K on web), notifications and the theme switch. Every part is optional; the
  * toggle needs `Sidebar.Provider` above it.

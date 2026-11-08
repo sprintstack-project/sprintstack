@@ -1,6 +1,5 @@
 import { useGetMe } from '@sprintstack/api-client/users';
 import { useProjectSwitcher } from '@sprintstack/shared/hooks/main/use-project-switcher';
-import ProjectProvider, { useProjectContext } from '@sprintstack/shared/providers/project';
 import Sidebar, { useSidebar } from '@ui/sidebar';
 import Text from '@ui/text';
 import type { Option, SidebarUser } from '@ui/types';
@@ -16,6 +15,7 @@ import { TabBar } from '@/components/main/tab-bar';
 import { authClient } from '@/lib/auth-client';
 import { signOut, syncRestoreKey } from '@/lib/restore-key';
 import { useTokenColor } from '@/lib/use-token-color';
+import ProjectProvider, { useProjectContext } from '@/providers/main/project';
 
 interface Person {
   name: string;

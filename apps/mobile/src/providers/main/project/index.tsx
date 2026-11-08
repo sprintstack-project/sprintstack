@@ -1,9 +1,7 @@
-'use client';
-
 import type { Project } from '@sprintstack/api-client/documents/projects';
 import { useProjects } from '@sprintstack/api-client/projects';
+import { pickProject } from '@sprintstack/shared/pick-project';
 import React, { useState } from 'react';
-import { pickProject } from '../pick-project';
 
 type IProjectContext = {
   /** The viewer's projects; undefined while they load. */
@@ -16,30 +14,16 @@ type IProjectContext = {
   setProjectId: (id: string) => void;
 };
 
-interface ProjectProviderProps {
-  /**
-   * Where the app keeps the pick (the web: a cookie its server also reads). Without it the
-   * provider keeps the pick in memory, starting on the first project.
-   */
-  selection?: {
-    selectedId: string | null | undefined;
-    onSelect: (id: string) => void;
-  };
-  children: React.ReactNode;
-}
-
 const ProjectContext = React.createContext<IProjectContext | undefined>(undefined);
 
-/** The selected project, shared by the project switcher and the screens' queries. */
-const ProjectProvider = ({ selection, children }: ProjectProviderProps) => {
+/** The selected project, kept in memory: the app starts on the first project each launch. */
+const ProjectProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: projects } = useProjects();
-  const [localId, setLocalId] = useState<string | null>(null);
-  const selectedId = selection ? selection.selectedId : localId;
-  const onSelect = selection ? selection.onSelect : setLocalId;
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const project = projects ? pickProject(projects, selectedId) : undefined;
 
   const setProjectId = (id: string) => {
-    if (id !== project?.id) onSelect(id);
+    if (id !== project?.id) setSelectedId(id);
   };
 
   const value: IProjectContext = { projects, project, projectId: project?.id, setProjectId };

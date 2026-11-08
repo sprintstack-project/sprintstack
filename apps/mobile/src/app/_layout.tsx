@@ -8,6 +8,7 @@ import {
   Archivo_800ExtraBold,
   useFonts,
 } from '@expo-google-fonts/archivo';
+import { PortalHost } from '@rn-primitives/portal';
 import { DEFAULT_LOCALE, MESSAGES } from '@sprintstack/shared/i18n';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -49,6 +50,8 @@ const RootLayout = () => {
       <IntlProvider locale={DEFAULT_LOCALE} messages={MESSAGES[DEFAULT_LOCALE]} timeZone={timeZone}>
         <ApiProvider value={apiClient}>
           <Stack screenOptions={{ headerShown: false }} />
+          {/* Where @ui/dialog renders, above every screen and inside the providers. */}
+          <PortalHost />
         </ApiProvider>
       </IntlProvider>
     </GestureHandlerRootView>

@@ -20,6 +20,8 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.2.1",
     "@react-native-community/slider": "5.2.1",
+    "@rn-primitives/dialog": "^1.5.2",
+    "@rn-primitives/portal": "^1.5.3",
     "@sprintstack/forms": "workspace:^",
     "@sprintstack/shared": "workspace:^",
     "@sprintstack/ui": "workspace:^",

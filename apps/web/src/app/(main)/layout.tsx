@@ -3,7 +3,6 @@
 import { useGetMe } from '@sprintstack/api-client/users';
 import { useProjectSwitcher } from '@sprintstack/shared/hooks/main/use-project-switcher';
 import { initialsOf } from '@sprintstack/shared/initials';
-import { useProjectContext } from '@sprintstack/shared/providers/project';
 import CommandPalette from '@ui/command-palette';
 import Header from '@ui/header';
 import Sidebar from '@ui/sidebar';
@@ -28,7 +27,7 @@ import { useEffect, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { disablePush } from '@/lib/push';
 import { useBell } from '@/lib/use-bell';
-import ProjectProvider from '@/providers/(main)/project';
+import ProjectProvider, { useProjectContext } from '@/providers/(main)/project';
 
 const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();

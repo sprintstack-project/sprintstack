@@ -1,7 +1,7 @@
 import { useGetUserPreferences } from '@sprintstack/api-client/users';
 import { type WidgetKey, widgetOrder } from '@sprintstack/shared/dashboard-widgets';
-import { useProjectContext } from '@sprintstack/shared/providers/project';
 import type { ReactNode } from 'react';
+import { useProjectContext } from '@/providers/main/project';
 import { ACTIVITY, BURNDOWN, NEXT_ITEMS, SPRINT, STATUS_COUNTS } from '../data';
 import { Loadable, placeholder, type QueryState } from '../loadable';
 import {

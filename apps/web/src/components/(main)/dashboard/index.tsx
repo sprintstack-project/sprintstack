@@ -1,7 +1,7 @@
 import type { Sprint } from '@sprintstack/api-client/documents/sprints';
 import type { UserSummary } from '@sprintstack/api-client/documents/users';
+import DashboardProvider from '@sprintstack/shared/providers/main/dashboard';
 import { Suspense } from 'react';
-import DashboardProvider from '@/providers/(main)/dashboard';
 import AddWidget from './add-widget';
 import type {
   ActivityGroup,
@@ -18,6 +18,8 @@ import Widgets from './widgets';
 
 /** The dashboard's data, as promises the route starts without awaiting. */
 interface DashboardProps {
+  /** The selected project, whose saved widget order the dashboard follows. */
+  projectId: string | undefined;
   viewer: Promise<UserSummary>;
   sprint: Promise<Sprint | null>;
   assigned: Promise<Assigned>;
@@ -33,6 +35,7 @@ interface DashboardProps {
  * resolves, and an error in its place if it fails.
  */
 const Dashboard = ({
+  projectId,
   viewer,
   sprint,
   assigned,
@@ -42,7 +45,7 @@ const Dashboard = ({
   burndown,
   status,
 }: DashboardProps) => (
-  <DashboardProvider>
+  <DashboardProvider projectId={projectId}>
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">

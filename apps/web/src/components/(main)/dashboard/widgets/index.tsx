@@ -16,8 +16,8 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import type { WidgetKey } from '@sprintstack/shared/dashboard-widgets';
+import { useDashboardContext } from '@sprintstack/shared/providers/main/dashboard';
 import { type ReactNode, Suspense, useId } from 'react';
-import { useDashboardContext } from '@/providers/(main)/dashboard';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
 import { type ActivityGroup, SPRINT, type WorkItem } from '../data';
 import ErrorWrapper from '../error-wrapper';
