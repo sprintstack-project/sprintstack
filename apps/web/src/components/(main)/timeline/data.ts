@@ -16,7 +16,7 @@ import type { Person } from '../taskboard/data';
 export { TODAY } from '../taskboard/data';
 
 /** Blocked is for work items; epics and features at risk are "warning". */
-export type PlanStatus = Exclude<StatusTone, 'danger'>;
+export type PlanStatus = Exclude<StatusTone, 'blocked'>;
 
 interface Planned {
   key: string;
@@ -56,7 +56,7 @@ export const EPICS: Epic[] = [
     ...plan(
       'PAY-E09',
       'EU compliance (PSD2)',
-      'success',
+      'done',
       100,
       new Date(2026, 7, 18),
       new Date(2026, 9, 30),
@@ -66,7 +66,7 @@ export const EPICS: Epic[] = [
       plan(
         'PAY-F31',
         'Strong customer authentication',
-        'success',
+        'done',
         100,
         new Date(2026, 7, 18),
         new Date(2026, 9, 2),
@@ -74,7 +74,7 @@ export const EPICS: Epic[] = [
       plan(
         'PAY-F32',
         '3-D Secure for EU cards',
-        'success',
+        'done',
         100,
         new Date(2026, 8, 14),
         new Date(2026, 9, 30),
@@ -82,14 +82,28 @@ export const EPICS: Epic[] = [
     ],
   },
   {
-    ...plan('PAY-E12', 'Checkout v2', 'info', 62, new Date(2026, 9, 1), new Date(2026, 10, 28)),
+    ...plan(
+      'PAY-E12',
+      'Checkout v2',
+      'in_progress',
+      62,
+      new Date(2026, 9, 1),
+      new Date(2026, 10, 28),
+    ),
     owner: mira,
     features: [
-      plan('PAY-F41', 'Saved cards', 'info', 70, new Date(2026, 9, 1), new Date(2026, 10, 5)),
+      plan(
+        'PAY-F41',
+        'Saved cards',
+        'in_progress',
+        70,
+        new Date(2026, 9, 1),
+        new Date(2026, 10, 5),
+      ),
       plan(
         'PAY-F42',
         'Apple Pay & Google Pay',
-        'review',
+        'in_review',
         85,
         new Date(2026, 9, 12),
         new Date(2026, 10, 13),
@@ -97,7 +111,7 @@ export const EPICS: Epic[] = [
       plan(
         'PAY-F43',
         'One-page checkout',
-        'neutral',
+        'todo',
         0,
         new Date(2026, 10, 7),
         new Date(2026, 10, 28),
@@ -123,21 +137,14 @@ export const EPICS: Epic[] = [
         new Date(2026, 9, 14),
         new Date(2026, 10, 20),
       ),
-      plan(
-        'PAY-F52',
-        'Mismatch alerts',
-        'neutral',
-        0,
-        new Date(2026, 10, 16),
-        new Date(2026, 11, 19),
-      ),
+      plan('PAY-F52', 'Mismatch alerts', 'todo', 0, new Date(2026, 10, 16), new Date(2026, 11, 19)),
     ],
   },
   {
     ...plan(
       'PAY-E14',
       'Payouts automation',
-      'neutral',
+      'todo',
       0,
       new Date(2026, 10, 16),
       new Date(2027, 0, 22),
@@ -147,7 +154,7 @@ export const EPICS: Epic[] = [
       plan(
         'PAY-F61',
         'Scheduled payouts',
-        'neutral',
+        'todo',
         0,
         new Date(2026, 10, 16),
         new Date(2026, 11, 18),
@@ -155,7 +162,7 @@ export const EPICS: Epic[] = [
       plan(
         'PAY-F62',
         'Automatic payout retries',
-        'neutral',
+        'todo',
         0,
         new Date(2026, 11, 14),
         new Date(2027, 0, 22),
@@ -166,25 +173,18 @@ export const EPICS: Epic[] = [
     ...plan(
       'PAY-E15',
       'Refunds & disputes',
-      'neutral',
+      'todo',
       0,
       new Date(2026, 11, 7),
       new Date(2027, 1, 26),
     ),
     owner: dev,
     features: [
-      plan(
-        'PAY-F71',
-        'Partial refunds',
-        'neutral',
-        0,
-        new Date(2026, 11, 7),
-        new Date(2027, 0, 15),
-      ),
+      plan('PAY-F71', 'Partial refunds', 'todo', 0, new Date(2026, 11, 7), new Date(2027, 0, 15)),
       plan(
         'PAY-F72',
         'Dispute evidence upload',
-        'neutral',
+        'todo',
         0,
         new Date(2027, 0, 11),
         new Date(2027, 1, 26),
@@ -192,14 +192,14 @@ export const EPICS: Epic[] = [
     ],
   },
   {
-    ...plan('PAY-E16', 'Mobile wallet', 'neutral', 0, new Date(2027, 0, 18), new Date(2027, 2, 31)),
+    ...plan('PAY-E16', 'Mobile wallet', 'todo', 0, new Date(2027, 0, 18), new Date(2027, 2, 31)),
     owner: null,
     features: [
-      plan('PAY-F81', 'Wallet balance', 'neutral', 0, new Date(2027, 0, 18), new Date(2027, 1, 19)),
+      plan('PAY-F81', 'Wallet balance', 'todo', 0, new Date(2027, 0, 18), new Date(2027, 1, 19)),
       plan(
         'PAY-F82',
         'Top up from a card',
-        'neutral',
+        'todo',
         0,
         new Date(2027, 1, 15),
         new Date(2027, 2, 31),
@@ -213,7 +213,7 @@ export type Scale = 'weeks' | 'months' | 'quarters' | 'years';
 export type StatusFilter = PlanStatus | 'all';
 
 /** In the order the legend lists them. */
-export const PLAN_STATUSES: PlanStatus[] = ['neutral', 'info', 'review', 'warning', 'success'];
+export const PLAN_STATUSES: PlanStatus[] = ['todo', 'in_progress', 'in_review', 'warning', 'done'];
 
 export const STATUS_OPTIONS: Option<StatusFilter>[] = [
   { value: 'all', label: 'All' },

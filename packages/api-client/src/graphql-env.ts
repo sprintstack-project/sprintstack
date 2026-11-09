@@ -1607,6 +1607,45 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "workItemsByAssignee",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "WorkItem"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              },
+              {
+                "name": "userId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "workItemsByProjectId",
             "type": {
               "kind": "NON_NULL",

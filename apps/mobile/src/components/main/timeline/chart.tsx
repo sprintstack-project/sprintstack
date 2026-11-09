@@ -26,15 +26,19 @@ const pct = (fraction: number) => `${fraction * 100}%` as const;
 
 /** Outline, fill, the shaded part that's done, and the text, per status. */
 const TONES: Record<PlanStatus, { bar: string; done: string; text: string }> = {
-  neutral: { bar: 'border-line-strong bg-surface', done: 'bg-neutral-subtle', text: 'text-ink' },
-  info: { bar: 'border-info bg-info-subtle', done: 'bg-info/30', text: 'text-info-ink' },
-  review: { bar: 'border-review bg-review-subtle', done: 'bg-review/30', text: 'text-review-ink' },
+  todo: { bar: 'border-line-strong bg-surface', done: 'bg-neutral-subtle', text: 'text-ink' },
+  in_progress: { bar: 'border-info bg-info-subtle', done: 'bg-info/30', text: 'text-info-ink' },
+  in_review: {
+    bar: 'border-review bg-review-subtle',
+    done: 'bg-review/30',
+    text: 'text-review-ink',
+  },
   warning: {
     bar: 'border-warning bg-warning-subtle',
     done: 'bg-warning/30',
     text: 'text-warning-ink',
   },
-  success: {
+  done: {
     bar: 'border-success bg-success-subtle',
     done: 'bg-success/30',
     text: 'text-success-ink',

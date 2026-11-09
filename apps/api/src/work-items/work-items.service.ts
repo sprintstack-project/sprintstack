@@ -37,6 +37,18 @@ export class WorkItemsService {
     });
   }
 
+  getAllByAssignee(organizationId: string, userId: string, projectId: string, assigneeId: string) {
+    return this.prisma.workItem.findMany({
+      where: {
+        deletedAt: null,
+        projectId,
+        assigneeId,
+        project: this.visibleProject(organizationId, userId),
+      },
+      orderBy: [{ sprintId: 'asc' }, { rank: 'asc' }],
+    });
+  }
+
   getAllCommentsByWorkItemId(organizationId: string, userId: string, workItemId: string) {
     return this.prisma.comment.findMany({
       where: { workItemId, deletedAt: null, project: this.visibleProject(organizationId, userId) },

@@ -54,7 +54,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1482',
     title: 'Checkout fails on saved cards',
     type: 'bug',
-    status: 'info',
+    status: 'in_progress',
     priority: 'highest',
     assignee: mira,
     points: 5,
@@ -65,7 +65,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1477',
     title: 'Add Apple Pay to checkout',
     type: 'story',
-    status: 'review',
+    status: 'in_review',
     priority: 'high',
     assignee: jonas,
     points: 8,
@@ -76,7 +76,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1486',
     title: 'Show refund status in order history',
     type: 'story',
-    status: 'info',
+    status: 'in_progress',
     priority: 'medium',
     assignee: sara,
     points: 3,
@@ -87,7 +87,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1479',
     title: 'Currency rounding off by one cent',
     type: 'bug',
-    status: 'danger',
+    status: 'blocked',
     priority: 'highest',
     assignee: jonas,
     points: 3,
@@ -97,7 +97,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1490',
     title: 'Retry failed payouts automatically',
     type: 'task',
-    status: 'neutral',
+    status: 'todo',
     priority: 'high',
     assignee: aiko,
     points: 5,
@@ -107,7 +107,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1488',
     title: 'Update receipt email template',
     type: 'task',
-    status: 'neutral',
+    status: 'todo',
     priority: 'medium',
     assignee: dev,
     points: 2,
@@ -117,7 +117,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1492',
     title: 'Saved payment methods on mobile',
     type: 'story',
-    status: 'neutral',
+    status: 'todo',
     priority: 'low',
     assignee: null,
     points: 5,
@@ -127,7 +127,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1471',
     title: '3-D Secure for EU cards',
     type: 'story',
-    status: 'success',
+    status: 'done',
     priority: 'high',
     assignee: mira,
     points: 8,
@@ -137,7 +137,7 @@ export const WORK_ITEMS: WorkItem[] = [
     key: 'PAY-1468',
     title: 'Rotate webhook signing secret',
     type: 'task',
-    status: 'success',
+    status: 'done',
     priority: 'medium',
     assignee: sara,
     points: 1,
@@ -149,12 +149,13 @@ export const WORK_ITEMS: WorkItem[] = [
 export const itemHref = (key: string) => `/main/taskboard/${key}`;
 
 /** Every status an item can have, in workflow order. */
-export const STATUSES: StatusTone[] = ['neutral', 'info', 'review', 'danger', 'success'];
+export const STATUSES: StatusTone[] = ['todo', 'in_progress', 'in_review', 'blocked', 'done'];
 
 /** Kanban columns. Blocked work has no column of its own: it stays in progress, badged. */
-export const COLUMNS: StatusTone[] = ['neutral', 'info', 'review', 'success'];
+export const COLUMNS: StatusTone[] = ['todo', 'in_progress', 'in_review', 'done'];
 
-export const columnOf = (status: StatusTone): StatusTone => (status === 'danger' ? 'info' : status);
+export const columnOf = (status: StatusTone): StatusTone =>
+  status === 'blocked' ? 'in_progress' : status;
 
 export type View = 'list' | 'kanban';
 export type TypeFilter = ItemType | 'all';

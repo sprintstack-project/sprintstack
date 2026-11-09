@@ -3,7 +3,7 @@ import type { ComponentType, ReactNode, Ref } from 'react';
 
 /** Inputs are always 56px. Buttons: sm 40 · md 48 · lg 56. */
 export type ControlSize = 'sm' | 'md' | 'lg';
-export type StatusTone = 'neutral' | 'info' | 'review' | 'success' | 'warning' | 'danger';
+export type StatusTone = 'todo' | 'in_progress' | 'in_review' | 'done' | 'warning' | 'blocked';
 export type Priority = 'highest' | 'high' | 'medium' | 'low' | 'lowest';
 
 /**
@@ -302,7 +302,7 @@ export interface MultiSelectProps<V = string> extends ControlBase, Blurrable {
 export interface ChipProps {
   children: ReactNode;
   /** Value pills: neutral | ink | outline | accent | key. With `dot`: a status tone. */
-  tone?: StatusTone | 'ink' | 'outline' | 'accent' | 'key';
+  tone?: StatusTone | 'neutral' | 'ink' | 'outline' | 'accent' | 'key';
   size?: 'sm' | 'md';
   /** With a status tone: render an uppercase status badge. */
   dot?: boolean;

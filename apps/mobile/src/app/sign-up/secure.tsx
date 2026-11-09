@@ -128,12 +128,12 @@ const SignUpSecurePage = () => {
       </AuthHeading>
 
       {isPasskeySupported() && (
-        <View className="gap-4 rounded-[1.75rem] bg-ink p-6">
+        <View className="gap-4 rounded-2xl bg-ink p-6">
           <View className="flex-row items-center justify-between">
             <View className="size-12 items-center justify-center rounded-full bg-brand">
               <KeyRound color={onBrand} size={22} strokeWidth={2} />
             </View>
-            <Badge tone="neutral">Recommended</Badge>
+            <Badge tone="todo">Recommended</Badge>
           </View>
           <Text className="text-[1.75rem] leading-7 font-extrabold uppercase text-on-ink">
             Add a passkey

@@ -66,7 +66,7 @@ const IssueFields = () => {
           Status
         </span>
         <div className="box-border h-12 rounded-lg border-[1.5px] border-line-strong flex items-center justify-between px-4">
-          <Badge tone="info" />
+          <Badge tone="in_progress" />
           <span
             aria-hidden
             className="size-0 border-x-[0.3125rem] border-t-[0.375rem] border-x-transparent border-t-ink"

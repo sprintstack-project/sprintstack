@@ -14,11 +14,11 @@ const sortOptions = (onClear?: () => void) => [
 ];
 
 const statusOptions = [
-  { value: 'todo', status: 'neutral' as const },
-  { value: 'progress', status: 'info' as const },
-  { value: 'review', status: 'review' as const },
-  { value: 'done', status: 'success' as const },
-  { value: 'blocked', status: 'danger' as const },
+  { value: 'todo', status: 'todo' as const },
+  { value: 'progress', status: 'in_progress' as const },
+  { value: 'review', status: 'in_review' as const },
+  { value: 'done', status: 'done' as const },
+  { value: 'blocked', status: 'blocked' as const },
 ];
 
 const people = [
@@ -126,11 +126,11 @@ export const States: Story = {
             <Select
               defaultValue="review"
               options={[
-                { value: 'todo', status: 'neutral' },
-                { value: 'progress', status: 'info' },
-                { value: 'review', status: 'review' },
-                { value: 'done', status: 'success' },
-                { value: 'blocked', status: 'danger' },
+                { value: 'todo', status: 'todo' },
+                { value: 'progress', status: 'in_progress' },
+                { value: 'review', status: 'in_review' },
+                { value: 'done', status: 'done' },
+                { value: 'blocked', status: 'blocked' },
               ]}
             />
           </Field>

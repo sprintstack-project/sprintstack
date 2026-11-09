@@ -2,21 +2,21 @@ import type { Priority, StatusTone } from '@ui/types';
 
 /** The word each status badge shows by default. Badges are always words, never a bare colour. */
 export const STATUS_LABEL: Record<StatusTone, string> = {
-  neutral: 'To do',
-  info: 'In progress',
-  review: 'In review',
-  success: 'Done',
-  danger: 'Blocked',
+  todo: 'To do',
+  in_progress: 'In progress',
+  in_review: 'In review',
+  done: 'Done',
+  blocked: 'Blocked',
   warning: 'At risk',
 };
 
 /** Badge fill and text per tone; the same classes work on web and native (Uniwind). */
 export const STATUS_CLASSES: Record<StatusTone, { box: string; text: string }> = {
-  neutral: { box: 'bg-neutral-subtle', text: 'text-ink-muted' },
-  info: { box: 'bg-info-subtle', text: 'text-info-ink' },
-  review: { box: 'bg-review-subtle', text: 'text-review-ink' },
-  success: { box: 'bg-success-subtle', text: 'text-success-ink' },
-  danger: { box: 'bg-danger', text: 'text-on-danger' },
+  todo: { box: 'bg-neutral-subtle', text: 'text-ink-muted' },
+  in_progress: { box: 'bg-info-subtle', text: 'text-info-ink' },
+  in_review: { box: 'bg-review-subtle', text: 'text-review-ink' },
+  done: { box: 'bg-success-subtle', text: 'text-success-ink' },
+  blocked: { box: 'bg-danger', text: 'text-on-danger' },
   warning: { box: 'bg-warning-subtle', text: 'text-warning-ink' },
 };
 

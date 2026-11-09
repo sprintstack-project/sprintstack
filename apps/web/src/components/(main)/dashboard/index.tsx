@@ -1,14 +1,9 @@
 import type { Sprint } from '@sprintstack/api-client/documents/sprints';
 import type { UserSummary } from '@sprintstack/api-client/documents/users';
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import DashboardProvider from '@sprintstack/shared/providers/main/dashboard';
 import { Suspense } from 'react';
-import type {
-  ActivityGroup,
-  Assigned,
-  Burndown as BurndownData,
-  StatusSummary,
-  WorkItem,
-} from './data';
+import type { ActivityGroup, Burndown as BurndownData, StatusSummary } from './data';
 import FirstName from './first-name';
 import { NameSkeleton } from './skeletons';
 import Summary from './summary';
@@ -22,12 +17,13 @@ interface DashboardProps {
   projectId: string | undefined;
   viewer: Promise<UserSummary>;
   sprint: Promise<Sprint | null>;
-  assigned: Promise<Assigned>;
   awaitingReview: Promise<number>;
   nextItems: Promise<WorkItem[]>;
   activity: Promise<ActivityGroup[]>;
   burndown: Promise<BurndownData>;
   status: Promise<StatusSummary>;
+  allWorkItems: Promise<WorkItem[]>;
+  userWorkItems: Promise<WorkItem[]>;
 }
 
 /**
@@ -38,12 +34,13 @@ const Dashboard = ({
   projectId,
   viewer,
   sprint,
-  assigned,
   awaitingReview,
   nextItems,
   activity,
   burndown,
   status,
+  allWorkItems,
+  userWorkItems,
 }: DashboardProps) => (
   <DashboardProvider projectId={projectId}>
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
@@ -65,10 +62,10 @@ const Dashboard = ({
         <AddWidget />
       </div>
       <Summary
-        projectId={projectId}
         sprint={sprint}
-        assigned={assigned}
         awaitingReview={awaitingReview}
+        allWorkItems={allWorkItems}
+        userWorkItems={userWorkItems}
       />
       <Widgets nextItems={nextItems} activity={activity} burndown={burndown} status={status} />
     </div>

@@ -1,10 +1,11 @@
 import { PRIORITY_LABEL } from '@lib/status';
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import Badge from '@ui/badge';
 import type { Priority } from '@ui/types';
 import { differenceInCalendarDays, format } from 'date-fns';
 import { Bookmark, Bug, ChevronsUp, ChevronUp, Equal, SquareCheck } from 'lucide-react';
 import { use } from 'react';
-import { type ItemType, TODAY, type WorkItem } from '../data';
+import { type ItemType, TODAY } from '../data';
 
 const types = {
   bug: { icon: Bug, label: 'Bug', className: 'bg-danger text-on-danger' },
@@ -31,13 +32,13 @@ const NextItems = ({ items: itemsPromise }: { items: Promise<WorkItem[]> }) => {
   return (
     <ul className="divide-y divide-line">
       {items.map((item) => {
-        const type = types[item.type];
+        const type = types[item.type as ItemType];
         const TypeIcon = type.icon;
         const PriorityIcon = priorities[item.priority] ?? Equal;
         const urgent = item.priority === 'highest' || item.priority === 'high';
-        const due = dueLabel(item.due);
+        const due = item.targetDate ? dueLabel(new Date(item.targetDate)) : '';
         return (
-          <li key={item.key} className="flex items-center gap-4 py-4">
+          <li key={item.id} className="flex items-center gap-4 py-4">
             <span
               role="img"
               aria-label={type.label}
@@ -47,7 +48,7 @@ const NextItems = ({ items: itemsPromise }: { items: Promise<WorkItem[]> }) => {
               <TypeIcon aria-hidden strokeWidth={2} className="size-4.5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-meta text-ink-muted tabular-nums">{item.key}</p>
+              <p className="text-meta text-ink-muted tabular-nums">{item.id}</p>
               <p className="truncate text-body-strong text-ink">{item.title}</p>
             </div>
             <span

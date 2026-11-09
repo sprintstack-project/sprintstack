@@ -32,6 +32,22 @@ export class WorkItemsResolver {
     );
   }
 
+  @Query(() => [WorkItemModel], { description: 'Get all work items by assignee' })
+  workItemsByAssignee(
+    @Session() session: UserSession<Auth>,
+    @Args('projectId', { type: () => ID }) projectId: string,
+    @Args('userId', { type: () => ID }) userId: string,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return [];
+    return this.workItemsService.getAllByAssignee(
+      activeOrganizationId,
+      session.user.id,
+      projectId,
+      userId,
+    );
+  }
+
   @Query(() => [CommentModel], { description: 'Get all comments for a work item' })
   commentsByWorkItemId(
     @Session() session: UserSession<Auth>,

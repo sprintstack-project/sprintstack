@@ -40,7 +40,7 @@ export const States: Story = {
           label="Status"
           options={[
             { value: 'open', label: 'Open' },
-            { value: 'review', status: 'review' },
+            { value: 'review', status: 'in_review' },
           ]}
           defaultValue="open"
           count={3}

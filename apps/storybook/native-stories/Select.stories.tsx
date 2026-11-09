@@ -13,11 +13,11 @@ const sortOptions = [
   { value: 'clear', label: 'Clear this view', icon: Trash2, danger: true, action: () => {} },
 ];
 const statusOptions = [
-  { value: 'todo', status: 'neutral' as const },
-  { value: 'progress', status: 'info' as const },
-  { value: 'review', status: 'review' as const },
-  { value: 'done', status: 'success' as const },
-  { value: 'blocked', status: 'danger' as const },
+  { value: 'todo', status: 'todo' as const },
+  { value: 'progress', status: 'in_progress' as const },
+  { value: 'review', status: 'in_review' as const },
+  { value: 'done', status: 'done' as const },
+  { value: 'blocked', status: 'blocked' as const },
 ];
 const labels = [
   { value: 'payments', label: 'Payments' },

@@ -19,10 +19,10 @@ const columns: { title: string; issues: Issue[] }[] = [
       {
         id: 'PAY-1490',
         title: 'Retry failed payouts automatically',
-        tone: 'neutral',
+        tone: 'todo',
         assignee: 'AR',
       },
-      { id: 'PAY-1488', title: 'Update receipt email template', tone: 'neutral', assignee: 'DP' },
+      { id: 'PAY-1488', title: 'Update receipt email template', tone: 'todo', assignee: 'DP' },
     ],
   },
   {
@@ -31,7 +31,7 @@ const columns: { title: string; issues: Issue[] }[] = [
       {
         id: 'PAY-1482',
         title: 'Checkout fails on saved cards',
-        tone: 'info',
+        tone: 'in_progress',
         assignee: 'MO',
         mine: true,
         progress: 60,
@@ -39,7 +39,7 @@ const columns: { title: string; issues: Issue[] }[] = [
       {
         id: 'PAY-1477',
         title: 'Add Apple Pay to checkout',
-        tone: 'review',
+        tone: 'in_review',
         assignee: 'JL',
         mine: true,
       },
@@ -48,11 +48,11 @@ const columns: { title: string; issues: Issue[] }[] = [
   {
     title: 'Done · 5',
     issues: [
-      { id: 'OPS-311', title: 'Rotate webhook secret', tone: 'success', assignee: 'SK' },
+      { id: 'OPS-311', title: 'Rotate webhook secret', tone: 'done', assignee: 'SK' },
       {
         id: 'PAY-1471',
         title: '3-D Secure for EU cards',
-        tone: 'success',
+        tone: 'done',
         assignee: 'MO',
         mine: true,
       },

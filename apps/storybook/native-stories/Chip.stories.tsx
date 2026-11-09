@@ -65,11 +65,11 @@ export const States: Story = {
         <Chip tone="key">PAY-1482</Chip>
       </View>
       <View className="flex-row flex-wrap items-center gap-2.5">
-        <Badge tone="danger">New</Badge>
-        <Badge tone="neutral" />
-        <Badge tone="info" />
-        <Badge tone="review" />
-        <Badge tone="success" />
+        <Badge tone="blocked">New</Badge>
+        <Badge tone="todo" />
+        <Badge tone="in_progress" />
+        <Badge tone="in_review" />
+        <Badge tone="done" />
         <Badge tone="warning" />
       </View>
       <View className="flex-row flex-wrap items-center gap-5">

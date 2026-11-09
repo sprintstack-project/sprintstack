@@ -37,11 +37,11 @@ export const TYPE_OPTIONS: Option<'bug' | 'story' | 'task'>[] = [
 ];
 
 export const STATUS_TONE: Record<WorkItemStatus, StatusTone> = {
-  todo: 'neutral',
-  in_progress: 'info',
-  in_review: 'review',
-  blocked: 'danger',
-  done: 'success',
+  todo: 'todo',
+  in_progress: 'in_progress',
+  in_review: 'in_review',
+  blocked: 'blocked',
+  done: 'done',
 };
 
 export const STATUS_OPTIONS: Option<WorkItemStatus>[] = WORK_ITEM_STATUSES.map((status) => ({

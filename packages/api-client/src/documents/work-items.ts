@@ -1,7 +1,7 @@
 // Project documents, apart from the hooks so Server Components can import them.
 import { graphql, type ResultOf } from '../graphql';
 
-export const WorkItemsQuery = graphql(`
+export const WorkItemsByProjectIdQuery = graphql(`
   query WorkItemsByProjectId ($projectId: ID!) {
       workItemsByProjectId(projectId: $projectId) {
           assigneeId
@@ -73,4 +73,36 @@ export const CreateWorkItemMutation = graphql(`
   }
 `);
 
-export type Project = ResultOf<typeof WorkItemsQuery>['workItemsByProjectId'][number];
+export const WorkItemsByAssigneeQuery =
+  graphql(`query WorkItemsByAssignee($userId: ID!, $projectId: ID!) {
+    workItemsByAssignee(
+        projectId: $projectId
+        userId: $userId
+    ) {
+        assigneeId
+        atRisk
+        completedAt
+        createdAt
+        criteria
+        description
+        id
+        number
+        parentId
+        points
+        priority
+        projectId
+        rank
+        reporterId
+        sprintId
+        startDate
+        status
+        tags
+        targetDate
+        title
+        type
+        updatedAt
+    }
+}`);
+
+export type Project = ResultOf<typeof WorkItemsByProjectIdQuery>['workItemsByProjectId'][number];
+export type WorkItem = ResultOf<typeof WorkItemsByAssigneeQuery>['workItemsByAssignee'][number];

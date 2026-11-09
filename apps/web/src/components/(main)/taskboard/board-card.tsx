@@ -47,9 +47,9 @@ const BoardCard = ({
           <div className="h-full rounded-full bg-brand" style={{ width: `${item.progress}%` }} />
         </div>
       )}
-      {item.status === 'danger' && (
+      {item.status === 'blocked' && (
         <span className="flex">
-          <Badge tone="danger" />
+          <Badge tone="blocked" />
         </span>
       )}
       <div className="flex items-center gap-2">

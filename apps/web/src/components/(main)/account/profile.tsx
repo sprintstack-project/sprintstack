@@ -174,7 +174,7 @@ const ProfileForm = ({ me }: { me: Me }) => {
         </form.AppField>
         <Field
           label="Email"
-          labelAside={me.emailVerified ? <Badge tone="success">Verified</Badge> : undefined}
+          labelAside={me.emailVerified ? <Badge tone="done">Verified</Badge> : undefined}
         >
           <Input type="email" value={me.email} disabled />
         </Field>

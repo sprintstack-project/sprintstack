@@ -55,8 +55,8 @@ const Chip = ({
   }
 
   // Status tones render as an uppercase badge: the word carries the meaning.
-  if (dot || (isStatusTone(tone) && tone !== 'neutral')) {
-    return <Badge tone={isStatusTone(tone) ? tone : 'neutral'}>{children}</Badge>;
+  if (dot || isStatusTone(tone)) {
+    return <Badge tone={isStatusTone(tone) ? tone : 'todo'}>{children}</Badge>;
   }
 
   const label = typeof children === 'string' ? children : undefined;

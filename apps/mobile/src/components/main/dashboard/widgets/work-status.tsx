@@ -6,11 +6,11 @@ import type { StatusSummary } from '../data';
 
 // Solid fills for the bar and the legend dots.
 const fills: Record<StatusTone, string> = {
-  neutral: 'bg-ink-muted',
-  info: 'bg-info',
-  review: 'bg-review',
-  success: 'bg-success',
-  danger: 'bg-danger',
+  todo: 'bg-ink-muted',
+  in_progress: 'bg-info',
+  in_review: 'bg-review',
+  done: 'bg-success',
+  blocked: 'bg-danger',
   warning: 'bg-warning',
 };
 

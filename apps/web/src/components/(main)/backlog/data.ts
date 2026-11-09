@@ -64,13 +64,31 @@ const item = (
   priority: WorkItem['priority'],
   points: number,
   assignee: Person | null = null,
-  status: StatusTone = 'neutral',
+  status: StatusTone = 'todo',
 ): PlannedItem => ({ group, key, title, type, status, priority, assignee, points, tags: [] });
 
 /** Every open item, in rank order: within a group, earlier items come first. */
 export const PLANNED_ITEMS: PlannedItem[] = [
-  item('sprint-24', 'PAY-1482', 'Checkout fails on saved cards', 'bug', 'highest', 5, mira, 'info'),
-  item('sprint-24', 'PAY-1477', 'Add Apple Pay to checkout', 'story', 'high', 8, jonas, 'review'),
+  item(
+    'sprint-24',
+    'PAY-1482',
+    'Checkout fails on saved cards',
+    'bug',
+    'highest',
+    5,
+    mira,
+    'in_progress',
+  ),
+  item(
+    'sprint-24',
+    'PAY-1477',
+    'Add Apple Pay to checkout',
+    'story',
+    'high',
+    8,
+    jonas,
+    'in_review',
+  ),
   item(
     'sprint-24',
     'PAY-1486',
@@ -79,7 +97,7 @@ export const PLANNED_ITEMS: PlannedItem[] = [
     'medium',
     3,
     sara,
-    'info',
+    'in_progress',
   ),
   item(
     'sprint-24',
@@ -89,7 +107,7 @@ export const PLANNED_ITEMS: PlannedItem[] = [
     'highest',
     3,
     jonas,
-    'danger',
+    'blocked',
   ),
   item('sprint-25', 'PAY-1490', 'Retry failed payouts automatically', 'task', 'high', 5, aiko),
   item('sprint-25', 'PAY-1488', 'Update receipt email template', 'task', 'medium', 2, dev),

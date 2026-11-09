@@ -22,7 +22,7 @@ import Priority from '@ui/priority';
 
 <Chip toggle pressed={mine} onPressedChange={setMine}>Assigned to me</Chip>
 <Chip tone="ink" onRemove={() => removeLabel('ios')}>iOS</Chip>
-<Badge tone="review" />          {/* IN REVIEW */}
+<Badge tone="in_review" />          {/* IN REVIEW */}
 <Priority level="high" />
 \`\`\``,
       },
@@ -77,12 +77,12 @@ export const States: Story = {
           <Chip tone="key">PAY-1482</Chip>
 
           // Status badges: no children shows the status word
-          <Badge tone="danger">New</Badge>
-          <Badge tone="neutral" />
-          <Badge tone="info" />
-          <Badge tone="review" />
-          <Badge tone="success" />
-          <Badge tone="danger" />
+          <Badge tone="blocked">New</Badge>
+          <Badge tone="todo" />
+          <Badge tone="in_progress" />
+          <Badge tone="in_review" />
+          <Badge tone="done" />
+          <Badge tone="blocked" />
           <Badge tone="warning" />
 
           // Priority marks
@@ -121,12 +121,12 @@ export const States: Story = {
         <Chip tone="key">PAY-1482</Chip>
       </div>
       <div className="flex flex-wrap items-center gap-2.5">
-        <Badge tone="danger">New</Badge>
-        <Badge tone="neutral" />
-        <Badge tone="info" />
-        <Badge tone="review" />
-        <Badge tone="success" />
-        <Badge tone="danger" />
+        <Badge tone="blocked">New</Badge>
+        <Badge tone="todo" />
+        <Badge tone="in_progress" />
+        <Badge tone="in_review" />
+        <Badge tone="done" />
+        <Badge tone="blocked" />
         <Badge tone="warning" />
       </div>
       <div className="flex flex-wrap items-center gap-5">
@@ -203,8 +203,8 @@ export const Labels: Story = {
   parameters: { singleTheme: true },
   render: () => (
     <div className="flex gap-2">
-      <Badge tone="review" />
-      <Chip tone="success" dot>
+      <Badge tone="in_review" />
+      <Chip tone="done" dot>
         Done
       </Chip>
       <Priority level="high" />

@@ -109,22 +109,22 @@ const SignUpSecurePage = () => {
 
   return (
     <div className="min-h-screen flex-1 bg-canvas px-6 pt-8 pb-12 text-ink">
-      <div className="mx-auto flex max-w-[65rem] flex-col gap-8">
+      <div className="mx-auto flex max-w-260 flex-col gap-8">
         <header className="flex flex-wrap items-center justify-between gap-6">
           <a href="/" aria-label="SprintStack home" className="text-ink no-underline">
             <Logo className="text-[1.875rem]" />
           </a>
-          <div className="w-full max-w-[30rem]">
+          <div className="w-full max-w-120">
             <Stepper label="Sign-up progress" steps={SIGN_UP_STEPS} current={2} />
           </div>
         </header>
 
-        <div className="flex max-w-[42.5rem] flex-col gap-2.5">
+        <div className="flex max-w-170 flex-col gap-2.5">
           <span className="eyebrow">Optional · recommended</span>
           <h1 className="headline m-0 text-[clamp(2.75rem,5vw,4rem)] leading-[0.95]">
             Lock it down.
           </h1>
-          <p className="m-0 text-[1.125rem] leading-[1.625rem] font-semibold font-stretch-semi-condensed text-ink-muted">
+          <p className="m-0 text-[1.125rem] leading-6.5 font-semibold font-stretch-semi-condensed text-ink-muted">
             Add a passkey, an authenticator app, or both. You can change this any time in your
             account settings.
           </p>
@@ -133,18 +133,18 @@ const SignUpSecurePage = () => {
         <div className="flex flex-wrap items-stretch gap-5">
           <section
             aria-labelledby="passkey-title"
-            className="flex flex-[1_1_23.75rem] flex-col gap-5 rounded-[1.75rem] bg-ink p-9 text-on-ink"
+            className="flex flex-[1_1_23.75rem] flex-col gap-5 rounded-2xl bg-ink p-9 text-on-ink"
           >
             <div className="flex items-center justify-between gap-3">
               <span className="grid size-14 place-items-center rounded-full bg-brand text-on-brand">
                 <KeyRound aria-hidden strokeWidth={2} className="size-6.5" />
               </span>
-              <Badge tone="neutral">Recommended</Badge>
+              <Badge tone="todo">Recommended</Badge>
             </div>
             <h2 id="passkey-title" className="headline m-0 text-[2.125rem] leading-none">
               Add a passkey
             </h2>
-            <p className="m-0 text-[1.0625rem] leading-[1.5625rem] font-semibold font-stretch-semi-condensed">
+            <p className="m-0 text-[1.0625rem] leading-6.25 font-semibold font-stretch-semi-condensed">
               Sign in with your fingerprint, face or screen lock. Faster than a password and it
               can’t be phished.
             </p>
@@ -177,7 +177,7 @@ const SignUpSecurePage = () => {
 
           <section
             aria-labelledby="totp-title"
-            className="flex flex-[1.3_1_28.75rem] flex-col gap-5 rounded-[1.25rem] border border-line bg-surface p-9"
+            className="flex flex-[1.3_1_28.75rem] flex-col gap-5 rounded-xl border border-line bg-surface p-9"
           >
             <div className="flex items-center gap-4">
               <span className="grid size-14 flex-none place-items-center rounded-full bg-surface-muted">
@@ -218,7 +218,7 @@ const SignUpSecurePage = () => {
                       authenticator. Can’t scan? Enter this key:
                     </span>
                     <div className="flex min-h-11 items-center gap-2 rounded-xl bg-surface-muted py-1 pr-1.5 pl-3.5">
-                      <code className="flex-1 font-mono text-[0.9375rem] leading-5 font-semibold tracking-[.06em] [overflow-wrap:anywhere]">
+                      <code className="flex-1 font-mono text-[0.9375rem] leading-5 font-semibold tracking-[.06em] wrap-anywhere">
                         {groupKey(totp.secret)}
                       </code>
                       <Button

@@ -15,12 +15,13 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import type { WidgetKey } from '@sprintstack/shared/dashboard-widgets';
 import { useDashboardContext } from '@sprintstack/shared/providers/main/dashboard';
 import { type ComponentType, type ReactNode, Suspense, useId } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
-import { type ActivityGroup, SPRINT, type WorkItem } from '../data';
+import { type ActivityGroup, SPRINT } from '../data';
 import ErrorWrapper from '../error-wrapper';
 import {
   ActivitySkeleton,

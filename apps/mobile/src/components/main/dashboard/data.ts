@@ -48,7 +48,7 @@ export const NEXT_ITEMS: WorkItem[] = [
     title: 'Checkout fails on saved cards',
     type: 'bug',
     priority: 'highest',
-    status: 'info',
+    status: 'in_progress',
     due: TODAY,
   },
   {
@@ -56,7 +56,7 @@ export const NEXT_ITEMS: WorkItem[] = [
     title: 'Currency rounding off by one cent',
     type: 'bug',
     priority: 'highest',
-    status: 'danger',
+    status: 'blocked',
     due: addDays(TODAY, 1),
   },
   {
@@ -64,7 +64,7 @@ export const NEXT_ITEMS: WorkItem[] = [
     title: '3-D Secure for EU cards',
     type: 'story',
     priority: 'high',
-    status: 'success',
+    status: 'done',
     due: new Date(2026, 9, 28),
   },
   {
@@ -72,7 +72,7 @@ export const NEXT_ITEMS: WorkItem[] = [
     title: 'Retry failed payouts automatically',
     type: 'task',
     priority: 'high',
-    status: 'neutral',
+    status: 'todo',
     due: new Date(2026, 9, 30),
   },
 ];
@@ -153,11 +153,11 @@ export interface StatusSummary {
 }
 
 export const STATUS_COUNTS: StatusCount[] = [
-  { tone: 'neutral', count: 12 },
-  { tone: 'info', count: 9 },
-  { tone: 'review', count: 5 },
-  { tone: 'danger', count: 2 },
-  { tone: 'success', count: 6 },
+  { tone: 'todo', count: 12 },
+  { tone: 'in_progress', count: 9 },
+  { tone: 'in_review', count: 5 },
+  { tone: 'blocked', count: 2 },
+  { tone: 'done', count: 6 },
 ];
 
 export interface SetupStep {

@@ -24,7 +24,7 @@ export const BoardCard = ({ item }: { item: WorkItem }) => {
           <View className="h-full rounded-full bg-brand" style={{ width: `${item.progress}%` }} />
         </View>
       )}
-      {item.status === 'danger' && <Badge tone="danger" />}
+      {item.status === 'blocked' && <Badge tone="blocked" />}
       <View className="flex-row items-center gap-2">
         <View className="min-w-0 flex-1 flex-row flex-wrap gap-2">
           {item.tags.map((tag) => (

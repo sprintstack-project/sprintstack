@@ -19,13 +19,13 @@ const issues: {
   progress?: number;
 }[] = [
   {
-    tone: 'danger',
+    tone: 'blocked',
     when: 'Due today',
     title: 'Checkout fails on saved cards',
     detail: 'PAY-1482 · Payments',
   },
-  { tone: 'review', when: '2h ago', title: 'Add Apple Pay to checkout', progress: 60 },
-  { tone: 'neutral', when: 'Fri', title: 'Retry failed payouts' },
+  { tone: 'in_review', when: '2h ago', title: 'Add Apple Pay to checkout', progress: 60 },
+  { tone: 'todo', when: 'Fri', title: 'Retry failed payouts' },
 ];
 
 const tabs: { label: string; Icon: LucideIcon }[] = [

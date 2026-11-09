@@ -1,3 +1,4 @@
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import type { Priority, StatusTone } from '@ui/types';
 import { addDays, differenceInCalendarDays, eachDayOfInterval, format } from 'date-fns';
 
@@ -27,55 +28,80 @@ export const AWAITING_REVIEW = 3;
 
 export type ItemType = 'bug' | 'story' | 'task';
 
-export interface WorkItem {
-  key: string;
-  title: string;
-  type: ItemType;
-  priority: Priority;
-  status: StatusTone;
-  due: Date;
-}
+// The fields every placeholder item shares.
+const NEXT_ITEM_DEFAULTS = {
+  assigneeId: 'user-mira',
+  atRisk: false,
+  completedAt: null,
+  createdAt: SPRINT.start.toISOString(),
+  criteria: '[]',
+  description: '{"type":"doc","content":[]}',
+  parentId: null,
+  points: null,
+  projectId: 'project-pay',
+  reporterId: 'user-mira',
+  sprintId: 'sprint-24',
+  startDate: null,
+  tags: [],
+  updatedAt: TODAY.toISOString(),
+} satisfies Partial<WorkItem>;
 
 export const NEXT_ITEMS: WorkItem[] = [
   {
-    key: 'PAY-1482',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1482',
+    number: 1482,
+    rank: 'a0',
     title: 'Checkout fails on saved cards',
     type: 'bug',
     priority: 'highest',
-    status: 'info',
-    due: TODAY,
+    status: 'in_progress',
+    targetDate: TODAY.toISOString(),
   },
   {
-    key: 'PAY-1479',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1479',
+    number: 1479,
+    rank: 'a1',
     title: 'Currency rounding off by one cent',
     type: 'bug',
     priority: 'highest',
-    status: 'danger',
-    due: addDays(TODAY, 1),
+    status: 'blocked',
+    targetDate: addDays(TODAY, 1).toISOString(),
   },
   {
-    key: 'PAY-1471',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1471',
+    number: 1471,
+    rank: 'a2',
     title: '3-D Secure for EU cards',
     type: 'story',
     priority: 'high',
-    status: 'success',
-    due: new Date(2026, 9, 28),
+    status: 'done',
+    completedAt: TODAY.toISOString(),
+    targetDate: new Date(2026, 9, 28).toISOString(),
   },
   {
-    key: 'PAY-1490',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1490',
+    number: 1490,
+    rank: 'a3',
     title: 'Retry failed payouts automatically',
     type: 'task',
     priority: 'high',
-    status: 'neutral',
-    due: new Date(2026, 9, 30),
+    status: 'todo',
+    targetDate: new Date(2026, 9, 30).toISOString(),
   },
   {
-    key: 'PAY-1488',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1488',
+    number: 1488,
+    rank: 'a4',
     title: 'Update receipt email template',
     type: 'task',
     priority: 'medium',
-    status: 'neutral',
-    due: new Date(2026, 10, 1),
+    status: 'todo',
+    targetDate: new Date(2026, 10, 1).toISOString(),
   },
 ];
 
@@ -188,11 +214,11 @@ export interface StatusSummary {
 }
 
 export const STATUS_COUNTS: StatusCount[] = [
-  { tone: 'neutral', count: 12 },
-  { tone: 'info', count: 9 },
-  { tone: 'review', count: 5 },
-  { tone: 'danger', count: 2 },
-  { tone: 'success', count: 6 },
+  { tone: 'todo', count: 12 },
+  { tone: 'in_progress', count: 9 },
+  { tone: 'in_review', count: 5 },
+  { tone: 'blocked', count: 2 },
+  { tone: 'done', count: 6 },
 ];
 
 export interface SetupStep {
