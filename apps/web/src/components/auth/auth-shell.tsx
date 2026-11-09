@@ -47,6 +47,9 @@ export const AuthShell = ({
           <a href="/terms" className="text-ink-muted hover:text-ink">
             Terms
           </a>
+          <a href="/imprint" className="text-ink-muted hover:text-ink">
+            Imprint
+          </a>
           <a href="/help" className="text-ink-muted hover:text-ink">
             Help
           </a>

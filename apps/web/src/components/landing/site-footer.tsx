@@ -47,6 +47,7 @@ const columns = [
 const legal = [
   { href: '/privacy', label: 'Privacy notice' },
   { href: '/terms', label: 'Terms of use' },
+  { href: '/imprint', label: 'Imprint' },
 ];
 
 export const SiteFooter = () => {

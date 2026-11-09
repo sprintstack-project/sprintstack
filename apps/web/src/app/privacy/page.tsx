@@ -53,6 +53,14 @@ const PrivacyPage = () => {
           protect the site, such as IP addresses, request logs and browser signals used for the bot
           check.
         </li>
+        <li>
+          <strong>Error reports:</strong> when something breaks, technical details of the error and
+          the browser or device it happened on. They don’t include your name, email or user ID.
+        </li>
+        <li>
+          <strong>Device identifier for notifications,</strong> if you allow push notifications, so
+          we can send them to that device.
+        </li>
       </ul>
       <p>
         We don’t use analytics, advertising or tracking tools, and we never sell or rent your data.
@@ -70,6 +78,10 @@ const PrivacyPage = () => {
           rejecting passwords that appear in known data breaches). This is our legitimate interest
           in protecting the service and its users.
         </li>
+        <li>
+          <strong>To find and fix faults</strong> (error and crash reports). This is our legitimate
+          interest in keeping the service working.
+        </li>
       </ul>
 
       <h2>Who we share it with</h2>
@@ -80,7 +92,18 @@ const PrivacyPage = () => {
           sign-up, sign-in and password-reset forms.
         </li>
         <li>
-          <strong>Railway:</strong> hosting for the app, the API and the database.
+          <strong>Railway:</strong> hosting for the app, the API, the database and uploaded files.
+        </li>
+        <li>
+          <strong>Sentry:</strong> error reports from the website, the API and the mobile app.
+        </li>
+        <li>
+          <strong>Google Firebase:</strong> delivering push notifications if you allow them, and
+          crash reports from the mobile app.
+        </li>
+        <li>
+          <strong>Microsoft Azure:</strong> only if you import a CSV file, whose contents are sent
+          to an AI model hosted there to read it.
         </li>
         <li>
           <strong>Mailjet:</strong> sending account emails.
@@ -110,10 +133,12 @@ const PrivacyPage = () => {
 
       <h2>Cookies</h2>
       <p>
-        SprintStack uses only cookies it needs to work: a session cookie that keeps you signed in
-        and short-lived cookies for sign-in steps. Cloudflare’s bot check may also use data stored
-        in your browser for security. None of these are used for tracking or advertising, so there’s
-        nothing to opt in to.
+        SprintStack uses only cookies it needs to work: a session cookie that keeps you signed in,
+        short-lived cookies for sign-in steps, and a cookie that remembers which project you last
+        selected, for up to 90 days. Your browser’s own storage also keeps an unsent work item draft
+        on your device and holds a pending invitation while you sign in. Cloudflare’s bot check may
+        also use data stored in your browser for security. None of these are used for tracking or
+        advertising, so there’s nothing to opt in to.
       </p>
 
       <h2>Your rights</h2>
