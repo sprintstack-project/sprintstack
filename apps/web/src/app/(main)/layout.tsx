@@ -24,7 +24,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { authClient } from '@/lib/auth-client';
+import { afterSignIn, authClient, hasPendingInvitation } from '@/lib/auth-client';
 import { disablePush } from '@/lib/push';
 import { useBell } from '@/lib/use-bell';
 import ProjectProvider, { useProjectContext } from '@/providers/(main)/project';
@@ -38,9 +38,17 @@ const Shell: React.FC<React.PropsWithChildren> = ({ children }) => {
     // While the session still exists: this browser stops getting the person's pushes.
     await disablePush();
     await authClient.signOut();
-    router.push('/signin');
+    // A full load drops this tab's GraphQL cache, so whoever signs in next can't see it.
+    window.location.assign('/signin');
   };
   const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // Invited people have no organization until they accept, and the logo or another page can bring
+  // them here first. Accepting forgets the invite, so a stale session can't send them back.
+  const noOrganization = session ? !session.session.activeOrganizationId : false;
+  useEffect(() => {
+    if (noOrganization && hasPendingInvitation()) router.replace(afterSignIn());
+  }, [noOrganization, router]);
 
   const { data: me } = useGetMe();
   // Follows the system until switched. Not persisted yet, so a reload goes back to the system.

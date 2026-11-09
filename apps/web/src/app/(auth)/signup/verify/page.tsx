@@ -65,7 +65,8 @@ const SignUpVerifyPage = () => {
   // The account exists already; signing out lets them start again with another address.
   const changeEmail = async () => {
     await authClient.signOut();
-    router.push('/signup');
+    // A full load drops this tab's GraphQL cache along with the old account.
+    window.location.assign('/signup');
   };
 
   return (

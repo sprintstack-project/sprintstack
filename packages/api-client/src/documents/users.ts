@@ -21,6 +21,16 @@ export const UsersQuery = graphql(
   [UserFields],
 );
 
+export const UsersByProjectIdQuery = graphql(`query UsersByProject($projectId: ID!, $first: Int!) {
+    usersByProject(projectId: $projectId, first: $first) {
+        email
+        id
+        image
+        name
+    }
+  }
+`);
+
 export const MeFields = graphql(`
     fragment MeFields on Me @_unmask {
         id
@@ -89,4 +99,4 @@ export const UpdateUserPreferencesMutation =
     }
 }`);
 
-export type UserSummary = ResultOf<typeof UsersQuery>['users'][number];
+export type User = ResultOf<typeof UsersQuery>['users'][number];

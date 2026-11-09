@@ -75,16 +75,13 @@ export class UsersService {
     }));
   }
 
-  async getCurrentUser(organizationId: string, userId: string) {
-    const user = await this.prisma.user.findFirst({
-      where: { id: userId, members: { some: { organizationId } } },
+  async getCurrentUser(userId: string) {
+    const user = await this.prisma.user.findUniqueOrThrow({
+      where: { id: userId },
       select: ME_SELECT,
     });
 
-    return {
-      ...user,
-      image: await this.imageUrl(user?.image),
-    };
+    return { ...user, image: await this.imageUrl(user.image) };
   }
 
   /** The key is made here, under the person's own prefix, so a photo can't land on someone else's. */
@@ -94,7 +91,6 @@ export class UsersService {
   }
 
   async updateCurrentUser(
-    organizationId: string,
     userId: string,
     data: { name?: string | null; jobTitle?: string | null; image?: string | null },
   ) {
@@ -102,13 +98,6 @@ export class UsersService {
     if (data.image && !data.image.startsWith(avatarPrefix(userId))) {
       throw new BadRequestException('Upload the photo with createAvatarUpload first.');
     }
-
-    const existing = await this.prisma.user.findFirst({
-      where: { id: userId, members: { some: { organizationId } } },
-      select: { id: true },
-    });
-
-    if (!existing) return null;
 
     const user = await this.prisma.user.update({
       where: { id: userId },

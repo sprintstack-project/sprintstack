@@ -3,7 +3,7 @@ import { UploadUrlModel } from '@/storage/storage.model';
 
 /** Someone in the viewer's organization: enough to show and mention them, not their account. */
 @ObjectType('UserSummary')
-export class UserSummaryModel {
+export class User {
   @Field(() => ID)
   id: string;
 
@@ -19,7 +19,7 @@ export class UserSummaryModel {
 
 /** The signed-in person, with the account details only they see. */
 @ObjectType('Me')
-export class MeModel extends UserSummaryModel {
+export class MeModel extends User {
   @Field()
   emailVerified: boolean;
 

@@ -10,7 +10,7 @@ import {
 } from '@/components/(main)/dashboard/data';
 import { getSelectedProject } from '@/server/queries/projects';
 import { getCurrentSprint } from '@/server/queries/sprints';
-import { getViewer } from '@/server/queries/users';
+import { getMe } from '@/server/queries/users';
 import { getWorkItemsByAssignee, getWorkItemsByProjectId } from '@/server/queries/work-items';
 
 /**
@@ -19,19 +19,19 @@ import { getWorkItemsByAssignee, getWorkItemsByProjectId } from '@/server/querie
  */
 const DashboardPage = async () => {
   const project = await getSelectedProject();
-  const viewer = getViewer();
+  const me = getMe();
 
   const allWorkItems = project
-    ? viewer.then(({ id }) => getWorkItemsByProjectId(project.id, id))
+    ? me.then(({ id }) => getWorkItemsByProjectId(project.id, id))
     : Promise.resolve([]);
 
   const userWorkItems = project
-    ? viewer.then(({ id }) => getWorkItemsByAssignee(project.id, id))
+    ? me.then(({ id }) => getWorkItemsByAssignee(project.id, id))
     : Promise.resolve([]);
   return (
     <Dashboard
       projectId={project?.id}
-      viewer={viewer}
+      me={me}
       allWorkItems={allWorkItems}
       userWorkItems={userWorkItems}
       sprint={project ? getCurrentSprint(project.id) : Promise.resolve(null)}

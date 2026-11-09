@@ -2,6 +2,39 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Activity {
+  action: ActivityAction!
+  actor: UserSummary
+  createdAt: DateTime!
+
+  """JSON-encoded details, e.g. { from, to } or { commentId, quote }."""
+  data: String!
+  id: ID!
+  projectId: ID!
+  workItem: ActivityWorkItem
+}
+
+enum ActivityAction {
+  assigned
+  attached
+  commented
+  created
+  deleted
+  linked
+  sprint_changed
+  status_changed
+  updated
+}
+
+type ActivityWorkItem {
+  id: ID!
+
+  """Project key and number, e.g. PAY-1482."""
+  key: String!
+  number: Int!
+  title: String!
+}
+
 type Attachment {
   createdAt: DateTime!
   fileName: String!
@@ -134,7 +167,7 @@ type Mutation {
   unregisterPushDevice(fid: String!): Boolean!
 
   """
-  Update the current user in the active organization. Leave a field out to keep it; a null image or jobTitle clears it.
+  Update the current user. Leave a field out to keep it; a null image or jobTitle clears it.
   """
   updateMe(
     """From createAvatarUpload."""
@@ -205,6 +238,16 @@ enum PushPlatform {
 }
 
 type Query {
+  """Recent activity in a project, newest first"""
+  activityByProjectId(
+    """Id of the last activity of the previous page."""
+    after: ID
+
+    """Page size, at most 50."""
+    first: Int! = 20
+    projectId: ID!
+  ): [Activity!]!
+
   """Get all attachments for a work item"""
   attachmentsByWorkItemId(workItemId: ID!): [Attachment!]!
 
@@ -215,7 +258,9 @@ type Query {
   currentSprint(projectId: ID!): Sprint
   getUserPreferences(projectId: ID!): UserPreference!
 
-  """Get the current user in the active organization"""
+  """
+  Get the current user. Doesn't need an active organization: someone who has signed up from an invite has none until they accept it.
+  """
   me: Me!
 
   """Newest first."""

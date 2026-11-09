@@ -1,6 +1,11 @@
 import { passkeyClient } from '@better-auth/passkey/client';
 import { organizationSlug } from '@sprintstack/shared/schemas/auth';
-import { emailOTPClient, organizationClient, twoFactorClient } from 'better-auth/client/plugins';
+import {
+  emailOTPClient,
+  inferOrgAdditionalFields,
+  organizationClient,
+  twoFactorClient,
+} from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 
 /**
@@ -8,7 +13,17 @@ import { createAuthClient } from 'better-auth/react';
  * first-party and passkeys are bound to this domain.
  */
 export const authClient = createAuthClient({
-  plugins: [twoFactorClient(), passkeyClient(), emailOTPClient(), organizationClient()],
+  plugins: [
+    twoFactorClient(),
+    passkeyClient(),
+    emailOTPClient(),
+    organizationClient({
+      // Keep in step with the organization plugin's schema in apps/api.
+      schema: inferOrgAdditionalFields({
+        invitation: { additionalFields: { projectId: { type: 'string', required: false } } },
+      }),
+    }),
+  ],
 });
 
 /** Where people land once signed in. There's no workspace screen yet, so it's the home page. */

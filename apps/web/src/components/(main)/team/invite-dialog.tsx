@@ -17,6 +17,7 @@ import { X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Notice } from '@/components/auth/notice';
 import { authClient, errorMessage } from '@/lib/auth-client';
+import { useProjectContext } from '@/providers/(main)/project';
 
 const roles = INVITE_ROLES.map((value) => ({ value, label: INVITE_ROLE_LABEL[value] }));
 
@@ -33,6 +34,7 @@ const roleLabel = (role: string) => INVITE_ROLE_LABEL[role as InviteRole] ?? rol
 
 /** Mounted while open, so each opening starts with an empty form and a fresh pending list. */
 const Body = ({ onClose }: { onClose: () => void }) => {
+  const { project, projectId } = useProjectContext();
   const [sent, setSent] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<Pending[] | null>(null);
@@ -62,8 +64,9 @@ const Body = ({ onClose }: { onClose: () => void }) => {
       setSent(null);
       setError(null);
       const { email, role } = inviteSchema.parse(value);
-      // Goes to the session's active organization; the API emails the link.
-      const { error } = await authClient.organization.inviteMember({ email, role });
+      // Goes to the session's active organization; the API emails the link. Accepting also joins
+      // the project this dialog was opened on.
+      const { error } = await authClient.organization.inviteMember({ email, role, projectId });
       if (error) {
         setError(errorMessage(error, 'Couldn’t send the invite. Try again.'));
         return;
@@ -92,7 +95,8 @@ const Body = ({ onClose }: { onClose: () => void }) => {
             Invite people
           </Dialog.Title>
           <Dialog.Description className="text-[1.0625rem] leading-6 font-semibold text-ink-muted font-stretch-semi-condensed">
-            They’ll get an email with a link to join. Invites expire after 48 hours.
+            They’ll get an email with a link to join{project ? ` ${project.name}` : ''}. Invites
+            expire after 48 hours.
           </Dialog.Description>
         </div>
         <Dialog.Close

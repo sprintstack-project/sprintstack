@@ -6,6 +6,7 @@ import {
   UpdateMeMutation,
   UpdateUserPreferencesMutation,
   UserPreferencesQuery,
+  UsersByProjectIdQuery,
   UsersQuery,
 } from './documents/users';
 import useRootQuery from './useRootQuery';
@@ -44,6 +45,13 @@ export const useSearchMentions = () => {
     [searchUsers],
   );
 };
+
+export const useGetUsersByProjectId = (projectId?: string, first = 0) =>
+  useRootQuery({
+    query: UsersByProjectIdQuery,
+    variables: { projectId: projectId ?? '', first },
+    pause: !projectId,
+  });
 
 export const useGetMe = () => useRootQuery({ query: MeQuery });
 

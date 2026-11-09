@@ -83,9 +83,10 @@ export const InvitationResponse = () => {
       setError(errorMessage(error, 'Couldn’t join. Try again.'));
       return;
     }
-    // Accepting also makes it the active organization.
+    // Accepting also makes it the active organization. A full load, not router.push: the GraphQL
+    // cache sits above this route and may still hold the empty project list from before joining.
     rememberInvitation(null);
-    router.push(afterSignIn());
+    window.location.assign(afterSignIn());
   };
 
   const decline = async () => {
@@ -104,7 +105,8 @@ export const InvitationResponse = () => {
   // The invite stays remembered, so signing in again comes back here.
   const switchAccount = async () => {
     await authClient.signOut();
-    router.push('/signin');
+    // A full load drops this tab's GraphQL cache, so the next account can't see it.
+    window.location.assign('/signin');
   };
 
   const content = () => {

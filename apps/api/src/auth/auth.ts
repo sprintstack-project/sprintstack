@@ -9,6 +9,7 @@ import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned';
 import { organization } from 'better-auth/plugins/organization';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import type { PrismaClient } from '../generated/prisma/client';
+import { invitationProjectHooks } from './invitation-project';
 import { sendAuthEmail } from './mailer';
 import { restoreKey } from './restore-key';
 
@@ -202,6 +203,10 @@ export const createAuth = (prisma: PrismaClient, env: EnvReader) => {
         disableOrganizationDeletion: true,
         // Enough for a few workspaces each, without letting one account create them in bulk.
         organizationLimit: 5,
+        schema: {
+          invitation: { additionalFields: { projectId: { type: 'string', required: false } } },
+        },
+        organizationHooks: invitationProjectHooks(prisma),
         sendInvitationEmail: async ({ id, email, inviter, organization }) => {
           void sendAuthEmail({
             to: email,

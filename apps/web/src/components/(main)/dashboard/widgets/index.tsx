@@ -15,10 +15,17 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
+import { useGetAllActivities } from '@sprintstack/api-client/activity';
 import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
+import { useGetCurrentSprint } from '@sprintstack/api-client/sprints';
+import { useGetMe } from '@sprintstack/api-client/users';
+import {
+  useGetWorkItemsByAssignee,
+  useGetWorkItemsByProjectId,
+} from '@sprintstack/api-client/work-items';
 import type { WidgetKey } from '@sprintstack/shared/dashboard-widgets';
 import { useDashboardContext } from '@sprintstack/shared/providers/main/dashboard';
-import { type ComponentType, type ReactNode, Suspense, useId } from 'react';
+import { type ReactNode, Suspense, useId } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
 import type { Burndown as BurndownData, StatusSummary } from '../data';
 import { type ActivityGroup, SPRINT } from '../data';
@@ -46,13 +53,6 @@ const WIDGETS: Record<WidgetKey, { title: string; href: string }> = {
   status: { title: 'Work item status', href: '/taskboard' },
 };
 
-const EMPTY_WIDGETS: Record<WidgetKey, ComponentType> = {
-  'next-items': NoNextItems,
-  activity: NoRecentActivity,
-  burndown: NoBurndown,
-  status: NoWorkStatus,
-};
-
 /** Each widget's data, as a promise the route starts without awaiting. */
 interface WidgetsProps {
   nextItems: Promise<WorkItem[]>;
@@ -70,13 +70,44 @@ const body = (label: string, skeleton: ReactNode, widget: ReactNode) => (
 
 const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
   const { widgets, rearrangeWidgets } = useDashboardContext();
-  const { projects, projectId } = useProjectContext();
+  const { projectId } = useProjectContext();
+  const { data: me } = useGetMe();
+  const { data: currentSprint } = useGetCurrentSprint(projectId);
+  const { data: workItemsByAssignee } = useGetWorkItemsByAssignee(me?.id, projectId);
+  const { data: workItemsByProject } = useGetWorkItemsByProjectId(projectId);
+  const { data: activities } = useGetAllActivities(projectId);
+
+  console.log('activities', activities);
 
   const content: Record<WidgetKey, ReactNode> = {
-    'next-items': body('your next items', <NextItemsSkeleton />, <NextItems items={nextItems} />),
-    activity: body('recent activity', <ActivitySkeleton />, <RecentActivity activity={activity} />),
-    burndown: body('the burndown', <BurndownSkeleton />, <Burndown burndown={burndown} />),
-    status: body('work item status', <WorkStatusSkeleton />, <WorkStatus status={status} />),
+    'next-items': body(
+      'your next items',
+      <NextItemsSkeleton />,
+      workItemsByAssignee && workItemsByAssignee.length > 0 ? (
+        <NextItems items={nextItems} />
+      ) : (
+        <NoNextItems />
+      ),
+    ),
+    activity: body(
+      'recent activity',
+      <ActivitySkeleton />,
+      activities ? <RecentActivity activity={activity} /> : <NoRecentActivity />,
+    ),
+    burndown: body(
+      'the burndown',
+      <BurndownSkeleton />,
+      currentSprint ? <Burndown burndown={burndown} /> : <NoBurndown />,
+    ),
+    status: body(
+      'work item status',
+      <WorkStatusSkeleton />,
+      workItemsByProject && workItemsByProject.length > 0 ? (
+        <WorkStatus status={status} />
+      ) : (
+        <NoWorkStatus />
+      ),
+    ),
   };
 
   const dndId = useId();
@@ -96,17 +127,6 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
       ),
     );
   };
-
-  if (projects && !projectId) {
-    return (
-      <div className="grid gap-4 xl:grid-cols-2">
-        {widgets.map((key) => {
-          const Empty = EMPTY_WIDGETS[key];
-          return <Empty key={key} />;
-        })}
-      </div>
-    );
-  }
 
   return (
     <DndContext

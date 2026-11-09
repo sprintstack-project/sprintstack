@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
 import type { Request, Response } from 'express';
+import { ActivityModule } from './activity/activity.module.js';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { createAuth } from './auth/auth';
@@ -69,6 +70,7 @@ import { WorkItemsModule } from './work-items/work-items.module.js';
     StorageModule,
     WorkItemsModule,
     UserPreferenceModule,
+    ActivityModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [

@@ -196,8 +196,13 @@ model Invitation {
   inviterId      String
   user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
 
+  // The project accepting also joins. Keep these when re-running `auth:generate`.
+  projectId      String?      @db.Uuid
+  project        Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
   @@index([organizationId])
   @@index([email])
+  @@index([projectId])
   @@map("invitation")
 }
 
@@ -315,6 +320,7 @@ model Project {
   updatedAt       DateTime         @updatedAt
   archivedAt      DateTime?
   members         ProjectMember[]
+  invitations     Invitation[]
   holidays        Holiday[]
   sprints         Sprint[]
   workItems       WorkItem[]

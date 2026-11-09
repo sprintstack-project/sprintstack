@@ -1,5 +1,5 @@
 import type { Sprint } from '@sprintstack/api-client/documents/sprints';
-import type { UserSummary } from '@sprintstack/api-client/documents/users';
+import type { User } from '@sprintstack/api-client/documents/users';
 import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import DashboardProvider from '@sprintstack/shared/providers/main/dashboard';
 import { Suspense } from 'react';
@@ -15,7 +15,7 @@ import AddWidget from './widgets/add-widget';
 interface DashboardProps {
   /** The selected project, whose saved widget order the dashboard follows. */
   projectId: string | undefined;
-  viewer: Promise<UserSummary>;
+  me: Promise<User>;
   sprint: Promise<Sprint | null>;
   awaitingReview: Promise<number>;
   nextItems: Promise<WorkItem[]>;
@@ -32,7 +32,7 @@ interface DashboardProps {
  */
 const Dashboard = ({
   projectId,
-  viewer,
+  me,
   sprint,
   awaitingReview,
   nextItems,
@@ -52,7 +52,7 @@ const Dashboard = ({
             <span className="text-brand-ink ml-4">
               {
                 <Suspense fallback={<NameSkeleton />}>
-                  <FirstName viewer={viewer} />
+                  <FirstName me={me} />
                 </Suspense>
               }
               .
