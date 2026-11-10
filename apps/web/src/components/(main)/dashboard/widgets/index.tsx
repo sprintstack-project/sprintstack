@@ -77,8 +77,6 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
   const { data: workItemsByProject } = useGetWorkItemsByProjectId(projectId);
   const { data: activities } = useGetAllActivities(projectId);
 
-  console.log('activities', activities);
-
   const content: Record<WidgetKey, ReactNode> = {
     'next-items': body(
       'your next items',
@@ -92,7 +90,11 @@ const Widgets = ({ nextItems, activity, burndown, status }: WidgetsProps) => {
     activity: body(
       'recent activity',
       <ActivitySkeleton />,
-      activities ? <RecentActivity activity={activity} /> : <NoRecentActivity />,
+      activities && activities.length > 0 ? (
+        <RecentActivity activity={activity} />
+      ) : (
+        <NoRecentActivity />
+      ),
     ),
     burndown: body(
       'the burndown',
