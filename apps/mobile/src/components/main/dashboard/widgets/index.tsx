@@ -1,9 +1,15 @@
-import { useGetUserPreferences } from '@sprintstack/api-client/users';
+import { useGetAllActivities } from '@sprintstack/api-client/activity';
+import { useGetCurrentSprint } from '@sprintstack/api-client/sprints';
+import { useGetMe, useGetUserPreferences } from '@sprintstack/api-client/users';
+import {
+  useGetWorkItemsByAssignee,
+  useGetWorkItemsByProjectId,
+} from '@sprintstack/api-client/work-items';
 import { type WidgetKey, widgetOrder } from '@sprintstack/shared/dashboard-widgets';
-import type { ComponentType, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useProjectContext } from '@/providers/main/project';
 import { ACTIVITY, BURNDOWN, NEXT_ITEMS, SPRINT, STATUS_COUNTS } from '../data';
-import { Loadable, placeholder, type QueryState } from '../loadable';
+import { forProject, Loadable, placeholder, type QueryState } from '../loadable';
 import {
   ActivitySkeleton,
   BurndownSkeleton,
@@ -30,90 +36,110 @@ const status = placeholder({ sprintName: SPRINT.name, counts: STATUS_COUNTS });
 const pending = <T,>(query: QueryState<T>, waiting: boolean): QueryState<T> =>
   waiting ? { data: undefined, fetching: true } : query;
 
-const WIDGETS: Record<
-  WidgetKey,
-  { title: string; link?: { label: string; href: string }; body: (waiting: boolean) => ReactNode }
-> = {
-  'next-items': {
-    title: 'Your next items',
-    link: { label: 'See all', href: '/main/backlog' },
-    body: (waiting) => (
-      <Loadable
-        query={pending(nextItems, waiting)}
-        label="your next items"
-        skeleton={<NextItemsSkeleton />}
-      >
-        {(items) => <NextItems items={items} />}
-      </Loadable>
-    ),
-  },
-  activity: {
-    title: 'Recent activity',
-    link: { label: 'All', href: '/main/team' },
-    body: (waiting) => (
-      <Loadable
-        query={pending(activity, waiting)}
-        label="recent activity"
-        skeleton={<ActivitySkeleton />}
-      >
-        {(data) => <RecentActivity activity={data} />}
-      </Loadable>
-    ),
-  },
-  burndown: {
-    title: 'Burndown',
-    body: (waiting) => (
-      <Loadable
-        query={pending(burndown, waiting)}
-        label="the burndown"
-        skeleton={<BurndownSkeleton />}
-      >
-        {(data) => <Burndown burndown={data} />}
-      </Loadable>
-    ),
-  },
-  status: {
-    title: 'Work item status',
-    body: (waiting) => (
-      <Loadable
-        query={pending(status, waiting)}
-        label="work item status"
-        skeleton={<WorkStatusSkeleton />}
-      >
-        {(data) => <WorkStatus status={data} />}
-      </Loadable>
-    ),
-  },
-};
-
-const EMPTY_WIDGETS: Record<WidgetKey, ComponentType> = {
-  'next-items': NoNextItems,
-  activity: NoRecentActivity,
-  burndown: NoBurndown,
-  status: NoWorkStatus,
+const WIDGETS: Record<WidgetKey, { title: string; link?: { label: string; href: string } }> = {
+  'next-items': { title: 'Your next items', link: { label: 'See all', href: '/main/backlog' } },
+  activity: { title: 'Recent activity', link: { label: 'All', href: '/main/team' } },
+  burndown: { title: 'Burndown' },
+  status: { title: 'Work item status' },
 };
 
 /**
  * The panels in the order the person saved on the web, without the ones they removed. Until that
  * order is known the panels show their skeletons in the default order; if it can't be loaded they
- * stay in the default order rather than failing.
+ * stay in the default order rather than failing. Each panel shows its empty state until there's
+ * something for it to show.
  */
 const Widgets = () => {
-  const { projects, projectId } = useProjectContext();
+  const projectContext = useProjectContext();
+  const { projects, projectId } = projectContext;
   const { data: preferences, fetching, error } = useGetUserPreferences(projectId);
+  const { data: me } = useGetMe();
+  const currentSprint = forProject(useGetCurrentSprint(projectId), projectContext, null);
+  const workItemsByAssignee = forProject(
+    useGetWorkItemsByAssignee(me?.id, projectId),
+    projectContext,
+    [],
+  );
+  const workItemsByProject = forProject(useGetWorkItemsByProjectId(projectId), projectContext, []);
+  const activities = forProject(useGetAllActivities(projectId), projectContext, []);
+
   const waiting = !projects || fetching;
   const widgets = error ? widgetOrder(null) : widgetOrder(preferences?.widgets);
 
-  if (projects && !projectId) {
-    return widgets.map((key) => {
-      const Empty = EMPTY_WIDGETS[key];
-      return <Empty key={key} />;
-    });
-  }
+  const content: Record<WidgetKey, ReactNode> = {
+    'next-items': (
+      <Loadable
+        query={pending(workItemsByAssignee, waiting)}
+        label="your next items"
+        skeleton={<NextItemsSkeleton />}
+      >
+        {(assigned) =>
+          assigned.length > 0 ? (
+            <Loadable query={nextItems} label="your next items" skeleton={<NextItemsSkeleton />}>
+              {(items) => <NextItems items={items} />}
+            </Loadable>
+          ) : (
+            <NoNextItems />
+          )
+        }
+      </Loadable>
+    ),
+    activity: (
+      <Loadable
+        query={pending(activities, waiting)}
+        label="recent activity"
+        skeleton={<ActivitySkeleton />}
+      >
+        {(list) =>
+          list.length > 0 ? (
+            <Loadable query={activity} label="recent activity" skeleton={<ActivitySkeleton />}>
+              {(data) => <RecentActivity activity={data} />}
+            </Loadable>
+          ) : (
+            <NoRecentActivity />
+          )
+        }
+      </Loadable>
+    ),
+    burndown: (
+      <Loadable
+        query={pending(currentSprint, waiting)}
+        label="the burndown"
+        skeleton={<BurndownSkeleton />}
+      >
+        {(sprint) =>
+          sprint ? (
+            <Loadable query={burndown} label="the burndown" skeleton={<BurndownSkeleton />}>
+              {(data) => <Burndown burndown={data} />}
+            </Loadable>
+          ) : (
+            <NoBurndown />
+          )
+        }
+      </Loadable>
+    ),
+    status: (
+      <Loadable
+        query={pending(workItemsByProject, waiting)}
+        label="work item status"
+        skeleton={<WorkStatusSkeleton />}
+      >
+        {(items) =>
+          items.length > 0 ? (
+            <Loadable query={status} label="work item status" skeleton={<WorkStatusSkeleton />}>
+              {(data) => <WorkStatus status={data} />}
+            </Loadable>
+          ) : (
+            <NoWorkStatus />
+          )
+        }
+      </Loadable>
+    ),
+  };
 
   return widgets.map((key) => (
     <Widget key={key} title={WIDGETS[key].title} link={WIDGETS[key].link}>
-      {WIDGETS[key].body(waiting)}
+      {content[key]}
     </Widget>
   ));
 };

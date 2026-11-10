@@ -1,4 +1,5 @@
-import type { Priority, StatusTone } from '@ui/types';
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
+import type { StatusTone } from '@ui/types';
 import { addDays, differenceInCalendarDays, eachDayOfInterval, format } from 'date-fns';
 
 // Placeholder data until the dashboard reads from the API (same as the web dashboard).
@@ -18,22 +19,13 @@ export const SPRINT = {
 
 export const SPRINT_DAYS_LEFT = differenceInCalendarDays(SPRINT.end, TODAY);
 
-export const ASSIGNED = { total: 7, dueToday: 1 };
+export const ASSIGNED = { total: 7, dueToday: 1, dueThisWeek: 2 };
 
 export type Assigned = typeof ASSIGNED;
 
 export const AWAITING_REVIEW = 3;
 
 export type ItemType = 'bug' | 'story' | 'task';
-
-export interface WorkItem {
-  key: string;
-  title: string;
-  type: ItemType;
-  priority: Priority;
-  status: StatusTone;
-  due: Date;
-}
 
 export const dueLabel = (due: Date) => {
   const days = differenceInCalendarDays(due, TODAY);
@@ -42,38 +34,69 @@ export const dueLabel = (due: Date) => {
   return format(due, 'd MMM');
 };
 
+// The fields every placeholder item shares.
+const NEXT_ITEM_DEFAULTS = {
+  assigneeId: 'user-mira',
+  atRisk: false,
+  completedAt: null,
+  createdAt: SPRINT.start.toISOString(),
+  criteria: '[]',
+  description: '{"type":"doc","content":[]}',
+  parentId: null,
+  points: null,
+  projectId: 'project-pay',
+  reporterId: 'user-mira',
+  sprintId: 'sprint-24',
+  startDate: null,
+  tags: [],
+  updatedAt: TODAY.toISOString(),
+} satisfies Partial<WorkItem>;
+
 export const NEXT_ITEMS: WorkItem[] = [
   {
-    key: 'PAY-1482',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1482',
+    number: 1482,
+    rank: 'a0',
     title: 'Checkout fails on saved cards',
     type: 'bug',
     priority: 'highest',
     status: 'in_progress',
-    due: TODAY,
+    targetDate: TODAY.toISOString(),
   },
   {
-    key: 'PAY-1479',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1479',
+    number: 1479,
+    rank: 'a1',
     title: 'Currency rounding off by one cent',
     type: 'bug',
     priority: 'highest',
     status: 'blocked',
-    due: addDays(TODAY, 1),
+    targetDate: addDays(TODAY, 1).toISOString(),
   },
   {
-    key: 'PAY-1471',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1471',
+    number: 1471,
+    rank: 'a2',
     title: '3-D Secure for EU cards',
     type: 'story',
     priority: 'high',
     status: 'done',
-    due: new Date(2026, 9, 28),
+    completedAt: TODAY.toISOString(),
+    targetDate: new Date(2026, 9, 28).toISOString(),
   },
   {
-    key: 'PAY-1490',
+    ...NEXT_ITEM_DEFAULTS,
+    id: 'item-1490',
+    number: 1490,
+    rank: 'a3',
     title: 'Retry failed payouts automatically',
     type: 'task',
     priority: 'high',
     status: 'todo',
-    due: new Date(2026, 9, 30),
+    targetDate: new Date(2026, 9, 30).toISOString(),
   },
 ];
 
@@ -164,14 +187,12 @@ export interface SetupStep {
   label: string;
   /** Null for the step that happens in a dialog on the dashboard. */
   href: string | null;
-  done: boolean;
 }
 
 /** The first-run checklist an empty dashboard leads with. */
 export const SETUP_STEPS: SetupStep[] = [
-  // Only shown to someone with no project, so this step is never done.
-  { label: 'Create your first project', href: null, done: false },
-  { label: 'Invite your team', href: '/main/team', done: false },
-  { label: 'Create your first work item', href: '/main/backlog', done: false },
-  { label: 'Plan and start a sprint', href: '/main/backlog', done: false },
+  { label: 'Create your first project', href: null },
+  { label: 'Invite your team', href: '/main/team' },
+  { label: 'Create your first work item', href: '/main/taskboard' },
+  { label: 'Plan and start a sprint', href: '/main/backlog' },
 ];

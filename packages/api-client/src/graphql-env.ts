@@ -34,6 +34,188 @@ const introspection = {
     "types": [
       {
         "kind": "OBJECT",
+        "name": "Activity",
+        "fields": [
+          {
+            "name": "action",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ActivityAction"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "actor",
+            "type": {
+              "kind": "OBJECT",
+              "name": "UserSummary"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "projectId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "workItem",
+            "type": {
+              "kind": "OBJECT",
+              "name": "ActivityWorkItem"
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "ActivityAction",
+        "enumValues": [
+          {
+            "name": "assigned",
+            "isDeprecated": false
+          },
+          {
+            "name": "attached",
+            "isDeprecated": false
+          },
+          {
+            "name": "commented",
+            "isDeprecated": false
+          },
+          {
+            "name": "created",
+            "isDeprecated": false
+          },
+          {
+            "name": "deleted",
+            "isDeprecated": false
+          },
+          {
+            "name": "linked",
+            "isDeprecated": false
+          },
+          {
+            "name": "sprint_changed",
+            "isDeprecated": false
+          },
+          {
+            "name": "status_changed",
+            "isDeprecated": false
+          },
+          {
+            "name": "updated",
+            "isDeprecated": false
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ActivityWorkItem",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "key",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "number",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "title",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "Attachment",
         "fields": [
           {
@@ -1246,6 +1428,53 @@ const introspection = {
         "kind": "OBJECT",
         "name": "Query",
         "fields": [
+          {
+            "name": "activityByProjectId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Activity"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "after",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID"
+                }
+              },
+              {
+                "name": "first",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int"
+                  }
+                },
+                "defaultValue": "20"
+              },
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
           {
             "name": "attachmentsByWorkItemId",
             "type": {

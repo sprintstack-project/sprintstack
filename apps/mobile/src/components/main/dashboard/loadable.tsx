@@ -12,6 +12,16 @@ export interface QueryState<T> {
 /** Data the API doesn't serve yet, shaped like a finished query so it slots in the same way. */
 export const placeholder = <T,>(data: T): QueryState<T> => ({ data, fetching: false });
 
+/**
+ * A project query's result, or `empty` once the projects have loaded and none is selected: the
+ * query is paused then, so it would otherwise never leave its skeleton.
+ */
+export const forProject = <T,>(
+  query: QueryState<T>,
+  { projects, projectId }: { projects: unknown[] | undefined; projectId: string | undefined },
+  empty: T,
+): QueryState<T> => (projects && !projectId ? placeholder(empty) : query);
+
 interface LoadableProps<T> {
   query: QueryState<T>;
   /** What's loading, e.g. "your next items": read out, and in the error's title. */

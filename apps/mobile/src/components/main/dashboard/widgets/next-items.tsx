@@ -1,12 +1,13 @@
 import { scaled } from '@lib/scale';
 import { PRIORITY_LABEL } from '@lib/status';
+import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
 import Badge from '@ui/badge';
 import Text from '@ui/text';
 import type { Priority } from '@ui/types';
 import { Bookmark, Bug, ChevronsUp, ChevronUp, Equal, SquareCheck } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
-import { dueLabel, type ItemType, type WorkItem } from '../data';
+import { dueLabel, type ItemType } from '../data';
 
 const types = {
   bug: { icon: Bug, label: 'Bug', box: 'bg-danger', color: 'on-danger' },
@@ -50,16 +51,16 @@ const NextItems = ({ items }: { items: WorkItem[] }) => {
   return (
     <View>
       {items.map((item, i) => {
-        const due = dueLabel(item.due);
+        const due = item.targetDate ? dueLabel(new Date(item.targetDate)) : '';
         return (
           <View
-            key={item.key}
+            key={item.id}
             className={`flex-row items-start gap-4 py-4 ${i > 0 ? 'border-t border-line' : ''}`}
           >
-            <TypeIcon type={item.type} />
+            <TypeIcon type={item.type as ItemType} />
             <View className="min-w-0 flex-1 gap-1">
               <View className="flex-row items-center gap-3">
-                <Text className="flex-1 text-meta font-semibold text-ink-muted">{item.key}</Text>
+                <Text className="flex-1 text-meta font-semibold text-ink-muted">{item.id}</Text>
                 <Text
                   className={`text-meta ${due === 'Today' ? 'font-bold text-danger' : 'font-semibold text-ink-muted'}`}
                 >

@@ -2,12 +2,22 @@ import { graphql, type ResultOf } from '../graphql';
 
 export const ActivityFields = graphql(`
     fragment ActivityFields on Activity @_unmask {
-        endDate
-        goal
+        action
+        actor {
+            id
+            name
+            image
+        }
+        createdAt
+        data
         id
-        name
-        startDate
-        state
+        projectId
+        workItem {
+            id
+            key
+            number
+            title
+        }
     }
 `);
 
@@ -15,8 +25,8 @@ export type Activity = ResultOf<typeof ActivityFields>;
 
 export const ActivitiesQuery = graphql(
   `
-    query Activities($projectId: ID!, $first: Int, $after: Int) {
-        activities(projectId: $projectId, first: $first, after: $after) {
+    query Activities($projectId: ID!, $first: Int!, $after: ID) {
+        activityByProjectId(projectId: $projectId, first: $first, after: $after) {
             ...ActivityFields
         }
     }`,

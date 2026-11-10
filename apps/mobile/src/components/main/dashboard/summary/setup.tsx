@@ -1,4 +1,6 @@
 import { scaled } from '@lib/scale';
+import { useGetCurrentSprint } from '@sprintstack/api-client/sprints';
+import { useGetWorkItemsByProjectId } from '@sprintstack/api-client/work-items';
 import Card from '@ui/card';
 import Text from '@ui/text';
 import { type Href, router } from 'expo-router';
@@ -6,6 +8,7 @@ import { Check, ChevronRight } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useTokenColor } from '@/lib/use-token-color';
+import { useProjectContext } from '@/providers/main/project';
 import { SETUP_STEPS } from '../data';
 import CreateProject from './create-project';
 
@@ -15,7 +18,19 @@ const SetupTile = () => {
   const onInk = useTokenColor('on-ink');
   const onBrand = useTokenColor('on-brand');
   const [creating, setCreating] = useState(false);
-  const done = SETUP_STEPS.filter((step) => step.done).length;
+  const { projectId, project } = useProjectContext();
+  const { data: currentSprint } = useGetCurrentSprint(projectId);
+  const { data: workItems } = useGetWorkItemsByProjectId(projectId);
+
+  // In SETUP_STEPS order.
+  const stepsDone = [
+    !!projectId,
+    !!project && project.memberCount >= 1,
+    !!workItems && workItems.length > 0,
+    !!currentSprint,
+  ];
+  const done = stepsDone.filter(Boolean).length;
+
   return (
     <Card variant="ink">
       <View className="gap-5">
@@ -32,12 +47,13 @@ const SetupTile = () => {
           </Text>
         </View>
         <View className="border-t border-on-ink/20">
-          {SETUP_STEPS.map((step, i) =>
-            step.done ? (
+          {SETUP_STEPS.map((step, i) => {
+            const border = i < SETUP_STEPS.length - 1 ? 'border-b border-on-ink/20' : '';
+            return stepsDone[i] ? (
               <View
                 key={step.label}
                 accessibilityLabel={`${step.label}, done`}
-                className="min-h-14 flex-row items-center gap-4 border-b border-on-ink/20"
+                className={`min-h-14 flex-row items-center gap-4 ${border}`}
               >
                 <View className="size-8 items-center justify-center rounded-full bg-brand">
                   <Check aria-hidden size={scaled(18)} strokeWidth={2.5} color={onBrand} />
@@ -51,7 +67,7 @@ const SetupTile = () => {
                 key={step.label}
                 accessibilityRole={step.href ? 'link' : 'button'}
                 onPress={() => (step.href ? router.navigate(step.href as Href) : setCreating(true))}
-                className={`min-h-14 flex-row items-center gap-4 active:opacity-70 ${i < SETUP_STEPS.length - 1 ? 'border-b border-on-ink/20' : ''}`}
+                className={`min-h-14 flex-row items-center gap-4 active:opacity-70 ${border}`}
               >
                 <View className="size-8 items-center justify-center rounded-full border-2 border-on-ink">
                   <Text className="text-meta font-extrabold text-on-ink">{i + 1}</Text>
@@ -59,8 +75,8 @@ const SetupTile = () => {
                 <Text className="flex-1 text-body-strong font-bold text-on-ink">{step.label}</Text>
                 <ChevronRight aria-hidden size={scaled(20)} strokeWidth={2.5} color={onInk} />
               </Pressable>
-            ),
-          )}
+            );
+          })}
         </View>
       </View>
       <CreateProject open={creating} onClose={() => setCreating(false)} />
