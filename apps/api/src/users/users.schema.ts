@@ -4,3 +4,4 @@ import { z } from 'zod';
 export const avatarContentTypeSchema = z.enum(['image/png', 'image/jpeg', 'image/webp']);
 export const nameSchema = z.string().trim().min(1).max(80).nullish();
 export const jobTitleSchema = z.string().trim().max(80).nullish();
+export const userSearchSchema = z.string().trim().max(100).nullish();

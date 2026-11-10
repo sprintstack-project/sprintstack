@@ -1,9 +1,15 @@
 import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
-import { ZodValidationPipe } from '@/zod-validation.pipe';
+import { userIdSchema, uuidSchema } from '@/common.schema';
+import { ValidateArgs } from '@/zod-validation.decorator';
 import type { Auth } from '../auth/auth';
 import { AvatarUploadModel, MeModel, User } from './users.model';
-import { avatarContentTypeSchema, jobTitleSchema, nameSchema } from './users.schema';
+import {
+  avatarContentTypeSchema,
+  jobTitleSchema,
+  nameSchema,
+  userSearchSchema,
+} from './users.schema';
 import { UsersService } from './users.service';
 
 const MAX_PAGE = 50;
@@ -15,6 +21,7 @@ export class UsersResolver {
   @Query(() => [User], {
     description: 'People in the active organization, e.g. for @mentions. Matches name or email.',
   })
+  @ValidateArgs({ search: userSearchSchema })
   users(
     @Session() session: UserSession<Auth>,
     @Args('search', { type: () => String, nullable: true }) search: string | null,
@@ -31,6 +38,7 @@ export class UsersResolver {
   @Query(() => [User], {
     description: 'Members of a project in the active organization, by name.',
   })
+  @ValidateArgs({ projectId: uuidSchema, after: userIdSchema.nullish() })
   usersByProject(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,
@@ -58,9 +66,10 @@ export class UsersResolver {
   @Mutation(() => AvatarUploadModel, {
     description: 'Starts a profile photo upload for the current user',
   })
+  @ValidateArgs({ contentType: avatarContentTypeSchema })
   createAvatarUpload(
     @Session() session: UserSession<Auth>,
-    @Args('contentType', { type: () => String }, new ZodValidationPipe(avatarContentTypeSchema))
+    @Args('contentType', { type: () => String })
     contentType: string,
   ) {
     return this.usersService.createAvatarUpload(session.user.id, contentType);
@@ -70,11 +79,12 @@ export class UsersResolver {
     description:
       'Update the current user. Leave a field out to keep it; a null image or jobTitle clears it.',
   })
+  @ValidateArgs({ name: nameSchema, jobTitle: jobTitleSchema })
   updateMe(
     @Session() session: UserSession<Auth>,
-    @Args('name', { type: () => String, nullable: true }, new ZodValidationPipe(nameSchema))
+    @Args('name', { type: () => String, nullable: true })
     name: string | null | undefined,
-    @Args('jobTitle', { type: () => String, nullable: true }, new ZodValidationPipe(jobTitleSchema))
+    @Args('jobTitle', { type: () => String, nullable: true })
     jobTitle: string | null | undefined,
     @Args('image', { type: () => String, nullable: true, description: 'From createAvatarUpload.' })
     image: string | null | undefined,

@@ -29,4 +29,15 @@ export class SprintsService {
       },
     });
   }
+
+  create(projectId: string, name: string, startDate: Date, endDate: Date) {
+    return this.prismaService.sprint.create({
+      data: {
+        projectId,
+        name,
+        startDate,
+        endDate,
+      },
+    });
+  }
 }

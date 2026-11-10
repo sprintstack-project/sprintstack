@@ -89,6 +89,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-font',
     'expo-image',
     'expo-web-browser',
+    'expo-dev-client',
     // Choosing a profile photo; the camera isn't used.
     [
       'expo-image-picker',

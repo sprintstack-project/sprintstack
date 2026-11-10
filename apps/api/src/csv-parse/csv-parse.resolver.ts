@@ -2,7 +2,10 @@ import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import { GraphQLError } from 'graphql';
 import type { Auth } from '@/auth/auth';
+import { uuidSchema } from '@/common.schema';
+import { ValidateArgs } from '@/zod-validation.decorator';
 import { CsvImportModel } from './csv-parse.model';
+import { csvContentSchema } from './csv-parse.schema';
 import { CsvParseService } from './csv-parse.service';
 
 /** CSV imports: the client reads the file and sends its text, so no multipart upload is needed. */
@@ -15,6 +18,7 @@ export class CsvParseResolver {
       'Imports work items from a CSV export into a project. AI matches the columns to fields; ' +
       'values are converted and checked before anything is written.',
   })
+  @ValidateArgs({ projectId: uuidSchema, content: csvContentSchema })
   importCsv(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,

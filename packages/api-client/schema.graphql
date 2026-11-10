@@ -141,6 +141,9 @@ type Mutation {
   Creates a project in the active organization, with the viewer as its admin.
   """
   createProject(input: CreateProjectInput!): Project!
+
+  """Create a new sprint"""
+  createSprint(endDate: DateTime!, name: String!, projectId: ID!, startDate: DateTime!): Sprint!
   createUserPreferences(data: CreateUserPreferenceInput!, projectId: ID!): UserPreference!
 
   """
@@ -271,7 +274,7 @@ type Query {
   ): [Notification!]!
 
   """Get project by ID"""
-  projectById: Project!
+  projectById(id: ID!): Project!
 
   """
   The viewer’s projects in the active organization, for the project switcher.

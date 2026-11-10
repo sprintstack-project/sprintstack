@@ -1,11 +1,14 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import type { Auth } from '@/auth/auth';
+import { uuidSchema } from '@/common.schema';
+import { ValidateArgs } from '@/zod-validation.decorator';
 import {
   CreateUserPreferenceInput,
   UpdateUserPreferenceInput,
   UserPreference,
 } from './user-preference.model';
+import { createUserPreferenceSchema, updateUserPreferenceSchema } from './user-preference.schema';
 import { UserPreferenceService } from './user-preference.service';
 
 @Resolver(() => UserPreference)
@@ -13,6 +16,7 @@ export class UserPreferenceResolver {
   constructor(private readonly userPreferenceService: UserPreferenceService) {}
 
   @Query(() => UserPreference)
+  @ValidateArgs({ projectId: uuidSchema })
   async getUserPreferences(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,
@@ -24,6 +28,7 @@ export class UserPreferenceResolver {
   }
 
   @Mutation(() => UserPreference)
+  @ValidateArgs({ projectId: uuidSchema, data: createUserPreferenceSchema })
   createUserPreferences(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,
@@ -36,6 +41,7 @@ export class UserPreferenceResolver {
   }
 
   @Mutation(() => UserPreference)
+  @ValidateArgs({ projectId: uuidSchema, data: updateUserPreferenceSchema })
   updateUserPreferences(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,

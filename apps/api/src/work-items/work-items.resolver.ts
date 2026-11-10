@@ -1,7 +1,8 @@
 import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
+import { userIdSchema, uuidSchema } from '@/common.schema';
 import type { Auth } from '../auth/auth';
-import { ZodValidationPipe } from '../zod-validation.pipe';
+import { ValidateArgs } from '../zod-validation.decorator';
 import { CreateWorkItemInput } from './work-items.input';
 import { AttachmentModel, CommentModel, WorkItemModel } from './work-items.model';
 import { type CreateWorkItem, createWorkItemSchema } from './work-items.schema';
@@ -12,6 +13,7 @@ export class WorkItemsResolver {
   constructor(private readonly workItemsService: WorkItemsService) {}
 
   @Query(() => WorkItemModel, { description: 'Get a single work item', nullable: true })
+  @ValidateArgs({ id: uuidSchema })
   workItemById(@Session() session: UserSession<Auth>, @Args('id', { type: () => ID }) id: string) {
     const { activeOrganizationId } = session.session;
     if (!activeOrganizationId) return null;
@@ -19,6 +21,7 @@ export class WorkItemsResolver {
   }
 
   @Query(() => [WorkItemModel], { description: 'Get all work items by project ID' })
+  @ValidateArgs({ projectId: uuidSchema })
   workItemsByProjectId(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,
@@ -33,6 +36,7 @@ export class WorkItemsResolver {
   }
 
   @Query(() => [WorkItemModel], { description: 'Get all work items by assignee' })
+  @ValidateArgs({ projectId: uuidSchema, userId: userIdSchema })
   workItemsByAssignee(
     @Session() session: UserSession<Auth>,
     @Args('projectId', { type: () => ID }) projectId: string,
@@ -49,6 +53,7 @@ export class WorkItemsResolver {
   }
 
   @Query(() => [CommentModel], { description: 'Get all comments for a work item' })
+  @ValidateArgs({ workItemId: uuidSchema })
   commentsByWorkItemId(
     @Session() session: UserSession<Auth>,
     @Args('workItemId', { type: () => ID }) workItemId: string,
@@ -63,6 +68,7 @@ export class WorkItemsResolver {
   }
 
   @Query(() => [AttachmentModel], { description: 'Get all attachments for a work item' })
+  @ValidateArgs({ workItemId: uuidSchema })
   attachmentsByWorkItemId(
     @Session() session: UserSession<Auth>,
     @Args('workItemId', { type: () => ID }) workItemId: string,
@@ -76,12 +82,13 @@ export class WorkItemsResolver {
     );
   }
 
+  @ValidateArgs({ input: createWorkItemSchema })
   @Mutation(() => WorkItemModel, {
     description: 'Create a new work item. The viewer is the reporter; it goes last in its group.',
   })
   createWorkItem(
     @Session() session: UserSession<Auth>,
-    @Args('input', { type: () => CreateWorkItemInput }, new ZodValidationPipe(createWorkItemSchema))
+    @Args('input', { type: () => CreateWorkItemInput })
     input: CreateWorkItem,
   ) {
     const { activeOrganizationId } = session.session;

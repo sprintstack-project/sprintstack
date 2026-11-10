@@ -218,6 +218,11 @@ const Backlog = () => {
             <Eyebrow>{`${workItems?.length ?? 0} items · ${sprints?.length ?? 0} sprint(s)`}</Eyebrow>
             <h1 className="headline text-7xl leading-none">Backlog</h1>
           </div>
+          <div className="hidden md:block">
+            <Button variant="secondary" size="lg" icon={PlusIcon} onClick={() => {}}>
+              New Sprint
+            </Button>
+          </div>
         </div>
         <div className="rounded-2xl border border-line bg-surface py-16">
           <EmptyState
