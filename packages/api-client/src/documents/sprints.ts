@@ -45,3 +45,13 @@ export const CurrentSprintQuery = graphql(
   `,
   [SprintFields],
 );
+
+export const CreateSprintMutation = graphql(
+  `mutation CreateSprint($endDate: DateTime!, $name: String!, $projectId: ID!, $startDate: DateTime!) {
+    createSprint(endDate: $endDate, name: $name, projectId: $projectId, startDate: $startDate) {
+        ...SprintFields
+    }
+  }
+  `,
+  [SprintFields],
+);

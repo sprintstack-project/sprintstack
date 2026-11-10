@@ -29,6 +29,7 @@ import { useId, useState } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
 import { NewWorkItem } from '../new-work-item';
 import { toPlannedItem } from '../new-work-item/data';
+import CreateSprint from './create-sprint';
 import {
   BACKLOG,
   BACKLOG_PAGE,
@@ -219,9 +220,11 @@ const Backlog = () => {
             <h1 className="headline text-7xl leading-none">Backlog</h1>
           </div>
           <div className="hidden md:block">
-            <Button variant="secondary" size="lg" icon={PlusIcon} onClick={() => {}}>
-              New Sprint
-            </Button>
+            <CreateSprint>
+              <Button variant="secondary" size="lg" icon={PlusIcon} onClick={() => {}}>
+                New Sprint
+              </Button>
+            </CreateSprint>
           </div>
         </div>
         <div className="rounded-2xl border border-line bg-surface py-16">

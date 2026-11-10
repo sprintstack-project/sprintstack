@@ -234,6 +234,17 @@ type Project {
   name: String!
 }
 
+type ProjectSettings {
+  carryOverIncompleteWork: Boolean!
+  createdAt: DateTime!
+  id: ID!
+  projectId: ID!
+  sprintDuration: Int
+  sprintStartsOn: Int
+  startSprintAutomatically: Boolean!
+  updatedAt: DateTime!
+}
+
 enum PushPlatform {
   android
   ios
@@ -259,6 +270,7 @@ type Query {
 
   """Get the current sprint"""
   currentSprint(projectId: ID!): Sprint
+  getProjectSettings(projectId: String!): ProjectSettings
   getUserPreferences(projectId: ID!): UserPreference!
 
   """

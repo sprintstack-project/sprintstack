@@ -1,4 +1,10 @@
-import { CurrentSprintQuery, SprintByIdQuery, SprintsQuery } from './documents/sprints';
+import { useMutation } from 'urql';
+import {
+  CreateSprintMutation,
+  CurrentSprintQuery,
+  SprintByIdQuery,
+  SprintsQuery,
+} from './documents/sprints';
 import useRootQuery from './useRootQuery';
 
 export const useGetAllSprints = (projectId?: string) =>
@@ -21,3 +27,5 @@ export const useGetCurrentSprint = (projectId?: string) =>
     variables: { projectId: projectId ?? '' },
     pause: !projectId,
   });
+
+export const useCreateSprint = () => useMutation(CreateSprintMutation);

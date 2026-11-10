@@ -27,6 +27,7 @@ import { ClientThrottlerGuard } from './throttler/client-throttler.guard';
 import { UserPreferenceModule } from './user-preference/user-preference.module.js';
 import { UsersModule } from './users/users.module';
 import { WorkItemsModule } from './work-items/work-items.module.js';
+import { ProjectSettingsModule } from './project-settings/project-settings.module.js';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { WorkItemsModule } from './work-items/work-items.module.js';
     WorkItemsModule,
     UserPreferenceModule,
     ActivityModule,
+    ProjectSettingsModule,
   ],
   controllers: [AppController, HealthController, RobotsController],
   providers: [
