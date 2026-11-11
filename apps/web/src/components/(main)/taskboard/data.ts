@@ -24,7 +24,7 @@ export const SPRINTS: Option[] = [
 /** The signed-in person, for "Assigned to me". */
 export const ME = 'Mira Okafor';
 
-export type ItemType = 'bug' | 'story' | 'task';
+export type ItemType = 'bug' | 'story' | 'task' | 'epic' | 'feature';
 
 export interface Person {
   name: string;

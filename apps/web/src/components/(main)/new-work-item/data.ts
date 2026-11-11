@@ -25,7 +25,14 @@ import {
   SquareCheck,
   UserRound,
 } from 'lucide-react';
-import { BACKLOG, PEOPLE, PLANNED_ITEMS, type PlannedItem, SPRINTS } from '../backlog/data';
+import {
+  asPlannedItem,
+  BACKLOG,
+  PEOPLE,
+  PLANNED_ITEMS,
+  type PlannedItem,
+  SPRINTS,
+} from '../backlog/data';
 import { EPICS } from '../timeline/data';
 
 // Placeholder data until work items are created through the API.
@@ -102,7 +109,7 @@ export interface Linkable {
 
 export const LINKABLE: Linkable[] = [
   ...EPICS.map((e) => ({ key: e.key, title: e.title, type: 'epic' as const })),
-  ...PLANNED_ITEMS.map((i) => ({ key: i.key, title: i.title, type: i.type })),
+  ...PLANNED_ITEMS.map(asPlannedItem).map((i) => ({ key: i.key, title: i.title, type: i.type })),
 ];
 
 export const findLinkable = (key: string) => LINKABLE.find((l) => l.key === key);

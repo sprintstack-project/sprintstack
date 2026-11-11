@@ -21,6 +21,7 @@ import Button from '@ui/button';
 import { buttonClass } from '@ui/button/button-class';
 import EmptyState from '@ui/empty-state';
 import Eyebrow from '@ui/eyebrow';
+import ProgressBar from '@ui/progress-bar';
 import { clsx } from 'clsx';
 import { format } from 'date-fns';
 import { PlusIcon } from 'lucide-react';
@@ -31,6 +32,7 @@ import { NewWorkItem } from '../new-work-item';
 import { toPlannedItem } from '../new-work-item/data';
 import CreateSprint from './create-sprint';
 import {
+  asPlannedItem,
   BACKLOG,
   BACKLOG_PAGE,
   filterItems,
@@ -68,19 +70,8 @@ const Capacity = ({ sprint, points }: { sprint: Sprint; points: number }) => {
   const over = points > sprint.capacity;
   return (
     <div className="flex items-center gap-4">
-      <div
-        role="progressbar"
-        aria-label={`${sprint.name} capacity`}
-        aria-valuenow={points}
-        aria-valuemin={0}
-        aria-valuemax={sprint.capacity}
-        aria-valuetext={`${points} of ${sprint.capacity} points`}
-        className="h-1.5 flex-1 overflow-hidden rounded-full bg-line lg:w-48 lg:flex-none"
-      >
-        <div
-          className={clsx('h-full rounded-full', over ? 'bg-danger' : 'bg-ink')}
-          style={{ width: `${Math.min(100, (points / sprint.capacity) * 100)}%` }}
-        />
+      <div className="flex-1 lg:w-48 lg:flex-none">
+        <ProgressBar label={`${sprint.name} capacity`} value={(points / sprint.capacity) * 100} />
       </div>
       <span
         className={clsx(
@@ -95,7 +86,7 @@ const Capacity = ({ sprint, points }: { sprint: Sprint; points: number }) => {
 };
 
 const Backlog = () => {
-  const [allItems, setAllItems] = useState(PLANNED_ITEMS);
+  const [allItems, setAllItems] = useState(() => PLANNED_ITEMS.map(asPlannedItem));
   const [filters, setFilters] = useState(NO_FILTERS);
   const [collapsed, setCollapsed] = useState<string[]>([]);
   const [showAll, setShowAll] = useState(false);
@@ -121,8 +112,6 @@ const Backlog = () => {
   const onCreate = () => {};
 
   const onImport = () => {};
-
-  console.log(sprints);
 
   const collapse = (group: string) => ({
     collapsed: collapsed.includes(group),

@@ -28,6 +28,8 @@ const types = {
   bug: { icon: Bug, label: 'Bug', className: 'bg-danger text-on-danger' },
   story: { icon: Bookmark, label: 'Story', className: 'bg-success-subtle text-success-ink' },
   task: { icon: SquareCheck, label: 'Task', className: 'bg-info-subtle text-info-ink' },
+  epic: { icon: Equal, label: 'Epic', className: 'bg-warning-subtle text-warning-ink' },
+  feature: { icon: Equal, label: 'Feature', className: 'bg-warning-subtle text-warning-ink' },
 } satisfies Record<ItemType, unknown>;
 
 export const TypeIcon = ({ type }: { type: ItemType }) => {
@@ -105,14 +107,14 @@ export const Avatar = ({ person, size = 'md' }: { person: Person | null; size?: 
   );
 };
 
-export const Points = ({ points }: { points: number }) => (
+export const Points = ({ points }: { points: number | null }) => (
   <span
     role="img"
     aria-label={`${points} points`}
     title={`${points} points`}
     className="grid size-8 shrink-0 place-items-center rounded-full border-[1.5px] border-ink-muted text-meta font-bold text-ink tabular-nums"
   >
-    {points}
+    {points ?? '-'}
   </span>
 );
 
