@@ -2,13 +2,13 @@
 
 import FilterSelect from '@ui/filter-select';
 import { Search } from 'lucide-react';
+import { ASSIGNEE_OPTIONS, type Filters } from '../backlog/data';
 import {
   STATUS_OPTIONS,
   type StatusFilter,
   TYPE_OPTIONS,
   type TypeFilter,
 } from '../taskboard/data';
-import { ASSIGNEE_OPTIONS, type Filters } from './data';
 
 interface ToolbarProps {
   filters: Filters;
