@@ -109,7 +109,8 @@ const Sprint: React.FC<ISprintProps> = ({ sprint }) => {
   const { data: backlogItems } = useGetWorkItemsInBacklog(isBacklog ? projectId : undefined);
   const items = isBacklog ? backlogItems : sprintItems;
   const points: number = items?.reduce((sum, item) => sum + (item.points ?? 0), 0) ?? 0;
-  const overCapacity = points > sprint.capacity;
+  const capacity = sprint.capacity ?? 0;
+  const overCapacity = points > capacity;
 
   if (!items) return null;
 
@@ -153,13 +154,13 @@ const Sprint: React.FC<ISprintProps> = ({ sprint }) => {
           </span>
         </div>
         {meta && <p className="-mt-1 text-meta text-ink-muted lg:hidden">{meta}</p>}
-        {sprint.capacity > 0 && (
+        {capacity > 0 && (
           <div className="flex items-center gap-4">
             {overCapacity && <AlertOctagon className="size-6 text-danger" />}
             <div className="flex-1 lg:w-48 lg:flex-none">
               <ProgressBar
                 label={`${sprint.name} capacity`}
-                value={(points / sprint.capacity) * 100}
+                value={(points / capacity) * 100}
                 color={overCapacity ? 'danger' : 'primary'}
               />
             </div>
@@ -169,7 +170,7 @@ const Sprint: React.FC<ISprintProps> = ({ sprint }) => {
                 overCapacity ? 'text-danger' : 'text-ink-muted',
               )}
             >
-              {points} / {sprint.capacity} pts
+              {points} / {capacity} pts
             </span>
           </div>
         )}

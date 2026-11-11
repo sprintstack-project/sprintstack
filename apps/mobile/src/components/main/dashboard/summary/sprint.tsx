@@ -20,7 +20,7 @@ const SprintTile = ({ sprint: query }: { sprint: QueryState<Sprint | null> }) =>
             <View className="flex-row items-center justify-between gap-3">
               <Text className="flex-1 text-eyebrow font-bold uppercase text-on-ink">
                 {sprint &&
-                  `${sprint.name} · ${format(sprint.startDate, 'd MMM')}${sprint.endDate ? ` – ${format(sprint.endDate, 'd MMM')}` : ''}`}
+                  `${sprint.name}${sprint.startDate ? ` · ${format(sprint.startDate, 'd MMM')}` : ''}${sprint.endDate ? ` – ${format(sprint.endDate, 'd MMM')}` : ''}`}
               </Text>
               <View className="h-7 justify-center rounded-full bg-brand px-3">
                 <Text className="text-[0.8125rem] leading-4 font-extrabold uppercase tracking-[.4px] text-on-brand">

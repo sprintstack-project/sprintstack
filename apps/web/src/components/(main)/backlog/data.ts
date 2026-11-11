@@ -17,7 +17,7 @@ export interface Sprint {
   state: 'active' | 'planned' | 'closed';
   start?: Date;
   end?: Date;
-  capacity: number;
+  capacity: number | null;
 }
 
 const PROJECT_ID = '019a0c3e-1f00-7000-8000-000000000001';

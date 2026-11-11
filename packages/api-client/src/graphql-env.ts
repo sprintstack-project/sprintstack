@@ -697,6 +697,10 @@ const introspection = {
       },
       {
         "kind": "SCALAR",
+        "name": "Float"
+      },
+      {
+        "kind": "SCALAR",
         "name": "ID"
       },
       {
@@ -2173,6 +2177,15 @@ const introspection = {
         "name": "Sprint",
         "fields": [
           {
+            "name": "capacity",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float"
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
             "name": "endDate",
             "type": {
               "kind": "SCALAR",
@@ -2217,11 +2230,8 @@ const introspection = {
           {
             "name": "startDate",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime"
-              }
+              "kind": "SCALAR",
+              "name": "DateTime"
             },
             "args": [],
             "isDeprecated": false

@@ -18,7 +18,8 @@ const SprintTile = ({ sprint: sprintPromise }: { sprint: Promise<Sprint | null> 
             <div className="flex items-center justify-between gap-3">
               {sprint && (
                 <span className="eyebrow text-current">
-                  {sprint.name} · {format(sprint.startDate, 'd MMM')}
+                  {sprint.name}
+                  {sprint.startDate && ` · ${format(sprint.startDate, 'd MMM')}`}
                   {sprint.endDate && ` – ${format(sprint.endDate, 'd MMM')}`}
                 </span>
               )}
