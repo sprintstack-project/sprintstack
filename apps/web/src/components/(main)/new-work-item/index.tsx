@@ -4,6 +4,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import { Tabs } from '@base-ui/react/tabs';
 import { PortalContainerProvider } from '@lib/portal-container';
 import { useSearchMentions } from '@sprintstack/api-client/users';
+import { useCreateWorkItem } from '@sprintstack/api-client/work-items';
 import { useAppForm } from '@sprintstack/forms/form';
 import { type NewWorkItem as Created, workItemSchema } from '@sprintstack/shared/schemas/work-item';
 import { useSelector } from '@tanstack/react-form';
@@ -24,7 +25,7 @@ import {
 } from 'lucide-react';
 import { type RefObject, useEffect, useRef, useState } from 'react';
 import { AttachmentsTab } from './attachments-tab';
-import { emptyWorkItem, NONE, workItemForm } from './data';
+import { emptyWorkItem, NONE, toCreateWorkItemInput, workItemForm } from './data';
 import { CriteriaField, DescriptionMeta } from './description-tab';
 import { clearDraft, loadDraft, saveDraft } from './draft';
 import { LinksField } from './links-tab';
@@ -79,7 +80,7 @@ const TabLabel = ({
 );
 
 interface BodyProps {
-  sprint?: string | null;
+  sprintId?: string | null;
   onCreate: (item: Created) => void;
   onClose: () => void;
   expanded: boolean;
@@ -89,7 +90,14 @@ interface BodyProps {
 }
 
 /** Mounted while the dialog is open, so each opening starts from the saved draft (or blank). */
-const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRef }: BodyProps) => {
+const Body = ({
+  sprintId,
+  onCreate,
+  onClose,
+  expanded,
+  onExpandedChange,
+  discardRef,
+}: BodyProps) => {
   const [draft] = useState(loadDraft);
   const [savedAt, setSavedAt] = useState(draft?.savedAt ?? null);
   const [tab, setTab] = useState<Tab>('description');
@@ -104,7 +112,8 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
   const { options: sprintOptions, currentSprintId } = useSprintOptions();
   const form = useAppForm({
     ...workItemForm,
-    defaultValues: draft?.values ?? emptyWorkItem(sprint === undefined ? currentSprintId : sprint),
+    defaultValues:
+      draft?.values ?? emptyWorkItem(sprintId === undefined ? currentSprintId : sprintId),
     onSubmit: ({ value }) => {
       if (uploads.pending > 0) {
         setWaitingForUploads(true);
@@ -139,10 +148,10 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
   // The active sprint can land after the dialog opens: put a fresh item in it unless a draft,
   // the caller or the person already chose a sprint.
   useEffect(() => {
-    if (sprint !== undefined || draft || !currentSprintId) return;
+    if (sprintId !== undefined || draft || !currentSprintId) return;
     if (form.getFieldMeta('sprintId')?.isDirty) return;
     form.setFieldValue('sprintId', currentSprintId, { dontUpdateMeta: true });
-  }, [sprint, draft, currentSprintId, form]);
+  }, [sprintId, draft, currentSprintId, form]);
 
   // Save the draft shortly after typing stops. Uploads still going are left out.
   const doneFiles = uploads.uploads.filter((u) => u.status === 'done');
@@ -346,21 +355,26 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
 interface NewWorkItemProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Called with the validated item when it's created. */
-  onCreate: (item: Created) => void;
-  /** The sprint a new item starts in; null for the backlog. Defaults to the active sprint. */
-  sprint?: string | null;
+  projectId: string;
+  sprintId?: string | null;
 }
 
 /**
  * Creating a work item: a panel over the page from the right (or the whole window, expanded).
  * Closing keeps a draft; Esc and Discard throw it away.
  */
-export const NewWorkItem = ({ open, onOpenChange, onCreate, sprint }: NewWorkItemProps) => {
+export const NewWorkItem = ({ open, onOpenChange, projectId, sprintId }: NewWorkItemProps) => {
   const [expanded, setExpanded] = useState(false);
   // Menus open inside the panel, so they sit above it and stay in its focus trap.
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const discardRef = useRef<(() => void) | null>(null);
+  const [, createWorkItem] = useCreateWorkItem();
+
+  const onCreate = (item: Created) => {
+    createWorkItem({
+      input: toCreateWorkItemInput(item, projectId),
+    });
+  };
 
   return (
     <Dialog.Root
@@ -388,7 +402,7 @@ export const NewWorkItem = ({ open, onOpenChange, onCreate, sprint }: NewWorkIte
         >
           <PortalContainerProvider value={container}>
             <Body
-              sprint={sprint}
+              sprintId={sprintId}
               onCreate={onCreate}
               onClose={() => onOpenChange(false)}
               expanded={expanded}

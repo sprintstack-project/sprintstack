@@ -1,13 +1,11 @@
 'use client';
 
 import { useGetAllSprints } from '@sprintstack/api-client/sprints';
-import { useCreateWorkItem } from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
 import { NewWorkItem } from '../new-work-item';
-import { toCreateWorkItemInput } from '../new-work-item/data';
 import BacklogDndList from './backlog-dnd-list';
 import { NO_FILTERS } from './data';
 import Toolbar from './toolbar';
@@ -17,7 +15,6 @@ const Backlog = () => {
   const [filters, setFilters] = useState(NO_FILTERS);
   const { projectId } = useProjectContext();
   const { data: sprints } = useGetAllSprints(projectId);
-  const [, createWorkItem] = useCreateWorkItem();
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 md:p-8">
@@ -35,18 +32,14 @@ const Backlog = () => {
           </Button>
         </div>
       </div>
-      <NewWorkItem
-        open={creating !== null}
-        onOpenChange={(open) => !open && setCreating(null)}
-        sprint={creating?.sprint}
-        onCreate={async (item) => {
-          projectId &&
-            (await createWorkItem({
-              input: toCreateWorkItemInput(item, projectId),
-            }));
-          setCreating(null);
-        }}
-      />
+      {projectId && (
+        <NewWorkItem
+          open={creating !== null}
+          onOpenChange={(open) => !open && setCreating(null)}
+          sprintId={creating?.sprint}
+          projectId={projectId}
+        />
+      )}
       <Toolbar filters={filters} onFiltersChange={setFilters} />
       <BacklogDndList />
     </div>

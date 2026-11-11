@@ -79,19 +79,9 @@ const Taskboard = () => {
             />
           </section>
         </div>
-        <NewWorkItem
-          open={creating}
-          onOpenChange={setCreating}
-          onCreate={(item) =>
-            setAllItems((all) => [
-              toPlannedItem(
-                item,
-                all.map((i) => i.key),
-              ),
-              ...all,
-            ])
-          }
-        />
+        {projectId && (
+          <NewWorkItem open={creating} onOpenChange={setCreating} projectId={projectId} />
+        )}
       </div>
     );
   }
@@ -110,19 +100,9 @@ const Taskboard = () => {
           New work item
         </Button>
       </div>
-      <NewWorkItem
-        open={creating}
-        onOpenChange={setCreating}
-        onCreate={(item) =>
-          setAllItems((all) => [
-            toPlannedItem(
-              item,
-              all.map((i) => i.key),
-            ),
-            ...all,
-          ])
-        }
-      />
+      {projectId && (
+        <NewWorkItem open={creating} onOpenChange={setCreating} projectId={projectId} />
+      )}
       <Toolbar
         sprint={sprint}
         onSprintChange={setSprint}
