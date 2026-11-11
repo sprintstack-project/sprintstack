@@ -17,7 +17,7 @@ import { AlertOctagon, ChevronDown, Ellipsis, GripVertical, ListPlus } from 'luc
 import Link from 'next/link';
 import { useId, useState } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
-import type { Sprint as SprintType } from '../backlog/data';
+import type { Sprint as SprintType } from './data';
 import WorkItemRow from './work-item-row';
 
 interface ISprintProps {

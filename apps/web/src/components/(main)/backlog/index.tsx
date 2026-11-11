@@ -6,10 +6,10 @@ import Button from '@ui/button';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useProjectContext } from '@/providers/(main)/project';
-import { NO_FILTERS } from '../backlog/data';
 import { NewWorkItem } from '../new-work-item';
 import { toCreateWorkItemInput } from '../new-work-item/data';
 import BacklogDndList from './backlog-dnd-list';
+import { NO_FILTERS } from './data';
 import Toolbar from './toolbar';
 
 const Backlog = () => {
