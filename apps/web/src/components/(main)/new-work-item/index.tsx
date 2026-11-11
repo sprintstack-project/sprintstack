@@ -24,11 +24,12 @@ import {
 } from 'lucide-react';
 import { type RefObject, useEffect, useRef, useState } from 'react';
 import { AttachmentsTab } from './attachments-tab';
-import { emptyWorkItem, NONE, SPRINT_OPTIONS, workItemForm } from './data';
+import { emptyWorkItem, NONE, workItemForm } from './data';
 import { CriteriaField, DescriptionMeta } from './description-tab';
 import { clearDraft, loadDraft, saveDraft } from './draft';
 import { LinksField } from './links-tab';
 import { Properties } from './properties';
+import { useSprintOptions } from './use-sprint-options';
 import { useUploads } from './use-uploads';
 
 type Tab = 'description' | 'links' | 'attachments';
@@ -100,9 +101,10 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
   );
 
   const searchMentions = useSearchMentions();
+  const { options: sprintOptions, currentSprintId } = useSprintOptions();
   const form = useAppForm({
     ...workItemForm,
-    defaultValues: draft?.values ?? emptyWorkItem(sprint),
+    defaultValues: draft?.values ?? emptyWorkItem(sprint === undefined ? currentSprintId : sprint),
     onSubmit: ({ value }) => {
       if (uploads.pending > 0) {
         setWaitingForUploads(true);
@@ -132,7 +134,15 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
   );
   const waiting = waitingForUploads && uploads.pending > 0;
   const sprintName =
-    SPRINT_OPTIONS.find((o) => o.value === (values.sprint ?? NONE))?.label ?? 'Backlog';
+    sprintOptions.find((o) => o.value === (values.sprintId ?? NONE))?.label ?? 'Backlog';
+
+  // The active sprint can land after the dialog opens: put a fresh item in it unless a draft,
+  // the caller or the person already chose a sprint.
+  useEffect(() => {
+    if (sprint !== undefined || draft || !currentSprintId) return;
+    if (form.getFieldMeta('sprintId')?.isDirty) return;
+    form.setFieldValue('sprintId', currentSprintId, { dontUpdateMeta: true });
+  }, [sprint, draft, currentSprintId, form]);
 
   // Save the draft shortly after typing stops. Uploads still going are left out.
   const doneFiles = uploads.uploads.filter((u) => u.status === 'done');
@@ -235,7 +245,7 @@ const Body = ({ sprint, onCreate, onClose, expanded, onExpandedChange, discardRe
             aria-label="Details"
             className="border-y border-line px-6 py-8 md:px-10 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:border-y-0 lg:border-l lg:px-8"
           >
-            <Properties form={form} />
+            <Properties form={form} sprintOptions={sprintOptions} />
           </aside>
 
           <Tabs.Root

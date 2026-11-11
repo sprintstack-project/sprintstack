@@ -2,11 +2,11 @@
 
 import { withForm } from '@sprintstack/forms/form';
 import { MORE_STORY_POINTS, STORY_POINTS } from '@sprintstack/shared/schemas/work-item';
+import type { Option } from '@ui/types';
 import {
   ASSIGNEE_OPTIONS,
   NONE,
   PRIORITY_OPTIONS,
-  SPRINT_OPTIONS,
   STATUS_OPTIONS,
   TAG_OPTIONS,
   TYPE_OPTIONS,
@@ -16,7 +16,8 @@ import {
 /** The item's details beside the title and tabs: what it is, who has it, when and how big. */
 export const Properties = withForm({
   ...workItemForm,
-  render: ({ form }) => (
+  props: { sprintOptions: [] as Option[] },
+  render: ({ form, sprintOptions }) => (
     <div className="flex flex-col gap-6">
       <form.AppField name="type">
         {(f) => <f.SelectField label="Type" placeholder="Choose a type" options={TYPE_OPTIONS} />}
@@ -25,8 +26,8 @@ export const Properties = withForm({
         {(f) => <f.SelectField label="Status" options={STATUS_OPTIONS} />}
       </form.AppField>
       <div className="grid grid-cols-2 gap-4">
-        <form.AppField name="sprint">
-          {(f) => <f.SelectField label="Sprint" options={SPRINT_OPTIONS} nullValue={NONE} />}
+        <form.AppField name="sprintId">
+          {(f) => <f.SelectField label="Sprint" options={sprintOptions} nullValue={NONE} />}
         </form.AppField>
         <form.AppField name="priority">
           {(f) => <f.SelectField label="Priority" options={PRIORITY_OPTIONS} />}
@@ -38,11 +39,11 @@ export const Properties = withForm({
         )}
       </form.AppField>
       <div className="grid grid-cols-2 gap-4">
-        <form.AppField name="start">
+        <form.AppField name="startDate">
           {(f) => <f.DateField label="Start" placeholder="Not set" />}
         </form.AppField>
         {/* Re-checked when the start moves, so "target before start" shows either way round. */}
-        <form.AppField name="target" validators={{ onChangeListenTo: ['start'] }}>
+        <form.AppField name="targetDate" validators={{ onChangeListenTo: ['startDate'] }}>
           {(f) => <f.DateField label="Target" placeholder="Not set" />}
         </form.AppField>
       </div>

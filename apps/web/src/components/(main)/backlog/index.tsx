@@ -178,7 +178,11 @@ const Backlog = () => {
         id={sprint.id}
         title={sprint.name}
         badge={<SprintState state={sprint.state} />}
-        meta={`${format(sprint.start, 'd MMM')} – ${format(sprint.end, 'd MMM')}`}
+        meta={
+          sprint.start &&
+          sprint.end &&
+          `${format(sprint.start, 'd MMM')} – ${format(sprint.end, 'd MMM')}`
+        }
         aside={<Capacity sprint={sprint} points={sumPoints(planned)} />}
         action={
           sprint.state === 'active' ? (

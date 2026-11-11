@@ -179,6 +179,9 @@ type Mutation {
     name: String
   ): Me!
   updateUserPreferences(data: UpdateUserPreferenceInput!, projectId: ID!): UserPreference!
+
+  """Update an existing work item."""
+  updateWorkItem(input: UpdateWorkItemInput!): WorkItem!
 }
 
 type Notification {
@@ -322,14 +325,21 @@ type Query {
 
   """Get all work items by project ID"""
   workItemsByProjectId(projectId: ID!): [WorkItem!]!
+
+  """Get all work items by sprint ID"""
+  workItemsBySprintId(sprintId: ID!): [WorkItem!]!
+
+  """Get all work items in the backlog"""
+  workItemsInBacklog(projectId: ID!): [WorkItem!]!
 }
 
 type Sprint {
+  capacity: Float
   endDate: DateTime
   goal: String
   id: ID!
   name: String!
-  startDate: DateTime!
+  startDate: DateTime
   state: SprintState!
 }
 
@@ -342,6 +352,35 @@ enum SprintState {
 input UpdateUserPreferenceInput {
   theme: String
   widgets: [String!]
+}
+
+"""Only the fields sent change. Null clears a field that can be empty."""
+input UpdateWorkItemInput {
+  assigneeId: ID
+  atRisk: Boolean
+
+  """
+  Acceptance criteria as a JSON-encoded array of { given, when, outcome }.
+  """
+  criteria: String
+
+  """Tiptap JSON document, JSON-encoded."""
+  description: String
+  id: ID!
+  parentId: ID
+  points: Int
+  priority: Priority
+
+  """Null moves the item to the backlog."""
+  sprintId: ID
+  startDate: DateTime
+  status: WorkItemStatus
+
+  """Replaces the tags; send [] to clear."""
+  tags: [String!]
+  targetDate: DateTime
+  title: String
+  type: WorkItemType
 }
 
 type UploadUrlFieldModel {

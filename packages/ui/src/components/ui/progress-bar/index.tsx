@@ -1,6 +1,6 @@
 import type { ProgressBarProps } from '@ui/types';
 
-const ProgressBar = ({ label, value, showValue }: ProgressBarProps) => {
+const ProgressBar = ({ label, value, showValue, color }: ProgressBarProps) => {
   const pct = value === undefined ? undefined : Math.round(Math.min(100, Math.max(0, value)));
   const bar = (
     <div
@@ -9,13 +9,13 @@ const ProgressBar = ({ label, value, showValue }: ProgressBarProps) => {
       aria-valuenow={pct}
       aria-valuemin={0}
       aria-valuemax={100}
-      className="h-[0.1875rem] min-w-0 flex-1 overflow-hidden rounded-full bg-brand-subtle"
+      className="h-0.75 min-w-0 flex-1 overflow-hidden rounded-full bg-brand-subtle"
     >
       {pct === undefined ? (
         <div className="progress-sweep h-full rounded-full bg-brand" />
       ) : (
         <div
-          className="h-full rounded-full bg-brand transition-[width] duration-200 ease-out motion-reduce:transition-none"
+          className={`h-full rounded-full transition-[width] duration-200 ease-out motion-reduce:transition-none ${color === 'danger' ? 'bg-danger' : 'bg-brand'}`}
           style={{ width: `${pct}%` }}
         />
       )}

@@ -16,7 +16,7 @@ export class SprintModel {
   @Field(() => String, { nullable: true })
   goal: string;
 
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   startDate: Date;
 
   @Field(() => Date, { nullable: true })
@@ -24,4 +24,7 @@ export class SprintModel {
 
   @Field(() => SprintState)
   state: SprintState;
+
+  @Field(() => Number, { nullable: true })
+  capacity: number;
 }

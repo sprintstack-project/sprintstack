@@ -3,9 +3,14 @@ import { Session, type UserSession } from '@thallesp/nestjs-better-auth';
 import { userIdSchema, uuidSchema } from '@/common.schema';
 import type { Auth } from '../auth/auth';
 import { ValidateArgs } from '../zod-validation.decorator';
-import { CreateWorkItemInput } from './work-items.input';
+import { CreateWorkItemInput, UpdateWorkItemInput } from './work-items.input';
 import { AttachmentModel, CommentModel, WorkItemModel } from './work-items.model';
-import { type CreateWorkItem, createWorkItemSchema } from './work-items.schema';
+import {
+  type CreateWorkItem,
+  createWorkItemSchema,
+  type UpdateWorkItem,
+  updateWorkItemSchema,
+} from './work-items.schema';
 import { WorkItemsService } from './work-items.service';
 
 @Resolver(() => WorkItemModel)
@@ -33,6 +38,27 @@ export class WorkItemsResolver {
       session.user.id,
       projectId,
     );
+  }
+
+  @Query(() => [WorkItemModel], { description: 'Get all work items by sprint ID' })
+  @ValidateArgs({ sprintId: uuidSchema })
+  workItemsBySprintId(
+    @Session() session: UserSession<Auth>,
+    @Args('sprintId', { type: () => ID }) sprintId: string,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return [];
+    return this.workItemsService.getAllBySprintId(activeOrganizationId, session.user.id, sprintId);
+  }
+
+  @Query(() => [WorkItemModel], { description: 'Get all work items in the backlog' })
+  workItemsInBacklog(
+    @Session() session: UserSession<Auth>,
+    @Args('projectId', { type: () => ID }) projectId: string,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return [];
+    return this.workItemsService.getAllInBacklog(activeOrganizationId, session.user.id, projectId);
   }
 
   @Query(() => [WorkItemModel], { description: 'Get all work items by assignee' })
@@ -94,6 +120,20 @@ export class WorkItemsResolver {
     const { activeOrganizationId } = session.session;
     if (!activeOrganizationId) return null;
     return this.workItemsService.create(activeOrganizationId, session.user.id, input);
+  }
+
+  @ValidateArgs({ input: updateWorkItemSchema })
+  @Mutation(() => WorkItemModel, {
+    description: 'Update an existing work item.',
+  })
+  updateWorkItem(
+    @Session() session: UserSession<Auth>,
+    @Args('input', { type: () => UpdateWorkItemInput })
+    input: UpdateWorkItem,
+  ) {
+    const { activeOrganizationId } = session.session;
+    if (!activeOrganizationId) return null;
+    return this.workItemsService.update(activeOrganizationId, session.user.id, input);
   }
 
   @ResolveField(() => String)

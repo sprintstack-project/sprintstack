@@ -25,7 +25,7 @@ export const Properties = withForm({
       </form.AppField>
       <View className="flex-row gap-4">
         <View className="flex-1">
-          <form.AppField name="sprint">
+          <form.AppField name="sprintId">
             {(f) => <f.SelectField label="Sprint" options={SPRINT_OPTIONS} nullValue={NONE} />}
           </form.AppField>
         </View>
@@ -42,13 +42,13 @@ export const Properties = withForm({
       </form.AppField>
       <View className="flex-row gap-4">
         <View className="flex-1">
-          <form.AppField name="start">
+          <form.AppField name="startDate">
             {(f) => <f.DateField label="Start" placeholder="Not set" />}
           </form.AppField>
         </View>
         <View className="flex-1">
           {/* Re-checked when the start moves, so "target before start" shows either way round. */}
-          <form.AppField name="target" validators={{ onChangeListenTo: ['start'] }}>
+          <form.AppField name="targetDate" validators={{ onChangeListenTo: ['startDate'] }}>
             {(f) => <f.DateField label="Target" placeholder="Not set" />}
           </form.AppField>
         </View>

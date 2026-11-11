@@ -497,6 +497,8 @@ export interface ProgressBarProps {
   value?: number;
   /** Determinate: a % label beside the track, for imports and uploads. */
   showValue?: boolean;
+  /** Colour of the progress bar, e.g. 'primary' or 'danger'. */
+  color?: 'primary' | 'danger';
 }
 
 /** Inline save feedback next to what changed. Never a modal. */

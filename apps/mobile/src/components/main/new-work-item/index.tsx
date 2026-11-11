@@ -131,7 +131,7 @@ const Body = ({ sprint, onCreate, onClose }: BodyProps) => {
       : 0,
   );
   const sprintName =
-    SPRINT_OPTIONS.find((o) => o.value === (values.sprint ?? NONE))?.label ?? 'Backlog';
+    SPRINT_OPTIONS.find((o) => o.value === (values.sprintId ?? NONE))?.label ?? 'Backlog';
 
   // Keep the draft shortly after typing stops.
   const snapshot = JSON.stringify(values);

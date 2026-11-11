@@ -5,7 +5,9 @@
 //
 // SEED_ORG can be left out when there's only one organization. Run it again whenever: the demo
 // people are upserted, and the Payments and iOS app projects (with their sprints, work items,
-// activity, attachments and dashboard preferences) and the demo people's time off are replaced. The organization's own members join both
+// activity, attachments and dashboard preferences) and the demo people's time off are replaced.
+// Payments gets Sprints 21–27: three closed (with finished items for velocity), Sprint 24
+// active, and three planned, the last one empty. The organization's own members join both
 // projects, so the signed-in person sees them.
 
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -72,9 +74,11 @@ const IOS = { key: 'IOS', name: 'iOS app', description: null, methodology: 'kanb
 
 const HOLIDAYS = [{ date: '2026-10-30', name: 'Company holiday' }];
 
+/** Two-week sprints in the order they run. Work items point at them by `id`. */
 const SPRINTS: {
   id: string;
   name: string;
+  goal?: string;
   start: string;
   end: string;
   state: SprintState;
@@ -82,8 +86,29 @@ const SPRINTS: {
   closedAt?: string;
 }[] = [
   {
+    id: 's21',
+    name: 'Sprint 21',
+    goal: 'Strong customer authentication behind a flag for EU cards.',
+    start: '2026-09-07',
+    end: '2026-09-20',
+    state: 'closed',
+    startedAt: '2026-09-07T08:00:00Z',
+    closedAt: '2026-09-20T16:00:00Z',
+  },
+  {
+    id: 's22',
+    name: 'Sprint 22',
+    goal: 'Roll SCA out to every EU merchant and start on 3-D Secure.',
+    start: '2026-09-21',
+    end: '2026-10-04',
+    state: 'closed',
+    startedAt: '2026-09-21T08:00:00Z',
+    closedAt: '2026-10-02T16:30:00Z',
+  },
+  {
     id: 's23',
     name: 'Sprint 23',
+    goal: '3-D Secure challenge flow and the saved cards groundwork.',
     start: '2026-10-05',
     end: '2026-10-18',
     state: 'closed',
@@ -93,12 +118,29 @@ const SPRINTS: {
   {
     id: 's24',
     name: 'Sprint 24',
+    goal: 'Ship saved cards and Apple Pay to 10% of web checkout.',
     start: '2026-10-19',
     end: '2026-11-01',
     state: 'active',
     startedAt: '2026-10-19T08:00:00Z',
   },
-  { id: 's25', name: 'Sprint 25', start: '2026-11-02', end: '2026-11-15', state: 'planned' },
+  {
+    id: 's25',
+    name: 'Sprint 25',
+    goal: 'Payout retries and the new receipt email.',
+    start: '2026-11-02',
+    end: '2026-11-15',
+    state: 'planned',
+  },
+  {
+    id: 's26',
+    name: 'Sprint 26',
+    goal: 'Refunds groundwork and checkout reliability.',
+    start: '2026-11-16',
+    end: '2026-11-29',
+    state: 'planned',
+  },
+  { id: 's27', name: 'Sprint 27', start: '2026-11-30', end: '2026-12-13', state: 'planned' },
 ];
 
 const TIME_OFF: { person: Person; type: TimeOffType; start: string; end: string }[] = [
@@ -218,6 +260,202 @@ const EPICS: Item[] = [
 
 /** Sprints and backlog in rank order: within a group, earlier items come first. */
 const ITEMS: Item[] = [
+  // Sprint 21 (closed): everything finished, for velocity and sprint history.
+  {
+    number: 1417,
+    title: 'SCA exemption rules for low-value payments',
+    type: 'story',
+    status: 'done',
+    priority: 'high',
+    points: 8,
+    assignee: 'jonas',
+    sprint: 's21',
+    tags: ['compliance'],
+    parent: 1431,
+    completedAt: '2026-09-16T14:20:00Z',
+  },
+  {
+    number: 1418,
+    title: 'Challenge screen for card authentication',
+    type: 'story',
+    status: 'done',
+    priority: 'high',
+    points: 5,
+    assignee: 'dev',
+    sprint: 's21',
+    tags: ['compliance', 'web'],
+    parent: 1431,
+    completedAt: '2026-09-18T10:05:00Z',
+  },
+  {
+    number: 1419,
+    title: 'Feature flag for SCA per merchant',
+    type: 'task',
+    status: 'done',
+    priority: 'medium',
+    points: 2,
+    assignee: 'aiko',
+    sprint: 's21',
+    tags: ['compliance'],
+    parent: 1431,
+    completedAt: '2026-09-09T16:40:00Z',
+  },
+  {
+    number: 1420,
+    title: 'Authentication timeout leaves order pending',
+    type: 'bug',
+    status: 'done',
+    priority: 'high',
+    points: 3,
+    assignee: 'jonas',
+    sprint: 's21',
+    tags: ['checkout'],
+    parent: 1431,
+    completedAt: '2026-09-19T11:30:00Z',
+  },
+  {
+    number: 1421,
+    title: 'Ledger entries for authorisation holds',
+    type: 'task',
+    status: 'done',
+    priority: 'medium',
+    points: 5,
+    assignee: 'sara',
+    sprint: 's21',
+    tags: ['ledger'],
+    completedAt: '2026-09-17T15:00:00Z',
+  },
+  // Sprint 22 (closed)
+  {
+    number: 1422,
+    title: 'Roll out SCA to all EU merchants',
+    type: 'task',
+    status: 'done',
+    priority: 'highest',
+    points: 3,
+    assignee: 'mira',
+    sprint: 's22',
+    tags: ['compliance'],
+    parent: 1431,
+    completedAt: '2026-10-01T09:00:00Z',
+  },
+  {
+    number: 1423,
+    title: 'SCA audit log for regulators',
+    type: 'story',
+    status: 'done',
+    priority: 'high',
+    points: 5,
+    assignee: 'aiko',
+    sprint: 's22',
+    tags: ['compliance', 'security'],
+    parent: 1431,
+    completedAt: '2026-09-29T13:45:00Z',
+  },
+  {
+    number: 1424,
+    title: 'Pick a 3-D Secure provider',
+    type: 'task',
+    status: 'done',
+    priority: 'high',
+    points: 2,
+    assignee: 'mira',
+    sprint: 's22',
+    tags: ['compliance'],
+    parent: 1432,
+    completedAt: '2026-09-24T12:00:00Z',
+  },
+  {
+    number: 1425,
+    title: 'Challenge iframe cut off on small screens',
+    type: 'bug',
+    status: 'done',
+    priority: 'medium',
+    points: 2,
+    assignee: 'dev',
+    sprint: 's22',
+    tags: ['web'],
+    parent: 1431,
+    completedAt: '2026-09-25T17:10:00Z',
+  },
+  {
+    number: 1426,
+    title: 'Card fingerprinting for fraud scoring',
+    type: 'story',
+    status: 'done',
+    priority: 'medium',
+    points: 8,
+    assignee: 'jonas',
+    sprint: 's22',
+    tags: ['security'],
+    completedAt: '2026-10-02T15:20:00Z',
+  },
+  // Sprint 23 (closed)
+  {
+    number: 1427,
+    title: '3-D Secure challenge flow on web',
+    type: 'story',
+    status: 'done',
+    priority: 'high',
+    points: 8,
+    assignee: 'dev',
+    sprint: 's23',
+    tags: ['compliance', 'web'],
+    parent: 1432,
+    completedAt: '2026-10-15T16:00:00Z',
+  },
+  {
+    number: 1428,
+    title: 'Store card tokens with the vault',
+    type: 'story',
+    status: 'done',
+    priority: 'high',
+    points: 5,
+    assignee: 'jonas',
+    sprint: 's23',
+    tags: ['checkout', 'security'],
+    parent: 1441,
+    completedAt: '2026-10-13T11:25:00Z',
+  },
+  {
+    number: 1429,
+    title: 'Saved cards list in account settings',
+    type: 'story',
+    status: 'done',
+    priority: 'medium',
+    points: 5,
+    assignee: 'sara',
+    sprint: 's23',
+    tags: ['checkout', 'web'],
+    parent: 1441,
+    completedAt: '2026-10-16T14:50:00Z',
+  },
+  {
+    number: 1430,
+    title: 'Frictionless flow skipped for exempt cards',
+    type: 'bug',
+    status: 'done',
+    priority: 'high',
+    points: 3,
+    assignee: 'aiko',
+    sprint: 's23',
+    tags: ['compliance'],
+    parent: 1432,
+    completedAt: '2026-10-09T10:15:00Z',
+  },
+  {
+    number: 1433,
+    title: 'Daily settlement file import',
+    type: 'task',
+    status: 'done',
+    priority: 'medium',
+    points: 5,
+    assignee: 'sara',
+    sprint: 's23',
+    tags: ['ledger'],
+    parent: 1451,
+    completedAt: '2026-10-17T15:40:00Z',
+  },
   // Sprint 24
   {
     number: 1482,
@@ -320,7 +558,7 @@ const ITEMS: Item[] = [
     tags: ['email'],
     target: '2026-11-01',
   },
-  // Backlog
+  // Sprint 26
   {
     number: 1497,
     title: 'Partial refunds for split payments',
@@ -328,6 +566,7 @@ const ITEMS: Item[] = [
     status: 'todo',
     priority: 'high',
     points: 8,
+    sprint: 's26',
     parent: 1473,
   },
   {
@@ -337,8 +576,29 @@ const ITEMS: Item[] = [
     status: 'todo',
     priority: 'high',
     points: 3,
+    sprint: 's26',
     assignee: 'dev',
   },
+  {
+    number: 1506,
+    title: 'Retry button on failed checkout',
+    type: 'story',
+    status: 'todo',
+    priority: 'medium',
+    points: 3,
+    sprint: 's26',
+  },
+  {
+    number: 1507,
+    title: 'Payout report totals ignore refunds',
+    type: 'bug',
+    status: 'todo',
+    priority: 'medium',
+    points: 2,
+    sprint: 's26',
+  },
+  // Sprint 27 is planned but still empty.
+  // Backlog
   {
     number: 1492,
     title: 'Saved payment methods on mobile',
@@ -390,14 +650,6 @@ const ITEMS: Item[] = [
     assignee: 'sara',
   },
   {
-    number: 1507,
-    title: 'Payout report totals ignore refunds',
-    type: 'bug',
-    status: 'todo',
-    priority: 'medium',
-    points: 2,
-  },
-  {
     number: 1494,
     title: 'Upgrade the PDF invoice library',
     type: 'task',
@@ -422,14 +674,6 @@ const ITEMS: Item[] = [
     priority: 'medium',
     points: 2,
     assignee: 'aiko',
-  },
-  {
-    number: 1506,
-    title: 'Retry button on failed checkout',
-    type: 'story',
-    status: 'todo',
-    priority: 'medium',
-    points: 3,
   },
   {
     number: 1508,
@@ -657,6 +901,7 @@ const seedPayments = async (organizationId: string) => {
       data: {
         projectId: project.id,
         name: sprint.name,
+        goal: sprint.goal,
         startDate: day(sprint.start),
         endDate: day(sprint.end),
         state: sprint.state,

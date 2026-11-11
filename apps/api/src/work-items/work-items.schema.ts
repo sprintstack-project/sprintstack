@@ -45,4 +45,27 @@ export const createWorkItemSchema = z
     path: ['targetDate'],
   });
 
+/**
+ * A partial update: a field left out stays as it is, and null clears a field that can be empty.
+ * The start/target order is checked in the service, against whichever side wasn't sent.
+ */
+export const updateWorkItemSchema = z.object({
+  id: z.uuid(),
+  type: z.enum(WorkItemType).optional(),
+  title: z.string().trim().min(1, 'Title is required.').optional(),
+  description: jsonString(tiptapDoc).optional(),
+  criteria: jsonString(z.array(criterion)).optional(),
+  status: z.enum(WorkItemStatus).optional(),
+  atRisk: z.boolean().optional(),
+  priority: z.enum(Priority).optional(),
+  points: z.int().min(0, 'Points cannot be negative.').nullish(),
+  tags: z.array(z.string().trim().min(1)).optional(),
+  startDate: z.date().nullish(),
+  targetDate: z.date().nullish(),
+  sprintId: z.uuid().nullish(),
+  parentId: z.uuid().nullish(),
+  assigneeId: z.string().min(1).nullish(),
+});
+
 export type CreateWorkItem = z.output<typeof createWorkItemSchema>;
+export type UpdateWorkItem = z.output<typeof updateWorkItemSchema>;

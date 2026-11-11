@@ -34,7 +34,7 @@ const Sweep = () => {
   );
 };
 
-const ProgressBar = ({ label, value, showValue }: ProgressBarProps) => {
+const ProgressBar = ({ label, value, showValue, color }: ProgressBarProps) => {
   const pct = value === undefined ? undefined : Math.round(Math.min(100, Math.max(0, value)));
 
   return (
@@ -44,12 +44,15 @@ const ProgressBar = ({ label, value, showValue }: ProgressBarProps) => {
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         accessibilityValue={pct === undefined ? undefined : { min: 0, max: 100, now: pct }}
-        className="h-[0.1875rem] flex-1 overflow-hidden rounded-full bg-brand-subtle"
+        className="h-0.75 flex-1 overflow-hidden rounded-full bg-brand-subtle"
       >
         {pct === undefined ? (
           <Sweep />
         ) : (
-          <View className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
+          <View
+            className={`h-full rounded-full ${color === 'danger' ? 'bg-danger' : 'bg-brand'}`}
+            style={{ width: `${pct}%` }}
+          />
         )}
       </View>
       {showValue && pct !== undefined && (

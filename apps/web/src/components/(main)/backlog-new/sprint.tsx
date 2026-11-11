@@ -1,19 +1,28 @@
 'use client';
 
-import { useDroppable } from '@dnd-kit/core';
+import { useDndContext, useDroppable } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { WorkItem } from '@sprintstack/api-client/documents/work-items';
+import {
+  useGetWorkItemsBySprintId,
+  useGetWorkItemsInBacklog,
+} from '@sprintstack/api-client/work-items';
 import Button from '@ui/button';
 import { buttonClass } from '@ui/button/button-class';
 import ProgressBar from '@ui/progress-bar';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { ChevronDown, Ellipsis, GripVertical, ListPlus } from 'lucide-react';
+import { AlertOctagon, ChevronDown, Ellipsis, GripVertical, ListPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useId, useState } from 'react';
-import { PLANNED_ITEMS, type Sprint as SprintType } from '../backlog/data';
+import { useProjectContext } from '@/providers/(main)/project';
+import type { Sprint as SprintType } from '../backlog/data';
 import WorkItemRow from './work-item-row';
+
+interface ISprintProps {
+  sprint: SprintType;
+}
 
 const SortableRow = ({ item }: { item: WorkItem }) => {
   const {
@@ -70,7 +79,7 @@ const SprintState = ({ state }: { state: SprintType['state'] }) => (
   </span>
 );
 
-const More: React.FC<{ sprint: SprintType }> = ({ sprint }) => (
+const More: React.FC<ISprintProps> = ({ sprint }) => (
   <button
     type="button"
     aria-label={`${sprint.name} actions`}
@@ -80,15 +89,29 @@ const More: React.FC<{ sprint: SprintType }> = ({ sprint }) => (
   </button>
 );
 
-const Sprint: React.FC<{ sprint: SprintType }> = ({ sprint }) => {
-  const { setNodeRef, isOver } = useDroppable({ id: sprint.id });
+const Sprint: React.FC<ISprintProps> = ({ sprint }) => {
+  const { setNodeRef } = useDroppable({ id: sprint.id });
+  const { active, over } = useDndContext();
+  const source = active?.data.current?.sortable?.containerId;
+  const target = over ? String(over.data.current?.sortable?.containerId ?? over.id) : undefined;
+  const isOver = target === sprint.id && source !== sprint.id;
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const onCollapsedChange = (collapsed: boolean) => setCollapsed(collapsed);
   const listId = useId();
-  const meta = sprint && `${format(sprint.start, 'd MMM')} – ${format(sprint.end, 'd MMM')}`;
-  const items: WorkItem[] = PLANNED_ITEMS; // TBD
-  const points: number = 12; // TBD
-  const over = points > sprint.capacity;
+  const meta =
+    sprint?.start &&
+    sprint?.end &&
+    `${format(sprint.start, 'd MMM')} – ${format(sprint.end, 'd MMM')}`;
+  const { projectId } = useProjectContext();
+  // The Backlog group isn't a sprint: it lists the project's items no sprint has taken.
+  const isBacklog = sprint.id === 'BACKLOG';
+  const { data: sprintItems } = useGetWorkItemsBySprintId(isBacklog ? undefined : sprint.id);
+  const { data: backlogItems } = useGetWorkItemsInBacklog(isBacklog ? projectId : undefined);
+  const items = isBacklog ? backlogItems : sprintItems;
+  const points: number = items?.reduce((sum, item) => sum + (item.points ?? 0), 0) ?? 0;
+  const overCapacity = points > sprint.capacity;
+
+  if (!items) return null;
 
   return (
     <section
@@ -130,22 +153,26 @@ const Sprint: React.FC<{ sprint: SprintType }> = ({ sprint }) => {
           </span>
         </div>
         {meta && <p className="-mt-1 text-meta text-ink-muted lg:hidden">{meta}</p>}
-        <div className="flex items-center gap-4">
-          <div className="flex-1 lg:w-48 lg:flex-none">
-            <ProgressBar
-              label={`${sprint.name} capacity`}
-              value={(points / sprint.capacity) * 100}
-            />
+        {sprint.capacity > 0 && (
+          <div className="flex items-center gap-4">
+            {overCapacity && <AlertOctagon className="size-6 text-danger" />}
+            <div className="flex-1 lg:w-48 lg:flex-none">
+              <ProgressBar
+                label={`${sprint.name} capacity`}
+                value={(points / sprint.capacity) * 100}
+                color={overCapacity ? 'danger' : 'primary'}
+              />
+            </div>
+            <span
+              className={clsx(
+                'text-meta whitespace-nowrap tabular-nums',
+                overCapacity ? 'text-danger' : 'text-ink-muted',
+              )}
+            >
+              {points} / {sprint.capacity} pts
+            </span>
           </div>
-          <span
-            className={clsx(
-              'text-meta whitespace-nowrap tabular-nums',
-              over ? 'text-danger' : 'text-ink-muted',
-            )}
-          >
-            {points} / {sprint.capacity} pts
-          </span>
-        </div>
+        )}
         {sprint.state === 'active' ? (
           <Link href="/taskboard" className={buttonClass('secondary', 'sm')}>
             Open taskboard
@@ -160,16 +187,21 @@ const Sprint: React.FC<{ sprint: SprintType }> = ({ sprint }) => {
         </span>
       </header>
       <div id={listId} hidden={collapsed}>
-        <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-          {items.length > 0 && (
+        <SortableContext
+          // Rows report this id as their containerId, so a drop on a row resolves to its sprint.
+          id={sprint.id}
+          items={items.map((i) => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {items?.length > 0 && (
             <ul className="divide-y divide-line border-t border-line">
-              {items.map((item) => (
+              {items?.map((item) => (
                 <SortableRow key={item.id} item={item} />
               ))}
             </ul>
           )}
         </SortableContext>
-        {(sprint.state === 'planned' || items.length === 0) && (
+        {(sprint.state === 'planned' || items?.length === 0) && (
           <div className="border-t border-line p-4 lg:px-5">
             <p
               className={clsx(

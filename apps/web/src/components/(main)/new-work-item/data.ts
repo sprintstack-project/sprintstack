@@ -1,5 +1,7 @@
 import { EMPTY_DOC } from '@lib/rich-text';
 import { PRIORITY_LABEL } from '@lib/status';
+import type { CreateWorkItemMutation } from '@sprintstack/api-client/documents/work-items';
+import type { VariablesOf } from '@sprintstack/api-client/graphql';
 import { ISSUE_PRIORITIES } from '@sprintstack/shared/schemas/issue';
 import {
   type NewWorkItem,
@@ -25,14 +27,7 @@ import {
   SquareCheck,
   UserRound,
 } from 'lucide-react';
-import {
-  asPlannedItem,
-  BACKLOG,
-  PEOPLE,
-  PLANNED_ITEMS,
-  type PlannedItem,
-  SPRINTS,
-} from '../backlog/data';
+import { asPlannedItem, BACKLOG, PEOPLE, PLANNED_ITEMS, type PlannedItem } from '../backlog/data';
 import { EPICS } from '../timeline/data';
 
 // Placeholder data until work items are created through the API.
@@ -59,15 +54,6 @@ export const STATUS_OPTIONS: Option<WorkItemStatus>[] = WORK_ITEM_STATUSES.map((
 /** Stands in for "no value" in selects that can be emptied (no sprint, nobody assigned). */
 export const NONE = 'none';
 
-export const SPRINT_OPTIONS: Option[] = [
-  ...SPRINTS.map((s) => ({
-    value: s.id,
-    label: s.name,
-    description: s.state === 'active' ? 'Active' : 'Planned',
-  })),
-  { value: NONE, label: 'Backlog', description: 'No sprint' },
-];
-
 const priorityIcons = {
   highest: ChevronsUp,
   high: ChevronUp,
@@ -77,7 +63,11 @@ const priorityIcons = {
 };
 
 export const PRIORITY_OPTIONS: Option<(typeof ISSUE_PRIORITIES)[number]>[] = ISSUE_PRIORITIES.map(
-  (level) => ({ value: level, label: PRIORITY_LABEL[level], icon: priorityIcons[level] }),
+  (level) => ({
+    value: level,
+    label: PRIORITY_LABEL[level],
+    icon: priorityIcons[level],
+  }),
 );
 
 export const ASSIGNEE_OPTIONS: Option[] = [
@@ -161,15 +151,15 @@ export const LINK_KINDS: Record<
 export const ACCEPTED_FILES = 'image/*,application/pdf,text/csv,.csv';
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
-export const emptyWorkItem = (sprint: string | null = SPRINTS[0].id): WorkItemInput => ({
+export const emptyWorkItem = (sprintId: string | null = null): WorkItemInput => ({
   title: '',
   type: null,
   status: 'todo',
-  sprint,
+  sprintId,
   priority: 'medium',
   assignee: null,
-  start: null,
-  target: null,
+  startDate: null,
+  targetDate: null,
   points: null,
   tags: [],
   description: EMPTY_DOC,
@@ -191,10 +181,32 @@ const nextKey = (existing: string[]) => {
   return `PAY-${Math.max(0, ...numbers) + 1}`;
 };
 
+/**
+ * The form's output as the API's `CreateWorkItemInput`. Rich text and criteria travel as JSON
+ * strings. The assignee options are still placeholder names, not user ids, so none is sent yet.
+ */
+export const toCreateWorkItemInput = (
+  item: NewWorkItem,
+  projectId: string,
+): VariablesOf<typeof CreateWorkItemMutation>['input'] => ({
+  projectId,
+  type: item.type,
+  title: item.title,
+  status: item.status,
+  priority: item.priority,
+  points: item.points,
+  tags: item.tags,
+  description: JSON.stringify(item.description),
+  criteria: item.criteria.length ? JSON.stringify(item.criteria) : null,
+  startDate: item.startDate,
+  targetDate: item.targetDate,
+  sprintId: item.sprintId,
+});
+
 /** A created item as the taskboard and backlog draw it, until they read from the API. */
 export const toPlannedItem = (item: NewWorkItem, existing: string[]): PlannedItem => ({
   key: nextKey(existing),
-  group: item.sprint ?? BACKLOG,
+  group: item.sprintId ?? BACKLOG,
   title: item.title,
   type: item.type,
   status: STATUS_TONE[item.status],

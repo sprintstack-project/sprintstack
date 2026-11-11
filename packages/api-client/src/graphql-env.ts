@@ -1130,6 +1130,29 @@ const introspection = {
               }
             ],
             "isDeprecated": false
+          },
+          {
+            "name": "updateWorkItem",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "WorkItem"
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateWorkItemInput"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
           }
         ],
         "interfaces": []
@@ -2083,6 +2106,64 @@ const introspection = {
               }
             ],
             "isDeprecated": false
+          },
+          {
+            "name": "workItemsBySprintId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "WorkItem"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "sprintId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
+            "name": "workItemsInBacklog",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "WorkItem"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "projectId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
           }
         ],
         "interfaces": []
@@ -2204,6 +2285,127 @@ const introspection = {
                   "name": "String"
                 }
               }
+            }
+          }
+        ],
+        "isOneOf": false
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UpdateWorkItemInput",
+        "inputFields": [
+          {
+            "name": "assigneeId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID"
+            }
+          },
+          {
+            "name": "atRisk",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean"
+            }
+          },
+          {
+            "name": "criteria",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            }
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            }
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            }
+          },
+          {
+            "name": "parentId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID"
+            }
+          },
+          {
+            "name": "points",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int"
+            }
+          },
+          {
+            "name": "priority",
+            "type": {
+              "kind": "ENUM",
+              "name": "Priority"
+            }
+          },
+          {
+            "name": "sprintId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID"
+            }
+          },
+          {
+            "name": "startDate",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "kind": "ENUM",
+              "name": "WorkItemStatus"
+            }
+          },
+          {
+            "name": "tags",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String"
+                }
+              }
+            }
+          },
+          {
+            "name": "targetDate",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime"
+            }
+          },
+          {
+            "name": "title",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String"
+            }
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "ENUM",
+              "name": "WorkItemType"
             }
           }
         ],

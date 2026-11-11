@@ -150,15 +150,15 @@ export const LINK_KINDS: Record<
   },
 };
 
-export const emptyWorkItem = (sprint: string | null = SPRINTS[0].id): WorkItemInput => ({
+export const emptyWorkItem = (sprintId: string | null = SPRINTS[0].id): WorkItemInput => ({
   title: '',
   type: null,
   status: 'todo',
-  sprint,
+  sprintId,
   priority: 'medium',
   assignee: null,
-  start: null,
-  target: null,
+  startDate: null,
+  targetDate: null,
   points: null,
   tags: [],
   description: EMPTY_DOC,
@@ -183,7 +183,7 @@ const nextKey = (existing: string[]) => {
 /** A created item as the taskboard and backlog draw it, until they read from the API. */
 export const toPlannedItem = (item: NewWorkItem, existing: string[]): PlannedItem => ({
   key: nextKey(existing),
-  group: item.sprint ?? BACKLOG,
+  group: item.sprintId ?? BACKLOG,
   title: item.title,
   type: item.type,
   status: STATUS_TONE[item.status],
@@ -203,7 +203,7 @@ export const loadDraft = () => draft;
 
 /** Keeps the draft, or forgets it once the form is back to blank. Returns when it was kept. */
 export const saveDraft = (values: WorkItemInput) => {
-  const blank = JSON.stringify(values) === JSON.stringify(emptyWorkItem(values.sprint));
+  const blank = JSON.stringify(values) === JSON.stringify(emptyWorkItem(values.sprintId));
   draft = blank ? null : { values, savedAt: Date.now() };
   return draft?.savedAt ?? null;
 };

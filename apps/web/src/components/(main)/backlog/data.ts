@@ -14,10 +14,9 @@ import {
 export interface Sprint {
   id: string;
   name: string;
-  state: 'active' | 'planned';
-  start: Date;
-  end: Date;
-  /** Points the team expects to finish in the sprint. */
+  state: 'active' | 'planned' | 'closed';
+  start?: Date;
+  end?: Date;
   capacity: number;
 }
 

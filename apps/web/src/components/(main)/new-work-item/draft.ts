@@ -27,7 +27,7 @@ export const loadDraft = (): Draft | null => {
 /** Saves the draft, or forgets it once the form is back to blank. Returns when it was saved. */
 export const saveDraft = (values: WorkItemInput, files: Upload[]): number | null => {
   const blank =
-    files.length === 0 && JSON.stringify(values) === JSON.stringify(emptyWorkItem(values.sprint));
+    files.length === 0 && JSON.stringify(values) === JSON.stringify(emptyWorkItem(values.sprintId));
   try {
     if (blank) {
       localStorage.removeItem(KEY);

@@ -379,6 +379,7 @@ model Sprint {
   closedAt      DateTime?
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
+  capacity      Decimal?         @default(0) @db.Decimal(4, 1)
   capacities    SprintCapacity[]
   workItems     WorkItem[]
   notifications Notification[]

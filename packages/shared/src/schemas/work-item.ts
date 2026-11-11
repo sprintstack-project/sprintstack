@@ -46,11 +46,11 @@ export const workItemSchema = z
       .max(120, 'Keep the title to 120 characters or fewer'),
     type: choice(ISSUE_TYPES, 'Pick a type to continue'),
     status: z.enum(WORK_ITEM_STATUSES),
-    sprint: z.string().nullable(),
+    sprintId: z.string().nullable(),
     priority: z.enum(ISSUE_PRIORITIES),
     assignee: z.string().nullable(),
-    start: z.iso.date('Pick a start date').nullable(),
-    target: z.iso.date('Pick a target date').nullable(),
+    startDate: z.iso.date('Pick a start date').nullable(),
+    targetDate: z.iso.date('Pick a target date').nullable(),
     points: z
       .number()
       .int('Use whole story points')
@@ -64,13 +64,13 @@ export const workItemSchema = z
     /** Ids of uploaded files. */
     attachments: z.array(z.string()),
   })
-  .refine(({ start, target }) => !start || !target || target >= start, {
-    path: ['target'],
+  .refine(({ startDate, targetDate }) => !startDate || !targetDate || targetDate >= startDate, {
+    path: ['targetDate'],
     message: 'Set a target on or after the start',
     // Check the dates even while other fields are still invalid, so the error shows as they're picked.
     when: ({ value }) => {
-      const { start, target } = value as { start?: unknown; target?: unknown };
-      return typeof start === 'string' && typeof target === 'string';
+      const { startDate, targetDate } = value as { startDate?: unknown; targetDate?: unknown };
+      return typeof startDate === 'string' && typeof targetDate === 'string';
     },
   });
 

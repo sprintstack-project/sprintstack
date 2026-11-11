@@ -9,6 +9,7 @@ export const SprintFields = graphql(`
         name
         startDate
         state
+        capacity
     }
 `);
 
